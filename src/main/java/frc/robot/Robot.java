@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import com.ctre.phoenix6.signals.NeutralModeValue;
+
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -23,9 +26,12 @@ public class Robot extends TimedRobot {
    * initialization code.
    */
   public Robot() {
-    // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
+    // Instantiate our RobotContainer. This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+    DataLogManager.start("/media/sda1/logs");
+    DataLogManager.logNetworkTables(true);
+    m_robotContainer.swerveDrive.refreshModulePID();
   }
 
   /**
@@ -37,26 +43,57 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
+    // Runs the Scheduler. This is responsible for polling buttons, adding newly-scheduled
     // commands, running already-scheduled commands, removing finished or interrupted commands,
-    // and running subsystem periodic() methods.  This must be called from the robot's periodic
+    // and running subsystem periodic() methods. This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+    // m_robotContainer.superSystemCommand.updateDependencies();
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+    CommandScheduler.getInstance().getDefaultButtonLoop().clear();
+    CommandScheduler.getInstance().cancelAll();
+    m_robotContainer.swerveDrive.disableLimelight();
+    
+    if (RobotContainer.USE_SUBSYSTEMS){
+      m_robotContainer.pivot.setEnabled(false);
+      m_robotContainer.elevator.setEnabled(false);
+      m_robotContainer.wrist.setEnabled(false);
+      m_robotContainer.intakeRoller.setEnabled(false);
+      m_robotContainer.climbMotor.setEnabled(false);
+    }
+  }
 
   @Override
-  public void disabledPeriodic() {}
+  public void disabledPeriodic() {
+    // m_robotContainer.elevatorPivot.setTargetPosition(m_robotContainer.elevatorPivot.getPosition());
+    // m_robotContainer.elevator.setTargetPosition(m_robotContainer.elevator.getPosition());
+    // m_robotContainer.intakeWrist.setTargetPosition(m_robotContainer.intakeWrist.getPosition());
+
+    // m_robotContainer.elevatorPivot.setTargetPosition(m_robotContainer.elevatorPivot.getPosition());
+    //m_robotContainer.elevator.setTargetPosition(0);
+    //m_robotContainer.intakeWrist.setTargetPosition(m_robotContainer.intakeWrist.getPosition());
+
+  }
+
 
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    RobotContainer.refreshAlliance();
+    m_robotContainer.imu.zeroAll();
+    m_robotContainer.imu.zeroAbsoluteHeading();
+    m_robotContainer.swerveDrive.enableLimeLight();
 
-    // schedule the autonomous command (example)
+    if (RobotContainer.USE_SUBSYSTEMS) {
+      m_robotContainer.superSystem.setNeutralMode(NeutralModeValue.Brake);
+      m_robotContainer.superSystem.initialize();
+    }
+  // schedule the autonomous command (example)
+    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
@@ -68,6 +105,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+    RobotContainer.refreshAlliance();
+    m_robotContainer.swerveDrive.zeroGyroAndPoseAngle();
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
@@ -75,21 +114,46 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+
+    m_robotContainer.swerveDrive.enableLimeLight();
+    // need them once it comes back from Test Mode
+    if (RobotContainer.USE_SUBSYSTEMS) {
+      m_robotContainer.superSystem.setNeutralMode(NeutralModeValue.Brake);
+      m_robotContainer.superSystem.initialize();
+    }
+
+    m_robotContainer.initDefaultCommands_teleop();
+    m_robotContainer.configureBindings_teleop();
+    m_robotContainer.initDefaultCommands_teleop();
   }
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+
+  }
+
 
   @Override
   public void testInit() {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
+    if (RobotContainer.USE_SUBSYSTEMS) {
+      m_robotContainer.superSystem.setNeutralMode(NeutralModeValue.Coast);
+    }
+    // m_robotContainer.superSystem.initialize();
+    m_robotContainer.initDefaultCommands_test();
+    m_robotContainer.configureBindings_test();
+
+    m_robotContainer.DisableAllMotors_Test();
+
   }
 
   /** This function is called periodically during test mode. */
   @Override
-  public void testPeriodic() {}
+  public void testPeriodic() {
+
+  }
 
   /** This function is called once when the robot is first started up. */
   @Override
