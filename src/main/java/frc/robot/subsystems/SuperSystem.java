@@ -4,14 +4,13 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.subsystems.template.TemplateSubsystem.LOG_LEVEL;
-import frc.robot.subsystems.swerve.SwerveDrivetrain;
 
 public class SuperSystem {
-    public SwerveDrivetrain swerveDrivetrain;
+    public NerdDrivetrain swerveDrivetrain;
   
     //add new subsystems
 
-    public SuperSystem(SwerveDrivetrain swerveDrivetrain) {
+    public SuperSystem(NerdDrivetrain swerveDrivetrain) {
         this.swerveDrivetrain = swerveDrivetrain;
     }
 
