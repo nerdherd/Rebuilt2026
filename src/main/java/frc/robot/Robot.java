@@ -31,7 +31,6 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
     DataLogManager.start("/media/sda1/logs");
     DataLogManager.logNetworkTables(true);
-    m_robotContainer.swerveDrive.refreshModulePID();
   }
 
   /**
@@ -43,12 +42,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    // Runs the Scheduler. This is responsible for polling buttons, adding newly-scheduled
-    // commands, running already-scheduled commands, removing finished or interrupted commands,
-    // and running subsystem periodic() methods. This must be called from the robot's periodic
-    // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
-    // m_robotContainer.superSystemCommand.updateDependencies();
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
@@ -56,29 +50,14 @@ public class Robot extends TimedRobot {
   public void disabledInit() {
     CommandScheduler.getInstance().getDefaultButtonLoop().clear();
     CommandScheduler.getInstance().cancelAll();
-    m_robotContainer.swerveDrive.disableLimelight();
     
-    if (RobotContainer.USE_SUBSYSTEMS){
-      m_robotContainer.pivot.setEnabled(false);
-      m_robotContainer.elevator.setEnabled(false);
-      m_robotContainer.wrist.setEnabled(false);
-      m_robotContainer.intakeRoller.setEnabled(false);
-      m_robotContainer.climbMotor.setEnabled(false);
+    if (Constants.USE_SUBSYSTEMS){
+      //disable subsystems
     }
   }
 
   @Override
-  public void disabledPeriodic() {
-    // m_robotContainer.elevatorPivot.setTargetPosition(m_robotContainer.elevatorPivot.getPosition());
-    // m_robotContainer.elevator.setTargetPosition(m_robotContainer.elevator.getPosition());
-    // m_robotContainer.intakeWrist.setTargetPosition(m_robotContainer.intakeWrist.getPosition());
-
-    // m_robotContainer.elevatorPivot.setTargetPosition(m_robotContainer.elevatorPivot.getPosition());
-    //m_robotContainer.elevator.setTargetPosition(0);
-    //m_robotContainer.intakeWrist.setTargetPosition(m_robotContainer.intakeWrist.getPosition());
-
-  }
-
+  public void disabledPeriodic() {}
 
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
@@ -88,7 +67,7 @@ public class Robot extends TimedRobot {
     m_robotContainer.imu.zeroAbsoluteHeading();
     m_robotContainer.swerveDrive.enableLimeLight();
 
-    if (RobotContainer.USE_SUBSYSTEMS) {
+    if (Constants.USE_SUBSYSTEMS) {
       m_robotContainer.superSystem.setNeutralMode(NeutralModeValue.Brake);
       m_robotContainer.superSystem.initialize();
     }
@@ -107,22 +86,15 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
     RobotContainer.refreshAlliance();
     m_robotContainer.swerveDrive.zeroGyroAndPoseAngle();
-    // This makes sure that the autonomous stops running when
-    // teleop starts running. If you want the autonomous to
-    // continue until interrupted by another command, remove
-    // this line or comment it out.
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
 
-    m_robotContainer.swerveDrive.enableLimeLight();
-    // need them once it comes back from Test Mode
-    if (RobotContainer.USE_SUBSYSTEMS) {
+    if (Constants.USE_SUBSYSTEMS) {
       m_robotContainer.superSystem.setNeutralMode(NeutralModeValue.Brake);
       m_robotContainer.superSystem.initialize();
     }
 
-    m_robotContainer.initDefaultCommands_teleop();
     m_robotContainer.configureBindings_teleop();
     m_robotContainer.initDefaultCommands_teleop();
   }
@@ -138,7 +110,7 @@ public class Robot extends TimedRobot {
   public void testInit() {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
-    if (RobotContainer.USE_SUBSYSTEMS) {
+    if (Constants.USE_SUBSYSTEMS) {
       m_robotContainer.superSystem.setNeutralMode(NeutralModeValue.Coast);
     }
     // m_robotContainer.superSystem.initialize();

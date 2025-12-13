@@ -1,12 +1,12 @@
-package frc.robot.subsystems;
+package frc.robot.util;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import frc.robot.subsystems.template.TemplateSubsystem.LOG_LEVEL;
 
-
-public class BannerSensor implements Reportable {
+public class BannerSensor {
     private final DigitalInput bannerSensorBlack;
     private final DigitalInput bannerSensorWhite;
 
@@ -48,7 +48,7 @@ public class BannerSensor implements Reportable {
         return detected;
     }
 
-    @Override
+   
     public void initShuffleboard(LOG_LEVEL priority) {
         ShuffleboardTab tab = Shuffleboard.getTab(name);
         tab.addBoolean("Detected", this::sensorDetected);

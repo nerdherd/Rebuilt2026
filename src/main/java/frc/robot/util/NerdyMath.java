@@ -1,6 +1,5 @@
 package frc.robot.util;
 
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 
 public class NerdyMath {
@@ -96,7 +95,7 @@ public class NerdyMath {
         return false;
     }
 
-    public static double continueAngle(double angle, double angleToAdd) {
+    public static double continousAddAngle(double angle, double angleToAdd) {
         double offset = angle + angleToAdd;
         if(offset > 180) {
             offset -= 180;
@@ -115,13 +114,7 @@ public class NerdyMath {
         if (pose.getZ() < -0.2 || pose.getZ() > 0.5) return false;
         return true;
     }
-
-    public static boolean validatePose(Pose2d pose) {
-        if (pose.getX() < 0 || pose.getX() > 16.52) return false;
-        if (pose.getY() < 0 || pose.getY() > 8.5) return false;
-        return true;
-    }
-
+    
     public static boolean isPoseInsideCircleZone(double x0, double y0, double squaredR, double xn, double yn) {
         double a = (xn - x0);
         double b = (yn - y0);
