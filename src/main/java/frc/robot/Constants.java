@@ -56,36 +56,6 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
     public static final int kOperatorControllerPort = 1;
   }
-  public static final class ModuleConstants {
-
-    public static final double kWheelDiameterMeters = Units.inchesToMeters(4);
-    public static final double kDriveMotorGearRatio = 1 / 6.75;
-    public static final double kTurningMotorGearRatio = 1 / 21.428; // 150 : 7 : 1 MK4i
-    // public static final double kDriveDistanceLoss = 0.95; // from measuring IRL
-    public static final double kDriveDistanceLoss = 1; // from measuring IRL
-    public static final double kMetersPerRevolution = kWheelDiameterMeters * Math.PI * kDriveDistanceLoss;
-    public static final double kDriveTicksToMeters = (1 / 2048.0) * kMetersPerRevolution; 
-    public static final double kAbsoluteTurningTicksToRad = (1.0 / 4096.0) * 2 * Math.PI;
-    public static final double kIntegratedTurningTicksToRad = (1.0 / 2048.0) * 2 * Math.PI;
-    public static final double kDriveTicksPer100MsToMetersPerSec = kDriveTicksToMeters * 10;
-    public static final double kAbsoluteTurningTicksPer100MsToRadPerSec = kAbsoluteTurningTicksToRad * 10;
-    public static final double kIntegratedTurningTicksPer100MsToRadPerSec = kIntegratedTurningTicksToRad * 10;
-
-    public static final double kDriveMotorDeadband = 0.02;
-    public static final double kTurnMotorDeadband = 0.001;
-
-    public static final double kPTurning = 0.55; // 0.55
-    public static final double kITurning = 0.0;
-    public static final double kDTurning = 0.0015;//0.02 
-    public static final double kFTurning = 0.015;//0.015
-
-    public static final double kPDrive = 0.13; // 0.6
-    public static final double kIDrive = 0;
-    public static final double kDDrive = 0; 
-    public static final double kVDrive = 0.0469; 
-
-    
-  } 
   
   public static final class SwerveDriveConstants {
     public static final String kCANivoreName = "CANivore";//"CANivore";
@@ -165,7 +135,7 @@ public final class Constants {
     public static enum FieldPositions {
       ;//TODO Add field positions
       
-      public Pose2d pos;
+      public Pose2d pos; // meters and degrees
       FieldPositions(double _x, double _y, double _headingDegrees) {
         pos = new Pose2d(new Translation2d(_x, _y), new Rotation2d(Units.degreesToRadians(_headingDegrees)));
       }
