@@ -10,13 +10,12 @@ import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 import frc.robot.Constants.LEDConstants;
 import frc.robot.Constants.LEDConstants.Colors;
 import frc.robot.Constants.LEDConstants.LEDStrips;
 
 public class LED extends SubsystemBase {
-    private final CANdle candle = new CANdle(Constants.LEDConstants.CANdleID, Constants.ModuleConstants.kCANivoreName);
+    private final CANdle candle;
     private double brightness = 1.0; // multiplier on brightness
     private boolean paused = false;
 
@@ -33,7 +32,8 @@ public class LED extends SubsystemBase {
         SHOOTING // fill green
     }
 
-    public LED() {
+    public LED(int CANdleID) {
+        candle = new CANdle(CANdleID);
         candle.clearAnimation(0);
         CANdleConfiguration configAll = new CANdleConfiguration();
         configAll.statusLedOffWhenActive = false;

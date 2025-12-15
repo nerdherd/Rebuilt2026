@@ -2,28 +2,22 @@ package frc.robot.util;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import frc.robot.subsystems.template.TemplateSubsystem.LOG_LEVEL;
 
 public class BannerSensor {
     private final DigitalInput bannerSensorBlack;
     private final DigitalInput bannerSensorWhite;
-
-    private final String name;
 
     private boolean detected;
     private boolean lastBlackValue;
     private boolean lastWhiteValue;
     private boolean illegalInput = false;
 
-    public BannerSensor(String name, int blackPort, int whitePort) {
-        this.name = name;
+    public BannerSensor(int blackPort, int whitePort) {
         bannerSensorBlack = new DigitalInput(blackPort);
         bannerSensorWhite = new DigitalInput(whitePort);
     }
 
-    public boolean sensorDetected() {
+    public boolean pollSensor() {
         lastBlackValue = bannerSensorBlack.get();
         lastWhiteValue = bannerSensorWhite.get();
         if ((lastBlackValue && lastWhiteValue) || (!lastBlackValue && !lastWhiteValue)) {
@@ -48,13 +42,15 @@ public class BannerSensor {
         return detected;
     }
 
-   
-    public void initShuffleboard(LOG_LEVEL priority) {
-        ShuffleboardTab tab = Shuffleboard.getTab(name);
-        tab.addBoolean("Detected", this::sensorDetected);
-        tab.addBoolean("Banner Sensor Connected", () -> !illegalInput);
-        tab.addBoolean("Last Black Value", () -> lastBlackValue);
-        tab.addBoolean("Last White Value", () -> lastWhiteValue);
+    public boolean isSensorConnected() {
+        return !illegalInput;
     }
-    
+
+    public boolean getLastBlack() {
+        return lastBlackValue;
+    }
+
+    public boolean getLastWhite() {
+        return lastWhiteValue;
+    }
 }

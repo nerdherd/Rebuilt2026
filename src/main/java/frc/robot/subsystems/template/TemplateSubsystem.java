@@ -22,150 +22,130 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.subsystems.Reportable;
+import frc.robot.subsystems.Reportable.LOG_LEVEL;
 
-public abstract class TemplateSubsystem extends SubsystemBase {
-  private final TalonFX motor1;
-  private final TalonFX motor2;
-  private TalonFXConfiguration configuration;
+public abstract class TemplateSubsystem extends SubsystemBase implements Reportable {
+	private final TalonFX motor1;
+	private final TalonFX motor2;
+	private TalonFXConfiguration configuration;
 
-  private final MotionMagicVoltage positionController;
-  private final VelocityVoltage velocityController;
-  private final Follower followerController;
+	private final MotionMagicVoltage positionController;
+	private final VelocityVoltage velocityController;
+	private final Follower followerController;
 
-  private final NeutralOut neutralRequest = new NeutralOut();
+	private final NeutralOut neutralRequest = new NeutralOut();
 
-  private double desiredValue; //  target position or velocity depending on mode
+	private double desiredValue; //  target position or velocity depending on mode
 
-  private boolean enabled = false;
+	private boolean enabled = false;
 
-  private final ShuffleboardTab shuffleboardTab;
-  
-  public enum SubsystemMode {
-    POSITION, 
-    VELOCITY
-  }
-  private final SubsystemMode mode;
+	private final ShuffleboardTab shuffleboardTab;
+	
+	public enum SubsystemMode {
+		POSITION, 
+		VELOCITY
+	}
+	private final SubsystemMode mode;
 
-  public enum LOG_LEVEL {
-    ALL(4),
-    MEDIUM(3),
-    MINIMAL(2),
-    NONE(1)
-    ;
+	public TemplateSubsystem(String name, int motor1ID, int motor2ID, boolean reverseMotor2, SubsystemMode mode, double defaultValue) {
+		this.motor1 = new TalonFX(motor1ID);
+		if (motor2ID != -1){
+			this.motor2 = new TalonFX(motor2ID);
+			followerController = new Follower(motor1ID, reverseMotor2);
+		}else{
+			this.motor2 = null;
+			followerController = null;
+		}
+		this.mode = mode;
+		this.desiredValue = defaultValue;
+		if (this.mode == SubsystemMode.POSITION){
+			positionController = new MotionMagicVoltage(defaultValue);
+			velocityController = null;
+		}else{
+			positionController = null;
+			velocityController = new VelocityVoltage(defaultValue);
+		}
+		shuffleboardTab = Shuffleboard.getTab(name);
+	}
 
-    public int level = 0;
-    LOG_LEVEL(int level) { this.level = level; }
-  }
+	public TemplateSubsystem(String name, int motor1ID, SubsystemMode mode, double defaultValue){
+		this(name, motor1ID, -1, false, mode, defaultValue);
+	}
+	
+	public void configureMotors(TalonFXConfiguration configuration){
+		this.configuration = configuration;
+		applyMotorConfigs();
+	}
 
-  public TemplateSubsystem(String name, int motor1ID, int motor2ID, boolean reverseMotor2, SubsystemMode mode, double defaultValue) {
-    this.motor1 = new TalonFX(motor1ID);
-    if(motor2ID != -1){
-      this.motor2 = new TalonFX(motor2ID);
-      followerController = new Follower(motor1ID, reverseMotor2);
-    }else{
-      this.motor2 = null;
-      followerController = null;
-    }
-    this.mode = mode;
-    this.desiredValue = defaultValue;
-    if (this.mode == SubsystemMode.POSITION){
-      positionController = new MotionMagicVoltage(defaultValue);
-      velocityController = null;
-    }else{
-      positionController = null;
-      velocityController = new VelocityVoltage(defaultValue);
-    }
-    shuffleboardTab = Shuffleboard.getTab(name);
-  }
+	@Override
+	public void periodic() {
+		if(!enabled){
+			stop();
+			return;
+		}
 
-  public TemplateSubsystem(String name, int motor1ID, SubsystemMode mode, double defaultValue){
-    this(name, motor1ID, -1, false, mode, defaultValue);
-  }
-  
-  public void configureMotors(TalonFXConfiguration configuration){
-    this.configuration = configuration;
-    applyMotorConfigs();
-  }
+		if(mode == SubsystemMode.POSITION) 
+			motor1.setControl(positionController.withPosition(this.desiredValue));
+		else if(mode == SubsystemMode.VELOCITY) 
+			motor1.setControl(velocityController.withVelocity(this.desiredValue));
 
-  @Override
-  public void periodic() {
-    if(!enabled){
-      stop();
-      return;
-    }
+		if(motor2 != null) motor2.setControl(followerController);
+	}
 
-    if(mode == SubsystemMode.POSITION) 
-      motor1.setControl(positionController.withPosition(this.desiredValue));
-    else if(mode == SubsystemMode.VELOCITY) 
-      motor1.setControl(velocityController.withVelocity(this.desiredValue));
+	// ------------------------------------ Helper Functions ------------------------------------ //
+	
+	private void applyMotorConfigs(){
+		motor1.getConfigurator().apply(this.configuration);
+		if(motor2 != null) motor2.getConfigurator().apply(this.configuration);
+	}
 
-    if(motor2 != null) motor2.setControl(followerController);
-  }
+	public void setNeutralMode(NeutralModeValue mode){
+		this.configuration.MotorOutput.NeutralMode = mode;
+		applyMotorConfigs();
+	}
+	
+	public void stop(){
+		motor1.setControl(neutralRequest);
+		if (motor2 != null) motor2.setControl(neutralRequest);
+	}
 
-  // ------------------------------------ Helper Functions ------------------------------------ //
-  private void applyMotorConfigs(){
-    motor1.getConfigurator().apply(this.configuration);
-    if(motor2 != null) motor2.getConfigurator().apply(this.configuration);
-  }
+	public void setEnabled(boolean enabled){
+		this.enabled = enabled;
+		if (!this.enabled) stop();
+	}
 
-  public void setNeutralMode(NeutralModeValue mode){
-    this.configuration.MotorOutput.NeutralMode = mode;
-    applyMotorConfigs();
-  }
-  
-  public void stop(){
-    motor1.setControl(neutralRequest);
-    if (motor2 != null) motor2.setControl(neutralRequest);
-  }
+	public void disable() {
+		this.setEnabled(false);
+	}
+	
+	public void enable(){
+		this.setEnabled(true);
+	}
 
-  public void setEnabled(boolean enabled){
-    this.enabled = enabled;
-    if (!this.enabled) stop();
-  }
+	public void setDesiredValue(double value) {
+		this.desiredValue = value;
+	}
 
-  public void disable() {
-    this.setEnabled(false);
-  }
-  
-  public void enable(){
-    this.setEnabled(true);
-  }
+	public double getDesiredValue(){
+		return desiredValue;
+	}
 
-  public void setDesiredValue(double value) {
-    this.desiredValue = value;
-  }
+	// ------------------------------------ Command Functions ------------------------------------ //
 
-  public double getDesiredValue(){
-    return desiredValue;
-  }
+	public Command setEnabledCommand(boolean newEnabled) {
+		return Commands.runOnce(() -> setEnabled(newEnabled));
+	}
 
-  // ------------------------------------ Command Functions ------------------------------------ //
+	public Command setDesiredCommand(double newValue) {
+		return Commands.runOnce(() -> setDesiredValue(newValue));
+	}
 
-  public Command setEnabledCommand(boolean newEnabled) {
-    return Commands.runOnce(() -> setEnabled(newEnabled));
-  }
+	public Command stopCommand() {
+		return Commands.runOnce(() -> stop());
+	}
 
-  public Command setDesiredCommand(double newValue) {
-    return Commands.runOnce(() -> setDesiredValue(newValue));
-  }
+	// ------------------------------------ Logging Functions ------------------------------------ //
 
-  public Command stopCommand() {
-    return Commands.runOnce(() -> stop());
-  }
-
-  // ------------------------------------ Logging Functions ------------------------------------ //
-
-  public abstract void initializeLogging();
-
-  private void addNumber(String name, DoubleSupplier supplier, LOG_LEVEL loggingLevel) {
-    if(Constants.LOGGING_LEVEL.level >= loggingLevel.level) shuffleboardTab.addNumber(name, supplier);
-  }
-
-  private void addBoolean(String name, BooleanSupplier supplier, LOG_LEVEL loggingLevel) {
-    if(Constants.LOGGING_LEVEL.level >= loggingLevel.level) shuffleboardTab.addBoolean(name, supplier);
-  }
-
-  private void addString(String name, Supplier<String> supplier, LOG_LEVEL loggingLevel) {
-    if(Constants.LOGGING_LEVEL.level >= loggingLevel.level) shuffleboardTab.addString(name, supplier);
-  }
+	public abstract void initializeLogging();
 }

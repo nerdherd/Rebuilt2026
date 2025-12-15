@@ -8,6 +8,9 @@ import java.util.List;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.pathplanner.lib.auto.AutoBuilder;
 
+import edu.wpi.first.math.Pair;
+import edu.wpi.first.math.Vector;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
@@ -20,18 +23,15 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.ModuleConstants;
 import frc.robot.commands.autos.PreloadTaxi;
+import frc.robot.generated.TunerConstants;
 import frc.robot.commands.SwerveJoystickCommand;
+import frc.robot.subsystems.NerdDrivetrain;
 import frc.robot.subsystems.SuperSystem;
-import frc.robot.subsystems.imu.PigeonV2;
-import frc.robot.subsystems.swerve.SwerveDrivetrain;
-import frc.robot.subsystems.swerve.SwerveDrivetrain.DRIVE_MODE;
 import frc.robot.util.BannerSensor;
 import frc.robot.util.Controller;
 
 public class RobotContainer {
-  public PigeonV2 imu = new PigeonV2(1, ModuleConstants.kCANivoreName);
-
-  public SwerveDrivetrain swerveDrive;
+  public NerdDrivetrain swerveDrive;
   public PowerDistribution pdp = new PowerDistribution(0, ModuleType.kCTRE);
   
   public BannerSensor floorSensor;
@@ -58,7 +58,7 @@ public class RobotContainer {
    * s subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-    try { swerveDrive = new SwerveDrivetrain(imu); }
+    try { swerveDrive = TunerConstants.createDrivetrain(); }
     catch (IllegalArgumentException e) {
       DriverStation.reportError("Illegal Swerve Drive Module Type", e.getStackTrace());
     }
@@ -72,7 +72,6 @@ public class RobotContainer {
     initShuffleboard();
     initAutoChoosers();
 
-    SmartDashboard.putData("Swerve Drive", swerveDrive);
     DriverStation.reportWarning("Initalization complete", false);
   }
 
@@ -101,15 +100,9 @@ public class RobotContainer {
       () -> false, // tow supplier
       () -> driverController.getTriggerRight(), // Precision/"Sniper Button"
       () -> false,
-      () -> swerveDrive.getImu().getHeading(), // Turn to angle direction 
-      () -> driverController.getDpadDown() || driverController.getDpadUp() || driverController.getDpadLeft() || driverController.getDpadRight(),
-      () -> {
-        if (driverController.getDpadDown()) return 180.0;
-        if (driverController.getDpadLeft()) return 270.0;
-        if (driverController.getDpadRight()) return 90.0;
-        if (driverController.getDpadUp()) return 0.0;
-        return -1.0;
-      }
+      () -> swerveDrive.getAbsoluteHeadingDegrees(), // TODO i have no clue if this is right // Turn to angle direction 
+      () -> new Translation2d(   (driverController.getDpadUp()?1.0:0.0) - (driverController.getDpadDown()?1:0), 
+                                        (driverController.getDpadRight()?1.0:0.0) - (driverController.getDpadLeft()?1:0)) // DPad vector
     );
     swerveDrive.setDefaultCommand(swerveJoystickCommand);
   }
@@ -129,9 +122,9 @@ public class RobotContainer {
   public void configureDriverBindings_teleop() {
 
     driverController.controllerLeft()
-      .onTrue(Commands.runOnce(() -> swerveDrive.zeroGyroAndPoseAngle())); // TODO: When camera pose is implemented, this won't be necessary anymore
-    driverController.controllerRight()
-      .onTrue(Commands.runOnce(() -> imu.zeroAbsoluteHeading()));
+      .onTrue(Commands.runOnce(() -> swerveDrive.zeroFieldOrientation()));
+    // driverController.controllerRight()
+    //   .onTrue(Commands.runOnce(() -> imu.zeroAbsoluteHeading()));
 
     if (Constants.USE_SUBSYSTEMS) {}
   }
@@ -188,12 +181,11 @@ public class RobotContainer {
   }
   
   public void initShuffleboard() {
-    // swerveDrive.initShuffleboard(loggingLevel);
-    // swerveDrive.initModuleShuffleboard(LOG_LEVEL.MINIMAL); 
+    swerveDrive.initializeLogging();
   
-    // if (Constants.USE_SUBSYSTEMS) { 
-    //   superSystem.initShuffleboard(loggingLevel);
-    // }
+    if (Constants.USE_SUBSYSTEMS) { 
+      superSystem.initializeLogging();
+    }
   }
   
   /**
@@ -203,15 +195,12 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     Command currentAuto = autoChooser.getSelected();
-    
-    swerveDrive.setDriveMode(DRIVE_MODE.FIELD_ORIENTED);
     return currentAuto;
   }
 
   public void DisableAllMotors_Test()
   {
-   //TODO stop and brake
-    swerveDrive.setBreak(true);
+    swerveDrive.setBrake(true);
   }
   
 

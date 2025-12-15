@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
+import com.ctre.phoenix6.swerve.SwerveModule.SteerRequestType;
+import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.config.PIDConstants;
 
 import edu.wpi.first.math.MatBuilder;
@@ -18,7 +21,8 @@ import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.util.Color;
-import frc.robot.subsystems.template.TemplateSubsystem.LOG_LEVEL;
+import frc.robot.subsystems.Reportable.LOG_LEVEL;
+import frc.robot.subsystems.SuperSystem;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -33,8 +37,18 @@ import frc.robot.subsystems.template.TemplateSubsystem.LOG_LEVEL;
 
 public final class Constants {
 
-  public static LOG_LEVEL LOGGING_LEVEL = LOG_LEVEL.MINIMAL;
+  /** current logging level of the robot's subsystems, @see Reportable.add... */
+  public static LOG_LEVEL ROBOT_LOG_LEVEL = LOG_LEVEL.MINIMAL;
+  /** 
+   * (hopefully) controls whether subsystem objects are used, swerve and others not counted
+   * @see {@link frc.robot.subsystems.template.TemplateSubsystem TemplateSubsystem} 
+   * @see {@link frc.robot.subsystems.SuperSystem SuperSystem}
+   */
   public static boolean USE_SUBSYSTEMS = true;
+  /**
+   * controls whether vision should be initialized
+   */
+  public static boolean USE_VISION = false; // TODO
 
   public static class ControllerConstants {
     public static final double kDeadband = 0.05;
@@ -42,7 +56,6 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
     public static final int kOperatorControllerPort = 1;
   }
-  
   public static final class ModuleConstants {
 
     public static final double kWheelDiameterMeters = Units.inchesToMeters(4);
@@ -71,11 +84,11 @@ public final class Constants {
     public static final double kDDrive = 0; 
     public static final double kVDrive = 0.0469; 
 
-    public static final String kCANivoreName = "CANivore";//"CANivore";
-
+    
   } 
-
+  
   public static final class SwerveDriveConstants {
+    public static final String kCANivoreName = "CANivore";//"CANivore";
 
     public static final double kVisionSTDx = 0.7; //0.9
     public static final double kVisionSTDy = 0.7; //0.9s
@@ -100,38 +113,6 @@ public final class Constants {
       new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
       new Translation2d(-kWheelBase / 2, kTrackWidth / 2),
       new Translation2d(-kWheelBase / 2, -kTrackWidth / 2));
-    
-    public static final int kFRDriveID = 11;
-    public static final int kFLDriveID = 21;
-    public static final int kBLDriveID = 31;
-    public static final int kBRDriveID = 41;
-
-    public static final int kFRTurningID = 12;
-    public static final int kFLTurningID = 22;
-    public static final int kBLTurningID = 32;
-    public static final int kBRTurningID = 42;
-
-    public static final boolean kFRTurningReversed = true;
-    public static final boolean kFLTurningReversed = true; 
-    public static final boolean kBLTurningReversed = true; 
-    public static final boolean kBRTurningReversed = true; 
-
-    public static final boolean kFRDriveReversed = false;
-    public static final boolean kFLDriveReversed = false;     
-    public static final boolean kBLDriveReversed = false;      
-    public static final boolean kBRDriveReversed = false;
-
-    public static final class CANCoderConstants {
-      public static final int kFRCANCoderID = 14;
-      public static final int kFLCANCoderID = 24;
-      public static final int kBLCANCoderID = 34;
-      public static final int kBRCANCoderID = 44;
-
-      public static final boolean kFRCANCoderReversed = false;    
-      public static final boolean kFLCANCoderReversed = false;      
-      public static final boolean kBLCANCoderReversed = false;       
-      public static final boolean kBRCANCoderReversed = false; 
-    }
 
     public static final double kPhysicalMaxSpeedMetersPerSecond = 5;    
     public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 2 * 2 * Math.PI;
@@ -162,6 +143,19 @@ public final class Constants {
         new SwerveModuleState(0, Rotation2d.fromDegrees(45)),
         new SwerveModuleState(0, Rotation2d.fromDegrees(135))
     };
+
+    /** Used for AutoBuilder configuration */
+    public static final SwerveRequest.ApplyRobotSpeeds  kApplyRobotSpeedsRequest = new SwerveRequest.ApplyRobotSpeeds();
+    /** Robot oriented controller */
+    public static final SwerveRequest.RobotCentric      kRobotOrientedSwerveRequest = new SwerveRequest.RobotCentric()
+                                                                                        .withDriveRequestType(DriveRequestType.OpenLoopVoltage)
+                                                                                        .withSteerRequestType(SteerRequestType.Position);
+    /** Field oriented controller - use @see NerdDrivertrain#resetFieldOrientation() */
+    public static final SwerveRequest.FieldCentric      kFieldOrientedSwerveRequest = new SwerveRequest.FieldCentric()
+                                                                                        .withDriveRequestType(DriveRequestType.OpenLoopVoltage)
+                                                                                        .withSteerRequestType(SteerRequestType.Position);
+    /** Field oriented controller - use @see NerdDrivertrain#resetFieldOrientation() */
+    public static final SwerveRequest.SwerveDriveBrake  kTowSwerveRequest = new SwerveRequest.SwerveDriveBrake();
 
     public static final double kGravityMPS = 9.80665; 
 

@@ -6,6 +6,7 @@ package frc.robot;
 
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -63,9 +64,9 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     RobotContainer.refreshAlliance();
-    m_robotContainer.imu.zeroAll();
-    m_robotContainer.imu.zeroAbsoluteHeading();
-    m_robotContainer.swerveDrive.enableLimeLight();
+    m_robotContainer.swerveDrive.resetRotation(new Rotation2d((RobotContainer.IsRedSide() ? 180.0 : 0.0)));
+    m_robotContainer.swerveDrive.zeroFieldOrientation(); // TODO consider auto field orientation
+    // m_robotContainer.swerveDrive.enableLimeLight(); TODO
 
     if (Constants.USE_SUBSYSTEMS) {
       m_robotContainer.superSystem.setNeutralMode(NeutralModeValue.Brake);
@@ -85,7 +86,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     RobotContainer.refreshAlliance();
-    m_robotContainer.swerveDrive.zeroGyroAndPoseAngle();
+    m_robotContainer.swerveDrive.zeroFieldOrientation(); // TODO decide whether to keep this
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
@@ -101,9 +102,7 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {
-
-  }
+  public void teleopPeriodic() {}
 
 
   @Override
