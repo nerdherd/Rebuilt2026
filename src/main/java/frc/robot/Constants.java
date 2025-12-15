@@ -125,7 +125,10 @@ public final class Constants {
                                                                                         .withDriveRequestType(DriveRequestType.OpenLoopVoltage)
                                                                                         .withSteerRequestType(SteerRequestType.Position);
     /** Field oriented controller - use @see NerdDrivertrain#resetFieldOrientation() */
-    public static final SwerveRequest.SwerveDriveBrake  kTowSwerveRequest = new SwerveRequest.SwerveDriveBrake();
+    public static final SwerveRequest.SwerveDriveBrake  kTowSwerveRequest = new SwerveRequest.SwerveDriveBrake()
+                                                                                        .withDriveRequestType(DriveRequestType.OpenLoopVoltage)
+                                                                                        .withSteerRequestType(SteerRequestType.Position);
+
 
     public static final double kGravityMPS = 9.80665; 
 
