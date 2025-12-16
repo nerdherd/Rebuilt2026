@@ -21,7 +21,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Constants.ControllerConstants;
-import frc.robot.commands.autos.PreloadTaxi;
 import frc.robot.generated.TunerConstants;
 import frc.robot.commands.SwerveJoystickCommand;
 import frc.robot.subsystems.NerdDrivetrain;
@@ -95,13 +94,13 @@ public class RobotContainer {
       () -> -driverController.getLeftY(), // Horizontal Translation
       () -> driverController.getLeftX(), // Vertical Translation
       () -> driverController.getRightX(), // Rotation
-      () -> false, // robot oriented variable (false = field oriented)
+      () -> true, // robot oriented variable (true = field oriented)
       () -> false, // tow supplier
       () -> driverController.getTriggerRight(), // Precision/"Sniper Button"
       () -> false,
       () -> swerveDrive.getAbsoluteHeadingDegrees(), // TODO i have no clue if this is right // Turn to angle direction 
       () -> new Translation2d(   (driverController.getDpadUp()?1.0:0.0) - (driverController.getDpadDown()?1:0), 
-                                        (driverController.getDpadRight()?1.0:0.0) - (driverController.getDpadLeft()?1:0)) // DPad vector
+                                        (driverController.getDpadLeft()?1.0:0.0) - (driverController.getDpadRight()?1:0)) // DPad vector
     );
     swerveDrive.setDefaultCommand(swerveJoystickCommand);
   }
@@ -158,9 +157,9 @@ public class RobotContainer {
     autosTab.add("Selected Auto", autoChooser);
     // autoChooser.setDefaultOption("Do Nothing", Commands.none());
     
-    autoChooser.setDefaultOption("PreloadTaxi", new PreloadTaxi(swerveDrive, "TaxiPreload", superSystem));
-    autoChooser.addOption("PreloadTaxi", new PreloadTaxi(swerveDrive, "TaxiPreload", superSystem));
-    autoChooser.addOption("Taxi", AutoBuilder.buildAuto("Taxi"));
+    // autoChooser.setDefaultOption("PreloadTaxi", new PreloadTaxi(swerveDrive, "TaxiPreload", superSystem));
+    // autoChooser.addOption("PreloadTaxi", new PreloadTaxi(swerveDrive, "TaxiPreload", superSystem));
+    // autoChooser.addOption("Taxi", AutoBuilder.buildAuto("Taxi"));
     // autoChooser.addOption("TaxiLeft", AutoBuilder.buildAuto("S1Taxi"));
     // autoChooser.addOption("TaxiRight", AutoBuilder.buildAuto("S7Taxi"));
     

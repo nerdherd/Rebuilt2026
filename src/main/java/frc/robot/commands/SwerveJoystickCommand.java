@@ -179,9 +179,7 @@ public class SwerveJoystickCommand extends Command {
             filteredYSpeed /= 4;
             filteredTurningSpeed /= 4; // Also slows down the turn to angle speed
         }
-        
-        ChassisSpeeds chassisSpeeds;
-       
+               
         Translation2d dPad = dPadDirectionalSupplier.get();
         if (!dPad.equals(Translation2d.kZero)) {
             swerveDrive.driveRobotOriented(dPad.getX() * 0.75, dPad.getY() * 0.75, 0.0);
