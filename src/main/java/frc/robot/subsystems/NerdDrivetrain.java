@@ -23,10 +23,13 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
 
 public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, Reportable {
+    public final Field2d field;
+
     public NerdDrivetrain(SwerveDrivetrainConstants drivetrainConstants, SwerveModuleConstants<?, ?, ?>... modules) {
         super(drivetrainConstants, modules);
 
@@ -59,12 +62,16 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
             },
             this
         );
+
+        field = new Field2d();
     }
-
-
+    
+    
     @Override
     public void periodic() {
-        // This method will be called once per scheduler run
+        field.setRobotPose(getPose());
+
+        //big TODO vision
     }
 
     // ----------------------------------------- Drive Functions ----------------------------------------- //
@@ -161,6 +168,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
     @Override
     public void initializeLogging() {
         ShuffleboardTab tab = Shuffleboard.getTab("NerdDrivetrain");
+        tab.add("Field Position", field).withSize(6,3);
 
         ///////////
         /// ALL ///

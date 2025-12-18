@@ -139,43 +139,9 @@ public class RobotContainer {
   public void configureBindings_test() {}
   
   private void initAutoChoosers() {
-
-    // try { // ide displayed error fix
-      // bottom2Piece = new Bottom2Piece(swerveDrive, intakeRoller, elevator, "Bottom2Piece");
-      // pathOnlyBottom2Piece = new PathOnlyBottom2Piece(swerveDrive, "PathOnlyBottom2Piece");
-    // } catch (Exception e) {
-    //   DriverStation.reportError("IOException for Bottom2Piece", e.getStackTrace());
-    //   return;
-    // } 
-
-    try { // fix for vendordeps not importing
-    // PathPlannerPath S4R3 = PathPlannerPath.fromPathFile("S4R3");
-
-  	// List<String> paths = AutoBuilder.getAllAutoNames();
     
     ShuffleboardTab autosTab = Shuffleboard.getTab("Autos");
     autosTab.add("Selected Auto", autoChooser);
-    // autoChooser.setDefaultOption("Do Nothing", Commands.none());
-    
-    // autoChooser.setDefaultOption("PreloadTaxi", new PreloadTaxi(swerveDrive, "TaxiPreload", superSystem));
-    // autoChooser.addOption("PreloadTaxi", new PreloadTaxi(swerveDrive, "TaxiPreload", superSystem));
-    // autoChooser.addOption("Taxi", AutoBuilder.buildAuto("Taxi"));
-    // autoChooser.addOption("TaxiLeft", AutoBuilder.buildAuto("S1Taxi"));
-    // autoChooser.addOption("TaxiRight", AutoBuilder.buildAuto("S7Taxi"));
-    
-    // autoChooser.addOption("2PieceLeftOffset", new TwoPieceOffset(swerveDrive, "TopTwoPieceOffset", superSystem));
-    // autoChooser.addOption("2PieceLeft", new TwoPiece(swerveDrive, "TopTwoPiece", superSystem));
-    // autoChooser.addOption("2PieceRightOffset", new TwoPieceOffset(swerveDrive, "BottomTwoPieceOffset", superSystem));
-    // autoChooser.addOption("2PieceGround", new TwoPieceGround(swerveDrive, "BottomTwoPieceGround", superSystem));
-    // autoChooser.addOption("2PieceRight", new TwoPiece(swerveDrive, "BottomTwoPiece", superSystem));
-    
-    // autoChooser.addOption("2PiecePathOnly", new TwoPiecePath(swerveDrive, "TopTwoPiece", superSystem));
-    
-    // autoChooser.addOption("Bottom 3 Piece", bottom3Piece);
-    // autoChooser.addOption("Bottom 4 Piece", bottom4Piece);
-    
-
-    } catch (Exception e) { SmartDashboard.putBoolean("Auto Error", true); }
   }
   
   public void initShuffleboard() {
