@@ -4,12 +4,6 @@
 
 package frc.robot;
 
-import java.util.List;
-import com.ctre.phoenix6.controls.VoltageOut;
-import com.pathplanner.lib.auto.AutoBuilder;
-
-import edu.wpi.first.math.Pair;
-import edu.wpi.first.math.Vector;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
@@ -17,7 +11,6 @@ import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Constants.ControllerConstants;
@@ -25,14 +18,12 @@ import frc.robot.generated.TunerConstants;
 import frc.robot.commands.SwerveJoystickCommand;
 import frc.robot.subsystems.NerdDrivetrain;
 import frc.robot.subsystems.SuperSystem;
-import frc.robot.util.BannerSensor;
 import frc.robot.util.Controller;
 
 public class RobotContainer {
   public NerdDrivetrain swerveDrive;
   public PowerDistribution pdp = new PowerDistribution(0, ModuleType.kCTRE);
   
-  public BannerSensor floorSensor;
   public SuperSystem superSystem;
 
   private final Controller driverController = new Controller(ControllerConstants.kDriverControllerPort, false);
@@ -44,13 +35,6 @@ public class RobotContainer {
   
   private SwerveJoystickCommand swerveJoystickCommand;
   
-  // For logging wrist
-  public final VoltageOut voltageRequest = new VoltageOut(0);
-  public double voltage = 0;
-  public double desiredAngle = 0.0; //164, 99.8
-
-  public double desiredRotation = 0.0;//ElevatorConstants.kElevatorPivotStowPosition; -1.6
-
   /**
    * The container for the robot. Contain
    * s subsystems, OI devices, and commands.
@@ -162,7 +146,7 @@ public class RobotContainer {
     return currentAuto;
   }
 
-  public void DisableAllMotors_Test()
+  public void disableAllMotors_Test()
   {
     swerveDrive.setBrake(true);
   }

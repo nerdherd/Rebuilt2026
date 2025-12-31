@@ -53,7 +53,7 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().cancelAll();
     
     if (Constants.USE_SUBSYSTEMS){
-      //disable subsystems
+      // TODO disable subsystems
     }
   }
 
@@ -116,15 +116,13 @@ public class Robot extends TimedRobot {
     m_robotContainer.initDefaultCommands_test();
     m_robotContainer.configureBindings_test();
 
-    m_robotContainer.DisableAllMotors_Test();
+    m_robotContainer.disableAllMotors_Test();
 
   }
 
   /** This function is called periodically during test mode. */
   @Override
-  public void testPeriodic() {
-
-  }
+  public void testPeriodic() {}
 
   /** This function is called once when the robot is first started up. */
   @Override

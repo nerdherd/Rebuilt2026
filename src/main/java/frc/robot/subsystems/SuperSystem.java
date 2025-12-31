@@ -3,7 +3,6 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import frc.robot.subsystems.Reportable.LOG_LEVEL;
 
 public class SuperSystem implements Reportable {
     public NerdDrivetrain swerveDrivetrain;

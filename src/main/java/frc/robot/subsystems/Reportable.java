@@ -8,6 +8,7 @@ import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 
+import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import frc.robot.Constants;
 
@@ -35,5 +36,13 @@ public interface Reportable {
 
 	static public void addString(ShuffleboardTab shuffleboardTab, String name, Supplier<String> supplier, LOG_LEVEL loggingLevel) {
 		if(Constants.ROBOT_LOG_LEVEL.level >= loggingLevel.level) shuffleboardTab.addString(name, supplier);
+	}
+
+	static public void add(ShuffleboardTab shuffleboardTab, String name, Sendable sendable, LOG_LEVEL loggingLevel) {
+		if(Constants.ROBOT_LOG_LEVEL.level >= loggingLevel.level) shuffleboardTab.add(name, sendable);
+	}
+
+	static public void addCamera(ShuffleboardTab shuffleboardTab, String cameraReadableName, String cameraInternalName, String IP, LOG_LEVEL loggingLevel) {
+		if(Constants.ROBOT_LOG_LEVEL.level >= loggingLevel.level) shuffleboardTab.addCamera(cameraReadableName, cameraInternalName, IP);
 	}
 }

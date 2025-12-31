@@ -22,7 +22,6 @@ import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.util.Color;
 import frc.robot.subsystems.Reportable.LOG_LEVEL;
-import frc.robot.subsystems.SuperSystem;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -170,8 +169,16 @@ public final class Constants {
   }
 
   public static final class VisionConstants {
-    // public static final String kLimelightName = "limelight-uhhhhh";
-    // public static final String kLimelightIP = "10.6.87.67:5802";
+    public static enum Camera {
+      // Example("limelight-ex", "10.6.87.XX:5802"),
+      ;
+
+      public final String name, ip;
+      Camera(String name, String ip) {
+        this.name = name;
+        this.ip = ip;
+      }
+    }
   }
 
   public static class LEDConstants {

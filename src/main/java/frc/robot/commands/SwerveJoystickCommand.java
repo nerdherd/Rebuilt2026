@@ -12,7 +12,6 @@ import java.util.function.Supplier;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.ControllerConstants;
@@ -153,7 +152,7 @@ public class SwerveJoystickCommand extends Command {
                 // turnToAngleController.setD(SwerveDriveConstants.kDThetaTeleop.get());
             }
             // todo, since we use field ori control, better to turn to field 0,90, 180,270
-            turningSpeed = turnToAngleController.calculate(swerveDrive.getAbsoluteHeadingDegrees(), targetAngle);
+            turningSpeed = turnToAngleController.calculate(swerveDrive.getOperatorHeadingDegrees(), targetAngle);
             SmartDashboard.putNumber("Turning Speed Initial", turningSpeed);
             // turningSpeed += Math.signum(turningSpeed) * SwerveAutoConstants.kTurnToAngleFeedForwardDegreesPerSecond;
             turningSpeed = Math.toRadians(turningSpeed);

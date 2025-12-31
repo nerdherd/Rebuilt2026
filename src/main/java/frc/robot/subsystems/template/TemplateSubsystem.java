@@ -169,6 +169,23 @@ public abstract class TemplateSubsystem extends SubsystemBase implements Reporta
 		return desiredValue;
 	}
 
+	/**
+	 * {@link #desiredValue}
+	 * @return the position or velocity based on motor1
+	 */
+	public double getCurrentValue() {
+		return (mode == SubsystemMode.POSITION) ? motor1.getPosition().getValueAsDouble() : motor1.getVelocity().getValueAsDouble();
+	}
+
+	/**
+	 * {@link #desiredValue}
+	 * @return the position or velocity based on motor2
+	 */
+	public double getCurrentValueMotor2() {
+		if (motor2 == null) return 0.0;
+		return (mode == SubsystemMode.POSITION) ? motor2.getPosition().getValueAsDouble() : motor2.getVelocity().getValueAsDouble();
+	}
+
 	// ------------------------------------ Command Functions ------------------------------------ //
 
 	/**
