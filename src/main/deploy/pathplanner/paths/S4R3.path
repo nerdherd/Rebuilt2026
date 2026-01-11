@@ -16,11 +16,11 @@
     },
     {
       "anchor": {
-        "x": 5.791,
+        "x": 6.11,
         "y": 4.084
       },
       "prevControl": {
-        "x": 6.051491772088747,
+        "x": 6.370491772088747,
         "y": 4.060743404827302
       },
       "nextControl": null,
@@ -48,7 +48,7 @@
   "folder": "Middle Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 180.0
   },
   "useDefaultConstraints": true
 }

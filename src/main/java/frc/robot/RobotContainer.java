@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
@@ -126,6 +128,7 @@ public class RobotContainer {
     
     ShuffleboardTab autosTab = Shuffleboard.getTab("Autos");
     autosTab.add("Selected Auto", autoChooser);
+    autoChooser.setDefaultOption("Taxi", AutoBuilder.buildAuto("Taxi"));
   }
   
   public void initShuffleboard() {

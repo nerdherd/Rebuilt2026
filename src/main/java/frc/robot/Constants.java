@@ -47,7 +47,7 @@ public final class Constants {
   /**
    * controls whether vision should be initialized
    */
-  public static boolean USE_VISION = false; // TODO
+  public static boolean USE_VISION = true; // TODO
 
   public static class ControllerConstants {
     public static final double kDeadband = 0.05;
@@ -171,7 +171,7 @@ public final class Constants {
   public static final class VisionConstants {
     public static enum Camera {
       // Example("limelight-ex", "10.6.87.XX:5802"),
-      ;
+      FrontLeft("limelight-coral", "10.6.87.11:5802"),;
 
       public final String name, ip;
       Camera(String name, String ip) {
