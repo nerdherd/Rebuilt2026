@@ -4,6 +4,10 @@
 
 package frc.robot;
 
+import com.ctre.phoenix6.configs.FeedbackConfigs;
+import com.ctre.phoenix6.configs.MotorOutputConfigs;
+import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveModule.SteerRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
@@ -221,12 +225,35 @@ public final class Constants {
   //       .withKP(0.0)
   //     ;
 
-  //   public static final TalonFXConfiguration kSubsystemConfiguartion = 
+  //   public static final TalonFXConfiguration kSubsystemConfiguration = 
   //     new TalonFXConfiguration()
   //     .withSlot0(kSlot0Configs)
   //     ;
   // }
   
+  public static final class FlywheelConstants {
+    public static final int kMotor1ID = 53;
+    public static final int kMotor2ID = 54;
+
+    public static final Slot0Configs kSlot0Configs = 
+      new Slot0Configs()
+        .withKP(0.0)
+        .withKI(0.0)
+        .withKD(0.0)
+        .withKG(0.0)
+      ;
+    public static final FeedbackConfigs kFeedbackConfigs = 
+      new FeedbackConfigs()
+        .withRotorToSensorRatio(0.625)
+      ;
+
+    public static final TalonFXConfiguration kSubsystemConfiguration = 
+      new TalonFXConfiguration()
+      .withSlot0(kSlot0Configs)
+      .withFeedback(kFeedbackConfigs)
+      ;
+  }
+
   public static final class SuperSystemConstants {
     //TODO DO
   }

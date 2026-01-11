@@ -16,12 +16,14 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.generated.TunerConstants;
 import frc.robot.commands.SwerveJoystickCommand;
+import frc.robot.subsystems.Flywheel;
 import frc.robot.subsystems.NerdDrivetrain;
 import frc.robot.subsystems.SuperSystem;
 import frc.robot.util.Controller;
 
 public class RobotContainer {
   public NerdDrivetrain swerveDrive;
+  public Flywheel flywheel_subsystem;
   public PowerDistribution pdp = new PowerDistribution(0, ModuleType.kCTRE);
   
   public SuperSystem superSystem;
@@ -48,6 +50,7 @@ public class RobotContainer {
     if (Constants.USE_SUBSYSTEMS) {
        //add subsystems
       superSystem = new SuperSystem(swerveDrive);
+      flywheel_subsystem = new Flywheel();
       
     }
 
@@ -102,7 +105,7 @@ public class RobotContainer {
   // Driver bindings
   //////////////////////
   public void configureDriverBindings_teleop() {
-
+    driverController.bumperLeft().onTrue(flywheel_subsystem.setDesiredValueCommand(0.1).andThen(flywheel_subsystem.setEnabledCommand(true))).onFalse(flywheel_subsystem.setDesiredValueCommand(0).andThen(flywheel_subsystem.setEnabledCommand(false)));
     driverController.controllerLeft()
       .onTrue(Commands.runOnce(() -> swerveDrive.zeroFieldOrientation()));
     // driverController.controllerRight()
@@ -133,8 +136,10 @@ public class RobotContainer {
   
     if (Constants.USE_SUBSYSTEMS) { 
       superSystem.initializeLogging();
+      flywheel_subsystem.initializeLogging();
     }
   }
+
   
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
