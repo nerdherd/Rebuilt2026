@@ -10,3 +10,5 @@
 - Use the limelight for Apriltags
 - Problem: we updated motors to 2026, but we couldn't do characterization so we updated phoenix tuner to 2026 but it was the wrong version of 2026 so we had to go back to the 2025 version for everything
 - Using Hotspot to download vendor libraries (lead note: school wifi blocks downloads during initial builds, subsequent builds don't require redownloads, though)
+
+*sara*
