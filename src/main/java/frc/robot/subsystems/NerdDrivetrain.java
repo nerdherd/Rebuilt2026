@@ -28,6 +28,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+import frc.robot.Constants;
 import frc.robot.Constants.VisionConstants.Camera;
 import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
 import frc.robot.vision.LimelightHelpers;
@@ -72,7 +73,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
 
         field = new Field2d();
 
-        setVision(USE_VISION);
+        setVision(false);
     }
     
     
@@ -171,11 +172,14 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
 
     /**
      * activates or deactivates vision by setting the pipeline either to 1 for active or 0 for inactive
+     * and by adjusting throttle, see {@link LimelightHelpers#SetThrottle(String, int)}
      * @param activate whether to activate or deactivate
      */
-    private void setVision(boolean activate) {
-        for (Camera camera : Camera.values())
+    public void setVision(boolean activate) {
+        for (Camera camera : Camera.values()) {
             LimelightHelpers.setPipelineIndex(camera.name, (activate) ? 1 : 0);
+            LimelightHelpers.SetThrottle(camera.name, (activate) ? 0 : Constants.VisionConstants.kDisabledThrottle);
+        }
     }
 
     public void visionUpdate(Camera limelight) {

@@ -10,8 +10,10 @@ import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.NeutralOut;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -21,11 +23,11 @@ import frc.robot.subsystems.Reportable;
 
 public abstract class TemplateSubsystem extends SubsystemBase implements Reportable {
 	/** primary motor; required */
-	private final TalonFX motor1;
+	protected final TalonFX motor1;
 	/** secondary motor; optional */
-	private final TalonFX motor2;
+	protected final TalonFX motor2;
 	/** holds the configuration for both {@link #motor1} and {@link #motor2} */
-	private TalonFXConfiguration configuration;
+	protected TalonFXConfiguration configuration;
 
 	/** position controller for {@link SubsystemMode#POSITION} */
 	private final MotionMagicVoltage positionController;
@@ -47,8 +49,10 @@ public abstract class TemplateSubsystem extends SubsystemBase implements Reporta
 	private boolean enabled = false;
 
 	/** shuffleboard tab for logging, named through the constructor */
-	private final ShuffleboardTab shuffleboardTab;
-	
+	protected final ShuffleboardTab shuffleboardTab;
+	/** name of the subsystem */
+	protected final String name;
+
 	public enum SubsystemMode {
 		POSITION, 
 		VELOCITY
@@ -65,12 +69,12 @@ public abstract class TemplateSubsystem extends SubsystemBase implements Reporta
 	 * @param mode - the {@link SubsystemMode} for this subsystem
 	 * @param defaultValue - initial position or velocity depending on {@link SubsystemMode}
 	 */
-	public TemplateSubsystem(String name, int motor1ID, int motor2ID, boolean reverseMotor2, SubsystemMode mode, double defaultValue) {
+	public TemplateSubsystem(String name, int motor1ID, int motor2ID, MotorAlignmentValue reverseMotor2, SubsystemMode mode, double defaultValue) {
 		this.motor1 = new TalonFX(motor1ID);
 		if (motor2ID != -1){
 			this.motor2 = new TalonFX(motor2ID);
 			followerController = new Follower(motor1ID, reverseMotor2);
-		}else{
+		} else {
 			this.motor2 = null;
 			followerController = null;
 		}
@@ -79,15 +83,16 @@ public abstract class TemplateSubsystem extends SubsystemBase implements Reporta
 		if (this.mode == SubsystemMode.POSITION){
 			positionController = new MotionMagicVoltage(defaultValue);
 			velocityController = null;
-		}else{
+		} else {
 			positionController = null;
 			velocityController = new VelocityVoltage(defaultValue);
 		}
-		shuffleboardTab = Shuffleboard.getTab(name);
+		this.name = name;
+		shuffleboardTab = Shuffleboard.getTab(this.name);
 	}
 
 	public TemplateSubsystem(String name, int motor1ID, SubsystemMode mode, double defaultValue){
-		this(name, motor1ID, -1, false, mode, defaultValue);
+		this(name, motor1ID, -1, MotorAlignmentValue.Aligned, mode, defaultValue);
 	}
 	
 	/** applies configuration to motors; should be used on construction */
@@ -103,10 +108,18 @@ public abstract class TemplateSubsystem extends SubsystemBase implements Reporta
 			return;
 		}
 
-		if(mode == SubsystemMode.POSITION) 
-			motor1.setControl(positionController.withPosition(this.desiredValue));
-		else if(mode == SubsystemMode.VELOCITY) 
-			motor1.setControl(velocityController.withVelocity(this.desiredValue));
+		switch (mode) {
+			case POSITION:
+				motor1.setControl(positionController.withPosition(this.desiredValue));
+				if (configuration.MotionMagic.MotionMagicCruiseVelocity == 0.0) DriverStation.reportWarning(name + ": MM Cruise Velocity is 0.0", null);
+				if (configuration.MotionMagic.MotionMagicAcceleration == 0.0) DriverStation.reportWarning(name + ": MM Acceleration is 0.0", null);
+				break;
+			case VELOCITY:
+				motor1.setControl(velocityController.withVelocity(this.desiredValue));
+				break;
+			default:
+				break;
+		}
 
 		if(motor2 != null) motor2.setControl(followerController);
 	}
@@ -114,7 +127,7 @@ public abstract class TemplateSubsystem extends SubsystemBase implements Reporta
 	// ------------------------------------ Helper Functions ------------------------------------ //
 	
 	/** applies motor configurations based on {@link #configuration} */
-	private void applyMotorConfigs(){
+	protected void applyMotorConfigs(){
 		motor1.getConfigurator().apply(this.configuration);
 		if(motor2 != null) motor2.getConfigurator().apply(this.configuration);
 	}
@@ -184,6 +197,13 @@ public abstract class TemplateSubsystem extends SubsystemBase implements Reporta
 	public double getCurrentValueMotor2() {
 		if (motor2 == null) return 0.0;
 		return (mode == SubsystemMode.POSITION) ? motor2.getPosition().getValueAsDouble() : motor2.getVelocity().getValueAsDouble();
+	}
+
+	/**
+	 * @return {@link #enabled}
+	 */
+	public boolean isEnabled() {
+		return enabled;
 	}
 
 	// ------------------------------------ Command Functions ------------------------------------ //

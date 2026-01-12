@@ -30,8 +30,6 @@ public class RobotContainer {
   private final Controller operatorController = new Controller(ControllerConstants.kOperatorControllerPort,false);
   
   private SendableChooser<Command> autoChooser = new SendableChooser<Command>();
-
-  static boolean isRedSide = false;
   
   private SwerveJoystickCommand swerveJoystickCommand;
   
@@ -56,6 +54,8 @@ public class RobotContainer {
 
     DriverStation.reportWarning("Initalization complete", false);
   }
+
+  static boolean isRedSide = false;
 
   public static void refreshAlliance() {
     var alliance = DriverStation.getAlliance();
