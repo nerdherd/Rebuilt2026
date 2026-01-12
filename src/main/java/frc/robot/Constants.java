@@ -169,6 +169,9 @@ public final class Constants {
   }
 
   public static final class VisionConstants {
+    /** how many frames to skip in disabled, to prevent overheating */
+    public static final int kDisabledThrottle = 100;
+
     public static enum Camera {
       // Example("limelight-ex", "10.6.87.XX:5802"),
       ;
@@ -181,33 +184,32 @@ public final class Constants {
     }
   }
 
-  public static class LEDConstants {
+  // public static class LEDConstants {
+  //   public static final int CANdleID = 0; // TODO change later
+  //   public static final int CANdleLength = 8; // TODO change later
 
-    public static final int CANdleID = 0; // TODO change later
-    public static final int CANdleLength = 8; // TODO change later
-
-    public static class Colors {
-      public static final Color BLACK         = new Color(0.0, 0.0, 0.0); // shows up as nothing
-      public static final Color WHITE         = new Color(1.0,1.0,1.0); 
-      public static final Color RED           = new Color(1.0, 0.0, 0.0); 
-      public static final Color GREEN         = new Color(0.0, 1.0, 0.0); 
-      public static final Color BLUE          = new Color(0.0, 0.0, 1.0); 
-      public static final Color NERDHERD_BLUE = new Color(0.132, 0.415, 1.0); // #071635 as base, brightened fully
-    }
+  //   public static class Colors {
+  //     public static final Color BLACK         = new Color(0.0, 0.0, 0.0); // shows up as nothing
+  //     public static final Color WHITE         = new Color(1.0,1.0,1.0); 
+  //     public static final Color RED           = new Color(1.0, 0.0, 0.0); 
+  //     public static final Color GREEN         = new Color(0.0, 1.0, 0.0); 
+  //     public static final Color BLUE          = new Color(0.0, 0.0, 1.0); 
+  //     public static final Color NERDHERD_BLUE = new Color(0.132, 0.415, 1.0); // #071635 as base, brightened fully
+  //   }
     
-    public enum LEDStrips {
-      ALL(0, CANdleLength),
-      CANDLE(0,8),
-      ;
+  //   public enum LEDStrips {
+  //     ALL(0, CANdleLength),
+  //     CANDLE(0,8),
+  //     ;
 
-      public int index, count;
-      LEDStrips(int _index, int _count) {
-        this.index = _index;
-        this.count = _count;
-      }
-    }
+  //     public int index, count;
+  //     LEDStrips(int _index, int _count) {
+  //       this.index = _index;
+  //       this.count = _count;
+  //     }
+  //   }
 
-  }
+  // }
 
   // ************************************** SUBSYSTEM CONSTANTS *************************************** //
 
@@ -221,7 +223,7 @@ public final class Constants {
   //       .withKP(0.0)
   //     ;
 
-  //   public static final TalonFXConfiguration kSubsystemConfiguartion = 
+  //   public static final TalonFXConfiguration kSubsystemConfiguration = 
   //     new TalonFXConfiguration()
   //     .withSlot0(kSlot0Configs)
   //     ;
