@@ -7,13 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "S7Taxi"
+            "pathName": "test"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "ignore",
+  "folder": null,
   "choreoAuto": false
 }
