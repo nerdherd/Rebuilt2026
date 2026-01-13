@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import static frc.robot.Constants.USE_VISION;
+
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -51,6 +53,7 @@ public class Robot extends TimedRobot {
   public void disabledInit() {
     CommandScheduler.getInstance().getDefaultButtonLoop().clear();
     CommandScheduler.getInstance().cancelAll();
+    m_robotContainer.swerveDrive.setVision(false);
     
     if (Constants.USE_SUBSYSTEMS){
       // TODO disable subsystems
@@ -64,6 +67,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     RobotContainer.refreshAlliance();
+    m_robotContainer.swerveDrive.setVision(USE_VISION);
     m_robotContainer.swerveDrive.resetRotation(new Rotation2d((RobotContainer.IsRedSide() ? 180.0 : 0.0)));
     m_robotContainer.swerveDrive.zeroFieldOrientation(); // TODO consider auto field orientation
     // m_robotContainer.swerveDrive.enableLimeLight(); TODO
@@ -75,7 +79,7 @@ public class Robot extends TimedRobot {
   // schedule the autonomous command (example)
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
     if (m_autonomousCommand != null) {
-      m_autonomousCommand.schedule();
+      CommandScheduler.getInstance().schedule(m_autonomousCommand);
     }
   }
 
@@ -86,6 +90,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     RobotContainer.refreshAlliance();
+    m_robotContainer.swerveDrive.setVision(USE_VISION);
     m_robotContainer.swerveDrive.zeroFieldOrientation(); // TODO decide whether to keep this
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
