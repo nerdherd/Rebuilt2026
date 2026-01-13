@@ -5,6 +5,7 @@ import com.ctre.phoenix6.configs.TalonFXConfigurator;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.NeutralOut;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.MotorAlignmentValue;
 
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -18,7 +19,7 @@ public class Flywheel extends TemplateSubsystem{
 
     public Flywheel() {
 
-        super("Top and Bottom Shooter", 53, 54, true, SubsystemMode.POSITION, 0);
+        super("Top and Bottom Shooter", 53, 54, MotorAlignmentValue.Aligned, SubsystemMode.POSITION, 0);
 
 
         configureMotors(Constants.FlywheelConstants.kSubsystemConfiguration);
