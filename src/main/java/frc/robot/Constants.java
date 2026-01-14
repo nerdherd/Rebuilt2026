@@ -19,8 +19,10 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
 import frc.robot.subsystems.Reportable.LOG_LEVEL;
+import frc.robot.util.MultiProfiledPIDController;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -128,18 +130,23 @@ public final class Constants {
                                                                                         .withSteerRequestType(SteerRequestType.Position);
 
 
-    /** m/s @see NerdDrivetrain.driveToTarget() */
-    public static final double kTargetDriveMaxVelocity = 1.0; 
-    /** rad/s @see NerdDrivetrain.driveToTarget() */
-    public static final double kTargetDriveMaxAngularVelocity = 1.0; 
+    /** @see NerdDrivetrain.driveToTarget() */
+    public static final double kTargetDriveMaxLateralVelocity = 5.0;
+    public static final PIDConstants kTargetDriveLateralPID = new PIDConstants(1.0, 0.0, 0.0);
+    /** m/s and m/s/s @see NerdDrivetrain.driveToTarget() */
+    public static final Constraints kTargetDriveLateralConstraints = new Constraints(kTargetDriveMaxLateralVelocity, kTargetDriveMaxLateralVelocity);
+    public static final double kTargetDriveMaxRotationalVelocity = 9.4;
+    public static final PIDConstants kTargetDriveRotationalPID = new PIDConstants(1.0, 0.0, 0.0);
+    /** rad/s and rad/s/s @see NerdDrivetrain.driveToTarget() */
+    public static final Constraints kTargetDriveRotationalConstraints = new Constraints(kTargetDriveMaxRotationalVelocity, kTargetDriveMaxRotationalVelocity);
 
-    public static final PIDConstants kTargetDriveDistancePID = new PIDConstants(1.0, 0.0, 0.0);
+    public static final MultiProfiledPIDController kTargetDriveController = new MultiProfiledPIDController()
+      .add("x", kTargetDriveLateralPID, kTargetDriveLateralConstraints, 0.05, Double.POSITIVE_INFINITY)
+      .add("y", kTargetDriveLateralPID, kTargetDriveLateralConstraints, 0.05, Double.POSITIVE_INFINITY)
+      .add("r", kTargetDriveRotationalPID, kTargetDriveRotationalConstraints, 0.05, Double.POSITIVE_INFINITY)
+      .withContinuousInput("r", -Math.PI, Math.PI);
+
     public static final double kTargetDriveTranslationalPosTolerance = 0.05;
-    public static final double kTargetDriveTranslationalVelTolerance = Double.POSITIVE_INFINITY;
-    
-    public static final PIDConstants kTargetDriveRotationPID = new PIDConstants(1.0, 0.0, 0.0);
-    public static final double kTargetDriveRotationalPosTolerance = 0.05;
-    public static final double kTargetDriveRotationalVelTolerance = Double.POSITIVE_INFINITY;
 
     public static final double kGravityMPS = 9.80665; 
 

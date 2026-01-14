@@ -10,14 +10,8 @@ import static frc.robot.Constants.PathPlannerConstants.kPPTranslationPIDConstant
 import static frc.robot.Constants.SwerveDriveConstants.kApplyRobotSpeedsRequest;
 import static frc.robot.Constants.SwerveDriveConstants.kFieldOrientedSwerveRequest;
 import static frc.robot.Constants.SwerveDriveConstants.kRobotOrientedSwerveRequest;
-import static frc.robot.Constants.SwerveDriveConstants.kTargetDriveDistancePID;
-import static frc.robot.Constants.SwerveDriveConstants.kTargetDriveMaxAngularVelocity;
-import static frc.robot.Constants.SwerveDriveConstants.kTargetDriveMaxVelocity;
-import static frc.robot.Constants.SwerveDriveConstants.kTargetDriveRotationPID;
-import static frc.robot.Constants.SwerveDriveConstants.kTargetDriveRotationalPosTolerance;
-import static frc.robot.Constants.SwerveDriveConstants.kTargetDriveRotationalVelTolerance;
-import static frc.robot.Constants.SwerveDriveConstants.kTargetDriveTranslationalPosTolerance;
-import static frc.robot.Constants.SwerveDriveConstants.kTargetDriveTranslationalVelTolerance;
+import static frc.robot.Constants.SwerveDriveConstants.kTargetDriveController;
+import static frc.robot.Constants.SwerveDriveConstants.kTargetDriveMaxLateralVelocity;
 import static frc.robot.Constants.SwerveDriveConstants.kTowSwerveRequest;
 
 import com.ctre.phoenix6.signals.NeutralModeValue;
@@ -28,7 +22,6 @@ import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 
 import edu.wpi.first.math.VecBuilder;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -40,18 +33,12 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Constants;
 import frc.robot.Constants.VisionConstants.Camera;
 import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
-import frc.robot.util.NerdyMath;
 import frc.robot.vision.LimelightHelpers;
 import frc.robot.vision.LimelightHelpers.PoseEstimate;
 
 public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, Reportable {
     public final Field2d field;
     public boolean useMegaTag2 = true;
-
-    /** controls distance {@link #driveToTarget(Pose2d)} */
-    private final PIDController distanceController;
-    /** controls rotation {@link #driveToTarget(Pose2d)} */
-    private final PIDController rotationController;
 
     public NerdDrivetrain(SwerveDrivetrainConstants drivetrainConstants, SwerveModuleConstants<?, ?, ?>... modules) {
         super(drivetrainConstants, modules);
@@ -89,12 +76,6 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
         field = new Field2d();
 
         setVision(false);
-
-        distanceController = new PIDController(kTargetDriveDistancePID.kP, kTargetDriveDistancePID.kI, kTargetDriveDistancePID.kD);
-        rotationController = new PIDController(kTargetDriveRotationPID.kP, kTargetDriveRotationPID.kI, kTargetDriveRotationPID.kD);
-        distanceController.setTolerance(kTargetDriveTranslationalPosTolerance, kTargetDriveTranslationalVelTolerance);
-        rotationController.setTolerance(kTargetDriveRotationalPosTolerance, kTargetDriveRotationalVelTolerance);
-        rotationController.enableContinuousInput(Math.PI, -Math.PI);
     }
     
     
@@ -138,21 +119,36 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
     }
 
     /**
-     * TODO move to another class and find out if getPose().getRotation() is the same as getAbsoluteHeadingDegrees
-     * drive to a target in blue oriented space
+     * TODO find out if getPose().getRotation() is the same as getAbsoluteHeadingDegrees
+     * drive to a target in blue oriented space, must be called continously at 50 Hz
+     * call {@link #resetTargetDrive()} when starting
      * @param target - point in blue oriented space
      */
     public void driveToTarget(Pose2d target) {
-        double dx = target.getX() - getPose().getX(); // get difference in x
-        double dy = target.getY() - getPose().getY(); // get difference in y
-        double l = Math.sqrt(dx*dx + dy*dy); // calculate distance
-        dx /= l; dy /= l; // normalize to get the direction
-        // calculate PID output and clamp
-        double translationalOutput = Math.min(distanceController.calculate(l, 0.0), kTargetDriveMaxVelocity); 
-        double vr = rotationController.calculate(NerdyMath.degreesToRadians(getAbsoluteHeadingDegrees()), target.getRotation().getRadians());
-        vr = Math.min(vr, kTargetDriveMaxAngularVelocity);
+        // since the outputs are also capped, there is a limit to the influence of one axis on the direction
+        // this can lead to larger angles, maybe saving on necessary precision?
+        double x = kTargetDriveController.calculate("x", getPose().getX(), target.getX());
+        double y = kTargetDriveController.calculate("y", getPose().getY(), target.getY());
+        double l = Math.sqrt(x*x+y*y);
+        // clamp the velocity
+        x *= Math.min(1.0, kTargetDriveMaxLateralVelocity / l);
+        y *= Math.min(1.0, kTargetDriveMaxLateralVelocity / l);
+        driveFieldOriented(
+            x,
+            y,
+            kTargetDriveController.calculate("r", getPose().getRotation().getRadians(), target.getRotation().getRadians())
+        );
+    }
 
-        driveFieldOriented(dx * translationalOutput, dy * translationalOutput, vr);
+    /**
+     * resets the target drive controller for {@link #driveToTarget(Pose2d)}
+     */
+    public void resetTargetDrive() {
+        kTargetDriveController.reset(
+            getPose().getX(), 
+            getPose().getY(), 
+            getPose().getRotation().getRadians()
+        );
     }
 
     // ----------------------------------------- Helper Functions ----------------------------------------- //
