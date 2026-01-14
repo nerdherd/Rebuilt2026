@@ -20,7 +20,6 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.util.Color;
 import frc.robot.subsystems.Reportable.LOG_LEVEL;
 
 /**
@@ -128,6 +127,19 @@ public final class Constants {
                                                                                         .withDriveRequestType(DriveRequestType.OpenLoopVoltage)
                                                                                         .withSteerRequestType(SteerRequestType.Position);
 
+
+    /** m/s @see NerdDrivetrain.driveToTarget() */
+    public static final double kTargetDriveMaxVelocity = 1.0; 
+    /** rad/s @see NerdDrivetrain.driveToTarget() */
+    public static final double kTargetDriveMaxAngularVelocity = 1.0; 
+
+    public static final PIDConstants kTargetDriveDistancePID = new PIDConstants(1.0, 0.0, 0.0);
+    public static final double kTargetDriveTranslationalPosTolerance = 0.05;
+    public static final double kTargetDriveTranslationalVelTolerance = Double.POSITIVE_INFINITY;
+    
+    public static final PIDConstants kTargetDriveRotationPID = new PIDConstants(1.0, 0.0, 0.0);
+    public static final double kTargetDriveRotationalPosTolerance = 0.05;
+    public static final double kTargetDriveRotationalVelTolerance = Double.POSITIVE_INFINITY;
 
     public static final double kGravityMPS = 9.80665; 
 
