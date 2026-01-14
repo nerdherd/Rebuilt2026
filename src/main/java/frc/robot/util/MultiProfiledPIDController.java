@@ -26,32 +26,38 @@ public class MultiProfiledPIDController {
     }
     
     public MultiProfiledPIDController withContinuousInput(String name, double minimumInput, double maximumInput) {
+        if (!checkName(name)) return this;
         controllers.get(name).enableContinuousInput(minimumInput, maximumInput);
         return this;
     }
-
+    
     public MultiProfiledPIDController withDisabledContinuousInput(String name) {
+        if (!checkName(name)) return this;
         controllers.get(name).disableContinuousInput();
         return this;
     }
     
     public MultiProfiledPIDController withTolerance(String name, double errorTolerance, double derivativeTolerance) {
+        if (!checkName(name)) return this;
         controllers.get(name).setTolerance(errorTolerance, derivativeTolerance);
         return this;
     }
-
+    
     public ProfiledPIDController get(String name) {
+        if (!checkName(name)) return null;
         return controllers.get(name);
     }
-
+    
     public double calculate(String name, double measurement, double goal) {
+        if (!checkName(name)) return 0.0;
         return controllers.get(name).calculate(measurement, goal);
     }
-
+    
     public double calculate(String name, double measurement) {
+        if (!checkName(name)) return 0.0;
         return controllers.get(name).calculate(measurement);
     }
-
+    
     public void reset(double... measurements) {
         if (measurements.length < controllers.size()) {
             DriverStation.reportError("MultiProfiledPIDController: not enough reset measurements!", true);
@@ -66,5 +72,13 @@ public class MultiProfiledPIDController {
     
     public int size() {
         return controllers.size();
+    }
+
+    private boolean checkName(String name) {
+        if (!controllers.containsKey(name)) {
+            DriverStation.reportError("MultiProfiledPIDController: " + name + " is not a valid entry!", true);
+            return false;
+        }
+        return true;
     }
 }
