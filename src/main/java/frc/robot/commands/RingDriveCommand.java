@@ -6,6 +6,8 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.SwerveDriveConstants.FieldPositions;
 import frc.robot.subsystems.NerdDrivetrain;
@@ -26,7 +28,7 @@ public class RingDriveCommand extends Command {
   public void initialize() {
     targetX = swerveDrive.getPose().getX();
     targetY = swerveDrive.getPose().getY();
-    targetR = NerdyMath.angleToPose(swerveDrive.getPose(), FieldPositions.HUB_CENTER.blue);
+    targetR = 0.0;//swerveDrive.getPose().getRotation().getRadians();//NerdyMath.angleToPose(swerveDrive.getPose(), FieldPositions.HUB_CENTER.blue);
     swerveDrive.resetTargetDrive();
   }
 

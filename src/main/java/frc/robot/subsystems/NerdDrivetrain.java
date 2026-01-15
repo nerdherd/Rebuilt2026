@@ -11,7 +11,9 @@ import static frc.robot.Constants.SwerveDriveConstants.kApplyRobotSpeedsRequest;
 import static frc.robot.Constants.SwerveDriveConstants.kFieldOrientedSwerveRequest;
 import static frc.robot.Constants.SwerveDriveConstants.kRobotOrientedSwerveRequest;
 import static frc.robot.Constants.SwerveDriveConstants.kTargetDriveController;
+import static frc.robot.Constants.SwerveDriveConstants.kTargetDriveLateralConstraints;
 import static frc.robot.Constants.SwerveDriveConstants.kTargetDriveMaxLateralVelocity;
+import static frc.robot.Constants.SwerveDriveConstants.kTargetDriveRotationalConstraints;
 import static frc.robot.Constants.SwerveDriveConstants.kTowSwerveRequest;
 import frc.robot.Constants.SwerveDriveConstants.FieldPositions;
 
@@ -22,6 +24,7 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -35,6 +38,7 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Constants;
 import frc.robot.Constants.VisionConstants.Camera;
 import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
+import frc.robot.util.NerdyMath;
 import frc.robot.vision.LimelightHelpers;
 import frc.robot.vision.LimelightHelpers.PoseEstimate;
 
@@ -131,14 +135,19 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
         // this can lead to larger angles, maybe saving on necessary precision?
         double x = kTargetDriveController.calculate("x", getPose().getX(), target.getX());
         double y = kTargetDriveController.calculate("y", getPose().getY(), target.getY());
+        double r = kTargetDriveController.calculate("r", NerdyMath.degreesToRadians(getAbsoluteHeadingDegrees()), target.getRotation().getRadians());
         double l = Math.sqrt(x*x+y*y);
         // clamp the velocity
         x *= Math.min(1.0, kTargetDriveMaxLateralVelocity / l);
         y *= Math.min(1.0, kTargetDriveMaxLateralVelocity / l);
+        if (kTargetDriveController.atSetpoint("x") || Math.abs(x) <= 0.1) x = 0.0;
+        if (kTargetDriveController.atSetpoint("y") || Math.abs(y) <= 0.1) y = 0.0;
+        if (kTargetDriveController.atSetpoint("r") || Math.abs(r) <= 0.1) r = 0.0;
+        DriverStation.reportWarning(x + " " + y + " " + r, false);
         driveFieldOriented(
             x,
             y,
-            kTargetDriveController.calculate("r", getPose().getRotation().getRadians(), target.getRotation().getRadians())
+            r
         );
     }
 
@@ -174,7 +183,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
      * @see {@link #resetRotation(Rotation2d)}
      */
     public double getAbsoluteHeadingDegrees() {
-        return getPigeon2().getRotation2d().getDegrees();
+        return MathUtil.inputModulus(getPigeon2().getRotation2d().getDegrees(), -180, 180);
     }
 
     /**

@@ -137,14 +137,14 @@ public final class Constants {
     /** m/s and m/s/s @see NerdDrivetrain.driveToTarget() */
     public static final Constraints kTargetDriveLateralConstraints = new Constraints(kTargetDriveMaxLateralVelocity, kTargetDriveMaxLateralVelocity);
     public static final double kTargetDriveMaxRotationalVelocity = 9.4;
-    public static final PIDConstants kTargetDriveRotationalPID = new PIDConstants(1.0, 0.0, 0.0);
+    public static final PIDConstants kTargetDriveRotationalPID = new PIDConstants(2.0, 0.0, 0.0);
     /** rad/s and rad/s/s @see NerdDrivetrain.driveToTarget() */
     public static final Constraints kTargetDriveRotationalConstraints = new Constraints(kTargetDriveMaxRotationalVelocity, kTargetDriveMaxRotationalVelocity);
 
     public static final MultiProfiledPIDController kTargetDriveController = new MultiProfiledPIDController()
-      .add("x", kTargetDriveLateralPID, kTargetDriveLateralConstraints, 0.05, Double.POSITIVE_INFINITY)
-      .add("y", kTargetDriveLateralPID, kTargetDriveLateralConstraints, 0.05, Double.POSITIVE_INFINITY)
-      .add("r", kTargetDriveRotationalPID, kTargetDriveRotationalConstraints, 0.05, Double.POSITIVE_INFINITY)
+      .add("x", kTargetDriveLateralPID, kTargetDriveLateralConstraints, 0.05, 0.1)
+      .add("y", kTargetDriveLateralPID, kTargetDriveLateralConstraints, 0.05, 0.1)
+      .add("r", kTargetDriveRotationalPID, kTargetDriveRotationalConstraints, 0.05, 0.1)
       .withContinuousInput("r", -Math.PI, Math.PI);
 
     public static final double kTargetDriveTranslationalPosTolerance = 0.05;
