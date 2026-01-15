@@ -13,6 +13,7 @@ import static frc.robot.Constants.SwerveDriveConstants.kRobotOrientedSwerveReque
 import static frc.robot.Constants.SwerveDriveConstants.kTargetDriveController;
 import static frc.robot.Constants.SwerveDriveConstants.kTargetDriveMaxLateralVelocity;
 import static frc.robot.Constants.SwerveDriveConstants.kTowSwerveRequest;
+import frc.robot.Constants.SwerveDriveConstants.FieldPositions;
 
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
@@ -29,6 +30,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.FieldObject2d;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Constants;
 import frc.robot.Constants.VisionConstants.Camera;
@@ -249,14 +251,24 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
     @Override
     public void initializeLogging() {
         ShuffleboardTab tab = Shuffleboard.getTab("NerdDrivetrain");
-        tab.add("Field Position", field).withSize(6,3);
+        tab.add("Robot Field", field).withSize(6,3);
 
         ///////////
         /// ALL ///
         ///////////
         for (Camera camera : Camera.values())
             Reportable.addCamera(tab, camera.name, camera.name, "http://" + camera.ip, LOG_LEVEL.ALL);
-
+        if (Constants.ROBOT_LOG_LEVEL.level == LOG_LEVEL.ALL.level) {
+            Field2d positionField = new Field2d();
+            for (FieldPositions position : FieldPositions.values()) {
+                FieldObject2d blue = positionField.getObject(position.name() + "-blue");
+                blue.setPose(position.blue);
+                FieldObject2d red  = positionField.getObject(position.name() + "-red");
+                red.setPose(position.red);
+            }
+            tab.add("Position Field", positionField).withSize(6,3);
+        }
+        
         //////////////
         /// MEDIUM ///
         //////////////

@@ -8,6 +8,7 @@ import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveModule.SteerRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.config.PIDConstants;
+import com.pathplanner.lib.util.FlippingUtil;
 
 import edu.wpi.first.math.MatBuilder;
 import edu.wpi.first.math.Matrix;
@@ -48,7 +49,7 @@ public final class Constants {
   /**
    * controls whether vision should be initialized
    */
-  public static boolean USE_VISION = false; // TODO
+  public static boolean USE_VISION = true;
 
   public static class ControllerConstants {
     public static final double kDeadband = 0.05;
@@ -154,11 +155,13 @@ public final class Constants {
     public static final double kTurnToAngleVelocityToleranceAnglesPerSec = 1;
 
     public static enum FieldPositions {
+      HUB_CENTER(4.626, 4.035, 0.0),
       ;//TODO Add field positions
       
-      public Pose2d pos; // meters and degrees
-      FieldPositions(double _x, double _y, double _headingDegrees) {
-        pos = new Pose2d(new Translation2d(_x, _y), new Rotation2d(Units.degreesToRadians(_headingDegrees)));
+      public Pose2d blue, red; // meters and degrees
+      FieldPositions(double _blueX, double _blueY, double _blueHeadingDegrees) {
+        blue = new Pose2d(new Translation2d(_blueX, _blueY), new Rotation2d(Units.degreesToRadians(_blueHeadingDegrees)));
+        red = FlippingUtil.flipFieldPose(blue);
       }
 
     }
