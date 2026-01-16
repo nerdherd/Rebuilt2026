@@ -4,6 +4,10 @@
 
 package frc.robot;
 
+import com.ctre.phoenix6.configs.FeedbackConfigs;
+import com.ctre.phoenix6.configs.MotionMagicConfigs;
+import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveModule.SteerRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
@@ -231,5 +235,59 @@ public final class Constants {
   
   public static final class SuperSystemConstants {
     //TODO DO
+  }
+
+  public static final class FlywheelConstants{
+    public static final int kMotor1ID = 53;
+    public static final int kMotor2ID = 54;
+
+     public static final Slot0Configs kSlot0Configs = 
+      new Slot0Configs()
+        .withKP(0.0)
+        .withKD(0.0)
+      ;
+    public static final FeedbackConfigs kFeedbackConfigs = 
+      new FeedbackConfigs()
+        .withRotorToSensorRatio(0.625)
+      ;
+
+    public static MotionMagicConfigs kMotionMagicConfigs =
+      new MotionMagicConfigs()
+        .withMotionMagicCruiseVelocity(1)
+        .withMotionMagicAcceleration(1)
+      ;
+
+    public static final TalonFXConfiguration kSubsystemConfiguration = 
+      new TalonFXConfiguration()
+      .withSlot0(kSlot0Configs)
+      .withFeedback(kFeedbackConfigs)
+      .withMotionMagic(kMotionMagicConfigs)
+      ;
+  }
+  public static final class IndexerConstants{
+    public static final int kMotor1 = 53;
+
+      public static final Slot0Configs kSlot0Configs = 
+      new Slot0Configs()
+        .withKP(0.0)
+        .withKD(0.0)
+      ;
+    public static final FeedbackConfigs kFeedbackConfigs = 
+      new FeedbackConfigs()
+        .withRotorToSensorRatio(0.625)
+      ;
+
+    public static MotionMagicConfigs kMotionMagicConfigs =
+      new MotionMagicConfigs()
+        .withMotionMagicCruiseVelocity(1)
+        .withMotionMagicAcceleration(1)
+      ;
+
+    public static final TalonFXConfiguration kSubsystemConfiguration = 
+      new TalonFXConfiguration()
+      .withSlot0(kSlot0Configs)
+      .withFeedback(kFeedbackConfigs)
+      .withMotionMagic(kMotionMagicConfigs)
+      ;
   }
 }
