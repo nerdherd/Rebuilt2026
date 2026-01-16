@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
@@ -107,7 +108,9 @@ public class RobotContainer {
   public void configureDriverBindings_teleop() {
 
     driverController.controllerLeft()
-      .onTrue(Commands.runOnce(() -> swerveDrive.zeroFieldOrientation()));
+      .onTrue(Commands.runOnce(() -> swerveDrive.seedFieldCentric()));
+    driverController.controllerRight()
+      .onTrue(Commands.runOnce(() -> swerveDrive.resetRotation(Rotation2d.kZero)));
     // driverController.controllerRight()
     //   .onTrue(Commands.runOnce(() -> imu.zeroAbsoluteHeading()));
 

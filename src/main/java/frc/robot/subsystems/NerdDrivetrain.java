@@ -140,10 +140,12 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
         // clamp the velocity
         x *= Math.min(1.0, kTargetDriveMaxLateralVelocity / l);
         y *= Math.min(1.0, kTargetDriveMaxLateralVelocity / l);
-        if (kTargetDriveController.atSetpoint("x") || Math.abs(x) <= 0.1) x = 0.0;
-        if (kTargetDriveController.atSetpoint("y") || Math.abs(y) <= 0.1) y = 0.0;
-        if (kTargetDriveController.atSetpoint("r") || Math.abs(r) <= 0.1) r = 0.0;
-        DriverStation.reportWarning(x + " " + y + " " + r, false);
+        if (kTargetDriveController.atSetpoint("x")) x = 0.0;
+        if (kTargetDriveController.atSetpoint("y")) y = 0.0;
+        if (kTargetDriveController.atSetpoint("r")) r = 0.0;
+        DriverStation.reportWarning(x + " " + y + " " + r, false);// + "\n"
+                                //   + kTargetDriveController.getErrorDerivative("x") + " " + kTargetDriveController.getErrorDerivative("y") + " " + kTargetDriveController.getErrorDerivative("r"), false);
+
         driveFieldOriented(
             x,
             y,
@@ -158,7 +160,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
         kTargetDriveController.reset(
             getPose().getX(), 
             getPose().getY(), 
-            getPose().getRotation().getRadians()
+            NerdyMath.degreesToRadians(getAbsoluteHeadingDegrees())
         );
     }
 
@@ -189,7 +191,6 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
     /**
      * get heading relative to what the operator sees
      * @see {@link #zeroFieldOrientation()} for resetting to zero
-     * @see {@link #seedFieldCentric()} for the same thing as above
      */
     public double getOperatorHeadingDegrees() {
         return getOperatorForwardDirection().getDegrees();
@@ -248,11 +249,10 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
     
     /** 
      * use with bindings to reset the field oriented control 
-     * @see {@link #seedFieldCentric}
      * @see {@link #setOperatorPerspectiveForward} also for more custom setting
      */
     public void zeroFieldOrientation() {
-        seedFieldCentric();
+        setOperatorPerspectiveForward(Rotation2d.fromDegrees(getAbsoluteHeadingDegrees()));
     }
 
     // ----------------------------------------- Logging Functions ----------------------------------------- //

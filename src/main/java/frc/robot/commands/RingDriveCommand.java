@@ -26,9 +26,9 @@ public class RingDriveCommand extends Command {
 
   @Override
   public void initialize() {
-    targetX = swerveDrive.getPose().getX();
-    targetY = swerveDrive.getPose().getY();
-    targetR = 0.0;//swerveDrive.getPose().getRotation().getRadians();//NerdyMath.angleToPose(swerveDrive.getPose(), FieldPositions.HUB_CENTER.blue);
+    targetX = 0.0;//swerveDrive.getPose().getX();
+    targetY = 0.0;//swerveDrive.getPose().getY();
+    targetR = 0.0;//NerdyMath.degreesToRadians(swerveDrive.getAbsoluteHeadingDegrees());//NerdyMath.angleToPose(swerveDrive.getPose(), FieldPositions.HUB_CENTER.blue);
     swerveDrive.resetTargetDrive();
   }
 
