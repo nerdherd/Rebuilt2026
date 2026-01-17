@@ -14,19 +14,21 @@ import frc.robot.Constants;
 import frc.robot.subsystems.template.TemplateSubsystem;
 
 public class ShooterPrototype extends TemplateSubsystem {
-
     public ShooterPrototype(){
+        super(
+            "Shooter",
+            53, 
+            54, 
+            MotorAlignmentValue.Opposed, 
+            SubsystemMode.VELOCITY, 
+            0
+        );
 
-
-        super("Shooter", 53, 54, MotorAlignmentValue.Aligned, SubsystemMode.VELOCITY, 0);
-
-
-        configureMotors(Constants.FlywheelConstants.kSubsystemConfiguration);
+        configureMotors(Constants.FlywheelConstants.ShooterPrototype);
     }
 
-      @Override
+    @Override
     public void initializeLogging() {
-
         ShuffleboardTab shootertab = Shuffleboard.getTab("Shooter");
 
         Reportable.addNumber(shootertab, "Right Shooter RPM", () -> getCurrentValue() , Reportable.LOG_LEVEL.MINIMAL);

@@ -118,19 +118,19 @@ public class RobotContainer {
 
   driverController.bumperLeft()
   .onTrue(Commands.parallel(
-    Commands.run( () -> shooterPrototype.setDesiredValue(.1)),
+    Commands.run( () -> shooterPrototype.setDesiredValue(30)),
     Commands.runOnce( () -> shooterPrototype.setEnabledCommand(true)),
-    Commands.run( () -> counterRoller.setDesiredValue(.1)),
-    Commands.runOnce(() -> counterRoller.setEnabledCommand(true)),
-    Commands.run( () -> indexerPrototype.setDesiredValue(.015)),
-    Commands.runOnce( () -> indexerPrototype.setEnabledCommand(true)))
+    Commands.run( () -> counterRoller.setDesiredValue(10)),
+    Commands.runOnce(() -> counterRoller.setEnabledCommand(true)))
+    // Commands.run( () -> indexerPrototype.setDesiredValue(.015)),
+    // Commands.runOnce( () -> indexerPrototype.setEnabledCommand(true)))
   ).onFalse(Commands.parallel( 
     Commands.run( () -> shooterPrototype.setDesiredValue(0)),
     Commands.runOnce( () -> shooterPrototype.setEnabledCommand(false)),
     Commands.run( () -> counterRoller.setDesiredValue(0)),
-    Commands.runOnce( () -> counterRoller.setEnabledCommand(false)),
-    Commands.run( () -> indexerPrototype.setDesiredValue(0)),
-    Commands.runOnce( () -> indexerPrototype.setEnabledCommand(false)))
+    Commands.runOnce( () -> counterRoller.setEnabledCommand(false)))
+    // Commands.run( () -> indexerPrototype.setDesiredValue(0)),
+    // Commands.runOnce( () -> indexerPrototype.setEnabledCommand(false)))
   );
   
     

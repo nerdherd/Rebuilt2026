@@ -16,14 +16,17 @@ import frc.robot.subsystems.template.TemplateSubsystem;
 public class CounterRoller extends TemplateSubsystem {
 
     public CounterRoller(){
-        super("CounterRoller", 53, SubsystemMode.VELOCITY, 0);
+        super(
+            "CounterRoller", 
+            0, 
+            SubsystemMode.VELOCITY, 
+            0);
         
-        configureMotors(Constants.FlywheelConstants.kSubsystemConfiguration);
+        configureMotors(Constants.CounterRoller.kSubsystemConfiguration);
     }
 
-    @Override
-    public void initializeLogging() {
-        
+    @Override 
+    public void initializeLogging() { 
         ShuffleboardTab counterRollertab = Shuffleboard.getTab("CounterRoller");
 
         Reportable.addNumber(counterRollertab, "Indexer RPM", () -> getCurrentValue() , Reportable.LOG_LEVEL.MINIMAL);

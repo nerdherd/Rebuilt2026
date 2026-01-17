@@ -25,6 +25,7 @@ import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.util.Color;
+import frc.robot.subsystems.ShooterPrototype;
 import frc.robot.subsystems.Reportable.LOG_LEVEL;
 
 /**
@@ -241,6 +242,7 @@ public final class Constants {
     public static final int kMotor1ID = 53;
     public static final int kMotor2ID = 54;
 
+
      public static final Slot0Configs kSlot0Configs = 
       new Slot0Configs()
         .withKP(0.0)
@@ -266,11 +268,70 @@ public final class Constants {
       ;
   }
   public static final class IndexerConstants{
-    public static final int kMotor1 = 53;
-
+    public static final int kMotor1 = 52; 
       public static final Slot0Configs kSlot0Configs = 
       new Slot0Configs()
         .withKP(0.0)
+        .withKD(0.0)
+      ;
+    public static final FeedbackConfigs kFeedbackConfigs = 
+      new FeedbackConfigs()
+        .withRotorToSensorRatio(-1)
+      ;
+
+    public static MotionMagicConfigs kMotionMagicConfigs =
+      new MotionMagicConfigs()
+        .withMotionMagicCruiseVelocity(1)
+        .withMotionMagicAcceleration(1)
+      ;
+
+    public static final TalonFXConfiguration kSubsystemConfiguration = 
+      new TalonFXConfiguration()
+      .withSlot0(kSlot0Configs)
+      .withFeedback(kFeedbackConfigs)
+      .withMotionMagic(kMotionMagicConfigs)
+      ;
+  }
+
+  public static final class ShooterPrototype{
+
+    public static final int kMotor1ID = 53;
+    public static final int kMotor2ID = 54;
+
+
+     public static final Slot0Configs kSlot0Configs = 
+      new Slot0Configs()
+        .withKP(0.0)
+        .withKI(0.0)
+        .withKD(0.0)
+      ;
+    public static final FeedbackConfigs kFeedbackConfigs = 
+      new FeedbackConfigs()
+        .withRotorToSensorRatio(0.625)
+      ;
+
+    public static MotionMagicConfigs kMotionMagicConfigs =
+      new MotionMagicConfigs()
+        .withMotionMagicCruiseVelocity(1)
+        .withMotionMagicAcceleration(1)
+      ;
+
+    public static final TalonFXConfiguration kSubsystemConfiguration = 
+      new TalonFXConfiguration()
+      .withSlot0(kSlot0Configs)
+      .withFeedback(kFeedbackConfigs)
+      .withMotionMagic(kMotionMagicConfigs)
+      ;
+  }
+  public static final class CounterRoller{
+    
+    public static final int kMotor1ID = 0;
+
+
+     public static final Slot0Configs kSlot0Configs = 
+      new Slot0Configs()
+        .withKP(0.0)
+        .withKI(0.0)
         .withKD(0.0)
       ;
     public static final FeedbackConfigs kFeedbackConfigs = 

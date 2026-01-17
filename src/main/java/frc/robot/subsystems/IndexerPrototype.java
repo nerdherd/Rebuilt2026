@@ -16,14 +16,17 @@ import frc.robot.subsystems.template.TemplateSubsystem;
 public class IndexerPrototype extends TemplateSubsystem {
 
     public IndexerPrototype(){
-        super("Indexer", 53, SubsystemMode.VELOCITY, 0);
+        super(
+            "Indexer", 
+            51, 
+            SubsystemMode.VELOCITY, 
+            0);
         
         configureMotors(Constants.IndexerConstants.kSubsystemConfiguration);
     }
 
     @Override
     public void initializeLogging() {
-        
         ShuffleboardTab indexertab = Shuffleboard.getTab("Indexer");
 
         Reportable.addNumber(indexertab, "Indexer RPM", () -> getCurrentValue() , Reportable.LOG_LEVEL.MINIMAL);

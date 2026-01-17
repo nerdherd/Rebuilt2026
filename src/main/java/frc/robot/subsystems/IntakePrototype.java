@@ -16,9 +16,13 @@ import frc.robot.subsystems.template.TemplateSubsystem;
 public class IntakePrototype extends TemplateSubsystem {
 
     public IntakePrototype(){
-
-
-        super("Intake", 53, 54, MotorAlignmentValue.Aligned, SubsystemMode.VELOCITY, 0);
+        super(
+            "Intake", 
+            29, 
+            30, 
+            MotorAlignmentValue.Aligned, 
+            SubsystemMode.VELOCITY, 
+            0);
 
 
         configureMotors(Constants.FlywheelConstants.kSubsystemConfiguration);
