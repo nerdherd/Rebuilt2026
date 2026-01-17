@@ -7,25 +7,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": null
+            "pathName": "Square1"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": null
+            "pathName": "Square2"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": null
+            "pathName": "Square3"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": null
+            "pathName": "Square4"
           }
         }
       ]
