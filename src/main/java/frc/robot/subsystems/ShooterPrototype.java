@@ -17,14 +17,14 @@ public class ShooterPrototype extends TemplateSubsystem {
     public ShooterPrototype(){
         super(
             "Shooter",
-            53, 
+            61, 
             54, 
             MotorAlignmentValue.Opposed, 
             SubsystemMode.VELOCITY, 
             0
         );
 
-        configureMotors(Constants.FlywheelConstants.ShooterPrototype);
+        configureMotors(Constants.ShooterPrototype.kSubsystemConfiguration);
     }
 
     @Override

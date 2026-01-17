@@ -116,22 +116,7 @@ public class RobotContainer {
   //////////////////////
   public void configureDriverBindings_teleop() {
 
-  driverController.bumperLeft()
-  .onTrue(Commands.parallel(
-    Commands.run( () -> shooterPrototype.setDesiredValue(30)),
-    Commands.runOnce( () -> shooterPrototype.setEnabledCommand(true)),
-    Commands.run( () -> counterRoller.setDesiredValue(10)),
-    Commands.runOnce(() -> counterRoller.setEnabledCommand(true)))
-    // Commands.run( () -> indexerPrototype.setDesiredValue(.015)),
-    // Commands.runOnce( () -> indexerPrototype.setEnabledCommand(true)))
-  ).onFalse(Commands.parallel( 
-    Commands.run( () -> shooterPrototype.setDesiredValue(0)),
-    Commands.runOnce( () -> shooterPrototype.setEnabledCommand(false)),
-    Commands.run( () -> counterRoller.setDesiredValue(0)),
-    Commands.runOnce( () -> counterRoller.setEnabledCommand(false)))
-    // Commands.run( () -> indexerPrototype.setDesiredValue(0)),
-    // Commands.runOnce( () -> indexerPrototype.setEnabledCommand(false)))
-  );
+  driverController.bumperLeft().onTrue(shooterPrototype.setDesiredValueCommand(0.1).andThen(shooterPrototype.setEnabledCommand(true))).onFalse(shooterPrototype.setDesiredValueCommand(0).andThen(shooterPrototype.setEnabledCommand(false)));
   
     
     // driverController.controllerRight()
