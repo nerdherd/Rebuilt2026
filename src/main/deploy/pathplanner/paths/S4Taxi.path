@@ -3,6 +3,7 @@
   "waypoints": [
     {
       "anchor": {
+<<<<<<<< Updated upstream:src/main/deploy/pathplanner/paths/S4Taxi.path
         "x": 7.58,
         "y": 4.0
       },
@@ -10,12 +11,22 @@
       "nextControl": {
         "x": 7.889162940285264,
         "y": 4.0
+========
+        "x": 3.53,
+        "y": 2.5
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.4663489313320754,
+        "y": 2.1984644765378976
+>>>>>>>> Stashed changes:src/main/deploy/pathplanner/paths/S2Outpost.path
       },
       "isLocked": false,
-      "linkedName": "S4"
+      "linkedName": "S2"
     },
     {
       "anchor": {
+<<<<<<<< Updated upstream:src/main/deploy/pathplanner/paths/S4Taxi.path
         "x": 6.210750000000001,
         "y": 4.0
       },
@@ -26,6 +37,18 @@
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
+========
+        "x": 0.5,
+        "y": 0.6
+      },
+      "prevControl": {
+        "x": 1.804149882001316,
+        "y": 1.7185956353212188
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Outpost"
+>>>>>>>> Stashed changes:src/main/deploy/pathplanner/paths/S2Outpost.path
     }
   ],
   "rotationTargets": [],

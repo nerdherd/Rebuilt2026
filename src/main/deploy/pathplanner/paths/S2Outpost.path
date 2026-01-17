@@ -1,8 +1,11 @@
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
 <<<<<<<< Updated upstream:src/main/deploy/pathplanner/paths/S4R3.path
 ========
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -11,6 +14,7 @@
   "waypoints": [
     {
       "anchor": {
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<<< Updated upstream:src/main/deploy/pathplanner/paths/R3T3.path
@@ -62,6 +66,17 @@
       "linkedName": "C4"
 ========
 >>>>>>> Stashed changes
+=======
+<<<<<<<< Updated upstream:src/main/deploy/pathplanner/paths/S4Taxi.path
+        "x": 7.58,
+        "y": 4.0
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 7.889162940285264,
+        "y": 4.0
+========
+>>>>>>> Stashed changes
         "x": 3.53,
         "y": 2.5
       },
@@ -69,12 +84,31 @@
       "nextControl": {
         "x": 1.4663489313320754,
         "y": 2.1984644765378976
+<<<<<<< Updated upstream
+=======
+>>>>>>>> Stashed changes:src/main/deploy/pathplanner/paths/S2Outpost.path
+>>>>>>> Stashed changes
       },
       "isLocked": false,
       "linkedName": "S2"
     },
     {
       "anchor": {
+<<<<<<< Updated upstream
+=======
+<<<<<<<< Updated upstream:src/main/deploy/pathplanner/paths/S4Taxi.path
+        "x": 6.210750000000001,
+        "y": 4.0
+      },
+      "prevControl": {
+        "x": 5.960750000000001,
+        "y": 4.0
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+========
+>>>>>>> Stashed changes
         "x": 0.5,
         "y": 0.6
       },
@@ -87,8 +121,12 @@
       "linkedName": "Outpost"
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 >>>>>>>> Stashed changes:src/main/deploy/pathplanner/paths/S2Outpost.path
 =======
+>>>>>>> Stashed changes
+=======
+>>>>>>>> Stashed changes:src/main/deploy/pathplanner/paths/S2Outpost.path
 >>>>>>> Stashed changes
 =======
 >>>>>>>> Stashed changes:src/main/deploy/pathplanner/paths/S2Outpost.path
@@ -102,11 +140,16 @@
   "globalConstraints": {
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
 =======
     "maxVelocity": 5.0,
     "maxAcceleration": 5.0,
+>>>>>>> Stashed changes
+=======
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
 >>>>>>> Stashed changes
 =======
     "maxVelocity": 3.0,
@@ -119,6 +162,7 @@
   },
   "goalEndState": {
     "velocity": 0,
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
     "rotation": -90.0
@@ -134,6 +178,12 @@
   "reversed": false,
   "folder": "Middle Paths",
 >>>>>>> Stashed changes
+=======
+    "rotation": 0.0
+  },
+  "reversed": false,
+  "folder": "Middle Paths",
+>>>>>>> Stashed changes
   "idealStartingState": {
     "velocity": 0,
     "rotation": 0.0
@@ -141,10 +191,14 @@
   "useDefaultConstraints": true
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 }
 =======
 }
 >>>>>>>> Stashed changes:src/main/deploy/pathplanner/paths/S2Outpost.path
+>>>>>>> Stashed changes
+=======
+}
 >>>>>>> Stashed changes
 =======
 }
