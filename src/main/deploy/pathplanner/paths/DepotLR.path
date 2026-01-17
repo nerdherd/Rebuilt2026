@@ -1,7 +1,10 @@
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
 <<<<<<<< Updated upstream:src/main/deploy/pathplanner/paths/S4R4.path
 ========
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 {
   "version": "2025.0",
@@ -9,20 +12,30 @@
     {
       "anchor": {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 <<<<<<<< Updated upstream:src/main/deploy/pathplanner/paths/R4S3.path
+=======
+<<<<<<<< Updated upstream:src/main/deploy/pathplanner/paths/R4S5.path
+>>>>>>> Stashed changes
         "x": 5.96,
         "y": 3.77
       },
       "prevControl": null,
       "nextControl": {
+<<<<<<< Updated upstream
         "x": 7.01170170980171,
         "y": 3.936425599205946
+=======
+        "x": 7.01748555718287,
+        "y": 3.968342276858997
+>>>>>>> Stashed changes
       },
       "isLocked": false,
       "linkedName": "R4"
     },
     {
       "anchor": {
+<<<<<<< Updated upstream
         "x": 7.5881410256410255,
         "y": 5.088012820512821
       },
@@ -35,6 +48,19 @@
       "linkedName": "S3"
 ========
 =======
+>>>>>>> Stashed changes
+=======
+        "x": 7.58,
+        "y": 2.4
+      },
+      "prevControl": {
+        "x": 6.358537913547337,
+        "y": 2.9359832112872644
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "S5"
+========
 >>>>>>> Stashed changes
         "x": 0.5,
         "y": 4.95
@@ -60,8 +86,12 @@
       "isLocked": false,
       "linkedName": "DepotR"
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 >>>>>>>> Stashed changes:src/main/deploy/pathplanner/paths/DepotLR.path
 =======
+>>>>>>> Stashed changes
+=======
+>>>>>>>> Stashed changes:src/main/deploy/pathplanner/paths/DepotLR.path
 >>>>>>> Stashed changes
     }
   ],
@@ -71,11 +101,16 @@
   "eventMarkers": [],
   "globalConstraints": {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
 =======
     "maxVelocity": 5.0,
     "maxAcceleration": 5.0,
+>>>>>>> Stashed changes
+=======
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
 >>>>>>> Stashed changes
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
@@ -85,6 +120,7 @@
   "goalEndState": {
     "velocity": 0,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 <<<<<<<< Updated upstream:src/main/deploy/pathplanner/paths/R4S3.path
     "rotation": 0.0
 ========
@@ -93,19 +129,31 @@
 =======
     "rotation": 90.0
 >>>>>>> Stashed changes
+=======
+<<<<<<<< Updated upstream:src/main/deploy/pathplanner/paths/R4S5.path
+    "rotation": -0.2561577651727554
+========
+    "rotation": 90.0
+>>>>>>>> Stashed changes:src/main/deploy/pathplanner/paths/DepotLR.path
+>>>>>>> Stashed changes
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 <<<<<<<< Updated upstream:src/main/deploy/pathplanner/paths/R4S3.path
+=======
+<<<<<<<< Updated upstream:src/main/deploy/pathplanner/paths/R4S5.path
+>>>>>>> Stashed changes
     "rotation": 0.0
 ========
     "rotation": 90.0
 >>>>>>>> Stashed changes:src/main/deploy/pathplanner/paths/DepotLR.path
   },
   "useDefaultConstraints": true
+<<<<<<< Updated upstream
 }
 =======
     "rotation": 90.0
@@ -113,4 +161,7 @@
   "useDefaultConstraints": true
 }
 >>>>>>>> Stashed changes:src/main/deploy/pathplanner/paths/DepotLR.path
+>>>>>>> Stashed changes
+=======
+}
 >>>>>>> Stashed changes

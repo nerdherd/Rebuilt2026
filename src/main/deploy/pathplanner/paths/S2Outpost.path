@@ -1,7 +1,10 @@
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
 <<<<<<<< Updated upstream:src/main/deploy/pathplanner/paths/S4R3.path
 ========
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 {
   "version": "2025.0",
@@ -9,20 +12,30 @@
     {
       "anchor": {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 <<<<<<<< Updated upstream:src/main/deploy/pathplanner/paths/R3T3.path
+=======
+<<<<<<<< Updated upstream:src/main/deploy/pathplanner/paths/R3C4.path
+>>>>>>> Stashed changes
         "x": 5.791,
         "y": 4.084
       },
       "prevControl": null,
       "nextControl": {
+<<<<<<< Updated upstream
         "x": 6.795144219733448,
         "y": 4.367320005920804
+=======
+        "x": 6.467486486486487,
+        "y": 2.7622094594594575
+>>>>>>> Stashed changes
       },
       "isLocked": false,
       "linkedName": "R3"
     },
     {
       "anchor": {
+<<<<<<< Updated upstream
         "x": 6.855384615384615,
         "y": 4.933205128205128
       },
@@ -35,6 +48,19 @@
       "linkedName": "T3"
 ========
 =======
+>>>>>>> Stashed changes
+=======
+        "x": 1.8580942622950818,
+        "y": 2.088985655737704
+      },
+      "prevControl": {
+        "x": 2.0430792806440685,
+        "y": 2.257153854236781
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "C4"
+========
 >>>>>>> Stashed changes
         "x": 3.53,
         "y": 2.5
@@ -60,8 +86,12 @@
       "isLocked": false,
       "linkedName": "Outpost"
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 >>>>>>>> Stashed changes:src/main/deploy/pathplanner/paths/S2Outpost.path
 =======
+>>>>>>> Stashed changes
+=======
+>>>>>>>> Stashed changes:src/main/deploy/pathplanner/paths/S2Outpost.path
 >>>>>>> Stashed changes
     }
   ],
@@ -71,11 +101,16 @@
   "eventMarkers": [],
   "globalConstraints": {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
 =======
     "maxVelocity": 5.0,
     "maxAcceleration": 5.0,
+>>>>>>> Stashed changes
+=======
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
 >>>>>>> Stashed changes
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
@@ -85,6 +120,7 @@
   "goalEndState": {
     "velocity": 0,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     "rotation": -90.0
 =======
     "rotation": 180.0
@@ -92,14 +128,24 @@
   },
   "reversed": false,
   "folder": null,
+=======
+    "rotation": 106.90515809863565
+  },
+  "reversed": false,
+  "folder": "Middle Paths",
+>>>>>>> Stashed changes
   "idealStartingState": {
     "velocity": 0,
     "rotation": 0.0
   },
   "useDefaultConstraints": true
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 }
 =======
 }
 >>>>>>>> Stashed changes:src/main/deploy/pathplanner/paths/S2Outpost.path
+>>>>>>> Stashed changes
+=======
+}
 >>>>>>> Stashed changes

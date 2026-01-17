@@ -1,6 +1,9 @@
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 <<<<<<<< Updated upstream:src/main/deploy/pathplanner/paths/test.path
 ========
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 {
@@ -8,6 +11,7 @@
   "waypoints": [
     {
       "anchor": {
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 =======
 <<<<<<<< Updated upstream:src/main/deploy/pathplanner/paths/R4S4.path
@@ -32,6 +36,29 @@
         "y": 3.91
 ========
 >>>>>>> Stashed changes
+=======
+<<<<<<<< Updated upstream:src/main/deploy/pathplanner/paths/S1Taxi.path
+        "x": 7.58,
+        "y": 7.25
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 7.33,
+        "y": 7.25
+      },
+      "isLocked": false,
+      "linkedName": "S1"
+    },
+    {
+      "anchor": {
+        "x": 5.993852459016393,
+        "y": 7.225717213114755
+      },
+      "prevControl": {
+        "x": 6.367207406922234,
+        "y": 7.225717213114755
+========
+>>>>>>> Stashed changes
         "x": 3.53,
         "y": 5.1
       },
@@ -52,6 +79,10 @@
         "x": 2.2145563488298934,
         "y": 4.963519109678704
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+>>>>>>>> Stashed changes:src/main/deploy/pathplanner/paths/S4DepotL.path
+>>>>>>> Stashed changes
 =======
 >>>>>>>> Stashed changes:src/main/deploy/pathplanner/paths/S4DepotL.path
 >>>>>>> Stashed changes
@@ -79,8 +110,13 @@
   ],
   "globalConstraints": {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     "maxVelocity": 5.0,
     "maxAcceleration": 5.0,
+=======
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+>>>>>>> Stashed changes
 =======
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
@@ -93,13 +129,20 @@
   "goalEndState": {
     "velocity": 0,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     "rotation": 90.0
 =======
 <<<<<<<< Updated upstream:src/main/deploy/pathplanner/paths/R4S4.path
+=======
+<<<<<<<< Updated upstream:src/main/deploy/pathplanner/paths/S1Taxi.path
+>>>>>>> Stashed changes
     "rotation": 0.0
 ========
     "rotation": 90.0
 >>>>>>>> Stashed changes:src/main/deploy/pathplanner/paths/S4DepotL.path
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
   },
   "reversed": false,
@@ -110,8 +153,12 @@
   },
   "useDefaultConstraints": true
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 }
 >>>>>>>> Stashed changes:src/main/deploy/pathplanner/paths/S4DepotL.path
+=======
+}
+>>>>>>> Stashed changes
 =======
 }
 >>>>>>> Stashed changes

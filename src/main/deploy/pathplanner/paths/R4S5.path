@@ -3,6 +3,7 @@
   "waypoints": [
     {
       "anchor": {
+<<<<<<<< Updated upstream:src/main/deploy/pathplanner/paths/R4S5.path
         "x": 5.96,
         "y": 3.77
       },
@@ -26,6 +27,31 @@
       "nextControl": null,
       "isLocked": false,
       "linkedName": "S5"
+========
+        "x": 0.5,
+        "y": 4.95
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 0.5,
+        "y": 5.355439127149763
+      },
+      "isLocked": false,
+      "linkedName": "DepotL"
+    },
+    {
+      "anchor": {
+        "x": 0.5,
+        "y": 7.0
+      },
+      "prevControl": {
+        "x": 0.5,
+        "y": 6.690676837905304
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "DepotR"
+>>>>>>>> Stashed changes:src/main/deploy/pathplanner/paths/DepotLR.path
     }
   ],
   "rotationTargets": [],
@@ -42,13 +68,21 @@
   },
   "goalEndState": {
     "velocity": 0,
+<<<<<<<< Updated upstream:src/main/deploy/pathplanner/paths/R4S5.path
     "rotation": -0.2561577651727554
+========
+    "rotation": 90.0
+>>>>>>>> Stashed changes:src/main/deploy/pathplanner/paths/DepotLR.path
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
+<<<<<<<< Updated upstream:src/main/deploy/pathplanner/paths/R4S5.path
     "rotation": 0.0
+========
+    "rotation": 90.0
+>>>>>>>> Stashed changes:src/main/deploy/pathplanner/paths/DepotLR.path
   },
   "useDefaultConstraints": true
 }

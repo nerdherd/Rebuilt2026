@@ -3,6 +3,7 @@
   "waypoints": [
     {
       "anchor": {
+<<<<<<<< Updated upstream:src/main/deploy/pathplanner/paths/R3C4.path
         "x": 5.791,
         "y": 4.084
       },
@@ -26,6 +27,31 @@
       "nextControl": null,
       "isLocked": false,
       "linkedName": "C4"
+========
+        "x": 3.53,
+        "y": 2.5
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.4663489313320754,
+        "y": 2.1984644765378976
+      },
+      "isLocked": false,
+      "linkedName": "S2"
+    },
+    {
+      "anchor": {
+        "x": 0.5,
+        "y": 0.6
+      },
+      "prevControl": {
+        "x": 1.804149882001316,
+        "y": 1.7185956353212188
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Outpost"
+>>>>>>>> Stashed changes:src/main/deploy/pathplanner/paths/S2Outpost.path
     }
   ],
   "rotationTargets": [],
@@ -48,7 +74,7 @@
   "folder": "Middle Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }
