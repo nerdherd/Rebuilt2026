@@ -1,33 +1,37 @@
+<<<<<<< Updated upstream
+<<<<<<<< Updated upstream:src/main/deploy/pathplanner/paths/test.path
+========
+=======
+>>>>>>> Stashed changes
 {
   "version": "2025.0",
   "waypoints": [
     {
       "anchor": {
-<<<<<<<< Updated upstream:src/main/deploy/pathplanner/paths/A3OA3.path
-        "x": 2.27391456886574,
-        "y": 2.1962803819444434
+<<<<<<< Updated upstream
+=======
+<<<<<<<< Updated upstream:src/main/deploy/pathplanner/paths/R4S4.path
+        "x": 5.96,
+        "y": 3.77
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.3439420739259313,
-        "y": 2.1748982981580363
+        "x": 6.21,
+        "y": 3.77
       },
       "isLocked": false,
-      "linkedName": "A3O"
+      "linkedName": "R4"
     },
     {
       "anchor": {
-        "x": 1.24,
-        "y": 2.172899590163934
+        "x": 6.221618852459016,
+        "y": 3.91
       },
       "prevControl": {
-        "x": 1.9348967233815535,
-        "y": 2.184880568153271
-      },
-      "nextControl": null,
-      "isLocked": false,
-      "linkedName": "A3"
+        "x": 5.971618852459016,
+        "y": 3.91
 ========
+>>>>>>> Stashed changes
         "x": 3.53,
         "y": 5.1
       },
@@ -47,11 +51,14 @@
       "prevControl": {
         "x": 2.2145563488298934,
         "y": 4.963519109678704
+<<<<<<< Updated upstream
+=======
+>>>>>>>> Stashed changes:src/main/deploy/pathplanner/paths/S4DepotL.path
+>>>>>>> Stashed changes
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": "DepotL"
->>>>>>>> Stashed changes:src/main/deploy/pathplanner/paths/S4DepotL.path
     }
   ],
   "rotationTargets": [],
@@ -71,8 +78,13 @@
     }
   ],
   "globalConstraints": {
+<<<<<<< Updated upstream
+    "maxVelocity": 5.0,
+    "maxAcceleration": 5.0,
+=======
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
+>>>>>>> Stashed changes
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -80,13 +92,26 @@
   },
   "goalEndState": {
     "velocity": 0,
+<<<<<<< Updated upstream
     "rotation": 90.0
+=======
+<<<<<<<< Updated upstream:src/main/deploy/pathplanner/paths/R4S4.path
+    "rotation": 0.0
+========
+    "rotation": 90.0
+>>>>>>>> Stashed changes:src/main/deploy/pathplanner/paths/S4DepotL.path
+>>>>>>> Stashed changes
   },
   "reversed": false,
-  "folder": "Bottom Half Paths",
+  "folder": null,
   "idealStartingState": {
     "velocity": 0,
     "rotation": 0.0
   },
   "useDefaultConstraints": true
+<<<<<<< Updated upstream
 }
+>>>>>>>> Stashed changes:src/main/deploy/pathplanner/paths/S4DepotL.path
+=======
+}
+>>>>>>> Stashed changes

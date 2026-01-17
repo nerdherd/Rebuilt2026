@@ -1,8 +1,14 @@
+<<<<<<< Updated upstream
+=======
+<<<<<<<< Updated upstream:src/main/deploy/pathplanner/paths/S4R4.path
+========
+>>>>>>> Stashed changes
 {
   "version": "2025.0",
   "waypoints": [
     {
       "anchor": {
+<<<<<<< Updated upstream
 <<<<<<<< Updated upstream:src/main/deploy/pathplanner/paths/R4S3.path
         "x": 5.96,
         "y": 3.77
@@ -28,6 +34,8 @@
       "isLocked": false,
       "linkedName": "S3"
 ========
+=======
+>>>>>>> Stashed changes
         "x": 0.5,
         "y": 4.95
       },
@@ -51,7 +59,10 @@
       "nextControl": null,
       "isLocked": false,
       "linkedName": "DepotR"
+<<<<<<< Updated upstream
 >>>>>>>> Stashed changes:src/main/deploy/pathplanner/paths/DepotLR.path
+=======
+>>>>>>> Stashed changes
     }
   ],
   "rotationTargets": [],
@@ -59,8 +70,13 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
+<<<<<<< Updated upstream
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
+=======
+    "maxVelocity": 5.0,
+    "maxAcceleration": 5.0,
+>>>>>>> Stashed changes
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -68,16 +84,21 @@
   },
   "goalEndState": {
     "velocity": 0,
+<<<<<<< Updated upstream
 <<<<<<<< Updated upstream:src/main/deploy/pathplanner/paths/R4S3.path
     "rotation": 0.0
 ========
     "rotation": 90.0
 >>>>>>>> Stashed changes:src/main/deploy/pathplanner/paths/DepotLR.path
+=======
+    "rotation": 90.0
+>>>>>>> Stashed changes
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
+<<<<<<< Updated upstream
 <<<<<<<< Updated upstream:src/main/deploy/pathplanner/paths/R4S3.path
     "rotation": 0.0
 ========
@@ -86,3 +107,10 @@
   },
   "useDefaultConstraints": true
 }
+=======
+    "rotation": 90.0
+  },
+  "useDefaultConstraints": true
+}
+>>>>>>>> Stashed changes:src/main/deploy/pathplanner/paths/DepotLR.path
+>>>>>>> Stashed changes

@@ -3,6 +3,7 @@
   "waypoints": [
     {
       "anchor": {
+<<<<<<<< Updated upstream:src/main/deploy/pathplanner/paths/R3S3.path
         "x": 5.791,
         "y": 4.084
       },
@@ -26,6 +27,31 @@
       "nextControl": null,
       "isLocked": false,
       "linkedName": "S3"
+========
+        "x": 3.53,
+        "y": 4.0
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.994851156418377,
+        "y": 3.9099335995547992
+      },
+      "isLocked": false,
+      "linkedName": "S3"
+    },
+    {
+      "anchor": {
+        "x": 1.6,
+        "y": 3.75
+      },
+      "prevControl": {
+        "x": 3.2936473227112506,
+        "y": 4.054429856370458
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Tower"
+>>>>>>>> Stashed changes:src/main/deploy/pathplanner/paths/S3Tower.path
     }
   ],
   "rotationTargets": [],
@@ -47,8 +73,13 @@
   "reversed": false,
   "folder": null,
   "idealStartingState": {
+<<<<<<<< Updated upstream:src/main/deploy/pathplanner/paths/R3S3.path
     "velocity": 0,
     "rotation": 180.0
+========
+    "velocity": 0.0,
+    "rotation": 0.0
+>>>>>>>> Stashed changes:src/main/deploy/pathplanner/paths/S3Tower.path
   },
   "useDefaultConstraints": true
 }

@@ -1,8 +1,14 @@
+<<<<<<< Updated upstream
+=======
+<<<<<<<< Updated upstream:src/main/deploy/pathplanner/paths/S4R3.path
+========
+>>>>>>> Stashed changes
 {
   "version": "2025.0",
   "waypoints": [
     {
       "anchor": {
+<<<<<<< Updated upstream
 <<<<<<<< Updated upstream:src/main/deploy/pathplanner/paths/R3T3.path
         "x": 5.791,
         "y": 4.084
@@ -28,6 +34,8 @@
       "isLocked": false,
       "linkedName": "T3"
 ========
+=======
+>>>>>>> Stashed changes
         "x": 3.53,
         "y": 2.5
       },
@@ -51,7 +59,10 @@
       "nextControl": null,
       "isLocked": false,
       "linkedName": "Outpost"
+<<<<<<< Updated upstream
 >>>>>>>> Stashed changes:src/main/deploy/pathplanner/paths/S2Outpost.path
+=======
+>>>>>>> Stashed changes
     }
   ],
   "rotationTargets": [],
@@ -59,8 +70,13 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
+<<<<<<< Updated upstream
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
+=======
+    "maxVelocity": 5.0,
+    "maxAcceleration": 5.0,
+>>>>>>> Stashed changes
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -68,7 +84,11 @@
   },
   "goalEndState": {
     "velocity": 0,
+<<<<<<< Updated upstream
     "rotation": -90.0
+=======
+    "rotation": 180.0
+>>>>>>> Stashed changes
   },
   "reversed": false,
   "folder": null,
@@ -77,4 +97,9 @@
     "rotation": 0.0
   },
   "useDefaultConstraints": true
+<<<<<<< Updated upstream
 }
+=======
+}
+>>>>>>>> Stashed changes:src/main/deploy/pathplanner/paths/S2Outpost.path
+>>>>>>> Stashed changes

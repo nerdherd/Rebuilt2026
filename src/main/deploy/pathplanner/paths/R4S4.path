@@ -3,6 +3,7 @@
   "waypoints": [
     {
       "anchor": {
+<<<<<<<< Updated upstream:src/main/deploy/pathplanner/paths/R4S4.path
         "x": 5.96,
         "y": 3.77
       },
@@ -22,16 +23,49 @@
       "prevControl": {
         "x": 5.971618852459016,
         "y": 3.91
+========
+        "x": 3.53,
+        "y": 5.1
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.9643110898211695,
+        "y": 5.090817260727263
+      },
+      "isLocked": false,
+      "linkedName": "S4"
+    },
+    {
+      "anchor": {
+        "x": 0.5,
+        "y": 4.95
+      },
+      "prevControl": {
+        "x": 2.2145563488298934,
+        "y": 4.963519109678704
+>>>>>>>> Stashed changes:src/main/deploy/pathplanner/paths/S4DepotL.path
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "DepotL"
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "shoot",
+      "waypointRelativePos": 0.15965732087227522,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "shoot"
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
@@ -42,7 +76,11 @@
   },
   "goalEndState": {
     "velocity": 0,
+<<<<<<<< Updated upstream:src/main/deploy/pathplanner/paths/R4S4.path
     "rotation": 0.0
+========
+    "rotation": 90.0
+>>>>>>>> Stashed changes:src/main/deploy/pathplanner/paths/S4DepotL.path
   },
   "reversed": false,
   "folder": null,

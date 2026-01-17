@@ -1,31 +1,33 @@
+<<<<<<<< Updated upstream:src/main/deploy/pathplanner/paths/TowerHub.path
+========
 {
   "version": "2025.0",
   "waypoints": [
     {
       "anchor": {
-        "x": 7.58,
-        "y": 4.035
+        "x": 3.53,
+        "y": 4.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.922218322248914,
-        "y": 4.035
+        "x": 2.994851156418377,
+        "y": 3.9099335995547992
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "S3"
     },
     {
       "anchor": {
-        "x": 5.96,
-        "y": 3.77
+        "x": 1.6,
+        "y": 3.75
       },
       "prevControl": {
-        "x": 5.519,
-        "y": 3.77
+        "x": 3.2936473227112506,
+        "y": 4.054429856370458
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "R4"
+      "linkedName": "Tower"
     }
   ],
   "rotationTargets": [],
@@ -33,22 +35,23 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
-    "maxAngularVelocity": 720.0,
+    "maxVelocity": 5.0,
+    "maxAcceleration": 5.0,
+    "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
     "unlimited": false
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 180.0
   },
   "reversed": false,
-  "folder": "Middle Paths",
+  "folder": null,
   "idealStartingState": {
-    "velocity": 0,
+    "velocity": 0.0,
     "rotation": 0.0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }
+>>>>>>>> Stashed changes:src/main/deploy/pathplanner/paths/S3Tower.path
