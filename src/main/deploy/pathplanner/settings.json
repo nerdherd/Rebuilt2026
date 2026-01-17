@@ -3,7 +3,8 @@
   "robotLength": 0.9,
   "holonomicMode": true,
   "pathFolders": [
-    "Square"
+    "Other to Other",
+    "Start to Other"
   ],
   "autoFolders": [],
   "defaultMaxVel": 5.0,
