@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -81,6 +82,8 @@ public class RobotContainer {
       () -> driverController.getLeftX(), // Vertical Translation
       () -> driverController.getRightX(), // Rotation
       () -> true, // robot oriented variable (true = field oriented)
+      
+
       () -> false, // tow supplier
       () -> driverController.getTriggerRight(), // Precision/"Sniper Button"
       () -> false,
@@ -95,6 +98,10 @@ public class RobotContainer {
       () -> -driverController.getLeftY(), // Horizontal Translation
       () -> driverController.getLeftX() // Vertical Translation)
       ));
+
+    driverController.bumperRight().whileTrue(Commands.run(
+      () -> swerveDrive.driveToTarget(new Pose2d())
+    ));
   }
 
   public void initDefaultCommands_test() {

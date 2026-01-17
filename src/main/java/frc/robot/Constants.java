@@ -126,7 +126,7 @@ public final class Constants {
     public static final SwerveRequest.FieldCentric      kFieldOrientedSwerveRequest = new SwerveRequest.FieldCentric()
                                                                                         .withDriveRequestType(DriveRequestType.OpenLoopVoltage)
                                                                                         .withSteerRequestType(SteerRequestType.Position)
-                                                                                        .withForwardPerspective(ForwardPerspectiveValue.OperatorPerspective);
+                                                                                        .withForwardPerspective(ForwardPerspectiveValue.BlueAlliance);
     /** Field oriented controller - use @see NerdDrivertrain#resetFieldOrientation() */
     public static final SwerveRequest.SwerveDriveBrake  kTowSwerveRequest = new SwerveRequest.SwerveDriveBrake()
                                                                                         .withDriveRequestType(DriveRequestType.OpenLoopVoltage)
@@ -170,9 +170,9 @@ public final class Constants {
   }
 
   public static final class RingDriveConstants {
-    public static final double kInitialDistance = 1.0; // it is in meters
-    public static final double kDriveVelocity = 5.0; // it is in meters per second
-    public static final double kMinimumDistance = 1.0; // it is in meters 
+    public static final double kInitialDistance = 0.33; // it is in meters
+    public static final double kDriveVelocity = 1.0; // it is in meters per second
+    public static final double kMinimumDistance = 0.33; // it is in meters 
   }
 
   public static final class PathPlannerConstants {
@@ -204,7 +204,7 @@ public final class Constants {
 
     public static enum Camera {
       // Example("limelight-ex", "10.6.87.XX:5802"),
-      ;
+      Front("limelight", "10.6.87.200:5802");
 
       public final String name, ip;
       Camera(String name, String ip) {
