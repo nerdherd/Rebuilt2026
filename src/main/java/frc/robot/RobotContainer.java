@@ -16,7 +16,11 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.generated.TunerConstants;
 import frc.robot.commands.SwerveJoystickCommand;
+import frc.robot.subsystems.CounterRoller;
+import frc.robot.subsystems.IndexerPrototype;
+import frc.robot.subsystems.IntakePrototype;
 import frc.robot.subsystems.NerdDrivetrain;
+import frc.robot.subsystems.ShooterPrototype;
 import frc.robot.subsystems.SuperSystem;
 import frc.robot.util.Controller;
 
@@ -25,6 +29,10 @@ public class RobotContainer {
   public PowerDistribution pdp = new PowerDistribution(0, ModuleType.kCTRE);
   
   public SuperSystem superSystem;
+  public ShooterPrototype shooterPrototype;
+  public IndexerPrototype indexerPrototype;
+  public IntakePrototype intakePrototype;
+  public CounterRoller counterRoller;
 
   private final Controller driverController = new Controller(ControllerConstants.kDriverControllerPort, false);
   private final Controller operatorController = new Controller(ControllerConstants.kOperatorControllerPort,false);
@@ -46,6 +54,11 @@ public class RobotContainer {
     if (Constants.USE_SUBSYSTEMS) {
        //add subsystems
       superSystem = new SuperSystem(swerveDrive);
+      shooterPrototype = new ShooterPrototype();
+      indexerPrototype = new IndexerPrototype();
+      intakePrototype = new IntakePrototype();
+      counterRoller = new CounterRoller();
+
       
     }
 
@@ -103,8 +116,24 @@ public class RobotContainer {
   //////////////////////
   public void configureDriverBindings_teleop() {
 
-    driverController.controllerLeft()
-      .onTrue(Commands.runOnce(() -> swerveDrive.zeroFieldOrientation()));
+  driverController.bumperLeft()
+  .onTrue(Commands.parallel(
+    Commands.run( () -> shooterPrototype.setDesiredValue(.1)),
+    Commands.runOnce( () -> shooterPrototype.setEnabledCommand(true)),
+    Commands.run( () -> counterRoller.setDesiredValue(.1)),
+    Commands.runOnce(() -> counterRoller.setEnabledCommand(true)),
+    Commands.run( () -> indexerPrototype.setDesiredValue(.015)),
+    Commands.runOnce( () -> indexerPrototype.setEnabledCommand(true)))
+  ).onFalse(Commands.parallel( 
+    Commands.run( () -> shooterPrototype.setDesiredValue(0)),
+    Commands.runOnce( () -> shooterPrototype.setEnabledCommand(false)),
+    Commands.run( () -> counterRoller.setDesiredValue(0)),
+    Commands.runOnce( () -> counterRoller.setEnabledCommand(false)),
+    Commands.run( () -> indexerPrototype.setDesiredValue(0)),
+    Commands.runOnce( () -> indexerPrototype.setEnabledCommand(false)))
+  );
+  
+    
     // driverController.controllerRight()
     //   .onTrue(Commands.runOnce(() -> imu.zeroAbsoluteHeading()));
 

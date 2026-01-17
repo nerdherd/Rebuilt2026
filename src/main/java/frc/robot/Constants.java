@@ -244,6 +244,7 @@ public final class Constants {
      public static final Slot0Configs kSlot0Configs = 
       new Slot0Configs()
         .withKP(0.0)
+        .withKI(0.0)
         .withKD(0.0)
       ;
     public static final FeedbackConfigs kFeedbackConfigs = 

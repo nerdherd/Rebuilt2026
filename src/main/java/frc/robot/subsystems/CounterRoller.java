@@ -13,23 +13,19 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.template.TemplateSubsystem;
 
-public class ShooterPrototype extends TemplateSubsystem {
+public class CounterRoller extends TemplateSubsystem {
 
-    public ShooterPrototype(){
-
-
-        super("Shooter", 53, 54, MotorAlignmentValue.Aligned, SubsystemMode.VELOCITY, 0);
-
-
+    public CounterRoller(){
+        super("CounterRoller", 53, SubsystemMode.VELOCITY, 0);
+        
         configureMotors(Constants.FlywheelConstants.kSubsystemConfiguration);
     }
 
-      @Override
+    @Override
     public void initializeLogging() {
+        
+        ShuffleboardTab counterRollertab = Shuffleboard.getTab("CounterRoller");
 
-        ShuffleboardTab shootertab = Shuffleboard.getTab("Shooter");
-
-        Reportable.addNumber(shootertab, "Right Shooter RPM", () -> getCurrentValue() , Reportable.LOG_LEVEL.MINIMAL);
-        Reportable.addNumber(shootertab, "Left Shooter RPM", () -> getCurrentValueMotor2() , Reportable.LOG_LEVEL.MINIMAL);
+        Reportable.addNumber(counterRollertab, "Indexer RPM", () -> getCurrentValue() , Reportable.LOG_LEVEL.MINIMAL);
     }
 }
