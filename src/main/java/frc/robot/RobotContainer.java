@@ -90,7 +90,11 @@ public class RobotContainer {
     );
     swerveDrive.setDefaultCommand(swerveJoystickCommand);
 
-    driverController.triggerLeft().whileTrue(new RingDriveCommand(swerveDrive));
+    driverController.triggerLeft().whileTrue(new RingDriveCommand(
+      swerveDrive,
+      () -> -driverController.getLeftY(), // Horizontal Translation
+      () -> driverController.getLeftX() // Vertical Translation)
+      ));
   }
 
   public void initDefaultCommands_test() {

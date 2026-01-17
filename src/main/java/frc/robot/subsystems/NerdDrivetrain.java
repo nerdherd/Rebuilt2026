@@ -135,7 +135,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
         // this can lead to larger angles, maybe saving on necessary precision?
         double x = kTargetDriveController.calculate("x", getPose().getX(), target.getX());
         double y = kTargetDriveController.calculate("y", getPose().getY(), target.getY());
-        double r = kTargetDriveController.calculate("r", NerdyMath.degreesToRadians(getAbsoluteHeadingDegrees()), target.getRotation().getRadians());
+        double r = kTargetDriveController.calculate("r", NerdyMath.degreesToRadians(getAbsoluteHeadingDegrees()), MathUtil.inputModulus(target.getRotation().getRadians(), -Math.PI, Math.PI));
         double l = Math.sqrt(x*x+y*y);
         // clamp the velocity
         x *= Math.min(1.0, kTargetDriveMaxLateralVelocity / l);

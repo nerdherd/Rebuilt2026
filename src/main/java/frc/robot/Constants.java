@@ -169,6 +169,12 @@ public final class Constants {
     }
   }
 
+  public static final class RingDriveConstants {
+    public static final double kInitialDistance = 1.0; // it is in meters
+    public static final double kDriveVelocity = 5.0; // it is in meters per second
+    public static final double kMinimumDistance = 1.0; // it is in meters 
+  }
+
   public static final class PathPlannerConstants {
 
     public static final double kPPMaxVelocity = 2.0;
