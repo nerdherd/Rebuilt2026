@@ -7,6 +7,9 @@ package frc.robot;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveModule.SteerRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest.ForwardPerspectiveValue;
+
+import static frc.robot.Constants.SwerveDriveConstants.kTargetDriveRotationalConstraints;
+
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.util.FlippingUtil;
@@ -118,6 +121,11 @@ public final class Constants {
 
     /** Used for AutoBuilder configuration */
     public static final SwerveRequest.ApplyRobotSpeeds  kApplyRobotSpeedsRequest = new SwerveRequest.ApplyRobotSpeeds();
+    /** Used for pathfollowing and target driving */
+    public static final SwerveRequest.FieldCentricFacingAngle kTargetDriveRequest = new SwerveRequest.FieldCentricFacingAngle()
+                                                                                        .withDriveRequestType(DriveRequestType.OpenLoopVoltage)
+                                                                                        .withSteerRequestType(SteerRequestType.Position)
+                                                                                        .withForwardPerspective(ForwardPerspectiveValue.BlueAlliance);
     /** Robot oriented controller */
     public static final SwerveRequest.RobotCentric      kRobotOrientedSwerveRequest = new SwerveRequest.RobotCentric()
                                                                                         .withDriveRequestType(DriveRequestType.OpenLoopVoltage)
@@ -126,7 +134,7 @@ public final class Constants {
     public static final SwerveRequest.FieldCentric      kFieldOrientedSwerveRequest = new SwerveRequest.FieldCentric()
                                                                                         .withDriveRequestType(DriveRequestType.OpenLoopVoltage)
                                                                                         .withSteerRequestType(SteerRequestType.Position)
-                                                                                        .withForwardPerspective(ForwardPerspectiveValue.BlueAlliance);
+                                                                                        .withForwardPerspective(ForwardPerspectiveValue.OperatorPerspective);
     /** Field oriented controller - use @see NerdDrivertrain#resetFieldOrientation() */
     public static final SwerveRequest.SwerveDriveBrake  kTowSwerveRequest = new SwerveRequest.SwerveDriveBrake()
                                                                                         .withDriveRequestType(DriveRequestType.OpenLoopVoltage)
@@ -148,8 +156,6 @@ public final class Constants {
       .add("y", kTargetDriveLateralPID, kTargetDriveLateralConstraints, 0.05, 0.1)
       .add("r", kTargetDriveRotationalPID, kTargetDriveRotationalConstraints, 0.1, 0.2)
       .withContinuousInput("r", -Math.PI, Math.PI);
-
-    public static final double kTargetDriveTranslationalPosTolerance = 0.05;
 
     public static final double kGravityMPS = 9.80665; 
 

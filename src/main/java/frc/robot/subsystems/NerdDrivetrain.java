@@ -13,6 +13,7 @@ import static frc.robot.Constants.SwerveDriveConstants.kRobotOrientedSwerveReque
 import static frc.robot.Constants.SwerveDriveConstants.kTargetDriveController;
 import static frc.robot.Constants.SwerveDriveConstants.kTargetDriveLateralConstraints;
 import static frc.robot.Constants.SwerveDriveConstants.kTargetDriveMaxLateralVelocity;
+import static frc.robot.Constants.SwerveDriveConstants.kTargetDriveRequest;
 import static frc.robot.Constants.SwerveDriveConstants.kTargetDriveRotationalConstraints;
 import static frc.robot.Constants.SwerveDriveConstants.kTowSwerveRequest;
 import frc.robot.Constants.SwerveDriveConstants.FieldPositions;
@@ -124,6 +125,14 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
         );
     }
 
+    public void driveTargetOriented(double xSpeed, double ySpeed, double rSpeed) {
+        setControl(kTargetDriveRequest
+            .withVelocityX(xSpeed)
+            .withVelocityY(ySpeed)
+            .withTargetRateFeedforward(rSpeed)
+        );
+    }
+
     /**
      * TODO find out if getPose().getRotation() is the same as getAbsoluteHeadingDegrees
      * drive to a target in blue oriented space, must be called continously at 50 Hz
@@ -146,7 +155,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
         DriverStation.reportWarning(x + " " + y + " " + r, false);// + "\n"
                                 //   + kTargetDriveController.getErrorDerivative("x") + " " + kTargetDriveController.getErrorDerivative("y") + " " + kTargetDriveController.getErrorDerivative("r"), false);
 
-        driveFieldOriented(
+        driveTargetOriented(
             x,
             y,
             r

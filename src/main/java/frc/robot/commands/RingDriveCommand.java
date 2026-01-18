@@ -16,7 +16,6 @@ import frc.robot.Constants.SwerveDriveConstants.FieldPositions;
 import frc.robot.subsystems.NerdDrivetrain;
 import frc.robot.util.NerdyMath;
 
-/* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class RingDriveCommand extends Command {
   private final NerdDrivetrain swerveDrive;
   private double targetTheta, targetD;
