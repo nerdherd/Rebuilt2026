@@ -108,7 +108,7 @@ public class RobotContainer {
   public void configureDriverBindings_teleop() {
 
     driverController.controllerLeft()
-      .onTrue(Commands.runOnce(() -> swerveDrive.seedFieldCentric()));
+      .onTrue(Commands.runOnce(() -> swerveDrive.zeroFieldOrientation()));
     driverController.controllerRight()
       .onTrue(Commands.runOnce(() -> swerveDrive.resetRotation(Rotation2d.kZero)));
     // driverController.controllerRight()
