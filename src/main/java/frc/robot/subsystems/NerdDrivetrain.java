@@ -10,7 +10,12 @@ import static frc.robot.Constants.PathPlannerConstants.kPPTranslationPIDConstant
 import static frc.robot.Constants.SwerveDriveConstants.kApplyRobotSpeedsRequest;
 import static frc.robot.Constants.SwerveDriveConstants.kFieldOrientedSwerveRequest;
 import static frc.robot.Constants.SwerveDriveConstants.kRobotOrientedSwerveRequest;
+import static frc.robot.Constants.SwerveDriveConstants.kTargetDriveController;
+import static frc.robot.Constants.SwerveDriveConstants.kTargetDriveLateralConstraints;
+import static frc.robot.Constants.SwerveDriveConstants.kTargetDriveMaxLateralVelocity;
+import static frc.robot.Constants.SwerveDriveConstants.kTargetDriveRotationalConstraints;
 import static frc.robot.Constants.SwerveDriveConstants.kTowSwerveRequest;
+import frc.robot.Constants.SwerveDriveConstants.FieldPositions;
 
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
@@ -19,6 +24,7 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -27,10 +33,12 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.FieldObject2d;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Constants;
 import frc.robot.Constants.VisionConstants.Camera;
 import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
+import frc.robot.util.NerdyMath;
 import frc.robot.vision.LimelightHelpers;
 import frc.robot.vision.LimelightHelpers.PoseEstimate;
 
@@ -116,6 +124,46 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
         );
     }
 
+    /**
+     * TODO find out if getPose().getRotation() is the same as getAbsoluteHeadingDegrees
+     * drive to a target in blue oriented space, must be called continously at 50 Hz
+     * call {@link #resetTargetDrive()} when starting
+     * @param target - point in blue oriented space
+     */
+    public void driveToTarget(Pose2d target) {
+        // since the outputs are also capped, there is a limit to the influence of one axis on the direction
+        // this can lead to larger angles, maybe saving on necessary precision?
+        double x = kTargetDriveController.calculate("x", getPose().getX(), target.getX());
+        double y = kTargetDriveController.calculate("y", getPose().getY(), target.getY());
+        double r = kTargetDriveController.calculate("r", NerdyMath.degreesToRadians(getAbsoluteHeadingDegrees()), target.getRotation().getRadians());
+        double l = Math.sqrt(x*x+y*y);
+        // clamp the velocity
+        x *= Math.min(1.0, kTargetDriveMaxLateralVelocity / l);
+        y *= Math.min(1.0, kTargetDriveMaxLateralVelocity / l);
+        if (kTargetDriveController.atSetpoint("x")) x = 0.0;
+        if (kTargetDriveController.atSetpoint("y")) y = 0.0;
+        if (kTargetDriveController.atSetpoint("r")) r = 0.0;
+        DriverStation.reportWarning(x + " " + y + " " + r, false);// + "\n"
+                                //   + kTargetDriveController.getErrorDerivative("x") + " " + kTargetDriveController.getErrorDerivative("y") + " " + kTargetDriveController.getErrorDerivative("r"), false);
+
+        driveFieldOriented(
+            x,
+            y,
+            r
+        );
+    }
+
+    /**
+     * resets the target drive controller for {@link #driveToTarget(Pose2d)}
+     */
+    public void resetTargetDrive() {
+        kTargetDriveController.reset(
+            getPose().getX(), 
+            getPose().getY(), 
+            NerdyMath.degreesToRadians(getAbsoluteHeadingDegrees())
+        );
+    }
+
     // ----------------------------------------- Helper Functions ----------------------------------------- //
 
     public void stop() {
@@ -137,13 +185,12 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
      * @see {@link #resetRotation(Rotation2d)}
      */
     public double getAbsoluteHeadingDegrees() {
-        return getPigeon2().getRotation2d().getDegrees();
+        return MathUtil.inputModulus(getPigeon2().getRotation2d().getDegrees(), -180, 180);
     }
 
     /**
      * get heading relative to what the operator sees
      * @see {@link #zeroFieldOrientation()} for resetting to zero
-     * @see {@link #seedFieldCentric()} for the same thing as above
      */
     public double getOperatorHeadingDegrees() {
         return getOperatorForwardDirection().getDegrees();
@@ -202,11 +249,10 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
     
     /** 
      * use with bindings to reset the field oriented control 
-     * @see {@link #seedFieldCentric}
      * @see {@link #setOperatorPerspectiveForward} also for more custom setting
      */
     public void zeroFieldOrientation() {
-        seedFieldCentric();
+        setOperatorPerspectiveForward(Rotation2d.fromDegrees(getAbsoluteHeadingDegrees()));
     }
 
     // ----------------------------------------- Logging Functions ----------------------------------------- //
@@ -214,14 +260,24 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
     @Override
     public void initializeLogging() {
         ShuffleboardTab tab = Shuffleboard.getTab("NerdDrivetrain");
-        tab.add("Field Position", field).withSize(6,3);
+        tab.add("Robot Field", field).withSize(6,3);
 
         ///////////
         /// ALL ///
         ///////////
         for (Camera camera : Camera.values())
             Reportable.addCamera(tab, camera.name, camera.name, "http://" + camera.ip, LOG_LEVEL.ALL);
-
+        if (Constants.ROBOT_LOG_LEVEL.level == LOG_LEVEL.ALL.level) {
+            Field2d positionField = new Field2d();
+            for (FieldPositions position : FieldPositions.values()) {
+                FieldObject2d blue = positionField.getObject(position.name() + "-blue");
+                blue.setPose(position.blue);
+                FieldObject2d red  = positionField.getObject(position.name() + "-red");
+                red.setPose(position.red);
+            }
+            tab.add("Position Field", positionField).withSize(6,3);
+        }
+        
         //////////////
         /// MEDIUM ///
         //////////////
