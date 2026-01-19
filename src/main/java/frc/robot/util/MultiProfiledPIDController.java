@@ -78,16 +78,9 @@ public class MultiProfiledPIDController {
         return controllers.get(name).getVelocityError();
     }
 
-    public void reset(double... measurements) {
-        if (measurements.length < controllers.size()) {
-            DriverStation.reportError("MultiProfiledPIDController: not enough reset measurements!", true);
-            return;
-        }
-        int i = 0;
-        for (String controller : controllers.keySet()) {
-            controllers.get(controller).reset(measurements[i]);
-            i++;
-        }
+    public void reset(String name, double measuredPosition, double measuredVelocity) {
+        if (!checkName(name)) return;
+        controllers.get(name).reset(measuredPosition, measuredVelocity);
     }
     
     public int size() {
