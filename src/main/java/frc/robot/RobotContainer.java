@@ -82,8 +82,6 @@ public class RobotContainer {
       () -> driverController.getLeftX(), // Vertical Translation
       () -> driverController.getRightX(), // Rotation
       () -> true, // robot oriented variable (true = field oriented)
-      
-
       () -> false, // tow supplier
       () -> driverController.getTriggerRight(), // Precision/"Sniper Button"
       () -> false,
@@ -96,7 +94,7 @@ public class RobotContainer {
     driverController.triggerLeft().whileTrue(new RingDriveCommand(
       swerveDrive,
       () -> -driverController.getLeftY(), // Horizontal Translation
-      () -> driverController.getLeftX() // Vertical Translation)
+      () -> driverController.getLeftX() // Vertical Translation
       ));
 
     driverController.bumperRight().whileTrue(Commands.run(

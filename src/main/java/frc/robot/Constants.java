@@ -8,8 +8,6 @@ import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveModule.SteerRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest.ForwardPerspectiveValue;
 
-import static frc.robot.Constants.SwerveDriveConstants.kTargetDriveRotationalConstraints;
-
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.util.FlippingUtil;
@@ -121,11 +119,6 @@ public final class Constants {
 
     /** Used for AutoBuilder configuration */
     public static final SwerveRequest.ApplyRobotSpeeds  kApplyRobotSpeedsRequest = new SwerveRequest.ApplyRobotSpeeds();
-    /** Used for pathfollowing and target driving */
-    public static final SwerveRequest.FieldCentricFacingAngle kTargetDriveRequest = new SwerveRequest.FieldCentricFacingAngle()
-                                                                                        .withDriveRequestType(DriveRequestType.OpenLoopVoltage)
-                                                                                        .withSteerRequestType(SteerRequestType.Position)
-                                                                                        .withForwardPerspective(ForwardPerspectiveValue.BlueAlliance);
     /** Robot oriented controller */
     public static final SwerveRequest.RobotCentric      kRobotOrientedSwerveRequest = new SwerveRequest.RobotCentric()
                                                                                         .withDriveRequestType(DriveRequestType.OpenLoopVoltage)
@@ -145,16 +138,16 @@ public final class Constants {
     public static final double kTargetDriveMaxLateralVelocity = 5.0;
     public static final PIDConstants kTargetDriveLateralPID = new PIDConstants(3.0, 0.0, 0.2);
     /** m/s and m/s/s @see NerdDrivetrain.driveToTarget() */
-    public static final Constraints kTargetDriveLateralConstraints = new Constraints(kTargetDriveMaxLateralVelocity, kTargetDriveMaxLateralVelocity * 0.5);
+    public static final Constraints kTargetDriveLateralConstraints = new Constraints(kTargetDriveMaxLateralVelocity, kTargetDriveMaxLateralVelocity);
     public static final double kTargetDriveMaxRotationalVelocity = 9.4;
     public static final PIDConstants kTargetDriveRotationalPID = new PIDConstants(2.0, 0.0, 0.2);
     /** rad/s and rad/s/s @see NerdDrivetrain.driveToTarget() */
-    public static final Constraints kTargetDriveRotationalConstraints = new Constraints(kTargetDriveMaxRotationalVelocity, kTargetDriveMaxRotationalVelocity * 0.5);
+    public static final Constraints kTargetDriveRotationalConstraints = new Constraints(kTargetDriveMaxRotationalVelocity, kTargetDriveMaxRotationalVelocity);
 
     public static final MultiProfiledPIDController kTargetDriveController = new MultiProfiledPIDController()
       .add("x", kTargetDriveLateralPID, kTargetDriveLateralConstraints, 0.05, 0.1)
       .add("y", kTargetDriveLateralPID, kTargetDriveLateralConstraints, 0.05, 0.1)
-      .add("r", kTargetDriveRotationalPID, kTargetDriveRotationalConstraints, 0.1, 0.2)
+      .add("r", kTargetDriveRotationalPID, kTargetDriveRotationalConstraints, 0.05, 0.2)
       .withContinuousInput("r", -Math.PI, Math.PI);
 
     public static final double kGravityMPS = 9.80665; 
@@ -176,9 +169,11 @@ public final class Constants {
   }
 
   public static final class RingDriveConstants {
-    public static final double kInitialDistance = 0.33; // it is in meters
-    public static final double kDriveVelocity = 1.0; // it is in meters per second
-    public static final double kMinimumDistance = 0.33; // it is in meters 
+    public static final double kInitialDistance = 5.0; // m
+    public static final double kDriveVelocity = 3.0; // m/s
+    public static final double kMaximumDistance = 5.0; // m
+    public static final double kMinimumDistance = 1.0; // m
+    public static final double kRobotRotationOffset = Math.PI; // rad
   }
 
   public static final class PathPlannerConstants {
