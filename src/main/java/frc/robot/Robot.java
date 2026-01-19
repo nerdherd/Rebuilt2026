@@ -10,6 +10,7 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DataLogManager;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -23,6 +24,8 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private final RobotContainer m_robotContainer;
+  private static DriverStation.Alliance alliance;
+
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -66,9 +69,9 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    RobotContainer.refreshAlliance();
+    if (DriverStation.getAlliance().isPresent()) alliance = DriverStation.getAlliance().get();
     m_robotContainer.swerveDrive.setVision(USE_VISION);
-    m_robotContainer.swerveDrive.resetRotation(new Rotation2d((RobotContainer.IsRedSide() ? 180.0 : 0.0)));
+    m_robotContainer.swerveDrive.resetRotation(new Rotation2d((DriverStation.getAlliance().get() == DriverStation.Alliance.Red ? 180.0 : 0.0)));
     m_robotContainer.swerveDrive.zeroFieldOrientation(); // TODO consider auto field orientation
     // m_robotContainer.swerveDrive.enableLimeLight(); TODO
 
@@ -89,7 +92,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    RobotContainer.refreshAlliance();
+    if (DriverStation.getAlliance().isPresent()) alliance = DriverStation.getAlliance().get();
     m_robotContainer.swerveDrive.setVision(USE_VISION);
     m_robotContainer.swerveDrive.zeroFieldOrientation(); // TODO decide whether to keep this
     if (m_autonomousCommand != null) {
@@ -136,4 +139,8 @@ public class Robot extends TimedRobot {
   /** This function is called periodically whilst in simulation. */
   @Override
   public void simulationPeriodic() {}
+
+  public static DriverStation.Alliance getAlliance() {
+        return alliance;
+    }
 }
