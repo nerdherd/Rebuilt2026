@@ -17,8 +17,6 @@ import frc.robot.Constants.ControllerConstants;
 import frc.robot.generated.TunerConstants;
 import frc.robot.commands.SwerveJoystickCommand;
 import frc.robot.subsystems.CounterRoller;
-import frc.robot.subsystems.IndexerPrototype;
-import frc.robot.subsystems.IntakePrototype;
 import frc.robot.subsystems.NerdDrivetrain;
 import frc.robot.subsystems.ShooterPrototype;
 import frc.robot.subsystems.SuperSystem;
@@ -30,8 +28,6 @@ public class RobotContainer {
   
   public SuperSystem superSystem;
   public ShooterPrototype shooterPrototype;
-  public IndexerPrototype indexerPrototype;
-  public IntakePrototype intakePrototype;
   public CounterRoller counterRoller;
 
   private final Controller driverController = new Controller(ControllerConstants.kDriverControllerPort, false);
@@ -55,8 +51,6 @@ public class RobotContainer {
        //add subsystems
       superSystem = new SuperSystem(swerveDrive);
       shooterPrototype = new ShooterPrototype();
-      indexerPrototype = new IndexerPrototype();
-      intakePrototype = new IntakePrototype();
       counterRoller = new CounterRoller();
 
       
@@ -116,7 +110,7 @@ public class RobotContainer {
   //////////////////////
   public void configureDriverBindings_teleop() {
 
-  driverController.bumperLeft().onTrue(shooterPrototype.setDesiredValueCommand(0.1).andThen(shooterPrototype.setEnabledCommand(true))).onFalse(shooterPrototype.setDesiredValueCommand(0).andThen(shooterPrototype.setEnabledCommand(false)));
+  driverController.bumperLeft().onTrue(shooterPrototype.setDesiredValueCommand(70).andThen(shooterPrototype.setEnabledCommand(true))).onFalse(shooterPrototype.setDesiredValueCommand(0).andThen(shooterPrototype.setEnabledCommand(false)));
   
     
     // driverController.controllerRight()
