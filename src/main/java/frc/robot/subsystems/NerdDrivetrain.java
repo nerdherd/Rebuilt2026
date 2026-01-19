@@ -18,6 +18,7 @@ import com.ctre.phoenix6.swerve.SwerveModuleConstants;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+import com.pathplanner.lib.util.FlippingUtil;
 
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -29,6 +30,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Constants.VisionConstants.Camera;
+import frc.robot.RobotContainer;
 import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
 import frc.robot.vision.LimelightHelpers;
 import frc.robot.vision.LimelightHelpers.PoseEstimate;
@@ -117,6 +119,14 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
     }
 
     // ----------------------------------------- Helper Functions ----------------------------------------- //
+
+    public void resetOdometryWithAlliance(Pose2d pose){
+        if (RobotContainer.IsRedSide()) {
+            resetOdometry(FlippingUtil.flipFieldPose(pose));
+        } else {
+            resetOdometry(pose);
+        }
+    }
 
     public void stop() {
         setControl(kTowSwerveRequest);

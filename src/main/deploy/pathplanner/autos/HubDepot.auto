@@ -1,0 +1,31 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "S3DR"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "DLDRP-Intaking"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "DLPS3"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}

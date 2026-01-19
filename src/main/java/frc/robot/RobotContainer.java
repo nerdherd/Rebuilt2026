@@ -5,6 +5,7 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -57,6 +58,10 @@ public class RobotContainer {
     initAutoChoosers();
 
     DriverStation.reportWarning("Initalization complete", false);
+
+    NamedCommands.registerCommand("intake", Commands.print("works"));
+    NamedCommands.registerCommand("outake", Commands.print("skrow"));
+
   }
 
   public static void refreshAlliance() {
