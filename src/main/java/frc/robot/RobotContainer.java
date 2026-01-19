@@ -94,7 +94,7 @@ public class RobotContainer {
     driverController.triggerLeft().whileTrue(new RingDriveCommand(
       swerveDrive,
       () -> -driverController.getLeftY(), // Horizontal Translation
-      () -> driverController.getLeftX() // Vertical Translation
+      () -> driverController.getRightX() // Vertical Translation
       ));
 
     driverController.bumperRight().whileTrue(Commands.run(

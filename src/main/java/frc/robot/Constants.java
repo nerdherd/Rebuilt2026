@@ -51,7 +51,7 @@ public final class Constants {
   /**
    * controls whether vision should be initialized
    */
-  public static boolean USE_VISION = true;
+  public static boolean USE_VISION = false;
 
   public static class ControllerConstants {
     public static final double kDeadband = 0.05;
@@ -136,17 +136,17 @@ public final class Constants {
 
     /** @see NerdDrivetrain.driveToTarget() */
     public static final double kTargetDriveMaxLateralVelocity = 5.0;
-    public static final PIDConstants kTargetDriveLateralPID = new PIDConstants(3.0, 0.0, 0.2);
+    public static final PIDConstants kTargetDriveLateralPID = new PIDConstants(5.0, 0.0, 0.5);
     /** m/s and m/s/s @see NerdDrivetrain.driveToTarget() */
     public static final Constraints kTargetDriveLateralConstraints = new Constraints(kTargetDriveMaxLateralVelocity, kTargetDriveMaxLateralVelocity);
     public static final double kTargetDriveMaxRotationalVelocity = 9.4;
-    public static final PIDConstants kTargetDriveRotationalPID = new PIDConstants(2.0, 0.0, 0.2);
+    public static final PIDConstants kTargetDriveRotationalPID = new PIDConstants(4.0, 0.0, 0.2);
     /** rad/s and rad/s/s @see NerdDrivetrain.driveToTarget() */
     public static final Constraints kTargetDriveRotationalConstraints = new Constraints(kTargetDriveMaxRotationalVelocity, kTargetDriveMaxRotationalVelocity);
 
     public static final MultiProfiledPIDController kTargetDriveController = new MultiProfiledPIDController()
-      .add("x", kTargetDriveLateralPID, kTargetDriveLateralConstraints, 0.05, 0.1)
-      .add("y", kTargetDriveLateralPID, kTargetDriveLateralConstraints, 0.05, 0.1)
+      .add("x", kTargetDriveLateralPID, kTargetDriveLateralConstraints, 0.1, 0.1)
+      .add("y", kTargetDriveLateralPID, kTargetDriveLateralConstraints, 0.1, 0.1)
       .add("r", kTargetDriveRotationalPID, kTargetDriveRotationalConstraints, 0.05, 0.2)
       .withContinuousInput("r", -Math.PI, Math.PI);
 
@@ -169,10 +169,10 @@ public final class Constants {
   }
 
   public static final class RingDriveConstants {
-    public static final double kInitialDistance = 5.0; // m
-    public static final double kDriveVelocity = 3.0; // m/s
-    public static final double kMaximumDistance = 5.0; // m
-    public static final double kMinimumDistance = 1.0; // m
+    public static final double kInitialDistance = 0.2; // m
+    public static final double kDriveVelocity = 1.0; // m/s
+    public static final double kMaximumDistance = 1.0; // m
+    public static final double kMinimumDistance = 0.2; // m
     public static final double kRobotRotationOffset = Math.PI; // rad
   }
 
