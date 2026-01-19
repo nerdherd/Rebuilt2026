@@ -233,9 +233,14 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
         setOperatorPerspectiveForward(Rotation2d.fromDegrees(getAbsoluteHeadingDegrees()));
     }
 
+    public void resetAllRotation(Rotation2d rotation) {
+        getPigeon2().setYaw(rotation.getMeasure());
+        resetRotation(rotation);
+    }
+
     /** 
      * get absolute heading in degrees, from blue alliance orientation
-     * @see {@link #resetRotation(Rotation2d)}
+     * @see {@link #resetAllRotation(Rotation2d)}
      */
     public double getAbsoluteHeadingDegrees() {
         return MathUtil.inputModulus(getPigeon2().getRotation2d().getDegrees(), -180, 180);
@@ -243,7 +248,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
 
     /** 
      * get absolute heading in radians, from blue alliance orientation
-     * @see {@link #resetRotation(Rotation2d)}
+     * @see {@link #resetAllRotation(Rotation2d)}
      */
     public double getAbsoluteHeadingRadians() {
         return MathUtil.inputModulus(getPigeon2().getRotation2d().getRadians(), -180, 180);

@@ -93,8 +93,8 @@ public class RobotContainer {
 
     driverController.triggerLeft().whileTrue(new RingDriveCommand(
       swerveDrive,
-      () -> -driverController.getLeftY(), // Horizontal Translation
-      () -> driverController.getRightX() // Vertical Translation
+      () -> -driverController.getRightY(), // Horizontal Translation
+      () -> driverController.getLeftX() // Vertical Translation
       ));
 
     driverController.bumperRight().whileTrue(Commands.run(
@@ -119,7 +119,7 @@ public class RobotContainer {
     driverController.controllerLeft()
       .onTrue(Commands.runOnce(() -> swerveDrive.zeroFieldOrientation()));
     driverController.controllerRight()
-      .onTrue(Commands.runOnce(() -> swerveDrive.resetRotation(Rotation2d.kZero)));
+      .onTrue(Commands.runOnce(() -> swerveDrive.resetAllRotation(Rotation2d.kZero)));
     // driverController.controllerRight()
     //   .onTrue(Commands.runOnce(() -> imu.zeroAbsoluteHeading()));
 
