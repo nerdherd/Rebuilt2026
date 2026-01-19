@@ -103,7 +103,7 @@ public class RobotContainer {
     );
     swerveDrive.setDefaultCommand(swerveJoystickCommand);
 
-    driverController.triggerLeft().whileTrue(new RingDriveCommand(swerveDrive));
+    // driverController.triggerLeft().whileTrue(new RingDriveCommand(swerveDrive));
   }
 
   public void initDefaultCommands_test() {
@@ -120,8 +120,10 @@ public class RobotContainer {
   //////////////////////
   public void configureDriverBindings_teleop() {
 
-    driverController.bumperLeft().onTrue(shooterPrototype.setDesiredValueCommand(0.1).andThen(shooterPrototype.setEnabledCommand(true))).onFalse(shooterPrototype.setDesiredValueCommand(0).andThen(shooterPrototype.setEnabledCommand(false)));
-  
+    driverController.bumperLeft().onTrue(shooterPrototype.setDesiredValueCommand(80.0).andThen(shooterPrototype.setEnabledCommand(true))).onFalse(shooterPrototype.setDesiredValueCommand(0).andThen(shooterPrototype.setEnabledCommand(false)));
+    driverController.triggerLeft().onTrue(intakePrototype.setDesiredValueCommand(10.0).andThen(intakePrototype.setEnabledCommand(true))).onFalse(intakePrototype.setDesiredValueCommand(0).andThen(intakePrototype.setEnabledCommand(false)));
+    driverController.buttonRight().onTrue(indexerPrototype.setDesiredValueCommand(10.0).andThen(indexerPrototype.setEnabledCommand(true))).onFalse(indexerPrototype.setDesiredValueCommand(0).andThen(indexerPrototype.setEnabledCommand(false)));
+    driverController.bumperRight().onTrue(counterRoller.setDesiredValueCommand(10.0).andThen(counterRoller.setEnabledCommand(true))).onFalse(counterRoller.setDesiredValueCommand(0).andThen(counterRoller.setEnabledCommand(false)));
     
     driverController.controllerLeft()
       .onTrue(Commands.runOnce(() -> swerveDrive.zeroFieldOrientation()));

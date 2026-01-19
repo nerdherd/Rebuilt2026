@@ -18,14 +18,14 @@ public class IntakePrototype extends TemplateSubsystem {
     public IntakePrototype(){
         super(
             "Intake", 
-            29, 
-            30, 
+            Constants.IntakePrototype.kMotor1ID, 
+            Constants.IntakePrototype.kMotor2ID, 
             MotorAlignmentValue.Aligned, 
             SubsystemMode.VELOCITY, 
             0);
 
 
-        configureMotors(Constants.FlywheelConstants.kSubsystemConfiguration);
+        configureMotors(Constants.IntakePrototype.kSubsystemConfiguration);
     }
 
       @Override

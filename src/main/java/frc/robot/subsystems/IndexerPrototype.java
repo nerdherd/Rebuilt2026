@@ -18,7 +18,7 @@ public class IndexerPrototype extends TemplateSubsystem {
     public IndexerPrototype(){
         super(
             "Indexer", 
-            51, 
+            Constants.IndexerConstants.kMotor1, 
             SubsystemMode.VELOCITY, 
             0);
         

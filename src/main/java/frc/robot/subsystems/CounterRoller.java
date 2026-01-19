@@ -18,7 +18,7 @@ public class CounterRoller extends TemplateSubsystem {
     public CounterRoller(){
         super(
             "CounterRoller", 
-            0, 
+            Constants.CounterRoller.kMotor1ID, 
             SubsystemMode.VELOCITY, 
             0);
         
