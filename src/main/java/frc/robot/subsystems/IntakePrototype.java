@@ -18,9 +18,7 @@ public class IntakePrototype extends TemplateSubsystem {
     public IntakePrototype(){
         super(
             "Intake", 
-            Constants.IntakePrototype.kMotor1ID, 
-            Constants.IntakePrototype.kMotor2ID, 
-            MotorAlignmentValue.Aligned, 
+            Constants.IntakePrototype.kMotor1ID,
             SubsystemMode.VELOCITY, 
             0);
 

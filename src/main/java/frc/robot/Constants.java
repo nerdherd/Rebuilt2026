@@ -340,8 +340,7 @@ public final class Constants {
 
   public static final class IntakePrototype{
 
-    public static final int kMotor1ID = 0;
-    public static final int kMotor2ID = 0;
+    public static final int kMotor1ID = 6;
 
     public static final Slot0Configs kSlot0Configs =
     new Slot0Configs()
