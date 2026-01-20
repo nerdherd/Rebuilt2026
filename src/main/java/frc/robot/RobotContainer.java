@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
@@ -15,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.generated.TunerConstants;
+import frc.robot.commands.RingDriveCommand;
 import frc.robot.commands.SwerveJoystickCommand;
 import frc.robot.subsystems.NerdDrivetrain;
 import frc.robot.subsystems.SuperSystem;
@@ -83,10 +86,20 @@ public class RobotContainer {
       () -> driverController.getTriggerRight(), // Precision/"Sniper Button"
       () -> false,
       () -> swerveDrive.getAbsoluteHeadingDegrees(), // TODO i have no clue if this is right // Turn to angle direction 
-      () -> new Translation2d(   (driverController.getDpadUp()?1.0:0.0) - (driverController.getDpadDown()?1:0), 
-                                        (driverController.getDpadLeft()?1.0:0.0) - (driverController.getDpadRight()?1:0)) // DPad vector
+      () -> new Translation2d(  (driverController.getDpadUp()?1.0:0.0) - (driverController.getDpadDown()?1:0), 
+                                (driverController.getDpadLeft()?1.0:0.0) - (driverController.getDpadRight()?1:0)) // DPad vector
     );
     swerveDrive.setDefaultCommand(swerveJoystickCommand);
+
+    driverController.triggerLeft().whileTrue(new RingDriveCommand(
+      swerveDrive,
+      () -> -driverController.getRightY(), // Horizontal Translation
+      () -> driverController.getLeftX() // Vertical Translation
+      ));
+
+    driverController.bumperRight().whileTrue(Commands.run(
+      () -> swerveDrive.driveToTarget(new Pose2d())
+    ));
   }
 
   public void initDefaultCommands_test() {
@@ -105,6 +118,8 @@ public class RobotContainer {
 
     driverController.controllerLeft()
       .onTrue(Commands.runOnce(() -> swerveDrive.zeroFieldOrientation()));
+    driverController.controllerRight()
+      .onTrue(Commands.runOnce(() -> swerveDrive.resetAllRotation(Rotation2d.kZero)));
     // driverController.controllerRight()
     //   .onTrue(Commands.runOnce(() -> imu.zeroAbsoluteHeading()));
 

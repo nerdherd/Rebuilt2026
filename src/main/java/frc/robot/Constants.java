@@ -6,8 +6,11 @@ package frc.robot;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveModule.SteerRequestType;
+import com.ctre.phoenix6.swerve.SwerveRequest.ForwardPerspectiveValue;
+
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.config.PIDConstants;
+import com.pathplanner.lib.util.FlippingUtil;
 
 import edu.wpi.first.math.MatBuilder;
 import edu.wpi.first.math.Matrix;
@@ -19,9 +22,10 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.util.Color;
 import frc.robot.subsystems.Reportable.LOG_LEVEL;
+import frc.robot.util.MultiProfiledPIDController;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -47,7 +51,7 @@ public final class Constants {
   /**
    * controls whether vision should be initialized
    */
-  public static boolean USE_VISION = false; // TODO
+  public static boolean USE_VISION = false;
 
   public static class ControllerConstants {
     public static final double kDeadband = 0.05;
@@ -122,12 +126,29 @@ public final class Constants {
     /** Field oriented controller - use @see NerdDrivertrain#resetFieldOrientation() */
     public static final SwerveRequest.FieldCentric      kFieldOrientedSwerveRequest = new SwerveRequest.FieldCentric()
                                                                                         .withDriveRequestType(DriveRequestType.OpenLoopVoltage)
-                                                                                        .withSteerRequestType(SteerRequestType.Position);
+                                                                                        .withSteerRequestType(SteerRequestType.Position)
+                                                                                        .withForwardPerspective(ForwardPerspectiveValue.OperatorPerspective);
     /** Field oriented controller - use @see NerdDrivertrain#resetFieldOrientation() */
     public static final SwerveRequest.SwerveDriveBrake  kTowSwerveRequest = new SwerveRequest.SwerveDriveBrake()
                                                                                         .withDriveRequestType(DriveRequestType.OpenLoopVoltage)
                                                                                         .withSteerRequestType(SteerRequestType.Position);
 
+
+    /** @see NerdDrivetrain.driveToTarget() */
+    public static final double kTargetDriveMaxLateralVelocity = 5.0;
+    public static final PIDConstants kTargetDriveLateralPID = new PIDConstants(5.0, 0.0, 0.5);
+    /** m/s and m/s/s @see NerdDrivetrain.driveToTarget() */
+    public static final Constraints kTargetDriveLateralConstraints = new Constraints(kTargetDriveMaxLateralVelocity, kTargetDriveMaxLateralVelocity);
+    public static final double kTargetDriveMaxRotationalVelocity = 9.4;
+    public static final PIDConstants kTargetDriveRotationalPID = new PIDConstants(4.0, 0.0, 0.2);
+    /** rad/s and rad/s/s @see NerdDrivetrain.driveToTarget() */
+    public static final Constraints kTargetDriveRotationalConstraints = new Constraints(kTargetDriveMaxRotationalVelocity, kTargetDriveMaxRotationalVelocity);
+
+    public static final MultiProfiledPIDController kTargetDriveController = new MultiProfiledPIDController()
+      .add("x", kTargetDriveLateralPID, kTargetDriveLateralConstraints, 0.1, 0.1)
+      .add("y", kTargetDriveLateralPID, kTargetDriveLateralConstraints, 0.1, 0.1)
+      .add("r", kTargetDriveRotationalPID, kTargetDriveRotationalConstraints, 0.05, 0.2)
+      .withContinuousInput("r", -Math.PI, Math.PI);
 
     public static final double kGravityMPS = 9.80665; 
 
@@ -135,14 +156,24 @@ public final class Constants {
     public static final double kTurnToAngleVelocityToleranceAnglesPerSec = 1;
 
     public static enum FieldPositions {
+      HUB_CENTER(4.626, 4.035, 0.0),
       ;//TODO Add field positions
       
-      public Pose2d pos; // meters and degrees
-      FieldPositions(double _x, double _y, double _headingDegrees) {
-        pos = new Pose2d(new Translation2d(_x, _y), new Rotation2d(Units.degreesToRadians(_headingDegrees)));
+      public Pose2d blue, red; // meters and degrees
+      FieldPositions(double _blueX, double _blueY, double _blueHeadingDegrees) {
+        blue = new Pose2d(new Translation2d(_blueX, _blueY), new Rotation2d(Units.degreesToRadians(_blueHeadingDegrees)));
+        red = FlippingUtil.flipFieldPose(blue);
       }
 
     }
+  }
+
+  public static final class RingDriveConstants {
+    public static final double kInitialDistance = 0.2; // m
+    public static final double kDriveVelocity = 1.0; // m/s
+    public static final double kMaximumDistance = 1.0; // m
+    public static final double kMinimumDistance = 0.2; // m
+    public static final double kRobotRotationOffset = Math.PI; // rad
   }
 
   public static final class PathPlannerConstants {
@@ -174,7 +205,7 @@ public final class Constants {
 
     public static enum Camera {
       // Example("limelight-ex", "10.6.87.XX:5802"),
-      ;
+      Front("limelight", "10.6.87.200:5802");
 
       public final String name, ip;
       Camera(String name, String ip) {
