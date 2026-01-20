@@ -19,7 +19,11 @@ import frc.robot.Constants.ControllerConstants;
 import frc.robot.generated.TunerConstants;
 import frc.robot.commands.RingDriveCommand;
 import frc.robot.commands.SwerveJoystickCommand;
+import frc.robot.subsystems.CounterRoller;
+import frc.robot.subsystems.Indexer;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.NerdDrivetrain;
+import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SuperSystem;
 import frc.robot.util.Controller;
 
@@ -28,6 +32,14 @@ public class RobotContainer {
   public PowerDistribution pdp = new PowerDistribution(0, ModuleType.kCTRE);
   
   public SuperSystem superSystem;
+
+  public Intake intake;
+  public Indexer indexer;
+  public CounterRoller counterRoller;
+  public Shooter leftShooter;
+  public Shooter rightShooter;
+
+  
 
   private final Controller driverController = new Controller(ControllerConstants.kDriverControllerPort, false);
   private final Controller operatorController = new Controller(ControllerConstants.kOperatorControllerPort,false);
@@ -48,7 +60,14 @@ public class RobotContainer {
 
     if (Constants.USE_SUBSYSTEMS) {
        //add subsystems
-      superSystem = new SuperSystem(swerveDrive);
+      intake = new Intake();
+      indexer = new Indexer();
+      counterRoller = new CounterRoller();
+      rightShooter = new Shooter("rightShooter", 0, 0); //TODO
+      leftShooter = new Shooter("leftShooer", 0, 0); //TODO
+
+      superSystem = new SuperSystem(swerveDrive, intake, indexer, counterRoller, leftShooter, rightShooter);
+
       
     }
 
@@ -120,8 +139,17 @@ public class RobotContainer {
       .onTrue(Commands.runOnce(() -> swerveDrive.zeroFieldOrientation()));
     driverController.controllerRight()
       .onTrue(Commands.runOnce(() -> swerveDrive.resetAllRotation(Rotation2d.kZero)));
+    operatorController.bumperLeft()
+      .onTrue(superSystem.shoot())
+      .onFalse(superSystem.stopShooting());
+    operatorController.buttonUp()
+      .onTrue(superSystem.spinUpFlywheel());
+    operatorController.buttonDown()
+      .onTrue(superSystem.stopFlywheel());
+
     // driverController.controllerRight()
     //   .onTrue(Commands.runOnce(() -> imu.zeroAbsoluteHeading()));
+  
 
     if (Constants.USE_SUBSYSTEMS) {}
   }

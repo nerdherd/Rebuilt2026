@@ -4,6 +4,10 @@
 
 package frc.robot;
 
+import com.ctre.phoenix6.configs.FeedbackConfigs;
+import com.ctre.phoenix6.configs.MotionMagicConfigs;
+import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveModule.SteerRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest.ForwardPerspectiveValue;
@@ -213,6 +217,67 @@ public final class Constants {
         this.ip = ip;
       }
     }
+  }
+  public static final class IntakeConstants{
+    public static final int kMotor1ID = 0; //TODO
+
+    public static final Slot0Configs kSlot0Configs = 
+      new Slot0Configs() //TODO
+        .withKP(0.0)
+        .withKI(0.0)
+        .withKD(0.0)
+      ;
+    public static final TalonFXConfiguration kSubsystemConfiguration = 
+      new TalonFXConfiguration()
+      .withSlot0(kSlot0Configs)
+      ;
+  }
+
+  public static final class IndexerConstants{
+    public static final int kMotor1ID = 0; //TODO
+
+    public static final Slot0Configs kSlot0Configs = 
+      new Slot0Configs() //TODO
+        .withKP(0.0)
+        .withKI(0.0)
+        .withKD(0.0)
+      ;
+    public static final TalonFXConfiguration kSubsystemConfiguration = 
+      new TalonFXConfiguration()
+      .withSlot0(kSlot0Configs)
+      ;
+  }
+
+  public static final class CounterRollerConstants{
+    public static final int kMotor1ID = 0; //TODO
+
+    public static final Slot0Configs kSlot0Configs = 
+      new Slot0Configs() //TODO
+        .withKP(0.0)
+        .withKI(0.0)
+        .withKD(0.0)
+      ;
+
+    public static final TalonFXConfiguration kSubsystemConfiguration = 
+      new TalonFXConfiguration()
+      .withSlot0(kSlot0Configs)
+      ;
+  }
+
+  public static final class ShooterConstants{
+    public static final int kMotor1ID = 0; //TODO
+
+    public static final Slot0Configs kSlot0Configs = 
+      new Slot0Configs() //TODO
+        .withKP(0.0)
+        .withKI(0.0)
+        .withKD(0.0)
+      ;
+
+    public static final TalonFXConfiguration kSubsystemConfiguration = 
+      new TalonFXConfiguration()
+      .withSlot0(kSlot0Configs)
+      ;
   }
 
   // public static class LEDConstants {

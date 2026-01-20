@@ -6,17 +6,66 @@ import edu.wpi.first.wpilibj2.command.Commands;
 
 public class SuperSystem implements Reportable {
     public NerdDrivetrain swerveDrivetrain;
-  
+    
+    public Intake intake;
+    public Indexer indexer;
+    public CounterRoller counterRoller;
+    public Shooter leftShooter;
+    public Shooter rightShooter;
+ 
+
     //add new subsystems
 
-    public SuperSystem(NerdDrivetrain swerveDrivetrain) {
-        this.swerveDrivetrain = swerveDrivetrain;
+    public enum ExecutionOrder {
+        //TODO
     }
 
+    public SuperSystem(NerdDrivetrain swerveDrivetrain,Intake intake, Indexer indexer, CounterRoller counterRoller, Shooter leftShooter, Shooter rightShooter) {
+        this.swerveDrivetrain = swerveDrivetrain;
+        this.intake = intake;
+        this.indexer = indexer;
+        this.counterRoller = counterRoller;
+        this.leftShooter = leftShooter;
+        this.rightShooter = rightShooter;
+
+    }
+    
     // ------------------------------------ subsystems ------------------------------------ //
     public void reConfigureMotors() {
         // redo
     }
+    public Command shoot(){
+        return Commands.parallel(
+            counterRoller.setDesiredValueCommand(20),
+            indexer.setDesiredValueCommand(20),
+            leftShooter.setDesiredValueCommand(30),
+            rightShooter.setDesiredValueCommand(30)
+            );
+    }
+    
+    public Command stopShooting(){
+        return Commands.parallel(
+            counterRoller.setDesiredValueCommand(0),
+            indexer.setDesiredValueCommand(0),
+            leftShooter.setDesiredValueCommand(0),
+            rightShooter.setDesiredValueCommand(0)
+            );
+    }
+
+    public Command spinUpFlywheel(){
+        return Commands.parallel(
+            leftShooter.setDesiredValueCommand(20),
+            rightShooter.setDesiredValueCommand(20)
+        );
+    }
+
+    public Command stopFlywheel(){
+        return Commands.parallel(
+            leftShooter.setDesiredValueCommand(0),
+            rightShooter.setDesiredValueCommand(0)
+        );
+    }
+
 
     public void setNeutralMode(NeutralModeValue neutralMode) {
         // redo
