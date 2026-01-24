@@ -19,13 +19,31 @@
         {
           "type": "path",
           "data": {
-            "pathName": "S4O1"
+            "pathName": "S4M2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "M2O1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "DriveTo"
           }
         },
         {
           "type": "named",
           "data": {
             "name": "Shoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "O1M2"
           }
         }
       ]

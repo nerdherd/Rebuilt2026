@@ -19,7 +19,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "S3N3"
+            "pathName": "S3M3-Temp"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "M3N3"
           }
         },
         {
@@ -44,7 +50,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "F4S3"
+            "pathName": "F4M3"
           }
         },
         {

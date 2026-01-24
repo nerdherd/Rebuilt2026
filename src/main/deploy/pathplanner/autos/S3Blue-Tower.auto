@@ -13,7 +13,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "S3T1"
+            "pathName": "S3M3-Temp"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "M3T1"
           }
         },
         {

@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.55,
-        "y": 4.025
+        "x": 2.53,
+        "y": 4.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.833786706498793,
-        "y": 3.981150294028951
+        "x": 3.5329134336766446,
+        "y": 3.9551417131462423
       },
       "isLocked": false,
-      "linkedName": "S3"
+      "linkedName": "M3"
     },
     {
       "anchor": {
@@ -20,8 +20,8 @@
         "y": 3.75
       },
       "prevControl": {
-        "x": 1.275,
-        "y": 3.75
+        "x": 2.1165306880268013,
+        "y": 3.754126550461615
       },
       "nextControl": null,
       "isLocked": false,
@@ -48,7 +48,7 @@
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 179.92012173451178
   },
   "useDefaultConstraints": true
 }

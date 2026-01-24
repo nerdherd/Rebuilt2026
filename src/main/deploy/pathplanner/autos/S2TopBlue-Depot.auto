@@ -19,7 +19,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "S2D3"
+            "pathName": "S2M1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "M1D3"
           }
         },
         {
@@ -51,6 +57,12 @@
           "type": "named",
           "data": {
             "name": "Shoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "D4M1"
           }
         }
       ]
