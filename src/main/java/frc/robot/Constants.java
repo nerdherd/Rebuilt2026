@@ -6,6 +6,7 @@ package frc.robot;
 
 import com.ctre.phoenix6.configs.FeedbackConfigs;
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
+import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
@@ -14,6 +15,7 @@ import com.ctre.phoenix6.swerve.SwerveRequest.ForwardPerspectiveValue;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.util.FlippingUtil;
+import com.ctre.phoenix6.signals.InvertedValue;
 
 import edu.wpi.first.math.MatBuilder;
 import edu.wpi.first.math.Matrix;
@@ -262,35 +264,41 @@ public final class Constants {
   }
 
   public static final class IndexerConstants{
-    public static final int kMotor1 = 52; 
+    public static final int kMotor1 = 15; 
 
       public static final Slot0Configs kSlot0Configs = 
       new Slot0Configs()
-        .withKP(0.0)
+        .withKP(0.5)
         .withKD(0.0)
       ;
     public static final FeedbackConfigs kFeedbackConfigs = 
       new FeedbackConfigs()
         .withRotorToSensorRatio(1.0)
       ;
+    
+    public static MotorOutputConfigs kMotorOutputConfigs =
+     new MotorOutputConfigs()
+     .withInverted(InvertedValue.Clockwise_Positive)
+     ;
 
 
     public static final TalonFXConfiguration kSubsystemConfiguration = 
       new TalonFXConfiguration()
       .withSlot0(kSlot0Configs)
       .withFeedback(kFeedbackConfigs)
+      .withMotorOutput(kMotorOutputConfigs)
       ;
   }
 
   public static final class ShooterPrototype{
 
-    public static final int kMotor1ID = 53;
-    public static final int kMotor2ID = 54;
+    public static final int kMotor1ID = 35;
+    public static final int kMotor2ID = 36;
 
 
      public static final Slot0Configs kSlot0Configs = 
       new Slot0Configs()
-        .withKP(0.5)
+        .withKP(1.0)
         .withKI(0.0)
         .withKD(0.0)
       ;
@@ -300,28 +308,36 @@ public final class Constants {
         .withRotorToSensorRatio(1.0)
       ;
 
+
     public static MotionMagicConfigs kMotionMagicConfigs =
       new MotionMagicConfigs()
         .withMotionMagicCruiseVelocity(1)
         .withMotionMagicAcceleration(1)
       ;
 
+    
+    public static final MotorOutputConfigs kMotorOutputConfigs =
+     new MotorOutputConfigs()
+        .withInverted(InvertedValue.Clockwise_Positive)
+     ;
+
     public static final TalonFXConfiguration kSubsystemConfiguration = 
       new TalonFXConfiguration()
       .withSlot0(kSlot0Configs)
       .withFeedback(kFeedbackConfigs)
       .withMotionMagic(kMotionMagicConfigs)
+      .withMotorOutput(kMotorOutputConfigs)
       ;
   }
 
   public static final class CounterRoller{
     
-    public static final int kMotor1ID = 0;
+    public static final int kMotor1ID = 37;
 
 
      public static final Slot0Configs kSlot0Configs = 
       new Slot0Configs()
-        .withKP(0.5)
+        .withKP(1.0)
         .withKI(0.0)
         .withKD(0.0)
       ;
@@ -340,7 +356,7 @@ public final class Constants {
 
   public static final class IntakePrototype{
 
-    public static final int kMotor1ID = 6;
+    public static final int kMotor1ID = 25;
 
     public static final Slot0Configs kSlot0Configs =
     new Slot0Configs()
@@ -348,10 +364,15 @@ public final class Constants {
       .withKI(0.0)
       .withKD(0.0)
     ;
+  public static final MotorOutputConfigs kMotorOutputConfigs =
+     new MotorOutputConfigs()
+        .withInverted(InvertedValue.Clockwise_Positive)
+     ;
 
     public static final TalonFXConfiguration kSubsystemConfiguration =
     new TalonFXConfiguration()
     .withSlot0(kSlot0Configs)
+    .withMotorOutput(kMotorOutputConfigs)
     ;
   }
 

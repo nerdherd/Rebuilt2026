@@ -4,6 +4,7 @@ import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 
+import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
 
 import edu.wpi.first.util.sendable.Sendable;
@@ -22,6 +23,7 @@ public class ShooterPrototype extends TemplateSubsystem {
             MotorAlignmentValue.Opposed, 
             SubsystemMode.VELOCITY, 
             0
+
         );
 
         configureMotors(Constants.ShooterPrototype.kSubsystemConfiguration);
