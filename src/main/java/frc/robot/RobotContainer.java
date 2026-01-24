@@ -49,9 +49,9 @@ public class RobotContainer {
     if (Constants.USE_SUBSYSTEMS) {
        //add subsystems
       superSystem = new SuperSystem(swerveDrive);
-      
+      swerveDrive.resetPose(new Pose2d(1.0, 1.0, new Rotation2d(0.0)));
     }
-
+    
     initShuffleboard();
     initAutoChoosers();
 

@@ -13,7 +13,6 @@ import static frc.robot.Constants.SwerveDriveConstants.kRobotOrientedSwerveReque
 import static frc.robot.Constants.SwerveDriveConstants.kTargetDriveController;
 import static frc.robot.Constants.SwerveDriveConstants.kTargetDriveMaxLateralVelocity;
 import static frc.robot.Constants.SwerveDriveConstants.kTowSwerveRequest;
-import frc.robot.Constants.SwerveDriveConstants.FieldPositions;
 
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
@@ -32,8 +31,10 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.FieldObject2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Constants;
+import frc.robot.Constants.SwerveDriveConstants.FieldPositions;
 import frc.robot.Constants.VisionConstants.Camera;
 import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
 import frc.robot.vision.LimelightHelpers;
@@ -87,7 +88,9 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
         field.setRobotPose(getPose());
 
         if (USE_VISION) {
+            
             // visionUpdate(Camera.Example); TODO add cameras separately
+            visionUpdate(Camera.Front);
         }
     }
 
@@ -208,6 +211,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
     }
 
     public void visionUpdate(Camera limelight) {
+        DriverStation.reportWarning("gregew", false);
         if (!useMegaTag2) {
             // --------- MT1 --------- //
             useMegaTag2 = true; // TODO megatag1 gyro initialization
@@ -218,7 +222,9 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
             LimelightHelpers.SetRobotOrientation(limelight.name, yaw, 0, 0, 0, 0, 0);
             PoseEstimate mt = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(limelight.name);
             if (mt == null || Math.abs(getPigeon2().getAngularVelocityZWorld().getValueAsDouble()) > 720 || mt.tagCount == 0) return;
+            SmartDashboard.putBoolean("jytf", true);
             setVisionMeasurementStdDevs(VecBuilder.fill(0.7, 0.7, 9999999)); // TODO consider other stddevs
+            SmartDashboard.putBoolean("erthst", true);
             addVisionMeasurement(mt.pose, mt.timestampSeconds);
         }
     }
