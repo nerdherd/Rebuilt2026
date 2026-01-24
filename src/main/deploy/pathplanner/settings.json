@@ -4,8 +4,8 @@
   "holonomicMode": true,
   "pathFolders": [],
   "autoFolders": [
-    "Completed Needs Testing",
-    "Needs fixing"
+    "TopNeutral",
+    "BottomNeutral"
   ],
   "defaultMaxVel": 3.0,
   "defaultMaxAccel": 3.0,
