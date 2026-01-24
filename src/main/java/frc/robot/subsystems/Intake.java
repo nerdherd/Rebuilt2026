@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.signals.MotorAlignmentValue;
+
 import edu.wpi.first.units.measure.Velocity;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -11,7 +13,9 @@ public class Intake extends TemplateSubsystem{
     public Intake() {
         super(
             "Intake",
-            0,
+            Constants.IntakeConstants.kMotor1ID,
+            Constants.IntakeConstants.kMotor2ID,
+            MotorAlignmentValue.Opposed,
             SubsystemMode.VELOCITY,
             0
             );
@@ -21,7 +25,8 @@ public class Intake extends TemplateSubsystem{
     public void initializeLogging(){
         ShuffleboardTab intakeTab = Shuffleboard.getTab("Intake");
 
-        Reportable.addNumber(intakeTab, "Intake RPM", () -> getCurrentValue(), Reportable.LOG_LEVEL.MINIMAL);
+        Reportable.addNumber(intakeTab, "Intake Left", () -> getCurrentValue(), Reportable.LOG_LEVEL.MINIMAL);
+        Reportable.addNumber(intakeTab, "Intake Right", () -> getCurrentValueMotor2(), Reportable.LOG_LEVEL.MINIMAL);
     }
     
 }

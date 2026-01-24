@@ -10,7 +10,7 @@ public class Indexer extends TemplateSubsystem {
     public Indexer() {
         super(
             "Indexer",
-            0, //TODO
+            Constants.IndexerConstants.kMotor1ID, //TODO
             SubsystemMode.VELOCITY,
             0
             );

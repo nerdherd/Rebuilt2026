@@ -146,6 +146,9 @@ public class RobotContainer {
       .onTrue(superSystem.spinUpFlywheel());
     operatorController.buttonDown()
       .onTrue(superSystem.stopFlywheel());
+    operatorController.bumperRight()
+      .onTrue(superSystem.intake())
+      .onFalse(superSystem.stopIntaking());
 
     // driverController.controllerRight()
     //   .onTrue(Commands.runOnce(() -> imu.zeroAbsoluteHeading()));

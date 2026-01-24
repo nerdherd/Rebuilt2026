@@ -46,9 +46,7 @@ public class SuperSystem implements Reportable {
     public Command stopShooting(){
         return Commands.parallel(
             counterRoller.setDesiredValueCommand(0),
-            indexer.setDesiredValueCommand(0),
-            leftShooter.setDesiredValueCommand(0),
-            rightShooter.setDesiredValueCommand(0)
+            indexer.setDesiredValueCommand(0)
             );
     }
 
@@ -66,6 +64,13 @@ public class SuperSystem implements Reportable {
         );
     }
 
+    public Command intake(){
+        return intake.setDesiredValueCommand(10);
+    
+    }
+    public Command stopIntaking(){
+        return intake.setDesiredValueCommand(0);
+    }
 
     public void setNeutralMode(NeutralModeValue neutralMode) {
         // redo

@@ -6,8 +6,10 @@ package frc.robot;
 
 import com.ctre.phoenix6.configs.FeedbackConfigs;
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
+import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveModule.SteerRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest.ForwardPerspectiveValue;
@@ -219,11 +221,12 @@ public final class Constants {
     }
   }
   public static final class IntakeConstants{
-    public static final int kMotor1ID = 0; //TODO
+    public static final int kMotor1ID = 6; //TODO
+    public static final int kMotor2ID  = 7; //TODO
 
     public static final Slot0Configs kSlot0Configs = 
       new Slot0Configs() //TODO
-        .withKP(0.0)
+        .withKP(0.5)
         .withKI(0.0)
         .withKD(0.0)
       ;
@@ -234,7 +237,7 @@ public final class Constants {
   }
 
   public static final class IndexerConstants{
-    public static final int kMotor1ID = 0; //TODO
+    public static final int kMotor1ID = 52; //TODO
 
     public static final Slot0Configs kSlot0Configs = 
       new Slot0Configs() //TODO
@@ -253,7 +256,7 @@ public final class Constants {
 
     public static final Slot0Configs kSlot0Configs = 
       new Slot0Configs() //TODO
-        .withKP(0.0)
+        .withKP(0.5)
         .withKI(0.0)
         .withKD(0.0)
       ;
@@ -266,17 +269,23 @@ public final class Constants {
 
   public static final class ShooterConstants{
     public static final int kMotor1ID = 0; //TODO
+    public static final int kMotor2ID = 0; //TODO
 
     public static final Slot0Configs kSlot0Configs = 
       new Slot0Configs() //TODO
-        .withKP(0.0)
+        .withKP(0.5)
         .withKI(0.0)
         .withKD(0.0)
       ;
-
+    public static final MotorOutputConfigs kMotorOutputConfigs =
+      new MotorOutputConfigs()
+        .withInverted(InvertedValue.Clockwise_Positive)
+      ;
+        
     public static final TalonFXConfiguration kSubsystemConfiguration = 
       new TalonFXConfiguration()
-      .withSlot0(kSlot0Configs)
+        .withSlot0(kSlot0Configs)
+        .withMotorOutput(kMotorOutputConfigs)
       ;
   }
 
@@ -327,5 +336,7 @@ public final class Constants {
   
   public static final class SuperSystemConstants {
     //TODO DO
+
   }
 }
+
