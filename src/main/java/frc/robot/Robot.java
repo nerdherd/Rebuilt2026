@@ -116,6 +116,7 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().cancelAll();
     if (Constants.USE_SUBSYSTEMS) {
       m_robotContainer.superSystem.setNeutralMode(NeutralModeValue.Coast);
+      m_robotContainer.superSystem.initialize();
     }
     // m_robotContainer.superSystem.initialize();
     m_robotContainer.initDefaultCommands_test();

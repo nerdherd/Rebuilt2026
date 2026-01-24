@@ -142,9 +142,9 @@ public class RobotContainer {
     operatorController.bumperLeft()
       .onTrue(superSystem.shoot())
       .onFalse(superSystem.stopShooting());
-    operatorController.buttonUp()
+    operatorController.dpadUp()
       .onTrue(superSystem.spinUpFlywheel());
-    operatorController.buttonDown()
+    operatorController.dpadDown()
       .onTrue(superSystem.stopFlywheel());
     operatorController.bumperRight()
       .onTrue(superSystem.intake())

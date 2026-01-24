@@ -86,6 +86,12 @@ public class SuperSystem implements Reportable {
     public void initialize() {
         //set enabled = true;
         //set initials 
+        intake.setEnabled(true);
+        indexer.setEnabled(true);
+        counterRoller.setEnabled(true);
+        leftShooter.setEnabled(true);
+        rightShooter.setEnabled(true);
+
     }
 
     @Override
