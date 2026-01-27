@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
@@ -16,11 +15,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.generated.TunerConstants;
-import frc.robot.commands.RingDriveCommand;
 import frc.robot.commands.SwerveJoystickCommand;
 import frc.robot.subsystems.CounterRoller;
 import frc.robot.subsystems.IndexerPrototype;
-import frc.robot.subsystems.IntakePrototype;
 import frc.robot.subsystems.NerdDrivetrain;
 import frc.robot.subsystems.ShooterPrototype;
 import frc.robot.subsystems.SuperSystem;
@@ -32,9 +29,8 @@ public class RobotContainer {
   
   public SuperSystem superSystem;
   public ShooterPrototype shooterPrototype;
-  public IndexerPrototype indexerPrototype;
-  public IntakePrototype intakePrototype;
   public CounterRoller counterRoller;
+  public IndexerPrototype indexerPrototype;
 
   private final Controller driverController = new Controller(ControllerConstants.kDriverControllerPort, false);
   private final Controller operatorController = new Controller(ControllerConstants.kOperatorControllerPort,false);
@@ -55,11 +51,11 @@ public class RobotContainer {
 
     if (Constants.USE_SUBSYSTEMS) {
        //add subsystems
-      superSystem = new SuperSystem(swerveDrive);
+      
       shooterPrototype = new ShooterPrototype();
-      indexerPrototype = new IndexerPrototype();
-      intakePrototype = new IntakePrototype();
       counterRoller = new CounterRoller();
+      indexerPrototype = new IndexerPrototype();
+      superSystem = new SuperSystem(swerveDrive,counterRoller, shooterPrototype, indexerPrototype);
 
       
     }
@@ -98,12 +94,10 @@ public class RobotContainer {
       () -> driverController.getTriggerRight(), // Precision/"Sniper Button"
       () -> false,
       () -> swerveDrive.getAbsoluteHeadingDegrees(), // TODO i have no clue if this is right // Turn to angle direction 
-      () -> new Translation2d(  (driverController.getDpadUp()?1.0:0.0) - (driverController.getDpadDown()?1:0), 
-                                (driverController.getDpadLeft()?1.0:0.0) - (driverController.getDpadRight()?1:0)) // DPad vector
+      () -> new Translation2d(   (driverController.getDpadUp()?1.0:0.0) - (driverController.getDpadDown()?1:0), 
+                                        (driverController.getDpadLeft()?1.0:0.0) - (driverController.getDpadRight()?1:0)) // DPad vector
     );
     swerveDrive.setDefaultCommand(swerveJoystickCommand);
-
-    // driverController.triggerLeft().whileTrue(new RingDriveCommand(swerveDrive));
   }
 
   public void initDefaultCommands_test() {
@@ -120,20 +114,24 @@ public class RobotContainer {
   //////////////////////
   public void configureDriverBindings_teleop() {
 
-    driverController.bumperLeft().onTrue(shooterPrototype.setDesiredValueCommand(90.0).andThen(shooterPrototype.setEnabledCommand(true))).onFalse(shooterPrototype.setDesiredValueCommand(0).andThen(shooterPrototype.setEnabledCommand(false)));
-    driverController.triggerLeft().onTrue(intakePrototype.setDesiredValueCommand(65.0).andThen(intakePrototype.setEnabledCommand(true))).onFalse(intakePrototype.setDesiredValueCommand(0).andThen(intakePrototype.setEnabledCommand(false)));
-    driverController.buttonRight().onTrue(indexerPrototype.setDesiredValueCommand(15.0).andThen(indexerPrototype.setEnabledCommand(true))).onFalse(indexerPrototype.setDesiredValueCommand(0).andThen(indexerPrototype.setEnabledCommand(false)));
-    driverController.bumperRight().onTrue(counterRoller.setDesiredValueCommand(80.0).andThen(counterRoller.setEnabledCommand(true))).onFalse(counterRoller.setDesiredValueCommand(0).andThen(counterRoller.setEnabledCommand(false)));
+  driverController.bumperLeft()
+ // .onTrue(shooterPrototype.setDesiredValueCommand(60).andThen(shooterPrototype.setEnabledCommand(true).andThen(counterRoller.setDesiredValueCommand(60).andThen(counterRoller.setEnabledCommand(true))))).onFalse(shooterPrototype.setDesiredValueCommand(0).andThen(shooterPrototype.setEnabledCommand(false).andThen(counterRoller.setDesiredValueCommand(0).andThen(counterRoller.setEnabledCommand(false)))));
+  .onTrue(superSystem.shoot())
+  .onTrue(superSystem.index())
+  .onTrue(superSystem.spinUp())
+  .onFalse(superSystem.stopShooting())
+  .onFalse(superSystem.stopIndexing());
+
     
-    driverController.controllerLeft()
-      .onTrue(Commands.runOnce(() -> swerveDrive.zeroFieldOrientation()));
-    driverController.controllerRight()
-      .onTrue(Commands.runOnce(() -> swerveDrive.resetRotation(Rotation2d.kZero)));
     // driverController.controllerRight()
     //   .onTrue(Commands.runOnce(() -> imu.zeroAbsoluteHeading()));
 
     if (Constants.USE_SUBSYSTEMS) {}
   }
+
+  // driverController.bumperRight()
+  //   .onTrue(superSystem.spinUp())
+  //   .onFalse(superSystem.spinUp());
 
   ///////////////////////
   // Operator bindings
