@@ -18,9 +18,7 @@ public class Indexer extends TemplateSubsystem {
     }
     @Override
     public void initializeLogging(){
-        ShuffleboardTab indexerTab = Shuffleboard.getTab("Indexer");
-
-        Reportable.addNumber(indexerTab, "Indexer RPM", () -> getCurrentValue(), Reportable.LOG_LEVEL.MINIMAL);
+        Reportable.addNumber(shuffleboardTab, "Indexer RPM", () -> getCurrentValue(), Reportable.LOG_LEVEL.MINIMAL);
     }
 
 

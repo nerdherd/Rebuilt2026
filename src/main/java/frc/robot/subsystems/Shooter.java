@@ -26,8 +26,7 @@ public class Shooter extends TemplateSubsystem{
 
     @Override
     public void initializeLogging(){
-        ShuffleboardTab shooterTab = Shuffleboard.getTab("LeftShooter");
 
-        Reportable.addNumber(shooterTab, "Shooter RPM", () -> getCurrentValue(), Reportable.LOG_LEVEL.MINIMAL);
+        Reportable.addNumber(shuffleboardTab, "Shooter RPM", () -> getCurrentValue(), Reportable.LOG_LEVEL.MINIMAL);
     }
 }

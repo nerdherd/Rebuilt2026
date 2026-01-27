@@ -12,7 +12,7 @@ public class SuperSystem implements Reportable {
     public CounterRoller counterRoller;
     public Shooter leftShooter;
     public Shooter rightShooter;
- 
+    public Pivot pivot; 
 
     //add new subsystems
 
@@ -20,13 +20,14 @@ public class SuperSystem implements Reportable {
         //TODO
     }
 
-    public SuperSystem(NerdDrivetrain swerveDrivetrain,Intake intake, Indexer indexer, CounterRoller counterRoller, Shooter leftShooter, Shooter rightShooter) {
+    public SuperSystem(NerdDrivetrain swerveDrivetrain,Intake intake, Indexer indexer, CounterRoller counterRoller, Shooter leftShooter, Shooter rightShooter, Pivot pivot) {
         this.swerveDrivetrain = swerveDrivetrain;
         this.intake = intake;
         this.indexer = indexer;
         this.counterRoller = counterRoller;
         this.leftShooter = leftShooter;
         this.rightShooter = rightShooter;
+        this.pivot = pivot;
 
     }
     
@@ -65,11 +66,17 @@ public class SuperSystem implements Reportable {
     }
 
     public Command intake(){
-        return intake.setDesiredValueCommand(10);
+        return Commands.sequence(
+            pivot.setDesiredValueCommand(.12),
+            intake.setDesiredValueCommand(10)
+        );
     
     }
     public Command stopIntaking(){
-        return intake.setDesiredValueCommand(0);
+        return Commands.sequence(
+            intake.setDesiredValueCommand(0),
+            pivot.setDesiredValueCommand(0)
+        );
     }
 
     public void setNeutralMode(NeutralModeValue neutralMode) {
@@ -91,6 +98,7 @@ public class SuperSystem implements Reportable {
         counterRoller.setEnabled(true);
         leftShooter.setEnabled(true);
         rightShooter.setEnabled(true);
+        pivot.setEnabled(true);
 
     }
 

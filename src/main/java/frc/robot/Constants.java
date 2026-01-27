@@ -221,8 +221,8 @@ public final class Constants {
     }
   }
   public static final class IntakeConstants{
-    public static final int kMotor1ID = 6; //TODO
-    public static final int kMotor2ID  = 7; //TODO
+    public static final int kMotor1ID = 15; //TODO
+    public static final int kMotor2ID  = 16; //TODO
 
     public static final Slot0Configs kSlot0Configs = 
       new Slot0Configs() //TODO
@@ -237,7 +237,7 @@ public final class Constants {
   }
 
   public static final class IndexerConstants{
-    public static final int kMotor1ID = 52; //TODO
+    public static final int kMotor1ID = 25; //TODO
 
     public static final Slot0Configs kSlot0Configs = 
       new Slot0Configs() //TODO
@@ -252,7 +252,7 @@ public final class Constants {
   }
 
   public static final class CounterRollerConstants{
-    public static final int kMotor1ID = 0; //TODO
+    public static final int kMotor1ID = 26; //TODO
 
     public static final Slot0Configs kSlot0Configs = 
       new Slot0Configs() //TODO
@@ -268,8 +268,7 @@ public final class Constants {
   }
 
   public static final class ShooterConstants{
-    public static final int kMotor1ID = 0; //TODO
-    public static final int kMotor2ID = 0; //TODO
+
 
     public static final Slot0Configs kSlot0Configs = 
       new Slot0Configs() //TODO
@@ -287,6 +286,29 @@ public final class Constants {
         .withSlot0(kSlot0Configs)
         .withMotorOutput(kMotorOutputConfigs)
       ;
+  }
+  public static final class PivotConstants{
+    public static final int kMotor1ID = 17;
+    public static final int kMotor2ID = 18;
+
+    public static final Slot0Configs kSlot0Configs = 
+      new Slot0Configs()
+        .withKP(kMotor1ID)
+        .withKI(0.0)
+        .withKD(0.0)
+      ;
+    public static final MotionMagicConfigs kMotionMagicConfigs = 
+      new MotionMagicConfigs()
+        .withMotionMagicAcceleration(1)
+        .withMotionMagicCruiseVelocity(1)
+      ;
+        
+    public static final TalonFXConfiguration kSubsystemConfiguration = 
+      new TalonFXConfiguration()
+        .withSlot0(kSlot0Configs)
+        .withMotionMagic(kMotionMagicConfigs)
+      ;
+
   }
 
   // public static class LEDConstants {

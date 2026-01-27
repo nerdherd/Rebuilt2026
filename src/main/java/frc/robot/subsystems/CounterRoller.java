@@ -18,9 +18,7 @@ public class CounterRoller extends TemplateSubsystem{
 
     @Override
     public void initializeLogging(){
-        ShuffleboardTab counterRollerTab = Shuffleboard.getTab("CounterRoller");
-
-        Reportable.addNumber(counterRollerTab, "CounterRoller RPM", () -> getCurrentValue(), Reportable.LOG_LEVEL.MINIMAL);
+       Reportable.addNumber(shuffleboardTab, "CounterRoller RPM", () -> getCurrentValue(), Reportable.LOG_LEVEL.MINIMAL);
     }
     
 }

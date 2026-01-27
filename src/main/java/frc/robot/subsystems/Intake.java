@@ -23,10 +23,8 @@ public class Intake extends TemplateSubsystem{
     }
     @Override
     public void initializeLogging(){
-        ShuffleboardTab intakeTab = Shuffleboard.getTab("Intake");
-
-        Reportable.addNumber(intakeTab, "Intake Left", () -> getCurrentValue(), Reportable.LOG_LEVEL.MINIMAL);
-        Reportable.addNumber(intakeTab, "Intake Right", () -> getCurrentValueMotor2(), Reportable.LOG_LEVEL.MINIMAL);
+        Reportable.addNumber(shuffleboardTab, "Intake Left", () -> getCurrentValue(), Reportable.LOG_LEVEL.MINIMAL);
+        Reportable.addNumber(shuffleboardTab, "Intake Right", () -> getCurrentValueMotor2(), Reportable.LOG_LEVEL.MINIMAL);
     }
     
 }
