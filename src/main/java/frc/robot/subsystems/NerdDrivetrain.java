@@ -14,6 +14,7 @@ import static frc.robot.Constants.SwerveDriveConstants.kTargetDriveController;
 import static frc.robot.Constants.SwerveDriveConstants.kTargetDriveMaxLateralVelocity;
 import static frc.robot.Constants.SwerveDriveConstants.kTowSwerveRequest;
 
+import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants;
@@ -79,7 +80,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
 
         field = new Field2d();
 
-        setVision(false);
+        if (USE_VISION) setVision(true);
     }
     
     
@@ -88,7 +89,6 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
         field.setRobotPose(getPose());
 
         if (USE_VISION) {
-            
             // visionUpdate(Camera.Example); TODO add cameras separately
             visionUpdate(Camera.Front);
         }
@@ -205,7 +205,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
      */
     public void setVision(boolean activate) {
         for (Camera camera : Camera.values()) {
-            LimelightHelpers.setPipelineIndex(camera.name, (activate) ? 1 : 0);
+            LimelightHelpers.setPipelineIndex(camera.name, (activate) ? 0 : 1);
             LimelightHelpers.SetThrottle(camera.name, (activate) ? 0 : Constants.VisionConstants.kDisabledThrottle);
         }
     }
@@ -226,6 +226,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
             setVisionMeasurementStdDevs(VecBuilder.fill(0.7, 0.7, 9999999)); // TODO consider other stddevs
             SmartDashboard.putBoolean("erthst", true);
             addVisionMeasurement(mt.pose, mt.timestampSeconds);
+                addVisionMeasurement(mt.pose, Utils.getCurrentTimeSeconds());
         }
     }
 
