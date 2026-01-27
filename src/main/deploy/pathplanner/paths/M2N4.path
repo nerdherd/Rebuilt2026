@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.3554594753158624,
-        "y": 2.7335857583201673
+        "x": 4.294448178220524,
+        "y": 3.4546118199599714
       },
       "isLocked": false,
       "linkedName": "M2"
@@ -20,8 +20,8 @@
         "y": 1.25
       },
       "prevControl": {
-        "x": 7.496615651387214,
-        "y": 1.9721288826899879
+        "x": 6.939031625272926,
+        "y": 0.5738638896470161
       },
       "nextControl": null,
       "isLocked": false,
@@ -48,7 +48,7 @@
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -156.40796440061635
+    "rotation": 34.24319226630843
   },
   "useDefaultConstraints": true
 }
