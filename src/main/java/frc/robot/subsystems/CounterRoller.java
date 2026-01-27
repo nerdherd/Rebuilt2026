@@ -18,7 +18,9 @@ public class CounterRoller extends TemplateSubsystem {
     public CounterRoller(){
         super(
             "CounterRoller", 
-            0, 
+            11, 
+            12,
+            MotorAlignmentValue.Opposed,
             SubsystemMode.VELOCITY, 
             0);
         

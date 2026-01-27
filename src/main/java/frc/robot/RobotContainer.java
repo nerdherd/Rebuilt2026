@@ -110,7 +110,7 @@ public class RobotContainer {
   //////////////////////
   public void configureDriverBindings_teleop() {
 
-  driverController.bumperLeft().onTrue(shooterPrototype.setDesiredValueCommand(70).andThen(shooterPrototype.setEnabledCommand(true))).onFalse(shooterPrototype.setDesiredValueCommand(0).andThen(shooterPrototype.setEnabledCommand(false)));
+  driverController.bumperLeft().onTrue(shooterPrototype.setDesiredValueCommand(40).andThen(shooterPrototype.setEnabledCommand(true))).onFalse(shooterPrototype.setDesiredValueCommand(0).andThen(shooterPrototype.setEnabledCommand(false)));
   
     
     // driverController.controllerRight()
