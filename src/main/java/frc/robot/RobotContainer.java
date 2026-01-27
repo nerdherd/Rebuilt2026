@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -76,7 +77,15 @@ public class RobotContainer {
     );
     swerveDrive.setDefaultCommand(swerveJoystickCommand);
 
-    driverController.triggerLeft().whileTrue(new RingDriveCommand(swerveDrive));
+    driverController.triggerLeft().whileTrue(new RingDriveCommand(
+      swerveDrive,
+      () -> -driverController.getRightY(), // Horizontal Translation
+      () -> driverController.getLeftX() // Vertical Translation
+      ));
+
+    driverController.bumperRight().whileTrue(Commands.run(
+      () -> swerveDrive.driveToTarget(new Pose2d())
+    ));
   }
 
   public void initDefaultCommands_test() {
@@ -96,7 +105,7 @@ public class RobotContainer {
     driverController.controllerLeft()
       .onTrue(Commands.runOnce(() -> swerveDrive.zeroFieldOrientation()));
     driverController.controllerRight()
-      .onTrue(Commands.runOnce(() -> swerveDrive.resetRotation(Rotation2d.kZero)));
+      .onTrue(Commands.runOnce(() -> swerveDrive.resetAllRotation(Rotation2d.kZero)));
     // driverController.controllerRight()
     //   .onTrue(Commands.runOnce(() -> imu.zeroAbsoluteHeading()));
 
