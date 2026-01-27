@@ -9,11 +9,11 @@ import frc.robot.subsystems.template.TemplateSubsystem;
 
 public class Shooter extends TemplateSubsystem{
     
-    public Shooter(String name, int motor1ID, int motor2ID){
+    public Shooter(){
         super(
-            name,
-            motor1ID, //TODO
-            motor2ID,
+            "Shooter",
+            Constants.ShooterConstants.kMotor1ID, //TODO
+            Constants.ShooterConstants.kMotor2ID,
             MotorAlignmentValue.Opposed,
             SubsystemMode.VELOCITY,
             0
@@ -26,8 +26,7 @@ public class Shooter extends TemplateSubsystem{
 
     @Override
     public void initializeLogging(){
-        ShuffleboardTab shooterTab = Shuffleboard.getTab("LeftShooter");
 
-        Reportable.addNumber(shooterTab, "Shooter RPM", () -> getCurrentValue(), Reportable.LOG_LEVEL.MINIMAL);
+        Reportable.addNumber(shuffleboardTab, "Shooter RPM", () -> getCurrentValue(), Reportable.LOG_LEVEL.MINIMAL);
     }
 }

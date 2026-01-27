@@ -23,6 +23,7 @@ import frc.robot.subsystems.CounterRoller;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.NerdDrivetrain;
+import frc.robot.subsystems.Pivot;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SuperSystem;
 import frc.robot.util.Controller;
@@ -36,8 +37,8 @@ public class RobotContainer {
   public Intake intake;
   public Indexer indexer;
   public CounterRoller counterRoller;
-  public Shooter leftShooter;
-  public Shooter rightShooter;
+  public Shooter shooter;
+  public Pivot pivot;
 
   
 
@@ -63,10 +64,11 @@ public class RobotContainer {
       intake = new Intake();
       indexer = new Indexer();
       counterRoller = new CounterRoller();
-      rightShooter = new Shooter("rightShooter", 0, 0); //TODO
-      leftShooter = new Shooter("leftShooer", 0, 0); //TODO
+      shooter = new Shooter(); //TODO
 
-      superSystem = new SuperSystem(swerveDrive, intake, indexer, counterRoller, leftShooter, rightShooter);
+      pivot = new Pivot();
+
+      superSystem = new SuperSystem(swerveDrive, intake, indexer, counterRoller, shooter, pivot);
 
       
     }
