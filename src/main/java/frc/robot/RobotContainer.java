@@ -37,8 +37,7 @@ public class RobotContainer {
   public Intake intake;
   public Indexer indexer;
   public CounterRoller counterRoller;
-  public Shooter leftShooter;
-  public Shooter rightShooter;
+  public Shooter shooter;
   public Pivot pivot;
 
   
@@ -65,11 +64,11 @@ public class RobotContainer {
       intake = new Intake();
       indexer = new Indexer();
       counterRoller = new CounterRoller();
-      rightShooter = new Shooter("rightShooter", 35, 36); //TODO
-      leftShooter = new Shooter("leftShooer", 37, 38); //TODO
+      shooter = new Shooter(); //TODO
+
       pivot = new Pivot();
 
-      superSystem = new SuperSystem(swerveDrive, intake, indexer, counterRoller, leftShooter, rightShooter, pivot);
+      superSystem = new SuperSystem(swerveDrive, intake, indexer, counterRoller, shooter, pivot);
 
       
     }

@@ -10,8 +10,7 @@ public class SuperSystem implements Reportable {
     public Intake intake;
     public Indexer indexer;
     public CounterRoller counterRoller;
-    public Shooter leftShooter;
-    public Shooter rightShooter;
+    public Shooter shooter;
     public Pivot pivot; 
 
     //add new subsystems
@@ -20,13 +19,12 @@ public class SuperSystem implements Reportable {
         //TODO
     }
 
-    public SuperSystem(NerdDrivetrain swerveDrivetrain,Intake intake, Indexer indexer, CounterRoller counterRoller, Shooter leftShooter, Shooter rightShooter, Pivot pivot) {
+    public SuperSystem(NerdDrivetrain swerveDrivetrain,Intake intake, Indexer indexer, CounterRoller counterRoller, Shooter shooter, Pivot pivot) {
         this.swerveDrivetrain = swerveDrivetrain;
         this.intake = intake;
         this.indexer = indexer;
         this.counterRoller = counterRoller;
-        this.leftShooter = leftShooter;
-        this.rightShooter = rightShooter;
+        this.shooter = shooter;
         this.pivot = pivot;
 
     }
@@ -39,8 +37,6 @@ public class SuperSystem implements Reportable {
         return Commands.parallel(
             counterRoller.setDesiredValueCommand(20),
             indexer.setDesiredValueCommand(20),
-            leftShooter.setDesiredValueCommand(30),
-            rightShooter.setDesiredValueCommand(30)
             );
     }
     
@@ -53,15 +49,13 @@ public class SuperSystem implements Reportable {
 
     public Command spinUpFlywheel(){
         return Commands.parallel(
-            leftShooter.setDesiredValueCommand(20),
-            rightShooter.setDesiredValueCommand(20)
+            shooter.setDesiredValueCommand(20)
         );
     }
 
     public Command stopFlywheel(){
         return Commands.parallel(
-            leftShooter.setDesiredValueCommand(0),
-            rightShooter.setDesiredValueCommand(0)
+            shooter.setDesiredValueCommand(0)
         );
     }
 
@@ -96,8 +90,7 @@ public class SuperSystem implements Reportable {
         intake.setEnabled(true);
         indexer.setEnabled(true);
         counterRoller.setEnabled(true);
-        leftShooter.setEnabled(true);
-        rightShooter.setEnabled(true);
+        shooter.setEnabled(true);
         pivot.setEnabled(true);
 
     }

@@ -268,6 +268,9 @@ public final class Constants {
   }
 
   public static final class ShooterConstants{
+    public static final int kMotor1ID = 35;
+    public static final int kMotor2ID = 36;
+    
 
 
     public static final Slot0Configs kSlot0Configs = 

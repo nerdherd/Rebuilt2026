@@ -9,11 +9,11 @@ import frc.robot.subsystems.template.TemplateSubsystem;
 
 public class Shooter extends TemplateSubsystem{
     
-    public Shooter(String name, int motor1ID, int motor2ID){
+    public Shooter(){
         super(
-            name,
-            motor1ID, //TODO
-            motor2ID,
+            "Shooter",
+            Constants.ShooterConstants.kMotor1ID, //TODO
+            Constants.ShooterConstants.kMotor2ID,
             MotorAlignmentValue.Opposed,
             SubsystemMode.VELOCITY,
             0
