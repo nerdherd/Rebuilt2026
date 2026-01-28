@@ -43,7 +43,7 @@ import frc.robot.vision.LimelightHelpers.PoseEstimate;
 
 public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, Reportable {
     public final Field2d field;
-    public boolean useMegaTag2 = true;
+    public boolean useMegaTag2 = false; // keep false for megatag1
 
     public NerdDrivetrain(SwerveDrivetrainConstants drivetrainConstants, SwerveModuleConstants<?, ?, ?>... modules) {
         super(drivetrainConstants, modules);
@@ -211,9 +211,10 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
     }
 
     public void visionUpdate(Camera limelight) {
-        DriverStation.reportWarning("gregew", false);
         if (!useMegaTag2) {
             // --------- MT1 --------- //
+            PoseEstimate mt = LimelightHelpers.getBotPoseEstimate_wpiBlue(limelight.name);
+            resetAllRotation(mt.pose.getRotation());
             useMegaTag2 = true; // TODO megatag1 gyro initialization
         }
         else {
@@ -224,9 +225,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
             if (mt == null || Math.abs(getPigeon2().getAngularVelocityZWorld().getValueAsDouble()) > 720 || mt.tagCount == 0) return;
             SmartDashboard.putBoolean("jytf", true);
             setVisionMeasurementStdDevs(VecBuilder.fill(0.7, 0.7, 9999999)); // TODO consider other stddevs
-            SmartDashboard.putBoolean("erthst", true);
-            addVisionMeasurement(mt.pose, mt.timestampSeconds);
-                addVisionMeasurement(mt.pose, Utils.getCurrentTimeSeconds());
+            addVisionMeasurement(mt.pose, Utils.getCurrentTimeSeconds());
         }
     }
 
@@ -242,7 +241,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
 
     public void resetAllRotation(Rotation2d rotation) {
         getPigeon2().setYaw(rotation.getMeasure());
-        resetRotation(rotation);
+        // resetRotation(rotation);
     }
 
     /** 
