@@ -264,7 +264,7 @@ public final class Constants {
   }
 
   public static final class IndexerConstants{
-    public static final int kMotor1 = 15; 
+    public static final int kMotor1 = 25; 
 
       public static final Slot0Configs kSlot0Configs = 
       new Slot0Configs()
@@ -298,7 +298,7 @@ public final class Constants {
 
      public static final Slot0Configs kSlot0Configs = 
       new Slot0Configs()
-        .withKP(1.0)
+        .withKP(10.0)
         .withKI(0.0)
         .withKD(0.0)
       ;
@@ -356,7 +356,7 @@ public final class Constants {
 
   public static final class IntakePrototype{
 
-    public static final int kMotor1ID = 25;
+    public static final int kMotor1ID = 0;
 
     public static final Slot0Configs kSlot0Configs =
     new Slot0Configs()
