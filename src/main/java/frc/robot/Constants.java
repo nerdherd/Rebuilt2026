@@ -235,6 +235,25 @@ public final class Constants {
       .withSlot0(kSlot0Configs)
       ;
   }
+   public static final class ConveyorConstants{
+    public static final int kMotor1ID = 15; //TODO
+
+    public static final Slot0Configs kSlot0Configs = 
+      new Slot0Configs() //TODO
+        .withKP(0.5)
+        .withKI(0.0)
+        .withKD(0.0)
+      ;
+    
+    public static final MotorOutputConfigs kMotorOutputConfigs =
+      new MotorOutputConfigs()
+        .withInverted(InvertedValue.CounterClockwise_Positive)
+    ;
+    public static final TalonFXConfiguration kSubsystemConfiguration = 
+      new TalonFXConfiguration()
+      .withSlot0(kSlot0Configs)
+      ;
+  }
 
   public static final class IndexerConstants{
     public static final int kMotor1ID = 25; //TODO

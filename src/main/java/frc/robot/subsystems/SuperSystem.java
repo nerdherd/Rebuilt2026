@@ -36,7 +36,7 @@ public class SuperSystem implements Reportable {
     public Command shoot(){
         return Commands.parallel(
             counterRoller.setDesiredValueCommand(20),
-            indexer.setDesiredValueCommand(20),
+            indexer.setDesiredValueCommand(20)
             );
     }
     
@@ -61,17 +61,23 @@ public class SuperSystem implements Reportable {
 
     public Command intake(){
         return Commands.sequence(
-            pivot.setDesiredValueCommand(.12),
+            // pivot.setDesiredValueCommand(.12),
             intake.setDesiredValueCommand(10)
         );
     
     }
     public Command stopIntaking(){
         return Commands.sequence(
-            intake.setDesiredValueCommand(0),
-            pivot.setDesiredValueCommand(0)
+            intake.setDesiredValueCommand(0)
+            // pivot.setDesiredValueCommand(0)
         );
     }
+    public Command ConveyorIntake(){
+        return Commands.sequence(
+            
+        );
+    }
+
 
     public void setNeutralMode(NeutralModeValue neutralMode) {
         // redo
@@ -91,7 +97,7 @@ public class SuperSystem implements Reportable {
         indexer.setEnabled(true);
         counterRoller.setEnabled(true);
         shooter.setEnabled(true);
-        pivot.setEnabled(true);
+        // pivot.setEnabled(true);
 
     }
 
