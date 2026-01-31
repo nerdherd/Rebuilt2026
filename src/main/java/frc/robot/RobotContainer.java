@@ -47,11 +47,11 @@ public class RobotContainer {
     }
 
     if (Constants.USE_SUBSYSTEMS) {
-       //add subsystems
+      //add subsystems
       superSystem = new SuperSystem(swerveDrive);
-      
+      // swerveDrive.resetPose(new Pose2d(1.0, 1.0, new Rotation2d(0.0)));
     }
-
+    
     initShuffleboard();
     initAutoChoosers();
 
@@ -97,7 +97,7 @@ public class RobotContainer {
       () -> driverController.getLeftX() // Vertical Translation
       ));
 
-    driverController.bumperRight().whileTrue(Commands.run(
+    driverController.bumperRight().whileTrue(Commands.run( // DriveToTarget test
       () -> swerveDrive.driveToTarget(new Pose2d())
     ));
   }
@@ -120,8 +120,8 @@ public class RobotContainer {
       .onTrue(Commands.runOnce(() -> swerveDrive.zeroFieldOrientation()));
     driverController.controllerRight()
       .onTrue(Commands.runOnce(() -> swerveDrive.resetAllRotation(Rotation2d.kZero)));
-    // driverController.controllerRight()
-    //   .onTrue(Commands.runOnce(() -> imu.zeroAbsoluteHeading()));
+      // .onTrue(Commands.runOnce(() -> swerveDrive.useMegaTag2 = false));
+      // .onTrue(Commands.runOnce(() -> imu.zeroAbsoluteHeading()));
 
     if (Constants.USE_SUBSYSTEMS) {}
   }

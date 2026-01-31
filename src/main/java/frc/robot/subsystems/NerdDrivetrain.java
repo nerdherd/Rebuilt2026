@@ -13,8 +13,8 @@ import static frc.robot.Constants.SwerveDriveConstants.kRobotOrientedSwerveReque
 import static frc.robot.Constants.SwerveDriveConstants.kTargetDriveController;
 import static frc.robot.Constants.SwerveDriveConstants.kTargetDriveMaxLateralVelocity;
 import static frc.robot.Constants.SwerveDriveConstants.kTowSwerveRequest;
-import frc.robot.Constants.SwerveDriveConstants.FieldPositions;
 
+import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants;
@@ -32,8 +32,10 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.FieldObject2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Constants;
+import frc.robot.Constants.SwerveDriveConstants.FieldPositions;
 import frc.robot.Constants.VisionConstants.Camera;
 import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
 import frc.robot.vision.LimelightHelpers;
@@ -41,7 +43,7 @@ import frc.robot.vision.LimelightHelpers.PoseEstimate;
 
 public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, Reportable {
     public final Field2d field;
-    public boolean useMegaTag2 = true;
+    public boolean useMegaTag2 = true; // keep true until megatag1 is fixed
 
     public NerdDrivetrain(SwerveDrivetrainConstants drivetrainConstants, SwerveModuleConstants<?, ?, ?>... modules) {
         super(drivetrainConstants, modules);
@@ -78,7 +80,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
 
         field = new Field2d();
 
-        setVision(false);
+        if (USE_VISION) setVision(true);
     }
     
     
@@ -88,6 +90,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
 
         if (USE_VISION) {
             // visionUpdate(Camera.Example); TODO add cameras separately
+            visionUpdate(Camera.Front);
         }
     }
 
@@ -202,7 +205,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
      */
     public void setVision(boolean activate) {
         for (Camera camera : Camera.values()) {
-            LimelightHelpers.setPipelineIndex(camera.name, (activate) ? 1 : 0);
+            LimelightHelpers.setPipelineIndex(camera.name, (activate) ? 0 : 1);
             LimelightHelpers.SetThrottle(camera.name, (activate) ? 0 : Constants.VisionConstants.kDisabledThrottle);
         }
     }
@@ -210,6 +213,8 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
     public void visionUpdate(Camera limelight) {
         if (!useMegaTag2) {
             // --------- MT1 --------- //
+            PoseEstimate mt = LimelightHelpers.getBotPoseEstimate_wpiBlue(limelight.name);
+            resetAllRotation(mt.pose.getRotation());
             useMegaTag2 = true; // TODO megatag1 gyro initialization
         }
         else {
@@ -218,8 +223,9 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
             LimelightHelpers.SetRobotOrientation(limelight.name, yaw, 0, 0, 0, 0, 0);
             PoseEstimate mt = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(limelight.name);
             if (mt == null || Math.abs(getPigeon2().getAngularVelocityZWorld().getValueAsDouble()) > 720 || mt.tagCount == 0) return;
+            SmartDashboard.putBoolean("jytf", true);
             setVisionMeasurementStdDevs(VecBuilder.fill(0.7, 0.7, 9999999)); // TODO consider other stddevs
-            addVisionMeasurement(mt.pose, mt.timestampSeconds);
+            addVisionMeasurement(mt.pose, Utils.getCurrentTimeSeconds());
         }
     }
 
@@ -235,7 +241,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
 
     public void resetAllRotation(Rotation2d rotation) {
         getPigeon2().setYaw(rotation.getMeasure());
-        resetRotation(rotation);
+        // resetRotation(rotation);
     }
 
     /** 
