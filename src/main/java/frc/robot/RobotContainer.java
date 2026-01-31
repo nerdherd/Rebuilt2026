@@ -19,7 +19,6 @@ import frc.robot.Constants.ControllerConstants;
 import frc.robot.generated.TunerConstants;
 import frc.robot.commands.RingDriveCommand;
 import frc.robot.commands.SwerveJoystickCommand;
-import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.CounterRoller;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
@@ -40,7 +39,6 @@ public class RobotContainer {
   public CounterRoller counterRoller;
   public Shooter shooter;
   public Pivot pivot;
-  public Conveyor conveyor;
 
   
 
@@ -67,8 +65,6 @@ public class RobotContainer {
       indexer = new Indexer();
       counterRoller = new CounterRoller();
       shooter = new Shooter(); //TODO
-      conveyor = new Conveyor();
-      
 
       pivot = new Pivot();
 
@@ -155,9 +151,6 @@ public class RobotContainer {
     operatorController.bumperRight()
       .onTrue(superSystem.intake())
       .onFalse(superSystem.stopIntaking());
-    operatorController.buttonDown()
-      .onTrue(superSystem.ConveyorIntake())
-      .onFalse(superSystem.ConveyorStop());
 
     // driverController.controllerRight()
     //   .onTrue(Commands.runOnce(() -> imu.zeroAbsoluteHeading()));

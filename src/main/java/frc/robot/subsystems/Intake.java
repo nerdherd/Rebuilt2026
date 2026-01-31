@@ -14,6 +14,8 @@ public class Intake extends TemplateSubsystem{
         super(
             "Intake",
             Constants.IntakeConstants.kMotor1ID,
+            Constants.IntakeConstants.kMotor2ID,
+            MotorAlignmentValue.Opposed,
             SubsystemMode.VELOCITY,
             0
             );
