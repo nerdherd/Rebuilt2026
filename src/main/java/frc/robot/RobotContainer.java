@@ -96,10 +96,6 @@ public class RobotContainer {
       () -> -driverController.getRightY(), // Horizontal Translation
       () -> driverController.getLeftX() // Vertical Translation
       ));
-
-    driverController.bumperRight().whileTrue(Commands.run(
-      () -> swerveDrive.driveToTarget(new Pose2d())
-    ));
   }
 
   public void initDefaultCommands_test() {
@@ -116,11 +112,12 @@ public class RobotContainer {
   //////////////////////
   public void configureDriverBindings_teleop() {
 
-    driverController.controllerLeft()
+    driverController.controllerLeft() // Set Drive Heading
       .onTrue(Commands.runOnce(() -> swerveDrive.zeroFieldOrientation()));
-    driverController.controllerRight()
+
+    driverController.controllerRight() // Set Pose Heading
       // .onTrue(Commands.runOnce(() -> swerveDrive.resetAllRotation(Rotation2d.kZero)));
-      .onTrue(Commands.runOnce(() -> swerveDrive.useMegaTag2 = false));
+      .onTrue(swerveDrive.resetPoseWithAprilTags(0.2));
     // driverController.controllerRight()
     //   .onTrue(Commands.runOnce(() -> imu.zeroAbsoluteHeading()));
 

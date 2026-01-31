@@ -18,6 +18,7 @@ import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants;
+import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
@@ -33,6 +34,8 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.FieldObject2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Constants;
 import frc.robot.Constants.SwerveDriveConstants.FieldPositions;
@@ -209,13 +212,25 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
             LimelightHelpers.SetThrottle(camera.name, (activate) ? 0 : Constants.VisionConstants.kDisabledThrottle);
         }
     }
+    
+    /**
+     * temporarily switch to megatag1 to update robot field heading/pose
+     * @param delay in seconds until switching back to MegaTag2
+     */
+    public Command resetPoseWithAprilTags(double delay) {
+        return Commands.sequence(
+            Commands.runOnce(() -> useMegaTag2 = false),
+            Commands.waitSeconds(delay),
+            Commands.runOnce(() -> useMegaTag2 = true)
+      );
+    }
 
     public void visionUpdate(Camera limelight) {
         if (!useMegaTag2) {
             // --------- MT1 --------- //
             PoseEstimate mt = LimelightHelpers.getBotPoseEstimate_wpiBlue(limelight.name);
             resetAllRotation(mt.pose.getRotation());
-            useMegaTag2 = true; // TODO megatag1 gyro initialization
+            // useMegaTag2 = true; // TODO megatag1 gyro initialization
         }
         else {
             // --------- MT2 --------- //
@@ -230,7 +245,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
     }
 
     // ----------------------------------------- Gyro Functions ----------------------------------------- //
-    
+
     /** 
      * use with bindings to reset the field oriented control 
      * @see {@link #setOperatorPerspectiveForward} also for more custom setting
