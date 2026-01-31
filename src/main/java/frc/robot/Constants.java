@@ -264,7 +264,7 @@ public final class Constants {
   }
 
   public static final class IndexerConstants{
-    public static final int kMotor1 = 15; 
+    public static final int kMotor1 = 25; 
 
       public static final Slot0Configs kSlot0Configs = 
       new Slot0Configs()

@@ -44,20 +44,21 @@ public class SuperSystem implements Reportable {
     }
     public Command shoot(){
         return Commands.parallel(
-            counterRoller.setDesiredValueCommand(60),
+            counterRoller.setDesiredValueCommand(20),
             counterRoller.setEnabledCommand(true)
         );
     }
 
     public Command spinUp(){
         return Commands.parallel(
-            shooterPrototype.setDesiredValueCommand(60),
+            shooterPrototype.setDesiredValueCommand(10),
             shooterPrototype.setEnabledCommand(true)
         );
     }
     public Command stopShooting(){
         return Commands.parallel(
-             shooterPrototype.setDesiredValueCommand(0),
+            
+        shooterPrototype.setDesiredValueCommand(0),
             shooterPrototype.setEnabledCommand(false),
             counterRoller.setDesiredValueCommand(0),
             counterRoller.setEnabledCommand(false)
@@ -65,7 +66,7 @@ public class SuperSystem implements Reportable {
     }
     public Command index(){
         return Commands.parallel(
-            indexerPrototype.setDesiredValueCommand(20),
+            indexerPrototype.setDesiredValueCommand(10),
             indexerPrototype.setEnabledCommand(true)
         );
     }
