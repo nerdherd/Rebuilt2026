@@ -82,6 +82,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
         field = new Field2d();
 
         if (USE_VISION) setVision(true);
+        else setVision(false);
     }
     
     

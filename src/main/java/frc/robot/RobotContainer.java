@@ -4,6 +4,12 @@
 
 package frc.robot;
 
+import java.io.IOException;
+
+import org.json.simple.parser.ParseException;
+
+import com.ctre.phoenix6.swerve.SwerveDrivetrain;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -17,6 +23,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.generated.TunerConstants;
+import frc.robot.commands.autos.Taxi;
 import frc.robot.commands.RingDriveCommand;
 import frc.robot.commands.SwerveJoystickCommand;
 import frc.robot.subsystems.NerdDrivetrain;
@@ -29,8 +36,8 @@ public class RobotContainer {
   
   public SuperSystem superSystem;
 
-  private final Controller driverController = new Controller(ControllerConstants.kDriverControllerPort, false);
-  private final Controller operatorController = new Controller(ControllerConstants.kOperatorControllerPort,false);
+  private final Controller driverController = new Controller(ControllerConstants.kDriverControllerPort);
+  private final Controller operatorController = new Controller(ControllerConstants.kOperatorControllerPort);
   
   private SendableChooser<Command> autoChooser = new SendableChooser<Command>();
   
@@ -78,7 +85,7 @@ public class RobotContainer {
     swerveJoystickCommand = 
     new SwerveJoystickCommand(
       swerveDrive,
-      () -> -driverController.getLeftY(), // Horizontal Translation
+      () -> driverController.getLeftY(), // Horizontal Translation
       () -> driverController.getLeftX(), // Vertical Translation
       () -> driverController.getRightX(), // Rotation
       () -> true, // robot oriented variable (true = field oriented)
@@ -136,9 +143,11 @@ public class RobotContainer {
   public void configureBindings_test() {}
   
   private void initAutoChoosers() {
-    
     ShuffleboardTab autosTab = Shuffleboard.getTab("Autos");
     autosTab.add("Selected Auto", autoChooser);
+    try { // vscode fix error display
+      autoChooser.setDefaultOption("Test Auto", new Taxi(swerveDrive, "MegaTag1_Test"));
+    } catch (IOException | ParseException e) {}
   }
   
   public void initShuffleboard() {
