@@ -205,7 +205,7 @@ public final class Constants {
 
     public static enum Camera {
       // Example("limelight-ex", "10.6.87.XX:5802"),
-      Front("limelight-front", "10.6.87.200:5802");
+      Front("limelight-front", "10.6.87.200:5802"); // Abruticus
 
       public final String name, ip;
       Camera(String name, String ip) {

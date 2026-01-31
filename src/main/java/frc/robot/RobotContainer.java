@@ -90,7 +90,7 @@ public class RobotContainer {
       () -> driverController.getLeftX() // Vertical Translation
       ));
 
-    driverController.bumperRight().whileTrue(Commands.run(
+    driverController.bumperRight().whileTrue(Commands.run( // DriveToTarget test
       () -> swerveDrive.driveToTarget(new Pose2d())
     ));
   }
@@ -114,8 +114,7 @@ public class RobotContainer {
     driverController.controllerRight()
       .onTrue(Commands.runOnce(() -> swerveDrive.resetAllRotation(Rotation2d.kZero)));
       // .onTrue(Commands.runOnce(() -> swerveDrive.useMegaTag2 = false));
-    // driverController.controllerRight()
-    //   .onTrue(Commands.runOnce(() -> imu.zeroAbsoluteHeading()));
+      // .onTrue(Commands.runOnce(() -> imu.zeroAbsoluteHeading()));
 
     if (Constants.USE_SUBSYSTEMS) {}
   }
