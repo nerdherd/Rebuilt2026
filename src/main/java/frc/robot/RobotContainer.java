@@ -72,7 +72,7 @@ public class RobotContainer {
 
       
     }
-
+    
     initShuffleboard();
     initAutoChoosers();
 
@@ -118,7 +118,7 @@ public class RobotContainer {
       () -> driverController.getLeftX() // Vertical Translation
       ));
 
-    driverController.bumperRight().whileTrue(Commands.run(
+    driverController.bumperRight().whileTrue(Commands.run( // DriveToTarget test
       () -> swerveDrive.driveToTarget(new Pose2d())
     ));
   }
