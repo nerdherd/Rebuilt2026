@@ -9,6 +9,7 @@ import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.NeutralOut;
 import com.ctre.phoenix6.controls.VelocityVoltage;
+import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
@@ -33,6 +34,8 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 	private final MotionMagicVoltage positionController;
 	/** velocity controller for {@link SubsystemMode#VELOCITY} */
 	private final VelocityVoltage velocityController;
+	/** velocity controller for {@link SubsystemMode#VELOCITY} */
+	private final VoltageOut voltageController;
 	/** follower controller for {@link #motor2} */
 	private final Follower followerController;
 
@@ -57,7 +60,8 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 
 	public enum SubsystemMode {
 		POSITION, 
-		VELOCITY
+		VELOCITY,
+		VOLTAGE
 	}
 	/** {@link SubsystemMode} of this subsystem */
 	private final SubsystemMode mode;
@@ -82,12 +86,28 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 		}
 		this.mode = mode;
 		this.desiredValue = defaultValue;
-		if (this.isPositionMode()){
-			positionController = new MotionMagicVoltage(defaultValue);
-			velocityController = null;
-		} else {
-			positionController = null;
-			velocityController = new VelocityVoltage(defaultValue);
+
+		switch (mode) {
+			case POSITION:
+				positionController = new MotionMagicVoltage(defaultValue);
+				velocityController = null;
+				voltageController  = null;
+				break;
+			case VELOCITY:
+				positionController = null;
+				velocityController = new VelocityVoltage(defaultValue);
+				voltageController  = null;
+				break;
+			case VOLTAGE:
+				positionController = null;
+				velocityController = null;
+				voltageController  = new VoltageOut(defaultValue);
+				break;
+			default:
+				positionController = null;
+				velocityController = null;
+				voltageController  = null;
+				break;
 		}
 		this.name = name;
 		shuffleboardTab = Shuffleboard.getTab(this.name);
@@ -98,9 +118,10 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 	}
 	
 	/** applies configuration to motors; should be used on construction */
-	public void configureMotors(TalonFXConfiguration configuration){
+	public TemplateSubsystem configureMotors(TalonFXConfiguration configuration){
 		this.configuration = configuration;
 		applyMotorConfigs();
+		return this;
 	}
 
 	@Override
@@ -119,6 +140,8 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 			case VELOCITY:
 				motor1.setControl(velocityController.withVelocity(this.desiredValue));
 				break;
+			case VOLTAGE:
+				motor1.setControl(voltageController.withOutput(this.desiredValue));
 			default:
 				break;
 		}
@@ -132,8 +155,18 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 		return motor2 != null;
 	}
 
-	public boolean isPositionMode() {
-		return mode == SubsystemMode.POSITION;
+	public String getFlavorText() {
+		switch (mode) {
+			case POSITION:
+				return "Position";
+			case VELOCITY:
+				return "Velocity";
+			case VOLTAGE:
+				return "Voltage";
+			default:
+				break;
+		}
+		return "";
 	}
 
 	/** applies motor configurations based on {@link #configuration} */
@@ -192,12 +225,24 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 		return desiredValue;
 	}
 
+
 	/**
 	 * {@link #desiredValue}
 	 * @return the position or velocity based on motor1
 	 */
 	public double getCurrentValue() {
-		return (isPositionMode()) ? motor1.getPosition().getValueAsDouble() : motor1.getVelocity().getValueAsDouble();
+		switch (mode) {
+			case POSITION:
+				return motor1.getPosition().getValueAsDouble();
+			case VELOCITY:
+				return motor1.getVelocity().getValueAsDouble();
+			case VOLTAGE:
+				return motor1.getMotorVoltage().getValueAsDouble();
+			default:
+				break;
+		}
+
+		return 0.0;
 	}
 
 	/**
@@ -206,7 +251,18 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 	 */
 	public double getCurrentValue2() {
 		if (!hasMotor2()) return 0.0;
-		return (isPositionMode()) ? motor2.getPosition().getValueAsDouble() : motor2.getVelocity().getValueAsDouble();
+		switch (mode) {
+			case POSITION:
+				return motor2.getPosition().getValueAsDouble();
+			case VELOCITY:
+				return motor2.getVelocity().getValueAsDouble();
+			case VOLTAGE:
+				return motor2.getMotorVoltage().getValueAsDouble();
+			default:
+				break;
+		}
+
+		return 0.0;
 	}
 
 	public double getCurrentVelocity() {
@@ -267,7 +323,7 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
         ///////////
         /// ALL ///
         ///////////
-        Reportable.addNumber(shuffleboardTab,(isPositionMode()) ? "Desired Position" : "Desired RPM", () -> getDesiredValue(), Reportable.LOG_LEVEL.ALL);
+        Reportable.addNumber(shuffleboardTab,"Desired " + getFlavorText(), () -> getDesiredValue(), Reportable.LOG_LEVEL.ALL);
 		Reportable.addBoolean(shuffleboardTab, "Has Error", () -> _hasError, Reportable.LOG_LEVEL.ALL);
 		
         //////////////
@@ -280,8 +336,8 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
         //////////////
         /// MINIMAL //
         //////////////
-        Reportable.addNumber(shuffleboardTab, (isPositionMode()) ? "Position 1" : "RPM 1", () -> getCurrentValue(), Reportable.LOG_LEVEL.MINIMAL);
-        if (hasMotor2()) Reportable.addNumber(shuffleboardTab, (isPositionMode()) ? "Position 2" : "RPM 2", () -> getCurrentValue2(), Reportable.LOG_LEVEL.MINIMAL);
+        Reportable.addNumber(shuffleboardTab, getFlavorText() + " 1", () -> getCurrentValue(), Reportable.LOG_LEVEL.MINIMAL);
+        if (hasMotor2()) Reportable.addNumber(shuffleboardTab, getFlavorText() + " 2", () -> getCurrentValue2(), Reportable.LOG_LEVEL.MINIMAL);
         
     }
 }
