@@ -5,34 +5,21 @@
     "data": {
       "commands": [
         {
-          "type": "named",
-          "data": {
-            "name": "Shoot"
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "S3M3-Temp"
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "M3T1"
+            "name": "Wait"
           }
         },
         {
-          "type": "parallel",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Climb"
-                }
-              }
-            ]
+            "pathName": "M3T1"
           }
         }
       ]

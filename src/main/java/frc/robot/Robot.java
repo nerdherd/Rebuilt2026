@@ -70,9 +70,8 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     if (DriverStation.getAlliance().isPresent()) alliance = DriverStation.getAlliance().get();
-    m_robotContainer.swerveDrive.setVision(USE_VISION);
-    m_robotContainer.swerveDrive.resetRotation(new Rotation2d((DriverStation.getAlliance().get() == DriverStation.Alliance.Red ? 180.0 : 0.0)));
-    m_robotContainer.swerveDrive.zeroFieldOrientation(); // TODO consider auto field orientation
+    m_robotContainer.swerveDrive.setVision(USE_VISION); 
+    m_robotContainer.swerveDrive.resetAllRotation(new Rotation2d(DriverStation.getAlliance().get() == DriverStation.Alliance.Red ? 3.14159 : 0.0)); // TODO consider auto field orientation
     // m_robotContainer.swerveDrive.enableLimeLight(); TODO
 
     if (Constants.USE_SUBSYSTEMS) {

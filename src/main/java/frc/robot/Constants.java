@@ -51,7 +51,7 @@ public final class Constants {
   /**
    * controls whether vision should be initialized
    */
-  public static boolean USE_VISION = true;
+  public static boolean USE_VISION = false;
 
   public static class ControllerConstants {
     public static final double kDeadband = 0.05;

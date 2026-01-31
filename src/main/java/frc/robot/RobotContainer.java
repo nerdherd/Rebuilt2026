@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.auto.NamedCommands;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -39,6 +41,11 @@ public class RobotContainer {
    * s subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+
+    //Named Command Initialization
+
+    NamedCommands.registerCommand("Wait", Commands.waitSeconds(2));
+
     try { swerveDrive = TunerConstants.createDrivetrain(); }
     catch (IllegalArgumentException e) {
       DriverStation.reportError("Illegal Swerve Drive Module Type", e.getStackTrace());
@@ -105,8 +112,8 @@ public class RobotContainer {
     driverController.controllerLeft()
       .onTrue(Commands.runOnce(() -> swerveDrive.zeroFieldOrientation()));
     driverController.controllerRight()
-      // .onTrue(Commands.runOnce(() -> swerveDrive.resetAllRotation(Rotation2d.kZero)));
-      .onTrue(Commands.runOnce(() -> swerveDrive.useMegaTag2 = false));
+      .onTrue(Commands.runOnce(() -> swerveDrive.resetAllRotation(Rotation2d.kZero)));
+      // .onTrue(Commands.runOnce(() -> swerveDrive.useMegaTag2 = false));
     // driverController.controllerRight()
     //   .onTrue(Commands.runOnce(() -> imu.zeroAbsoluteHeading()));
 

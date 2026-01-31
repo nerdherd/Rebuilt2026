@@ -20,10 +20,14 @@ public final class Autos {
 
     //autos
     // Example: private static PathPlannerAuto exampleAuto;
+    private static PathPlannerAuto S3TowerBlue;
+    private static PathPlannerAuto S3TowerRed;
 
     public static void initializeAutos() {
         //initialize autos
         //Example: exampleAuto = new PathPlannerAuto("example Auto");
+        S3TowerBlue = new PathPlannerAuto("S3Blue-Tower");
+        S3TowerRed = new PathPlannerAuto("S3Red-Tower");
 
         Shuffleboard.getTab("Autons").add("Red Autons", autonChooserRed)
                 .withWidget(BuiltInWidgets.kComboBoxChooser).withPosition(0, 0)
@@ -34,9 +38,11 @@ public final class Autos {
 
         //add options to red 
         //autonChooserRed.addOption("exampleRed", exampleAuto);
+        autonChooserRed.addOption("S3Tower-Red", S3TowerRed);
 
         //add options to blue
         //autonChooserBlue.addOption("exampleBlue", exampleAuto);
+        autonChooserBlue.addOption("S3Tower-Blue", S3TowerBlue);
     }
 
 }
