@@ -159,6 +159,9 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
 
     // ----------------------------------------- Helper Functions ----------------------------------------- //
 
+    /**
+     * sets the control to TowSwerveRequest
+     */
     public void stop() {
         setControl(kTowSwerveRequest);
     }
@@ -223,7 +226,6 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
             LimelightHelpers.SetRobotOrientation(limelight.name, yaw, 0, 0, 0, 0, 0);
             PoseEstimate mt = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(limelight.name);
             if (mt == null || Math.abs(getPigeon2().getAngularVelocityZWorld().getValueAsDouble()) > 720 || mt.tagCount == 0) return;
-            SmartDashboard.putBoolean("jytf", true);
             setVisionMeasurementStdDevs(VecBuilder.fill(0.7, 0.7, 9999999)); // TODO consider other stddevs
             addVisionMeasurement(mt.pose, Utils.getCurrentTimeSeconds());
         }
@@ -241,7 +243,6 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
 
     public void resetAllRotation(Rotation2d rotation) {
         getPigeon2().setYaw(rotation.getMeasure());
-        // resetRotation(rotation);
     }
 
     /** 

@@ -222,7 +222,6 @@ public final class Constants {
   }
   public static final class IntakeConstants{
     public static final int kMotor1ID = 15; //TODO
-    public static final int kMotor2ID  = 16; //TODO
 
     public static final Slot0Configs kSlot0Configs = 
       new Slot0Configs() //TODO
@@ -238,12 +237,13 @@ public final class Constants {
 
   public static final class IndexerConstants{
     public static final int kMotor1ID = 25; //TODO
+    public static final int kMotor2ID = 62; //TODO
 
     public static final Slot0Configs kSlot0Configs = 
       new Slot0Configs() //TODO
-        .withKP(0.0)
+        .withKP(0.5)
         .withKI(0.0)
-        .withKD(0.0)
+        .withKD(0.0) 
       ;
     public static final TalonFXConfiguration kSubsystemConfiguration = 
       new TalonFXConfiguration()
@@ -252,7 +252,7 @@ public final class Constants {
   }
 
   public static final class CounterRollerConstants{
-    public static final int kMotor1ID = 26; //TODO
+    public static final int kMotor1ID = 37; //TODO
 
     public static final Slot0Configs kSlot0Configs = 
       new Slot0Configs() //TODO
@@ -290,13 +290,12 @@ public final class Constants {
         .withMotorOutput(kMotorOutputConfigs)
       ;
   }
-  public static final class PivotConstants{
-    public static final int kMotor1ID = 17;
-    public static final int kMotor2ID = 18;
+  public static final class IntakeSlapdownConstants{
+    public static final int kMotor1ID = 16;
 
     public static final Slot0Configs kSlot0Configs = 
       new Slot0Configs()
-        .withKP(kMotor1ID)
+        .withKP(0.5)
         .withKI(0.0)
         .withKD(0.0)
       ;

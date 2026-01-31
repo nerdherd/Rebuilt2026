@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.signals.NeutralModeValue;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 
@@ -15,9 +16,6 @@ public class SuperSystem implements Reportable {
 
     //add new subsystems
 
-    public enum ExecutionOrder {
-        //TODO
-    }
 
     public SuperSystem(NerdDrivetrain swerveDrivetrain,Intake intake, Indexer indexer, CounterRoller counterRoller, Shooter shooter, Pivot pivot) {
         this.swerveDrivetrain = swerveDrivetrain;
@@ -33,43 +31,71 @@ public class SuperSystem implements Reportable {
     public void reConfigureMotors() {
         // redo
     }
+    
     public Command shoot(){
         return Commands.parallel(
-            counterRoller.setDesiredValueCommand(20),
-            indexer.setDesiredValueCommand(20),
+            indexer.setEnabledCommand(true),
+            indexer.setDesiredValueCommand(20)
             );
     }
     
     public Command stopShooting(){
         return Commands.parallel(
-            counterRoller.setDesiredValueCommand(0),
+            indexer.setEnabledCommand(false),
             indexer.setDesiredValueCommand(0)
             );
     }
 
     public Command spinUpFlywheel(){
         return Commands.parallel(
-            shooter.setDesiredValueCommand(20)
-        );
-    }
-
+            counterRoller.setEnabledCommand(true),
+            counterRoller.setDesiredValueCommand(20),
+            shooter.setEnabledCommand(true),
+            shooter.setDesiredValueCommand(40)
+            );
+        }
+        
     public Command stopFlywheel(){
         return Commands.parallel(
+            counterRoller.setEnabledCommand(false),
+            shooter.setEnabledCommand(false),
+            counterRoller.setDesiredValueCommand(0),
             shooter.setDesiredValueCommand(0)
         );
     }
 
-    public Command intake(){
-        return Commands.sequence(
-            pivot.setDesiredValueCommand(.12),
-            intake.setDesiredValueCommand(10)
+    public Command intakeDown(){
+        return Commands.parallel(
+            pivot.setEnabledCommand(true),
+            pivot.setDesiredValueCommand(1)
         );
-    
     }
+
+    public Command intakeUp(){
+        return Commands.parallel(
+            pivot.setEnabledCommand(true),
+            pivot.setDesiredValueCommand(-1)
+        );
+    }
+
+    public Command pivotStop() {
+        return Commands.parallel(
+            pivot.setEnabledCommand(false),
+            pivot.setDesiredValueCommand(0.0)
+        );
+    }
+
+    public Command intake() {
+        return Commands.parallel(
+            intake.setEnabledCommand(true),
+            intake.setDesiredValueCommand(10.0)
+        );
+    }
+
     public Command stopIntaking(){
-        return Commands.sequence(
-            intake.setDesiredValueCommand(0),
-            pivot.setDesiredValueCommand(0)
+        return Commands.parallel(
+            intake.setEnabledCommand(false),
+            intake.setDesiredValueCommand(0)
         );
     }
 
@@ -87,17 +113,22 @@ public class SuperSystem implements Reportable {
     public void initialize() {
         //set enabled = true;
         //set initials 
-        intake.setEnabled(true);
-        indexer.setEnabled(true);
-        counterRoller.setEnabled(true);
-        shooter.setEnabled(true);
-        pivot.setEnabled(true);
+        // intake.setEnabled(true);
+        // indexer.setEnabled(true);
+        // counterRoller.setEnabled(true);
+        // shooter.setEnabled(true);
+        // pivot.setEnabled(true);
 
     }
 
     @Override
     public void initializeLogging() {
-        // wow such empty...
+        intake.initializeLogging();
+        indexer.initializeLogging();
+        counterRoller.initializeLogging();
+        shooter.initializeLogging();
+        pivot.initializeLogging();
+
     }
 
 }

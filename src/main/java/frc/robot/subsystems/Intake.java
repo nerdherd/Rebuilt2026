@@ -14,17 +14,10 @@ public class Intake extends TemplateSubsystem{
         super(
             "Intake",
             Constants.IntakeConstants.kMotor1ID,
-            Constants.IntakeConstants.kMotor2ID,
-            MotorAlignmentValue.Opposed,
             SubsystemMode.VELOCITY,
             0
             );
         configureMotors(Constants.IntakeConstants.kSubsystemConfiguration);
-    }
-    @Override
-    public void initializeLogging(){
-        Reportable.addNumber(shuffleboardTab, "Intake Left", () -> getCurrentValue(), Reportable.LOG_LEVEL.MINIMAL);
-        Reportable.addNumber(shuffleboardTab, "Intake Right", () -> getCurrentValueMotor2(), Reportable.LOG_LEVEL.MINIMAL);
     }
     
 }

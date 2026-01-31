@@ -65,7 +65,6 @@ public class RobotContainer {
       indexer = new Indexer();
       counterRoller = new CounterRoller();
       shooter = new Shooter(); //TODO
-
       pivot = new Pivot();
 
       superSystem = new SuperSystem(swerveDrive, intake, indexer, counterRoller, shooter, pivot);
@@ -145,9 +144,8 @@ public class RobotContainer {
       .onTrue(superSystem.shoot())
       .onFalse(superSystem.stopShooting());
     operatorController.dpadUp()
-      .onTrue(superSystem.spinUpFlywheel());
-    operatorController.dpadDown()
-      .onTrue(superSystem.stopFlywheel());
+      .onTrue(superSystem.spinUpFlywheel())
+      .onFalse(superSystem.stopFlywheel());
     operatorController.bumperRight()
       .onTrue(superSystem.intake())
       .onFalse(superSystem.stopIntaking());

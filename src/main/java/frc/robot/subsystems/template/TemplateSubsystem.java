@@ -21,7 +21,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.Reportable;
 
-public abstract class TemplateSubsystem extends SubsystemBase implements Reportable {
+public class TemplateSubsystem extends SubsystemBase implements Reportable {
 	/** primary motor; required */
 	protected final TalonFX motor1;
 	/** secondary motor; optional */
@@ -46,7 +46,9 @@ public abstract class TemplateSubsystem extends SubsystemBase implements Reporta
 	private double desiredValue; 
 
 	/** whether the subsystem will run {@link #periodic()} or use {@link #neutralRequest} */
-	private boolean enabled = false;
+	protected boolean enabled = false;
+
+	public boolean _hasError = false;
 
 	/** shuffleboard tab for logging, named through the constructor */
 	protected final ShuffleboardTab shuffleboardTab;
@@ -80,7 +82,7 @@ public abstract class TemplateSubsystem extends SubsystemBase implements Reporta
 		}
 		this.mode = mode;
 		this.desiredValue = defaultValue;
-		if (this.mode == SubsystemMode.POSITION){
+		if (this.isPositionMode()){
 			positionController = new MotionMagicVoltage(defaultValue);
 			velocityController = null;
 		} else {
@@ -121,15 +123,23 @@ public abstract class TemplateSubsystem extends SubsystemBase implements Reporta
 				break;
 		}
 
-		if(motor2 != null) motor2.setControl(followerController);
+		if(hasMotor2()) motor2.setControl(followerController);
 	}
 
 	// ------------------------------------ Helper Functions ------------------------------------ //
 	
+	public boolean hasMotor2() {
+		return motor2 != null;
+	}
+
+	public boolean isPositionMode() {
+		return mode == SubsystemMode.POSITION;
+	}
+
 	/** applies motor configurations based on {@link #configuration} */
 	protected void applyMotorConfigs(){
 		motor1.getConfigurator().apply(this.configuration);
-		if(motor2 != null) motor2.getConfigurator().apply(this.configuration);
+		if(hasMotor2()) motor2.getConfigurator().apply(this.configuration);
 	}
 
 	/** sets and applies a {@link NeutralModeValue} to motors */
@@ -141,7 +151,7 @@ public abstract class TemplateSubsystem extends SubsystemBase implements Reporta
 	/** brake or coast depending on current {@link NeutralModeValue} */
 	public void stop(){
 		motor1.setControl(neutralRequest);
-		if (motor2 != null) motor2.setControl(neutralRequest);
+		if (hasMotor2()) motor2.setControl(neutralRequest);
 	}
 
 	/** 
@@ -187,17 +197,31 @@ public abstract class TemplateSubsystem extends SubsystemBase implements Reporta
 	 * @return the position or velocity based on motor1
 	 */
 	public double getCurrentValue() {
-		return (mode == SubsystemMode.POSITION) ? motor1.getPosition().getValueAsDouble() : motor1.getVelocity().getValueAsDouble();
+		return (isPositionMode()) ? motor1.getPosition().getValueAsDouble() : motor1.getVelocity().getValueAsDouble();
 	}
 
 	/**
 	 * {@link #desiredValue}
 	 * @return the position or velocity based on motor2
 	 */
-	public double getCurrentValueMotor2() {
-		if (motor2 == null) return 0.0;
-		return (mode == SubsystemMode.POSITION) ? motor2.getPosition().getValueAsDouble() : motor2.getVelocity().getValueAsDouble();
+	public double getCurrentValue2() {
+		if (!hasMotor2()) return 0.0;
+		return (isPositionMode()) ? motor2.getPosition().getValueAsDouble() : motor2.getVelocity().getValueAsDouble();
 	}
+
+	public double getCurrentVelocity() {
+		return motor1.getVelocity().getValueAsDouble();
+	}
+
+	public double getCurrentTemp(){
+		return motor1.getDeviceTemp().getValueAsDouble();
+	}
+
+	public double getCurrentTemp2(){
+		if (!hasMotor2()) return 0.0;
+		return motor2.getDeviceTemp().getValueAsDouble();
+	}
+
 
 	/**
 	 * @return {@link #enabled}
@@ -239,5 +263,25 @@ public abstract class TemplateSubsystem extends SubsystemBase implements Reporta
 	 * @see {@link Reportable#addBoolean(ShuffleboardTab, String, java.util.function.BooleanSupplier, frc.robot.subsystems.Reportable.LOG_LEVEL)}
 	 * @see {@link Reportable#addString(ShuffleboardTab, String, java.util.function.Supplier, frc.robot.subsystems.Reportable.LOG_LEVEL)}
 	 */
-	public abstract void initializeLogging();
+    public void initializeLogging(){
+        ///////////
+        /// ALL ///
+        ///////////
+        Reportable.addNumber(shuffleboardTab,(isPositionMode()) ? "Desired Position" : "Desired RPM", () -> getDesiredValue(), Reportable.LOG_LEVEL.ALL);
+		Reportable.addBoolean(shuffleboardTab, "Has Error", () -> _hasError, Reportable.LOG_LEVEL.ALL);
+		
+        //////////////
+        /// MEDIUM ///
+        //////////////
+        Reportable.addBoolean(shuffleboardTab, "Enabled", () -> this.enabled, Reportable.LOG_LEVEL.MEDIUM);
+        Reportable.addNumber(shuffleboardTab, "Temperature 1", () -> getCurrentTemp(), Reportable.LOG_LEVEL.MEDIUM);
+        if (hasMotor2()) Reportable.addNumber(shuffleboardTab, "Temperature 2", () -> getCurrentTemp2(), Reportable.LOG_LEVEL.MEDIUM);
+        
+        //////////////
+        /// MINIMAL //
+        //////////////
+        Reportable.addNumber(shuffleboardTab, (isPositionMode()) ? "Position 1" : "RPM 1", () -> getCurrentValue(), Reportable.LOG_LEVEL.MINIMAL);
+        if (hasMotor2()) Reportable.addNumber(shuffleboardTab, (isPositionMode()) ? "Position 2" : "RPM 2", () -> getCurrentValue2(), Reportable.LOG_LEVEL.MINIMAL);
+        
+    }
 }
