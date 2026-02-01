@@ -94,7 +94,7 @@ public class SuperSystem implements Reportable {
     public Command intake() {
         return Commands.parallel(
             intake.setEnabledCommand(true),
-            intake.setDesiredValueCommand(4)
+            intake.setDesiredValueCommand(4.5)
         );
     }
 

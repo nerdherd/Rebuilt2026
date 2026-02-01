@@ -238,12 +238,12 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
      * @see {@link #setOperatorPerspectiveForward} also for more custom setting
      */
     public void zeroFieldOrientation() {
-        setOperatorPerspectiveForward(getPose().getRotation());
+        setOperatorPerspectiveForward(Rotation2d.fromDegrees(getAbsoluteHeadingDegrees()));
     }
 
     public void resetAllRotation(Rotation2d rotation) {
-        getPigeon2().setYaw(rotation.getMeasure());
-        // resetRotation(rotation);
+        resetRotation(rotation);
+        // getPigeon2().setYaw(rotation.getMeasure());
     }
 
     /** 
@@ -259,7 +259,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
      * @see {@link #resetAllRotation(Rotation2d)}
      */
     public double getAbsoluteHeadingRadians() {
-        return MathUtil.inputModulus(getPigeon2().getRotation2d().getRadians(), -180, 180);
+        return MathUtil.inputModulus(getPose().getRotation().getDegrees(), -180, 180);
     }
 
     /**
@@ -301,7 +301,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
         //////////////
         Reportable.addNumber(tab, "absolute heading", this::getAbsoluteHeadingDegrees, LOG_LEVEL.MEDIUM);
         Reportable.addNumber(tab, "operator heading", () -> getOperatorHeadingDegrees() + getAbsoluteHeadingDegrees(), LOG_LEVEL.MEDIUM);
-        Reportable.addNumber(tab, "odom heading", () -> getPose().getRotation().getDegrees(), LOG_LEVEL.MEDIUM);
+        // Reportable.addNumber(tab, "odom heading", () -> getPose().getRotation().getDegrees(), LOG_LEVEL.MEDIUM);
         
         //////////////
         /// MINIMAL //

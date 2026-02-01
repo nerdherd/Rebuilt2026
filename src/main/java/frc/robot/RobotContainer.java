@@ -101,21 +101,21 @@ public class RobotContainer {
    * used in teleop mode.
    */
   public void initDefaultCommands_teleop() {
-    // swerveJoystickCommand = 
-    // new SwerveJoystickCommand(
-    //   swerveDrive,
-    //   () -> -driverController.getLeftY(), // Horizontal Translation
-    //   () -> driverController.getLeftX(), // Vertical Translation
-    //   () -> driverController.getRightX(), // Rotation
-    //   () -> true, // robot oriented variable (true = field oriented)
-    //   () -> false, // tow supplier
-    //   () -> driverController.getTriggerRight(), // Precision/"Sniper Button"
-    //   () -> false,
-    //   () -> swerveDrive.getAbsoluteHeadingDegrees(), // TODO i have no clue if this is right // Turn to angle direction 
-    //   () -> new Translation2d(  (driverController.getDpadUp()?1.0:0.0) - (driverController.getDpadDown()?1:0), 
-    //                             (driverController.getDpadLeft()?1.0:0.0) - (driverController.getDpadRight()?1:0)) // DPad vector
-    // );
-    // swerveDrive.setDefaultCommand(swerveJoystickCommand);
+    swerveJoystickCommand = 
+    new SwerveJoystickCommand(
+      swerveDrive,
+      () -> -driverController.getLeftY(), // Horizontal Translation
+      () -> driverController.getLeftX(), // Vertical Translation
+      () -> driverController.getRightX(), // Rotation
+      () -> true, // robot oriented variable (true = field oriented)
+      () -> false, // tow supplier
+      () -> driverController.getTriggerLeft(), // Precision/"Sniper Button"
+      () -> false,
+      () -> swerveDrive.getAbsoluteHeadingDegrees(), // TODO i have no clue if this is right // Turn to angle direction 
+      () -> new Translation2d(  (driverController.getDpadUp()?1.0:0.0) - (driverController.getDpadDown()?1:0), 
+                                (driverController.getDpadLeft()?1.0:0.0) - (driverController.getDpadRight()?1:0)) // DPad vector
+    );
+    swerveDrive.setDefaultCommand(swerveJoystickCommand);
 
     // driverController.triggerLeft().whileTrue(new RingDriveCommand(
     //   swerveDrive,
@@ -151,7 +151,11 @@ public class RobotContainer {
     //   .onTrue(Commands.runOnce(() -> imu.zeroAbsoluteHeading()));
   
 
-    if (Constants.USE_SUBSYSTEMS) {}
+    if (Constants.USE_SUBSYSTEMS) {
+      driverController.triggerRight()
+        .onTrue(superSystem.intake())
+        .onFalse(superSystem.stopIntaking());
+    }
   }
 
   ///////////////////////
@@ -162,12 +166,9 @@ public class RobotContainer {
     operatorController.bumperLeft()
       .onTrue(superSystem.shoot())
       .onFalse(superSystem.stopShooting());
-    operatorController.dpadUp()
+    operatorController.triggerRight()
       .onTrue(superSystem.spinUpFlywheel())
       .onFalse(superSystem.stopFlywheel());
-    operatorController.bumperRight()
-      .onTrue(superSystem.intake())
-      .onFalse(superSystem.stopIntaking());
 
     if (Constants.USE_SUBSYSTEMS) {}
   }
