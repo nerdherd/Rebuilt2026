@@ -11,6 +11,7 @@ import com.ctre.phoenix6.controls.NeutralOut;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.ConnectedMotorValue;
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
@@ -20,6 +21,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Reportable;
 
 public class TemplateSubsystem extends SubsystemBase implements Reportable {
@@ -34,14 +36,13 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 	private final MotionMagicVoltage positionController;
 	/** velocity controller for {@link SubsystemMode#VELOCITY} */
 	private final VelocityVoltage velocityController;
-	/** velocity controller for {@link SubsystemMode#VELOCITY} */
+	/** voltage controller for {@link SubsystemMode#VOLTAGE} */
 	private final VoltageOut voltageController;
 	/** follower controller for {@link #motor2} */
 	private final Follower followerController;
 
 	/** brake/coast */
 	private final NeutralOut neutralRequest = new NeutralOut();
-
 	
 	/** 
 	 * target position or velocity depending on {@link SubsystemMode}
@@ -51,6 +52,7 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 	/** whether the subsystem will run {@link #periodic()} or use {@link #neutralRequest} */
 	protected boolean enabled = false;
 
+	/** used to indicate when the subsystem has an error, configured during debugging.  by default always false (reported at {@link LOG_LEVEL#ALL}) */
 	public boolean _hasError = false;
 
 	/** shuffleboard tab for logging, named through the constructor */
@@ -76,9 +78,9 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 	 * @param defaultValue - initial position or velocity depending on {@link SubsystemMode}
 	 */
 	public TemplateSubsystem(String name, int motor1ID, int motor2ID, MotorAlignmentValue reverseMotor2, SubsystemMode mode, double defaultValue) {
-		this.motor1 = new TalonFX(motor1ID);
+		this.motor1 = getMotor(motor1ID);
 		if (motor2ID != -1){
-			this.motor2 = new TalonFX(motor2ID);
+			this.motor2 = getMotor(motor2ID);
 			followerController = new Follower(motor1ID, reverseMotor2);
 		} else {
 			this.motor2 = null;
@@ -151,10 +153,27 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 
 	// ------------------------------------ Helper Functions ------------------------------------ //
 	
+	/**
+	 * gets a motor by trying to find it on the rio. if it isn't found, it tries again with the CANivore CANbus
+	 * relies on completely unique ids for the entire robot network
+	 * @param id - id of the motor to find
+	 * @return the found motor
+	 */
+	private static TalonFX getMotor(int id) {
+		TalonFX motor = new TalonFX(id);
+		if (motor.getConnectedMotor().getValue().compareTo(ConnectedMotorValue.Unknown) == 0) 
+			motor = new TalonFX(id, TunerConstants.kCANBus);
+		return motor;
+	}
+
+	/**
+	 * @return whether the subsystem is configured to have a second motor
+	 */
 	public boolean hasMotor2() {
 		return motor2 != null;
 	}
 
+	/** used for logging, essentially returns the subsystem mode in string form */
 	public String getFlavorText() {
 		switch (mode) {
 			case POSITION:
@@ -170,7 +189,7 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 	}
 
 	/** applies motor configurations based on {@link #configuration} */
-	protected void applyMotorConfigs(){
+	public void applyMotorConfigs(){
 		motor1.getConfigurator().apply(this.configuration);
 		if(hasMotor2()) motor2.getConfigurator().apply(this.configuration);
 	}
@@ -178,11 +197,12 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 	/** sets and applies a {@link NeutralModeValue} to motors */
 	public void setNeutralMode(NeutralModeValue mode){
 		this.configuration.MotorOutput.NeutralMode = mode;
-		applyMotorConfigs();
+		motor1.setNeutralMode(mode);
 	}
 	
 	/** brake or coast depending on current {@link NeutralModeValue} */
 	public void stop(){
+		disable();
 		motor1.setControl(neutralRequest);
 		if (hasMotor2()) motor2.setControl(neutralRequest);
 	}
@@ -265,14 +285,24 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 		return 0.0;
 	}
 
+	/**
+	 * could be useful for atPoint checks
+	 * @return the current velocity of {@link #motor1} 
+	 */
 	public double getCurrentVelocity() {
 		return motor1.getVelocity().getValueAsDouble();
 	}
 
+	/**
+	 * @return temperature of {@link #motor1}
+	 */
 	public double getCurrentTemp(){
 		return motor1.getDeviceTemp().getValueAsDouble();
 	}
 
+	/**
+	 * @return temperature of {@link #motor2}
+	 */
 	public double getCurrentTemp2(){
 		if (!hasMotor2()) return 0.0;
 		return motor2.getDeviceTemp().getValueAsDouble();

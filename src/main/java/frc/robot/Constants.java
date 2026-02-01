@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-import com.ctre.phoenix6.configs.FeedbackConfigs;
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
@@ -244,7 +243,6 @@ public final class Constants {
         .withMotionMagicAcceleration(1)
         .withMotionMagicCruiseVelocity(1)
       ;
-    
         
     public static final TalonFXConfiguration kSubsystemConfiguration = 
       new TalonFXConfiguration()
@@ -321,8 +319,6 @@ public final class Constants {
   public static final class ShooterConstants{
     public static final int kMotor1ID = 35;
     public static final int kMotor2ID = 36;
-    
-
 
     private static final Slot0Configs kSlot0Configs = 
       new Slot0Configs() //TODO
@@ -342,37 +338,39 @@ public final class Constants {
       ;
   }
 
+  /** 
+   * Container class to hold all subsystem objects.
+   */
   public static final class Subsystems {
     public static final boolean useIntakeSlapdown = true;
-    public static final TemplateSubsystem intakeSlapdown = 
+    public static final TemplateSubsystem intakeSlapdown = (!USE_SUBSYSTEMS) ? null :
     new TemplateSubsystem("Intake Slapdown", IntakeSlapdownConstants.kMotor1ID, SubsystemMode.POSITION, 0.0)
-    .configureMotors(IntakeSlapdownConstants.kSubsystemConfiguration);
+      .configureMotors(IntakeSlapdownConstants.kSubsystemConfiguration);
     
     public static final boolean useIntakeRoller = true;
-    public static final TemplateSubsystem intakeRoller = 
+    public static final TemplateSubsystem intakeRoller = (!USE_SUBSYSTEMS) ? null :
     new TemplateSubsystem("Intake Roller", IntakeRollerConstants.kMotor1ID, SubsystemMode.VELOCITY, 0.0)
-    .configureMotors(IntakeRollerConstants.kSubsystemConfiguration);
+      .configureMotors(IntakeRollerConstants.kSubsystemConfiguration);
     
     public static final boolean useConveyor = true;
-    public static final TemplateSubsystem conveyor = 
+    public static final TemplateSubsystem conveyor = (!USE_SUBSYSTEMS) ? null :
     new TemplateSubsystem("Conveyor", IntakeRollerConstants.kMotor1ID, SubsystemMode.VELOCITY, 0.0)
-    .configureMotors(ConveyorConstants.kSubsystemConfiguration);    
+      .configureMotors(ConveyorConstants.kSubsystemConfiguration);    
     
     public static final boolean useIndexer = true;
-    public static final TemplateSubsystem indexer = 
+    public static final TemplateSubsystem indexer = (!USE_SUBSYSTEMS) ? null :
     new TemplateSubsystem("Indexer", IndexerConstants.kMotor1ID, SubsystemMode.VELOCITY, 0.0)
-    .configureMotors(IndexerConstants.kSubsystemConfiguration);
+      .configureMotors(IndexerConstants.kSubsystemConfiguration);
     
     public static final boolean useCounterRoller = true;
-    public static final TemplateSubsystem counterRoller = 
+    public static final TemplateSubsystem counterRoller = (!USE_SUBSYSTEMS) ? null :
     new TemplateSubsystem("Counter Roller", CounterRollerConstants.kMotor1ID, SubsystemMode.VELOCITY, 0.0)
-    .configureMotors(CounterRollerConstants.kSubsystemConfiguration);
+      .configureMotors(CounterRollerConstants.kSubsystemConfiguration);
     
     public static final boolean useShooter = true;
-    public static final TemplateSubsystem shooter = 
-      new TemplateSubsystem("Shooter", ShooterConstants.kMotor1ID, ShooterConstants.kMotor2ID, MotorAlignmentValue.Opposed,  SubsystemMode.VELOCITY, 0.0)
-        .configureMotors(ShooterConstants.kSubsystemConfiguration);    
-    
+    public static final TemplateSubsystem shooter = (!USE_SUBSYSTEMS) ? null :
+    new TemplateSubsystem("Shooter", ShooterConstants.kMotor1ID, ShooterConstants.kMotor2ID, MotorAlignmentValue.Opposed,  SubsystemMode.VELOCITY, 0.0)
+      .configureMotors(ShooterConstants.kSubsystemConfiguration);    
 
   }
 

@@ -16,9 +16,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Constants.ControllerConstants;
-import frc.robot.generated.TunerConstants;
 import frc.robot.commands.RingDriveCommand;
 import frc.robot.commands.SwerveJoystickCommand;
+import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.NerdDrivetrain;
 import frc.robot.subsystems.SuperSystem;
 import frc.robot.util.Controller;
@@ -41,17 +41,10 @@ public class RobotContainer {
    * s subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-    try { swerveDrive = TunerConstants.createDrivetrain(); }
-    catch (IllegalArgumentException e) {
-      DriverStation.reportError("Illegal Swerve Drive Module Type", e.getStackTrace());
-    }
+    swerveDrive = TunerConstants.createDrivetrain();
 
     if (Constants.USE_SUBSYSTEMS) {
-       //add subsystems
-
       superSystem = new SuperSystem(swerveDrive);
-
-      
     }
     
     initShuffleboard();
@@ -122,15 +115,6 @@ public class RobotContainer {
       .onTrue(Commands.runOnce(() -> swerveDrive.zeroFieldOrientation()));
     driverController.controllerRight()
       .onTrue(Commands.runOnce(() -> swerveDrive.resetAllRotation(Rotation2d.kZero)));
-    operatorController.bumperLeft()
-      .onTrue(superSystem.shoot())
-      .onFalse(superSystem.stopShooting());
-    operatorController.dpadUp()
-      .onTrue(superSystem.spinUpFlywheel())
-      .onFalse(superSystem.stopFlywheel());
-    operatorController.bumperRight()
-      .onTrue(superSystem.intake())
-      .onFalse(superSystem.stopIntaking());
 
     // driverController.controllerRight()
     //   .onTrue(Commands.runOnce(() -> imu.zeroAbsoluteHeading()));
@@ -144,7 +128,17 @@ public class RobotContainer {
   //////////////////////
   public void configureOperatorBindings_teleop() {
 
-    if (Constants.USE_SUBSYSTEMS) {}
+    if (Constants.USE_SUBSYSTEMS) {
+      operatorController.bumperLeft()
+        .onTrue(superSystem.shoot())
+        .onFalse(superSystem.stopShooting());
+      operatorController.dpadUp()
+        .onTrue(superSystem.spinUpFlywheel())
+        .onFalse(superSystem.stopFlywheel());
+      operatorController.bumperRight()
+        .onTrue(superSystem.intake())
+        .onFalse(superSystem.stopIntaking());
+    }
   }
 
 
@@ -178,7 +172,5 @@ public class RobotContainer {
   {
     swerveDrive.setBrake(true);
   }
-  
 
-  
 }
