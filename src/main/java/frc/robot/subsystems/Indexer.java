@@ -12,7 +12,7 @@ public class Indexer extends TemplateSubsystem {
             "Indexer",
             Constants.IndexerConstants.kMotor1ID, //TODO
             SubsystemMode.VELOCITY,
-            0
+            0, "rio"
             );
         configureMotors(Constants.IndexerConstants.kSubsystemConfiguration);
     }

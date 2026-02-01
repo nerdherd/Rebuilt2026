@@ -16,7 +16,7 @@ public class Shooter extends TemplateSubsystem{
             Constants.ShooterConstants.kMotor2ID,
             MotorAlignmentValue.Opposed,
             SubsystemMode.VELOCITY,
-            0
+            0, "rio"
         );
         configureMotors(Constants.ShooterConstants.kSubsystemConfiguration);
         

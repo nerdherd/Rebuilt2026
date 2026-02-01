@@ -238,11 +238,12 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
      * @see {@link #setOperatorPerspectiveForward} also for more custom setting
      */
     public void zeroFieldOrientation() {
-        setOperatorPerspectiveForward(Rotation2d.fromDegrees(getAbsoluteHeadingDegrees()));
+        setOperatorPerspectiveForward(getPose().getRotation());
     }
 
     public void resetAllRotation(Rotation2d rotation) {
         getPigeon2().setYaw(rotation.getMeasure());
+        // resetRotation(rotation);
     }
 
     /** 

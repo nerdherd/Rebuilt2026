@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import com.ctre.phoenix6.controls.VoltageOut;
+import com.ctre.phoenix6.hardware.TalonFX;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -19,6 +22,7 @@ import frc.robot.Constants.ControllerConstants;
 import frc.robot.generated.TunerConstants;
 import frc.robot.commands.RingDriveCommand;
 import frc.robot.commands.SwerveJoystickCommand;
+import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.CounterRoller;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
@@ -35,6 +39,7 @@ public class RobotContainer {
   public SuperSystem superSystem;
 
   public Intake intake;
+  public Conveyor conveyor;
   public Indexer indexer;
   public CounterRoller counterRoller;
   public Shooter shooter;
@@ -42,8 +47,8 @@ public class RobotContainer {
 
   
 
-  private final Controller driverController = new Controller(ControllerConstants.kDriverControllerPort, false);
-  private final Controller operatorController = new Controller(ControllerConstants.kOperatorControllerPort,false);
+  private final Controller driverController = new Controller(ControllerConstants.kDriverControllerPort);
+  private final Controller operatorController = new Controller(ControllerConstants.kOperatorControllerPort);
   
   private SendableChooser<Command> autoChooser = new SendableChooser<Command>();
   
@@ -62,12 +67,13 @@ public class RobotContainer {
     if (Constants.USE_SUBSYSTEMS) {
        //add subsystems
       intake = new Intake();
+      conveyor = new Conveyor();
       indexer = new Indexer();
       counterRoller = new CounterRoller();
-      shooter = new Shooter(); //TODO
+      shooter = new Shooter();
       pivot = new Pivot();
 
-      superSystem = new SuperSystem(swerveDrive, intake, indexer, counterRoller, shooter, pivot);
+      superSystem = new SuperSystem(swerveDrive, intake, conveyor, indexer, counterRoller, shooter, pivot);
 
       
     }
@@ -95,31 +101,31 @@ public class RobotContainer {
    * used in teleop mode.
    */
   public void initDefaultCommands_teleop() {
-    swerveJoystickCommand = 
-    new SwerveJoystickCommand(
-      swerveDrive,
-      () -> -driverController.getLeftY(), // Horizontal Translation
-      () -> driverController.getLeftX(), // Vertical Translation
-      () -> driverController.getRightX(), // Rotation
-      () -> true, // robot oriented variable (true = field oriented)
-      () -> false, // tow supplier
-      () -> driverController.getTriggerRight(), // Precision/"Sniper Button"
-      () -> false,
-      () -> swerveDrive.getAbsoluteHeadingDegrees(), // TODO i have no clue if this is right // Turn to angle direction 
-      () -> new Translation2d(  (driverController.getDpadUp()?1.0:0.0) - (driverController.getDpadDown()?1:0), 
-                                (driverController.getDpadLeft()?1.0:0.0) - (driverController.getDpadRight()?1:0)) // DPad vector
-    );
-    swerveDrive.setDefaultCommand(swerveJoystickCommand);
+    // swerveJoystickCommand = 
+    // new SwerveJoystickCommand(
+    //   swerveDrive,
+    //   () -> -driverController.getLeftY(), // Horizontal Translation
+    //   () -> driverController.getLeftX(), // Vertical Translation
+    //   () -> driverController.getRightX(), // Rotation
+    //   () -> true, // robot oriented variable (true = field oriented)
+    //   () -> false, // tow supplier
+    //   () -> driverController.getTriggerRight(), // Precision/"Sniper Button"
+    //   () -> false,
+    //   () -> swerveDrive.getAbsoluteHeadingDegrees(), // TODO i have no clue if this is right // Turn to angle direction 
+    //   () -> new Translation2d(  (driverController.getDpadUp()?1.0:0.0) - (driverController.getDpadDown()?1:0), 
+    //                             (driverController.getDpadLeft()?1.0:0.0) - (driverController.getDpadRight()?1:0)) // DPad vector
+    // );
+    // swerveDrive.setDefaultCommand(swerveJoystickCommand);
 
-    driverController.triggerLeft().whileTrue(new RingDriveCommand(
-      swerveDrive,
-      () -> -driverController.getRightY(), // Horizontal Translation
-      () -> driverController.getLeftX() // Vertical Translation
-      ));
+    // driverController.triggerLeft().whileTrue(new RingDriveCommand(
+    //   swerveDrive,
+    //   () -> -driverController.getRightY(), // Horizontal Translation
+    //   () -> driverController.getLeftX() // Vertical Translation
+    //   ));
 
-    driverController.bumperRight().whileTrue(Commands.run( // DriveToTarget test
-      () -> swerveDrive.driveToTarget(new Pose2d())
-    ));
+    // driverController.bumperRight().whileTrue(Commands.run( // DriveToTarget test
+    //   () -> swerveDrive.driveToTarget(new Pose2d())
+    // ));
   }
 
   public void initDefaultCommands_test() {
@@ -140,15 +146,6 @@ public class RobotContainer {
       .onTrue(Commands.runOnce(() -> swerveDrive.zeroFieldOrientation()));
     driverController.controllerRight()
       .onTrue(Commands.runOnce(() -> swerveDrive.resetAllRotation(Rotation2d.kZero)));
-    operatorController.bumperLeft()
-      .onTrue(superSystem.shoot())
-      .onFalse(superSystem.stopShooting());
-    operatorController.dpadUp()
-      .onTrue(superSystem.spinUpFlywheel())
-      .onFalse(superSystem.stopFlywheel());
-    operatorController.bumperRight()
-      .onTrue(superSystem.intake())
-      .onFalse(superSystem.stopIntaking());
 
     // driverController.controllerRight()
     //   .onTrue(Commands.runOnce(() -> imu.zeroAbsoluteHeading()));
@@ -161,6 +158,16 @@ public class RobotContainer {
   // Operator bindings
   //////////////////////
   public void configureOperatorBindings_teleop() {
+
+    operatorController.bumperLeft()
+      .onTrue(superSystem.shoot())
+      .onFalse(superSystem.stopShooting());
+    operatorController.dpadUp()
+      .onTrue(superSystem.spinUpFlywheel())
+      .onFalse(superSystem.stopFlywheel());
+    operatorController.bumperRight()
+      .onTrue(superSystem.intake())
+      .onFalse(superSystem.stopIntaking());
 
     if (Constants.USE_SUBSYSTEMS) {}
   }

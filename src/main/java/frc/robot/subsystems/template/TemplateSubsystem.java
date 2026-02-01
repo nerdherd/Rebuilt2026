@@ -24,7 +24,7 @@ import frc.robot.subsystems.Reportable;
 
 public class TemplateSubsystem extends SubsystemBase implements Reportable {
 	/** primary motor; required */
-	protected final TalonFX motor1;
+	public final TalonFX motor1;
 	/** secondary motor; optional */
 	protected final TalonFX motor2;
 	/** holds the configuration for both {@link #motor1} and {@link #motor2} */
@@ -74,11 +74,12 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 	 * @param reverseMotor2 - whether to have {@link #motor2} oppose {@link #motor1}
 	 * @param mode - the {@link SubsystemMode} for this subsystem
 	 * @param defaultValue - initial position or velocity depending on {@link SubsystemMode}
+	 * @param canbus TODO
 	 */
-	public TemplateSubsystem(String name, int motor1ID, int motor2ID, MotorAlignmentValue reverseMotor2, SubsystemMode mode, double defaultValue) {
-		this.motor1 = new TalonFX(motor1ID);
+	public TemplateSubsystem(String name, int motor1ID, int motor2ID, MotorAlignmentValue reverseMotor2, SubsystemMode mode, double defaultValue, String canbus) {
+		this.motor1 = new TalonFX(motor1ID, canbus);
 		if (motor2ID != -1){
-			this.motor2 = new TalonFX(motor2ID);
+			this.motor2 = new TalonFX(motor2ID, canbus);
 			followerController = new Follower(motor1ID, reverseMotor2);
 		} else {
 			this.motor2 = null;
@@ -113,8 +114,8 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 		shuffleboardTab = Shuffleboard.getTab(this.name);
 	}
 
-	public TemplateSubsystem(String name, int motor1ID, SubsystemMode mode, double defaultValue){
-		this(name, motor1ID, -1, MotorAlignmentValue.Aligned, mode, defaultValue);
+	public TemplateSubsystem(String name, int motor1ID, SubsystemMode mode, double defaultValue, String canbus){
+		this(name, motor1ID, -1, MotorAlignmentValue.Aligned, mode, defaultValue, canbus);
 	}
 	
 	/** applies configuration to motors; should be used on construction */
@@ -141,6 +142,7 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 				motor1.setControl(velocityController.withVelocity(this.desiredValue));
 				break;
 			case VOLTAGE:
+				DriverStation.reportWarning("" + this.desiredValue, false);
 				motor1.setControl(voltageController.withOutput(this.desiredValue));
 			default:
 				break;

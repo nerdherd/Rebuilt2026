@@ -229,26 +229,44 @@ public final class Constants {
         .withKI(0.0)
         .withKD(0.0)
       ;
+
     public static final TalonFXConfiguration kSubsystemConfiguration = 
       new TalonFXConfiguration()
-      .withSlot0(kSlot0Configs)
-      ;
+      .withSlot0(kSlot0Configs);
   }
 
   public static final class IndexerConstants{
     public static final int kMotor1ID = 25; //TODO
-    public static final int kMotor2ID = 62; //TODO
+    // public static final int kMotor2ID = 62; //TODO
 
     public static final Slot0Configs kSlot0Configs = 
       new Slot0Configs() //TODO
         .withKP(0.5)
         .withKI(0.0)
-        .withKD(0.0) 
-      ;
+        .withKD(0.0);
+
+    public static final MotorOutputConfigs kMotorOutputConfigs =
+      new MotorOutputConfigs()
+        .withInverted(InvertedValue.CounterClockwise_Positive);
+        
     public static final TalonFXConfiguration kSubsystemConfiguration = 
       new TalonFXConfiguration()
-      .withSlot0(kSlot0Configs)
+        .withSlot0(kSlot0Configs)
+        .withMotorOutput(kMotorOutputConfigs);
+  }
+   public static final class ConveyorConstants{
+    public static final int kMotor1ID = 26; //TODO
+
+    public static final Slot0Configs kSlot0Configs = 
+      new Slot0Configs() //TODO
+        .withKP(0.5)
+        .withKI(0.0)
+        .withKD(0.0)
       ;
+
+    public static final TalonFXConfiguration kSubsystemConfiguration = 
+      new TalonFXConfiguration()
+      .withSlot0(kSlot0Configs);
   }
 
   public static final class CounterRollerConstants{
@@ -258,38 +276,33 @@ public final class Constants {
       new Slot0Configs() //TODO
         .withKP(0.5)
         .withKI(0.0)
-        .withKD(0.0)
-      ;
+        .withKD(0.0);
 
     public static final TalonFXConfiguration kSubsystemConfiguration = 
       new TalonFXConfiguration()
-      .withSlot0(kSlot0Configs)
-      ;
+      .withSlot0(kSlot0Configs);
   }
 
   public static final class ShooterConstants{
     public static final int kMotor1ID = 35;
     public static final int kMotor2ID = 36;
-    
-
 
     public static final Slot0Configs kSlot0Configs = 
       new Slot0Configs() //TODO
         .withKP(0.5)
         .withKI(0.0)
-        .withKD(0.0)
-      ;
+        .withKD(0.0);
+
     public static final MotorOutputConfigs kMotorOutputConfigs =
       new MotorOutputConfigs()
-        .withInverted(InvertedValue.Clockwise_Positive)
-      ;
+        .withInverted(InvertedValue.Clockwise_Positive);
         
     public static final TalonFXConfiguration kSubsystemConfiguration = 
       new TalonFXConfiguration()
         .withSlot0(kSlot0Configs)
-        .withMotorOutput(kMotorOutputConfigs)
-      ;
+        .withMotorOutput(kMotorOutputConfigs);
   }
+
   public static final class IntakeSlapdownConstants{
     public static final int kMotor1ID = 16;
 

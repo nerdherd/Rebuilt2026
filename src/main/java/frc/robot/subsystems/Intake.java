@@ -14,10 +14,11 @@ public class Intake extends TemplateSubsystem{
         super(
             "Intake",
             Constants.IntakeConstants.kMotor1ID,
-            SubsystemMode.VELOCITY,
-            0
-            );
+            SubsystemMode.VOLTAGE,
+            0, "CANivore"
+        );
         configureMotors(Constants.IntakeConstants.kSubsystemConfiguration);
+
     }
     
 }

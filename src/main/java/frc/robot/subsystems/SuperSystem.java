@@ -9,6 +9,7 @@ public class SuperSystem implements Reportable {
     public NerdDrivetrain swerveDrivetrain;
     
     public Intake intake;
+    public Conveyor conveyor;
     public Indexer indexer;
     public CounterRoller counterRoller;
     public Shooter shooter;
@@ -17,9 +18,10 @@ public class SuperSystem implements Reportable {
     //add new subsystems
 
 
-    public SuperSystem(NerdDrivetrain swerveDrivetrain,Intake intake, Indexer indexer, CounterRoller counterRoller, Shooter shooter, Pivot pivot) {
+    public SuperSystem(NerdDrivetrain swerveDrivetrain, Intake intake, Conveyor conveyor, Indexer indexer, CounterRoller counterRoller, Shooter shooter, Pivot pivot) {
         this.swerveDrivetrain = swerveDrivetrain;
         this.intake = intake;
+        this.conveyor = conveyor;
         this.indexer = indexer;
         this.counterRoller = counterRoller;
         this.shooter = shooter;
@@ -35,14 +37,18 @@ public class SuperSystem implements Reportable {
     public Command shoot(){
         return Commands.parallel(
             indexer.setEnabledCommand(true),
-            indexer.setDesiredValueCommand(20)
+            indexer.setDesiredValueCommand(20),
+            conveyor.setEnabledCommand(true),
+            conveyor.setDesiredValueCommand(-3)
             );
     }
     
     public Command stopShooting(){
         return Commands.parallel(
             indexer.setEnabledCommand(false),
-            indexer.setDesiredValueCommand(0)
+            indexer.setDesiredValueCommand(0),
+            conveyor.setEnabledCommand(false),
+            conveyor.setDesiredValueCommand(0)
             );
     }
 
@@ -51,15 +57,15 @@ public class SuperSystem implements Reportable {
             counterRoller.setEnabledCommand(true),
             counterRoller.setDesiredValueCommand(20),
             shooter.setEnabledCommand(true),
-            shooter.setDesiredValueCommand(40)
+            shooter.setDesiredValueCommand(60)
             );
         }
         
     public Command stopFlywheel(){
         return Commands.parallel(
             counterRoller.setEnabledCommand(false),
-            shooter.setEnabledCommand(false),
             counterRoller.setDesiredValueCommand(0),
+            shooter.setEnabledCommand(false),
             shooter.setDesiredValueCommand(0)
         );
     }
@@ -88,7 +94,7 @@ public class SuperSystem implements Reportable {
     public Command intake() {
         return Commands.parallel(
             intake.setEnabledCommand(true),
-            intake.setDesiredValueCommand(10.0)
+            intake.setDesiredValueCommand(4)
         );
     }
 
@@ -124,6 +130,7 @@ public class SuperSystem implements Reportable {
     @Override
     public void initializeLogging() {
         intake.initializeLogging();
+        conveyor.initializeLogging();
         indexer.initializeLogging();
         counterRoller.initializeLogging();
         shooter.initializeLogging();
