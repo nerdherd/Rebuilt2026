@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import static frc.robot.Constants.Subsystems.*;
+
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -7,24 +9,14 @@ import edu.wpi.first.wpilibj2.command.Commands;
 
 public class SuperSystem implements Reportable {
     public NerdDrivetrain swerveDrivetrain;
+
     
-    public Intake intake;
-    public Indexer indexer;
-    public CounterRoller counterRoller;
-    public Shooter shooter;
-    public Pivot pivot; 
 
     //add new subsystems
 
 
-    public SuperSystem(NerdDrivetrain swerveDrivetrain,Intake intake, Indexer indexer, CounterRoller counterRoller, Shooter shooter, Pivot pivot) {
+    public SuperSystem(NerdDrivetrain swerveDrivetrain) {
         this.swerveDrivetrain = swerveDrivetrain;
-        this.intake = intake;
-        this.indexer = indexer;
-        this.counterRoller = counterRoller;
-        this.shooter = shooter;
-        this.pivot = pivot;
-
     }
     
     // ------------------------------------ subsystems ------------------------------------ //
@@ -34,31 +26,25 @@ public class SuperSystem implements Reportable {
     
     public Command shoot(){
         return Commands.parallel(
-            indexer.setEnabledCommand(true),
             indexer.setDesiredValueCommand(20)
             );
     }
     
     public Command stopShooting(){
         return Commands.parallel(
-            indexer.setEnabledCommand(false),
             indexer.setDesiredValueCommand(0)
             );
     }
 
     public Command spinUpFlywheel(){
         return Commands.parallel(
-            counterRoller.setEnabledCommand(true),
             counterRoller.setDesiredValueCommand(20),
-            shooter.setEnabledCommand(true),
             shooter.setDesiredValueCommand(40)
             );
         }
         
     public Command stopFlywheel(){
         return Commands.parallel(
-            counterRoller.setEnabledCommand(false),
-            shooter.setEnabledCommand(false),
             counterRoller.setDesiredValueCommand(0),
             shooter.setDesiredValueCommand(0)
         );
@@ -66,36 +52,31 @@ public class SuperSystem implements Reportable {
 
     public Command intakeDown(){
         return Commands.parallel(
-            pivot.setEnabledCommand(true),
-            pivot.setDesiredValueCommand(1)
+            intakeSlapdown.setDesiredValueCommand(1)
         );
     }
 
     public Command intakeUp(){
         return Commands.parallel(
-            pivot.setEnabledCommand(true),
-            pivot.setDesiredValueCommand(-1)
+            intakeSlapdown.setDesiredValueCommand(-1)
         );
     }
 
-    public Command pivotStop() {
+    public Command intakeSlapdownStop() {
         return Commands.parallel(
-            pivot.setEnabledCommand(false),
-            pivot.setDesiredValueCommand(0.0)
+            intakeSlapdown.setDesiredValueCommand(0.0)
         );
     }
 
     public Command intake() {
         return Commands.parallel(
-            intake.setEnabledCommand(true),
-            intake.setDesiredValueCommand(10.0)
+            intakeRoller.setDesiredValueCommand(10.0)
         );
     }
 
     public Command stopIntaking(){
         return Commands.parallel(
-            intake.setEnabledCommand(false),
-            intake.setDesiredValueCommand(0)
+            intakeRoller.setDesiredValueCommand(0)
         );
     }
 
@@ -113,22 +94,20 @@ public class SuperSystem implements Reportable {
     public void initialize() {
         //set enabled = true;
         //set initials 
-        // intake.setEnabled(true);
-        // indexer.setEnabled(true);
-        // counterRoller.setEnabled(true);
-        // shooter.setEnabled(true);
-        // pivot.setEnabled(true);
-
+        intakeSlapdown.setEnabled(useIntakeSlapdown);
+        intakeRoller.setEnabled(useIntakeRoller);
+        indexer.setEnabled(useIndexer);
+        counterRoller.setEnabled(useCounterRoller);
+        shooter.setEnabled(useShooter);
     }
 
     @Override
     public void initializeLogging() {
-        intake.initializeLogging();
+        intakeRoller.initializeLogging();
         indexer.initializeLogging();
         counterRoller.initializeLogging();
         shooter.initializeLogging();
-        pivot.initializeLogging();
-
+        intakeSlapdown.initializeLogging();
     }
 
 }
