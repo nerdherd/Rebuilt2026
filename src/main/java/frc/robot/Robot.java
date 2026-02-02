@@ -71,14 +71,14 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     if (DriverStation.getAlliance().isPresent()) alliance = DriverStation.getAlliance().get();
     m_robotContainer.swerveDrive.setVision(USE_VISION); 
-    m_robotContainer.swerveDrive.resetAllRotation(new Rotation2d(DriverStation.getAlliance().get() == DriverStation.Alliance.Red ? 3.14159 : 0.0)); // TODO consider auto field orientation
+    m_robotContainer.swerveDrive.resetAllRotation(new Rotation2d(0.0 + 180.0)); // TODO consider auto field orientation
     // m_robotContainer.swerveDrive.enableLimeLight(); TODO
 
     if (Constants.USE_SUBSYSTEMS) {
       m_robotContainer.superSystem.setNeutralMode(NeutralModeValue.Brake);
       m_robotContainer.superSystem.initialize();
     }
-  // schedule the autonomous command (example)
+  // schedule the autonomous command (example) 
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
     if (m_autonomousCommand != null) {
       CommandScheduler.getInstance().schedule(m_autonomousCommand);
@@ -93,7 +93,7 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
     if (DriverStation.getAlliance().isPresent()) alliance = DriverStation.getAlliance().get();
     m_robotContainer.swerveDrive.setVision(USE_VISION);
-    m_robotContainer.swerveDrive.zeroFieldOrientation(); // TODO decide whether to keep this
+    // TODO decide whether to keep this
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }

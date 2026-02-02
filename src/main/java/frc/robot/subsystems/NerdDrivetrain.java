@@ -89,7 +89,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
     public void periodic() {
         field.setRobotPose(getPose());
 
-        if (USE_VISION) {
+        if (USE_VISION && LimelightHelpers.getCurrentPipelineIndex("limelight-front") == 0) {
             // visionUpdate(Camera.Example); TODO add cameras separately
             visionUpdate(Camera.Front);
         }
@@ -252,8 +252,8 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
     }
 
     public void resetAllRotation(Rotation2d rotation) {
-        getPigeon2().setYaw(rotation.getMeasure());
-        // resetRotation(rotation);
+        // getPigeon2().setYaw(rotation.getMeasure());
+        resetRotation(rotation);
     }
 
     /** 
@@ -261,7 +261,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
      * @see {@link #resetAllRotation(Rotation2d)}
      */
     public double getAbsoluteHeadingDegrees() {
-        return MathUtil.inputModulus(getPigeon2().getRotation2d().getDegrees(), -180, 180);
+        return MathUtil.inputModulus(getPose().getRotation().getDegrees(), -180, 180);
     }
 
     /** 
@@ -269,7 +269,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
      * @see {@link #resetAllRotation(Rotation2d)}
      */
     public double getAbsoluteHeadingRadians() {
-        return MathUtil.inputModulus(getPigeon2().getRotation2d().getRadians(), -180, 180);
+        return MathUtil.inputModulus(getPose().getRotation().getDegrees(), -180, 180);
     }
 
     /**

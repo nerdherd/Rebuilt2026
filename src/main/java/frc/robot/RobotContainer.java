@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.generated.TunerConstants;
+import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
 import frc.robot.commands.RingDriveCommand;
 import frc.robot.commands.SwerveJoystickCommand;
 import frc.robot.commands.autos.Autos;
@@ -44,7 +45,7 @@ public class RobotContainer {
 
     //Named Command Initialization
 
-    NamedCommands.registerCommand("Wait", Commands.waitSeconds(2));
+    NamedCommands.registerCommand("Wait", Commands.waitSeconds(1));
 
     try { swerveDrive = TunerConstants.createDrivetrain(); }
     catch (IllegalArgumentException e) {
@@ -108,7 +109,7 @@ public class RobotContainer {
     driverController.controllerLeft() // Set Drive Heading
       .onTrue(Commands.runOnce(() -> swerveDrive.zeroFieldOrientation()));
     driverController.controllerRight()
-      .onTrue(Commands.runOnce(() -> swerveDrive.resetAllRotation(Rotation2d.kZero)));
+      .onTrue(swerveDrive.resetPoseWithAprilTags(0.1));
       // .onTrue(Commands.runOnce(() -> swerveDrive.useMegaTag2 = false));
     // driverController.controllerRight()
     //   .onTrue(Commands.runOnce(() -> imu.zeroAbsoluteHeading()));

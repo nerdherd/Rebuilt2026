@@ -51,7 +51,7 @@ public final class Constants {
   /**
    * controls whether vision should be initialized
    */
-  public static boolean USE_VISION = false;
+  public static boolean USE_VISION = true;
 
   public static class ControllerConstants {
     public static final double kDeadband = 0.05;
@@ -169,7 +169,7 @@ public final class Constants {
   }
 
   public static final class RingDriveConstants {
-    public static final double kInitialDistance = 0.2; // m
+    public static final double kInitialDistance = 0.5; // m
     public static final double kDriveVelocity = 1.0; // m/s
     public static final double kMaximumDistance = 1.0; // m
     public static final double kMinimumDistance = 0.2; // m

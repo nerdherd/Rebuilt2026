@@ -11,7 +11,6 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.PathPlannerPath;
-
 public final class Autos {
 
     private static Autos autos;
@@ -20,14 +19,23 @@ public final class Autos {
 
     //autos
     // Example: private static PathPlannerAuto exampleAuto;
-    private static PathPlannerAuto S3TowerBlue;
+    private static Command S3TowerBlue;
     private static PathPlannerAuto S3TowerRed;
+    private static PathPlannerAuto S5BottomBlueOutpost;
+    private static PathPlannerAuto S4BottomBlueOutpost;
+    private static PathPlannerAuto S2TopRedDepot;
+
 
     public static void initializeAutos() {
         //initialize autos
         //Example: exampleAuto = new PathPlannerAuto("example Auto");
         S3TowerBlue = new PathPlannerAuto("S3Blue-Tower");
         S3TowerRed = new PathPlannerAuto("S3Red-Tower");
+        S5BottomBlueOutpost = new PathPlannerAuto("S5BottomBlue-Outpost");
+        S4BottomBlueOutpost = new PathPlannerAuto("S4BottomBlue-Outpost");
+        S2TopRedDepot = new PathPlannerAuto("S2TopRed-Depot");
+
+
 
         Shuffleboard.getTab("Autons").add("Red Autons", autonChooserRed)
                 .withWidget(BuiltInWidgets.kComboBoxChooser).withPosition(0, 0)
@@ -39,10 +47,15 @@ public final class Autos {
         //add options to red 
         //autonChooserRed.addOption("exampleRed", exampleAuto);
         autonChooserRed.addOption("S3Tower-Red", S3TowerRed);
+        autonChooserRed.addOption("S2TopRed-Depot", S2TopRedDepot);
 
         //add options to blue
         //autonChooserBlue.addOption("exampleBlue", exampleAuto);
         autonChooserBlue.addOption("S3Tower-Blue", S3TowerBlue);
+        autonChooserBlue.addOption("S5BottomBlue-Outpost", S5BottomBlueOutpost);
+        autonChooserBlue.addOption("S4BottomBlue-Outpost", S4BottomBlueOutpost);
+
+
     }
 
 }
