@@ -163,14 +163,20 @@ public class RobotContainer {
   //////////////////////
   public void configureOperatorBindings_teleop() {
 
-    operatorController.bumperLeft()
-      .onTrue(superSystem.shoot())
-      .onFalse(superSystem.stopShooting());
-    operatorController.triggerRight()
-      .onTrue(superSystem.spinUpFlywheel())
-      .onFalse(superSystem.stopFlywheel());
-
-    if (Constants.USE_SUBSYSTEMS) {}
+    if (Constants.USE_SUBSYSTEMS) {
+      operatorController.bumperRight()
+        .onTrue(superSystem.intake())
+        .onFalse(superSystem.stopIntaking());
+      operatorController.bumperLeft()
+        .onTrue(superSystem.shoot())
+        .onFalse(superSystem.stopShooting());
+      operatorController.triggerRight()
+        .onTrue(superSystem.spinUpFlywheel())
+        .onFalse(superSystem.stopFlywheel());
+      operatorController.triggerLeft()
+        .onTrue(superSystem.intakeUp())
+        .onFalse(superSystem.intakeDown());
+    }
   }
 
 

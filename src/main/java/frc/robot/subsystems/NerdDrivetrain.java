@@ -202,7 +202,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
     // ----------------------------------------- Vision Functions ----------------------------------------- //
 
     /**
-     * activates or deactivates vision by setting the pipeline either to 1 for active or 0 for inactive
+     * activates or deactivates vision by setting the pipeline either to 0 for active or 1 for inactive
      * and by adjusting throttle, see {@link LimelightHelpers#SetThrottle(String, int)}
      * @param activate whether to activate or deactivate
      */

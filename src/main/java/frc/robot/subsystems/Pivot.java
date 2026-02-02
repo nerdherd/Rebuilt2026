@@ -14,7 +14,7 @@ public class Pivot extends TemplateSubsystem{
         super("pivot",
             Constants.IntakeSlapdownConstants.kMotor1ID,
             SubsystemMode.POSITION,
-           0, "rio");
+           0, "CANivore");
         
         configureMotors(Constants.IntakeSlapdownConstants.kSubsystemConfiguration);
     }

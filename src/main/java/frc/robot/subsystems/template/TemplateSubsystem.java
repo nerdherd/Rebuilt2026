@@ -142,7 +142,6 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 				motor1.setControl(velocityController.withVelocity(this.desiredValue));
 				break;
 			case VOLTAGE:
-				DriverStation.reportWarning("" + this.desiredValue, false);
 				motor1.setControl(voltageController.withOutput(this.desiredValue));
 			default:
 				break;

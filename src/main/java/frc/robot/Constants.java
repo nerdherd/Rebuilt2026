@@ -10,6 +10,7 @@ import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveModule.SteerRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest.ForwardPerspectiveValue;
@@ -97,10 +98,10 @@ public final class Constants {
     public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 2 * 2 * Math.PI;
 
     public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond;
-    public static final double kTeleMaxAcceleration = 5;
+    public static final double kTeleMaxAcceleration = 2.5;
     // THIS CONSTANT HAS TO BE NEGATIVE OTHERWISE THE ROBOT WILL CRASH
     // TODO: Change deceleration with driver feedback, only in small increments (<= -2 is dangerous)
-    public static final double kTeleMaxDeceleration = -5; // Russell says he likes 2.5 from sims, but keep at 3 until tested on real robot 
+    public static final double kTeleMaxDeceleration = -2.5; // Russell says he likes 2.5 from sims, but keep at 3 until tested on real robot 
 
     public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = //
       kPhysicalMaxAngularSpeedRadiansPerSecond * 0.75;
@@ -308,20 +309,25 @@ public final class Constants {
 
     public static final Slot0Configs kSlot0Configs = 
       new Slot0Configs()
-        .withKP(0.5)
+        .withKP(4.0)
         .withKI(0.0)
         .withKD(0.0)
       ;
     public static final MotionMagicConfigs kMotionMagicConfigs = 
       new MotionMagicConfigs()
-        .withMotionMagicAcceleration(1)
-        .withMotionMagicCruiseVelocity(1)
+        .withMotionMagicAcceleration(4)
+        .withMotionMagicCruiseVelocity(4)
+      ;
+    public static final MotorOutputConfigs kMotorOutputConfigs = 
+      new MotorOutputConfigs()
+        .withNeutralMode(NeutralModeValue.Brake)
       ;
         
     public static final TalonFXConfiguration kSubsystemConfiguration = 
       new TalonFXConfiguration()
         .withSlot0(kSlot0Configs)
         .withMotionMagic(kMotionMagicConfigs)
+        .withMotorOutput(kMotorOutputConfigs)
       ;
 
   }

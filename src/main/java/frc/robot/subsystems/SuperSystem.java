@@ -55,9 +55,9 @@ public class SuperSystem implements Reportable {
     public Command spinUpFlywheel(){
         return Commands.parallel(
             counterRoller.setEnabledCommand(true),
-            counterRoller.setDesiredValueCommand(20),
+            counterRoller.setDesiredValueCommand(30),
             shooter.setEnabledCommand(true),
-            shooter.setDesiredValueCommand(60)
+            shooter.setDesiredValueCommand(75)
             );
         }
         
@@ -73,14 +73,14 @@ public class SuperSystem implements Reportable {
     public Command intakeDown(){
         return Commands.parallel(
             pivot.setEnabledCommand(true),
-            pivot.setDesiredValueCommand(1)
+            pivot.setDesiredValueCommand(0)
         );
     }
 
     public Command intakeUp(){
         return Commands.parallel(
             pivot.setEnabledCommand(true),
-            pivot.setDesiredValueCommand(-1)
+            pivot.setDesiredValueCommand(6.5)
         );
     }
 
@@ -124,7 +124,7 @@ public class SuperSystem implements Reportable {
         // counterRoller.setEnabled(true);
         // shooter.setEnabled(true);
         // pivot.setEnabled(true);
-
+        pivot.motor1.setPosition(0.0);
     }
 
     @Override
