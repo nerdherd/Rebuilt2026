@@ -26,7 +26,7 @@ import frc.robot.subsystems.Reportable;
 
 public class TemplateSubsystem extends SubsystemBase implements Reportable {
 	/** primary motor; required */
-	protected final TalonFX motor1;
+	public final TalonFX motor1;
 	/** secondary motor; optional */
 	protected final TalonFX motor2;
 	/** holds the configuration for both {@link #motor1} and {@link #motor2} */

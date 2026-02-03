@@ -38,8 +38,8 @@ public class SuperSystem implements Reportable {
 
     public Command spinUpFlywheel(){
         return Commands.parallel(
-            counterRoller.setDesiredValueCommand(20),
-            shooter.setDesiredValueCommand(40)
+            counterRoller.setDesiredValueCommand(30),
+            shooter.setDesiredValueCommand(75)
             );
         }
         
@@ -52,13 +52,13 @@ public class SuperSystem implements Reportable {
 
     public Command intakeDown(){
         return Commands.parallel(
-            intakeSlapdown.setDesiredValueCommand(1)
+            intakeSlapdown.setDesiredValueCommand(0)
         );
     }
 
     public Command intakeUp(){
         return Commands.parallel(
-            intakeSlapdown.setDesiredValueCommand(-1)
+            intakeSlapdown.setDesiredValueCommand(6.5)
         );
     }
 
@@ -70,7 +70,7 @@ public class SuperSystem implements Reportable {
 
     public Command intake() {
         return Commands.parallel(
-            intakeRoller.setDesiredValueCommand(10.0)
+            intakeRoller.setDesiredValueCommand(4.5)
         );
     }
 

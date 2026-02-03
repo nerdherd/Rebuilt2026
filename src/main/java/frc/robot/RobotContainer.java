@@ -4,6 +4,11 @@
 
 package frc.robot;
 
+import com.ctre.phoenix6.controls.VoltageOut;
+import com.ctre.phoenix6.hardware.TalonFX;
+
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
@@ -17,6 +22,10 @@ import frc.robot.Constants.ControllerConstants;
 import frc.robot.commands.RingDriveCommand;
 import frc.robot.commands.SwerveJoystickCommand;
 import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.Conveyor;
+import frc.robot.subsystems.CounterRoller;
+import frc.robot.subsystems.Indexer;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.NerdDrivetrain;
 import frc.robot.subsystems.SuperSystem;
 import frc.robot.util.Controller;
@@ -76,7 +85,7 @@ public class RobotContainer {
       () -> driverController.getRightX(), // Rotation
       () -> true, // robot oriented variable (true = field oriented)
       () -> false, // tow supplier
-      () -> driverController.getTriggerRight(), // Precision/"Sniper Button"
+      () -> driverController.getTriggerLeft(), // Precision/"Sniper Button"
       () -> false,
       () -> swerveDrive.getAbsoluteHeadingDegrees(), // TODO i have no clue if this is right // Turn to angle direction 
       () -> new Translation2d(  (driverController.getDpadUp()?1.0:0.0) - (driverController.getDpadDown()?1:0), 
@@ -84,11 +93,15 @@ public class RobotContainer {
     );
     swerveDrive.setDefaultCommand(swerveJoystickCommand);
 
-    driverController.triggerLeft().whileTrue(new RingDriveCommand(
-      swerveDrive,
-      () -> -driverController.getRightY(), // Horizontal Translation
-      () -> driverController.getLeftX() // Vertical Translation
-      ));
+    // driverController.triggerLeft().whileTrue(new RingDriveCommand(
+    //   swerveDrive,
+    //   () -> -driverController.getRightY(), // Horizontal Translation
+    //   () -> driverController.getLeftX() // Vertical Translation
+    //   ));
+
+    // driverController.bumperRight().whileTrue(Commands.run( // DriveToTarget test
+    //   () -> swerveDrive.driveToTarget(new Pose2d())
+    // ));
   }
 
   public void initDefaultCommands_test() {
@@ -113,7 +126,11 @@ public class RobotContainer {
       .onTrue(swerveDrive.resetPoseWithAprilTags(0.2));
     // driverController.controllerRight()
 
-    if (Constants.USE_SUBSYSTEMS) {}
+    if (Constants.USE_SUBSYSTEMS) {
+      driverController.triggerRight()
+        .onTrue(superSystem.intake())
+        .onFalse(superSystem.stopIntaking());
+    }
   }
 
   ///////////////////////
@@ -122,15 +139,18 @@ public class RobotContainer {
   public void configureOperatorBindings_teleop() {
 
     if (Constants.USE_SUBSYSTEMS) {
-      operatorController.bumperLeft()
-        .onTrue(superSystem.shoot())
-        .onFalse(superSystem.stopShooting());
-      operatorController.dpadUp()
-        .onTrue(superSystem.spinUpFlywheel())
-        .onFalse(superSystem.stopFlywheel());
       operatorController.bumperRight()
         .onTrue(superSystem.intake())
         .onFalse(superSystem.stopIntaking());
+      operatorController.bumperLeft()
+        .onTrue(superSystem.shoot())
+        .onFalse(superSystem.stopShooting());
+      operatorController.triggerRight()
+        .onTrue(superSystem.spinUpFlywheel())
+        .onFalse(superSystem.stopFlywheel());
+      operatorController.triggerLeft()
+        .onTrue(superSystem.intakeUp())
+        .onFalse(superSystem.intakeDown());
     }
   }
 
