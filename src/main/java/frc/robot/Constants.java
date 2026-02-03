@@ -15,6 +15,7 @@ import com.pathplanner.lib.util.FlippingUtil;
 import edu.wpi.first.math.MatBuilder;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.Nat;
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -41,7 +42,7 @@ import frc.robot.util.MultiProfiledPIDController;
 public final class Constants {
 
   /** current logging level of the robot's subsystems, @see Reportable.add... */
-  public static LOG_LEVEL ROBOT_LOG_LEVEL = LOG_LEVEL.MEDIUM;
+  public static LOG_LEVEL ROBOT_LOG_LEVEL = LOG_LEVEL.ALL;
   /** 
    * (hopefully) controls whether subsystem objects are used, swerve and others not counted
    * @see {@link frc.robot.subsystems.template.TemplateSubsystem TemplateSubsystem} 
@@ -91,10 +92,14 @@ public final class Constants {
     public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 2 * 2 * Math.PI;
 
     public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond;
-    public static final double kTeleMaxAcceleration = 5;
+    public static final double kTeleMaxAcceleration = 5; 
     // THIS CONSTANT HAS TO BE NEGATIVE OTHERWISE THE ROBOT WILL CRASH
     // TODO: Change deceleration with driver feedback, only in small increments (<= -2 is dangerous)
     public static final double kTeleMaxDeceleration = -5; // Russell says he likes 2.5 from sims, but keep at 3 until tested on real robot 
+    public static final SlewRateLimiter kslewRateLimiterX = new SlewRateLimiter(kTeleMaxAcceleration, kTeleMaxDeceleration, 0);
+    public static final SlewRateLimiter kslewRateLimiterY = new SlewRateLimiter(kTeleMaxAcceleration, kTeleMaxDeceleration, 0);
+    public static final SlewRateLimiter kslewRateLimiterXring = new SlewRateLimiter(kTeleMaxAcceleration, kTeleMaxDeceleration, 0);
+    public static final SlewRateLimiter kslewRateLimiterYring = new SlewRateLimiter(kTeleMaxAcceleration, kTeleMaxDeceleration, 0);
 
     public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = //
       kPhysicalMaxAngularSpeedRadiansPerSecond * 0.75;
@@ -105,6 +110,9 @@ public final class Constants {
     public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 3;
 
     public static final double kMinimumMotorOutput = 0.05; // Minimum percent output on the falcons
+
+    public static final double kDeadbandScaler = (1 - kMinimumMotorOutput) * (1 - kMinimumMotorOutput);
+
     
     public static final double kDriveAlpha = 0.11765;
     public static final double kDriveOneMinusAlpha = 0.88235;

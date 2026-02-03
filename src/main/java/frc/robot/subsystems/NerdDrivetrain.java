@@ -83,7 +83,10 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
 
         if (USE_VISION) setVision(true);
     }
-    
+    @Override
+    public void simulationPeriodic() {
+        field.setRobotPose(getPose());
+    }
     
     @Override
     public void periodic() {
@@ -305,8 +308,8 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
         Reportable.addNumber(tab, "field chassis speeds x", () -> getFieldOrientedSpeeds().vxMetersPerSecond, LOG_LEVEL.ALL);
         Reportable.addNumber(tab, "field chassis speeds y", () -> getFieldOrientedSpeeds().vyMetersPerSecond, LOG_LEVEL.ALL);
         Reportable.addNumber(tab, "field chassis speeds r", () -> getFieldOrientedSpeeds().omegaRadiansPerSecond, LOG_LEVEL.ALL);
-        
-        //////////////
+
+        ////////////// 
         /// MEDIUM ///
         //////////////
         Reportable.addNumber(tab, "absolute heading", this::getAbsoluteHeadingDegrees, LOG_LEVEL.MEDIUM);

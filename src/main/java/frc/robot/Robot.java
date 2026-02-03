@@ -6,10 +6,13 @@ package frc.robot;
 
 import static frc.robot.Constants.USE_VISION;
 
+import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DataLogManager;
+import edu.wpi.first.wpilibj.Notifier;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -130,8 +133,24 @@ public class Robot extends TimedRobot {
   public void testPeriodic() {}
 
   /** This function is called once when the robot is first started up. */
+
+  private static final double kSimLoopPeriod = 0.004;
+  private Notifier m_simNotifier = null;
+  private double m_lastSimTime;
+
   @Override
-  public void simulationInit() {}
+  public void simulationInit() {
+    m_lastSimTime = Utils.getCurrentTimeSeconds();
+
+    m_simNotifier = new Notifier(() -> {
+      final double currentTime = Utils.getCurrentTimeSeconds();
+      double deltaTime = currentTime - m_lastSimTime;
+      m_lastSimTime = currentTime;
+
+      m_robotContainer.swerveDrive.updateSimState(deltaTime, RobotController.getBatteryVoltage());
+    });
+    m_simNotifier.startPeriodic(kSimLoopPeriod);
+  }
 
   /** This function is called periodically whilst in simulation. */
   @Override
