@@ -6,22 +6,15 @@ package frc.robot;
 
 import com.pathplanner.lib.auto.NamedCommands;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Constants.ControllerConstants;
-import frc.robot.generated.TunerConstants;
-import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
-import frc.robot.commands.RingDriveCommand;
 import frc.robot.commands.SwerveJoystickCommand;
+import frc.robot.generated.TunerConstants;
 import frc.robot.commands.autos.Autos;
 import frc.robot.subsystems.NerdDrivetrain;
 import frc.robot.subsystems.SuperSystem;
@@ -42,20 +35,14 @@ public class RobotContainer {
    * s subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+    swerveDrive = TunerConstants.createDrivetrain();
 
     //Named Command Initialization
 
     NamedCommands.registerCommand("Wait", Commands.waitSeconds(1));
 
-    try { swerveDrive = TunerConstants.createDrivetrain(); }
-    catch (IllegalArgumentException e) {
-      DriverStation.reportError("Illegal Swerve Drive Module Type", e.getStackTrace());
-    }
-
     if (Constants.USE_SUBSYSTEMS) {
-      //add subsystems
       superSystem = new SuperSystem(swerveDrive);
-      // swerveDrive.resetPose(new Pose2d(1.0, 1.0, new Rotation2d(0.0)));
     }
     
     initShuffleboard();
@@ -77,7 +64,7 @@ public class RobotContainer {
       () -> driverController.getRightX(), // Rotation
       () -> true, // robot oriented variable (true = field oriented)
       () -> false, // tow supplier
-      () -> driverController.getTriggerRight(), // Precision/"Sniper Button"
+      () -> driverController.getTriggerLeft(), // Precision/"Sniper Button"
       () -> false,
       () -> swerveDrive.getAbsoluteHeadingDegrees(), // TODO i have no clue if this is right // Turn to angle direction 
       () -> new Translation2d(  (driverController.getDpadUp()?1.0:0.0) - (driverController.getDpadDown()?1:0), 
@@ -85,11 +72,15 @@ public class RobotContainer {
     );
     swerveDrive.setDefaultCommand(swerveJoystickCommand);
 
-    driverController.triggerLeft().whileTrue(new RingDriveCommand(
-      swerveDrive,
-      () -> -driverController.getRightY(), // Horizontal Translation
-      () -> driverController.getLeftX() // Vertical Translation
-      ));
+    // driverController.triggerLeft().whileTrue(new RingDriveCommand(
+    //   swerveDrive,
+    //   () -> -driverController.getRightY(), // Horizontal Translation
+    //   () -> driverController.getLeftX() // Vertical Translation
+    //   ));
+
+    // driverController.bumperRight().whileTrue(Commands.run( // DriveToTarget test
+    //   () -> swerveDrive.driveToTarget(new Pose2d())
+    // ));
   }
 
   public void initDefaultCommands_test() {
@@ -112,9 +103,12 @@ public class RobotContainer {
       .onTrue(swerveDrive.resetPoseWithAprilTags(0.1));
       // .onTrue(Commands.runOnce(() -> swerveDrive.useMegaTag2 = false));
     // driverController.controllerRight()
-    //   .onTrue(Commands.runOnce(() -> imu.zeroAbsoluteHeading()));
 
-    if (Constants.USE_SUBSYSTEMS) {}
+    if (Constants.USE_SUBSYSTEMS) {
+      driverController.triggerRight()
+        .onTrue(superSystem.intake())
+        .onFalse(superSystem.stopIntaking());
+    }
   }
 
   ///////////////////////
@@ -122,7 +116,20 @@ public class RobotContainer {
   //////////////////////
   public void configureOperatorBindings_teleop() {
 
-    if (Constants.USE_SUBSYSTEMS) {}
+    if (Constants.USE_SUBSYSTEMS) {
+      operatorController.bumperRight()
+        .onTrue(superSystem.intake())
+        .onFalse(superSystem.stopIntaking());
+      operatorController.bumperLeft()
+        .onTrue(superSystem.shoot())
+        .onFalse(superSystem.stopShooting());
+      operatorController.triggerRight()
+        .onTrue(superSystem.spinUpFlywheel())
+        .onFalse(superSystem.stopFlywheel());
+      operatorController.triggerLeft()
+        .onTrue(superSystem.intakeUp())
+        .onFalse(superSystem.intakeDown());
+    }
   }
 
 
@@ -153,7 +160,5 @@ public class RobotContainer {
   {
     swerveDrive.setBrake(true);
   }
-  
 
-  
 }
