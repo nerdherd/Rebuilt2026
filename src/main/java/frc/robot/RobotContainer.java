@@ -4,28 +4,18 @@
 
 package frc.robot;
 
-import com.ctre.phoenix6.controls.VoltageOut;
-import com.ctre.phoenix6.hardware.TalonFX;
+import com.pathplanner.lib.auto.NamedCommands;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Constants.ControllerConstants;
-import frc.robot.commands.RingDriveCommand;
 import frc.robot.commands.SwerveJoystickCommand;
 import frc.robot.generated.TunerConstants;
-import frc.robot.subsystems.Conveyor;
-import frc.robot.subsystems.CounterRoller;
-import frc.robot.subsystems.Indexer;
-import frc.robot.subsystems.Intake;
+import frc.robot.commands.autos.Autos;
 import frc.robot.subsystems.NerdDrivetrain;
 import frc.robot.subsystems.SuperSystem;
 import frc.robot.util.Controller;
@@ -37,10 +27,7 @@ public class RobotContainer {
   public SuperSystem superSystem;
 
   private final Controller driverController = new Controller(ControllerConstants.kDriverControllerPort, false);
-  private final Controller operatorController = new Controller(ControllerConstants.kOperatorControllerPort,false);
-  
-  private SendableChooser<Command> autoChooser = new SendableChooser<Command>();
-  
+  private final Controller operatorController = new Controller(ControllerConstants.kOperatorControllerPort,false); 
   private SwerveJoystickCommand swerveJoystickCommand;
   
   /**
@@ -50,26 +37,18 @@ public class RobotContainer {
   public RobotContainer() {
     swerveDrive = TunerConstants.createDrivetrain();
 
+    //Named Command Initialization
+
+    NamedCommands.registerCommand("Wait", Commands.waitSeconds(1));
+
     if (Constants.USE_SUBSYSTEMS) {
       superSystem = new SuperSystem(swerveDrive);
     }
     
     initShuffleboard();
-    initAutoChoosers();
+    Autos.initializeAutos();
 
     DriverStation.reportWarning("Initalization complete", false);
-  }
-
-  static boolean isRedSide = false;
-
-  public static void refreshAlliance() {
-    var alliance = DriverStation.getAlliance();
-    if (alliance.isPresent())
-      isRedSide = (alliance.get() == DriverStation.Alliance.Red);
-  }
-
-  public static boolean IsRedSide() {
-    return isRedSide;
   }
 
   /**
@@ -120,10 +99,9 @@ public class RobotContainer {
 
     driverController.controllerLeft() // Set Drive Heading
       .onTrue(Commands.runOnce(() -> swerveDrive.zeroFieldOrientation()));
-
-    driverController.controllerRight() // Set Pose Heading
-      // .onTrue(Commands.runOnce(() -> swerveDrive.resetAllRotation(Rotation2d.kZero)));
-      .onTrue(swerveDrive.resetPoseWithAprilTags(0.2));
+    driverController.controllerRight()
+      .onTrue(swerveDrive.resetPoseWithAprilTags(0.1));
+      // .onTrue(Commands.runOnce(() -> swerveDrive.useMegaTag2 = false));
     // driverController.controllerRight()
 
     if (Constants.USE_SUBSYSTEMS) {
@@ -157,12 +135,6 @@ public class RobotContainer {
 
   public void configureBindings_test() {}
   
-  private void initAutoChoosers() {
-    
-    ShuffleboardTab autosTab = Shuffleboard.getTab("Autos");
-    autosTab.add("Selected Auto", autoChooser);
-  }
-  
   public void initShuffleboard() {
     swerveDrive.initializeLogging();
   
@@ -177,8 +149,11 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    Command currentAuto = autoChooser.getSelected();
-    return currentAuto;
+    if (Robot.getAlliance().equals(DriverStation.Alliance.Red)) {
+            return Autos.autonChooserRed.getSelected();
+        } else {
+            return Autos.autonChooserBlue.getSelected();
+        }
   }
 
   public void disableAllMotors_Test()
