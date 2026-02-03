@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import static frc.robot.Constants.Subsystems.*;
+
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -7,135 +9,148 @@ import edu.wpi.first.wpilibj2.command.Commands;
 
 public class SuperSystem implements Reportable {
     public NerdDrivetrain swerveDrivetrain;
-    
-    public Intake intake;
-    public Conveyor conveyor;
-    public Indexer indexer;
-    public CounterRoller counterRoller;
-    public Shooter shooter;
-    public Pivot pivot; 
 
-    //add new subsystems
-
-
-    public SuperSystem(NerdDrivetrain swerveDrivetrain, Intake intake, Conveyor conveyor, Indexer indexer, CounterRoller counterRoller, Shooter shooter, Pivot pivot) {
+    public SuperSystem(NerdDrivetrain swerveDrivetrain) {
         this.swerveDrivetrain = swerveDrivetrain;
-        this.intake = intake;
-        this.conveyor = conveyor;
-        this.indexer = indexer;
-        this.counterRoller = counterRoller;
-        this.shooter = shooter;
-        this.pivot = pivot;
-
     }
     
     // ------------------------------------ subsystems ------------------------------------ //
     public void reConfigureMotors() {
-        // redo
+        intakeSlapdown  .applyMotorConfigs();
+        intakeRoller    .applyMotorConfigs();
+        conveyor        .applyMotorConfigs();
+        indexer         .applyMotorConfigs();
+        counterRoller   .applyMotorConfigs();
+        shooter         .applyMotorConfigs();
     }
     
     public Command shoot(){
         return Commands.parallel(
-            indexer.setEnabledCommand(true),
-            indexer.setDesiredValueCommand(20),
-            conveyor.setEnabledCommand(true),
-            conveyor.setDesiredValueCommand(-3)
+            indexer.setDesiredValueCommand(20)
             );
     }
     
     public Command stopShooting(){
         return Commands.parallel(
-            indexer.setEnabledCommand(false),
-            indexer.setDesiredValueCommand(0),
-            conveyor.setEnabledCommand(false),
-            conveyor.setDesiredValueCommand(0)
+            indexer.setDesiredValueCommand(0)
             );
     }
 
     public Command spinUpFlywheel(){
         return Commands.parallel(
-            counterRoller.setEnabledCommand(true),
             counterRoller.setDesiredValueCommand(30),
-            shooter.setEnabledCommand(true),
             shooter.setDesiredValueCommand(75)
             );
         }
         
     public Command stopFlywheel(){
         return Commands.parallel(
-            counterRoller.setEnabledCommand(false),
             counterRoller.setDesiredValueCommand(0),
-            shooter.setEnabledCommand(false),
             shooter.setDesiredValueCommand(0)
         );
     }
 
     public Command intakeDown(){
         return Commands.parallel(
-            pivot.setEnabledCommand(true),
-            pivot.setDesiredValueCommand(0)
+            intakeSlapdown.setDesiredValueCommand(0)
         );
     }
 
     public Command intakeUp(){
         return Commands.parallel(
-            pivot.setEnabledCommand(true),
-            pivot.setDesiredValueCommand(6.5)
+            intakeSlapdown.setDesiredValueCommand(6.5)
         );
     }
 
-    public Command pivotStop() {
+    public Command intakeSlapdownStop() {
         return Commands.parallel(
-            pivot.setEnabledCommand(false),
-            pivot.setDesiredValueCommand(0.0)
+            intakeSlapdown.setDesiredValueCommand(0.0)
         );
     }
 
     public Command intake() {
         return Commands.parallel(
-            intake.setEnabledCommand(true),
-            intake.setDesiredValueCommand(4.5)
+            intakeRoller.setDesiredValueCommand(4.5)
         );
     }
 
     public Command stopIntaking(){
         return Commands.parallel(
-            intake.setEnabledCommand(false),
-            intake.setDesiredValueCommand(0)
+            intakeRoller.setDesiredValueCommand(0)
         );
     }
 
     public void setNeutralMode(NeutralModeValue neutralMode) {
-        // redo
-        reConfigureMotors();
+        intakeSlapdown  .setNeutralMode(neutralMode);
+        intakeRoller    .setNeutralMode(neutralMode);
+        conveyor        .setNeutralMode(neutralMode);
+        indexer         .setNeutralMode(neutralMode);
+        counterRoller   .setNeutralMode(neutralMode);
+        shooter         .setNeutralMode(neutralMode);
     }
 
+    /**
+     * fully stops all subsystems by putting them into neutral and disabling them
+     * subsystems do not reenable on their own
+     * @return a command to stop
+     */
     public Command stop() {
         return Commands.runOnce(() -> {
-        // redo
+            intakeSlapdown  .stop();
+            intakeRoller    .stop();
+            conveyor        .stop();
+            indexer         .stop();
+            counterRoller   .stop();
+            shooter         .stop();
         });
     }   
 
     public void initialize() {
-        //set enabled = true;
-        //set initials 
-        // intake.setEnabled(true);
-        // indexer.setEnabled(true);
-        // counterRoller.setEnabled(true);
-        // shooter.setEnabled(true);
-        // pivot.setEnabled(true);
-        pivot.motor1.setPosition(0.0);
+        intakeSlapdown  .setEnabled(useIntakeSlapdown);
+        intakeRoller    .setEnabled(useIntakeRoller);
+        conveyor        .setEnabled(useConveyor);
+        indexer         .setEnabled(useIndexer);
+        counterRoller   .setEnabled(useCounterRoller);
+        shooter         .setEnabled(useShooter);
     }
 
     @Override
     public void initializeLogging() {
-        intake.initializeLogging();
-        conveyor.initializeLogging();
-        indexer.initializeLogging();
-        counterRoller.initializeLogging();
-        shooter.initializeLogging();
-        pivot.initializeLogging();
-
+        intakeSlapdown  .initializeLogging();
+        intakeRoller    .initializeLogging();
+        conveyor        .initializeLogging();
+        indexer         .initializeLogging();
+        counterRoller   .initializeLogging();
+        shooter         .initializeLogging();
+        // just imagine it
+        // applyToSubsystems((subsystem) -> subsystem.initializeLogging());
     }
 
+    // /**
+    //  * i really wanna use this
+    //  * its so tempting
+    //  * @param f
+    //  */
+    // public void applyToSubsystems(Consumer<TemplateSubsystem> f) {
+    //     Field[] fields = Subsystems.class.getFields();
+    //     for (int i = 0; i < fields.length; i++) {
+    //         if (fields[i].getType().equals(TemplateSubsystem.class)) {
+    //             try {
+    //                 f.accept((TemplateSubsystem)fields[i].get(null));
+    //             } catch (IllegalArgumentException e) {
+    //                 e.printStackTrace();
+    //             } catch (IllegalAccessException e) {
+    //                 e.printStackTrace();
+    //             }
+    //         }
+    //     }
+
+    //     // ---- or ----
+    //     f.accept(intakeSlapdown);
+    //     f.accept(intakeRoller);
+    //     f.accept(conveyor);
+    //     f.accept(indexer);
+    //     f.accept(counterRoller);
+    //     f.accept(shooter);
+    // }
 }

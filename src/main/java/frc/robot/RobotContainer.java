@@ -19,16 +19,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Constants.ControllerConstants;
-import frc.robot.generated.TunerConstants;
 import frc.robot.commands.RingDriveCommand;
 import frc.robot.commands.SwerveJoystickCommand;
+import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.CounterRoller;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.NerdDrivetrain;
-import frc.robot.subsystems.Pivot;
-import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SuperSystem;
 import frc.robot.util.Controller;
 
@@ -38,17 +36,8 @@ public class RobotContainer {
   
   public SuperSystem superSystem;
 
-  public Intake intake;
-  public Conveyor conveyor;
-  public Indexer indexer;
-  public CounterRoller counterRoller;
-  public Shooter shooter;
-  public Pivot pivot;
-
-  
-
-  private final Controller driverController = new Controller(ControllerConstants.kDriverControllerPort);
-  private final Controller operatorController = new Controller(ControllerConstants.kOperatorControllerPort);
+  private final Controller driverController = new Controller(ControllerConstants.kDriverControllerPort, false);
+  private final Controller operatorController = new Controller(ControllerConstants.kOperatorControllerPort,false);
   
   private SendableChooser<Command> autoChooser = new SendableChooser<Command>();
   
@@ -59,23 +48,10 @@ public class RobotContainer {
    * s subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-    try { swerveDrive = TunerConstants.createDrivetrain(); }
-    catch (IllegalArgumentException e) {
-      DriverStation.reportError("Illegal Swerve Drive Module Type", e.getStackTrace());
-    }
+    swerveDrive = TunerConstants.createDrivetrain();
 
     if (Constants.USE_SUBSYSTEMS) {
-       //add subsystems
-      intake = new Intake();
-      conveyor = new Conveyor();
-      indexer = new Indexer();
-      counterRoller = new CounterRoller();
-      shooter = new Shooter();
-      pivot = new Pivot();
-
-      superSystem = new SuperSystem(swerveDrive, intake, conveyor, indexer, counterRoller, shooter, pivot);
-
-      
+      superSystem = new SuperSystem(swerveDrive);
     }
     
     initShuffleboard();
@@ -142,14 +118,13 @@ public class RobotContainer {
   //////////////////////
   public void configureDriverBindings_teleop() {
 
-    driverController.controllerLeft()
+    driverController.controllerLeft() // Set Drive Heading
       .onTrue(Commands.runOnce(() -> swerveDrive.zeroFieldOrientation()));
-    driverController.controllerRight()
-      .onTrue(Commands.runOnce(() -> swerveDrive.resetAllRotation(Rotation2d.kZero)));
 
+    driverController.controllerRight() // Set Pose Heading
+      // .onTrue(Commands.runOnce(() -> swerveDrive.resetAllRotation(Rotation2d.kZero)));
+      .onTrue(swerveDrive.resetPoseWithAprilTags(0.2));
     // driverController.controllerRight()
-    //   .onTrue(Commands.runOnce(() -> imu.zeroAbsoluteHeading()));
-  
 
     if (Constants.USE_SUBSYSTEMS) {
       driverController.triggerRight()
@@ -210,7 +185,5 @@ public class RobotContainer {
   {
     swerveDrive.setBrake(true);
   }
-  
 
-  
 }

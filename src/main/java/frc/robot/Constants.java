@@ -4,12 +4,12 @@
 
 package frc.robot;
 
-import com.ctre.phoenix6.configs.FeedbackConfigs;
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveModule.SteerRequestType;
@@ -32,6 +32,8 @@ import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
 import frc.robot.subsystems.Reportable.LOG_LEVEL;
+import frc.robot.subsystems.template.TemplateSubsystem;
+import frc.robot.subsystems.template.TemplateSubsystem.SubsystemMode;
 import frc.robot.util.MultiProfiledPIDController;
 
 /**
@@ -221,10 +223,40 @@ public final class Constants {
       }
     }
   }
-  public static final class IntakeConstants{
+
+  public static final class IntakeSlapdownConstants{
+    public static final int kMotor1ID = 16;
+
+    private static final Slot0Configs kSlot0Configs = 
+      new Slot0Configs()
+        .withKP(0.5)
+        .withKI(0.0)
+        .withKD(0.0)
+      ;
+    private static final MotorOutputConfigs kMotorOutputConfigs =
+      new MotorOutputConfigs()
+        .withNeutralMode(NeutralModeValue.Brake);
+      ;
+
+    private static final MotionMagicConfigs kMotionMagicConfigs = 
+      new MotionMagicConfigs()
+        .withMotionMagicAcceleration(1)
+        .withMotionMagicCruiseVelocity(1)
+      ;
+        
+    public static final TalonFXConfiguration kSubsystemConfiguration = 
+      new TalonFXConfiguration()
+        .withSlot0(kSlot0Configs)
+        .withMotorOutput(kMotorOutputConfigs)
+        .withMotionMagic(kMotionMagicConfigs)
+      ;
+
+  }
+
+  public static final class IntakeRollerConstants{
     public static final int kMotor1ID = 15; //TODO
 
-    public static final Slot0Configs kSlot0Configs = 
+    private static final Slot0Configs kSlot0Configs = 
       new Slot0Configs() //TODO
         .withKP(0.5)
         .withKI(0.0)
@@ -233,12 +265,13 @@ public final class Constants {
 
     public static final TalonFXConfiguration kSubsystemConfiguration = 
       new TalonFXConfiguration()
-      .withSlot0(kSlot0Configs);
+        .withSlot0(kSlot0Configs)
+      ;
+    
   }
-
+  
   public static final class IndexerConstants{
     public static final int kMotor1ID = 25; //TODO
-    // public static final int kMotor2ID = 62; //TODO
 
     public static final Slot0Configs kSlot0Configs = 
       new Slot0Configs() //TODO
@@ -255,10 +288,11 @@ public final class Constants {
         .withSlot0(kSlot0Configs)
         .withMotorOutput(kMotorOutputConfigs);
   }
-   public static final class ConveyorConstants{
+   
+  public static final class ConveyorConstants{
     public static final int kMotor1ID = 26; //TODO
 
-    public static final Slot0Configs kSlot0Configs = 
+    private static final Slot0Configs kSlot0Configs = 
       new Slot0Configs() //TODO
         .withKP(0.5)
         .withKI(0.0)
@@ -269,11 +303,11 @@ public final class Constants {
       new TalonFXConfiguration()
       .withSlot0(kSlot0Configs);
   }
-
+  
   public static final class CounterRollerConstants{
     public static final int kMotor1ID = 37; //TODO
 
-    public static final Slot0Configs kSlot0Configs = 
+    private static final Slot0Configs kSlot0Configs = 
       new Slot0Configs() //TODO
         .withKP(0.5)
         .withKI(0.0)
@@ -288,13 +322,13 @@ public final class Constants {
     public static final int kMotor1ID = 35;
     public static final int kMotor2ID = 36;
 
-    public static final Slot0Configs kSlot0Configs = 
+    private static final Slot0Configs kSlot0Configs = 
       new Slot0Configs() //TODO
         .withKP(0.5)
         .withKI(0.0)
-        .withKD(0.0);
-
-    public static final MotorOutputConfigs kMotorOutputConfigs =
+        .withKD(0.0)
+      ;
+    private static final MotorOutputConfigs kMotorOutputConfigs =
       new MotorOutputConfigs()
         .withInverted(InvertedValue.Clockwise_Positive);
         
@@ -304,31 +338,39 @@ public final class Constants {
         .withMotorOutput(kMotorOutputConfigs);
   }
 
-  public static final class IntakeSlapdownConstants{
-    public static final int kMotor1ID = 16;
-
-    public static final Slot0Configs kSlot0Configs = 
-      new Slot0Configs()
-        .withKP(4.0)
-        .withKI(0.0)
-        .withKD(0.0)
-      ;
-    public static final MotionMagicConfigs kMotionMagicConfigs = 
-      new MotionMagicConfigs()
-        .withMotionMagicAcceleration(4)
-        .withMotionMagicCruiseVelocity(4)
-      ;
-    public static final MotorOutputConfigs kMotorOutputConfigs = 
-      new MotorOutputConfigs()
-        .withNeutralMode(NeutralModeValue.Brake)
-      ;
-        
-    public static final TalonFXConfiguration kSubsystemConfiguration = 
-      new TalonFXConfiguration()
-        .withSlot0(kSlot0Configs)
-        .withMotionMagic(kMotionMagicConfigs)
-        .withMotorOutput(kMotorOutputConfigs)
-      ;
+  /** 
+   * Container class to hold all subsystem objects.
+   */
+  public static final class Subsystems {
+    public static final boolean useIntakeSlapdown = true;
+    public static final TemplateSubsystem intakeSlapdown = (!USE_SUBSYSTEMS) ? null :
+    new TemplateSubsystem("Intake Slapdown", IntakeSlapdownConstants.kMotor1ID, SubsystemMode.POSITION, 0.0)
+      .configureMotors(IntakeSlapdownConstants.kSubsystemConfiguration);
+    
+    public static final boolean useIntakeRoller = true;
+    public static final TemplateSubsystem intakeRoller = (!USE_SUBSYSTEMS) ? null :
+    new TemplateSubsystem("Intake Roller", IntakeRollerConstants.kMotor1ID, SubsystemMode.VELOCITY, 0.0)
+      .configureMotors(IntakeRollerConstants.kSubsystemConfiguration);
+    
+    public static final boolean useConveyor = true;
+    public static final TemplateSubsystem conveyor = (!USE_SUBSYSTEMS) ? null :
+    new TemplateSubsystem("Conveyor", IntakeRollerConstants.kMotor1ID, SubsystemMode.VELOCITY, 0.0)
+      .configureMotors(ConveyorConstants.kSubsystemConfiguration);    
+    
+    public static final boolean useIndexer = true;
+    public static final TemplateSubsystem indexer = (!USE_SUBSYSTEMS) ? null :
+    new TemplateSubsystem("Indexer", IndexerConstants.kMotor1ID, SubsystemMode.VELOCITY, 0.0)
+      .configureMotors(IndexerConstants.kSubsystemConfiguration);
+    
+    public static final boolean useCounterRoller = true;
+    public static final TemplateSubsystem counterRoller = (!USE_SUBSYSTEMS) ? null :
+    new TemplateSubsystem("Counter Roller", CounterRollerConstants.kMotor1ID, SubsystemMode.VELOCITY, 0.0)
+      .configureMotors(CounterRollerConstants.kSubsystemConfiguration);
+    
+    public static final boolean useShooter = true;
+    public static final TemplateSubsystem shooter = (!USE_SUBSYSTEMS) ? null :
+    new TemplateSubsystem("Shooter", ShooterConstants.kMotor1ID, ShooterConstants.kMotor2ID, MotorAlignmentValue.Opposed,  SubsystemMode.VELOCITY, 0.0)
+      .configureMotors(ShooterConstants.kSubsystemConfiguration);    
 
   }
 
@@ -366,7 +408,7 @@ public final class Constants {
   //   public static final int kMotor1ID = ;
   //   public static final int kMotor2ID = ;
 
-  //   public static final Slot0Configs kSlot0Configs = 
+  //   private static final Slot0Configs kSlot0Configs = 
   //     new Slot0Configs()
   //       .withKP(0.0)
   //     ;
