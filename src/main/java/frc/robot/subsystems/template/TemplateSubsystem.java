@@ -140,7 +140,9 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 				if (configuration.MotionMagic.MotionMagicAcceleration == 0.0) DriverStation.reportWarning(name + ": MM Acceleration is 0.0", null);
 				break;
 			case VELOCITY:
-				motor1.setControl(velocityController.withVelocity(this.desiredValue));
+				if (Math.abs(this.desiredValue) <= 0.1) stop();
+				else motor1.setControl(velocityController.withVelocity(this.desiredValue));
+				
 				break;
 			case VOLTAGE:
 				motor1.setControl(voltageController.withOutput(this.desiredValue));
