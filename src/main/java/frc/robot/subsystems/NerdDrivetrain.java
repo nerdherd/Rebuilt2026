@@ -13,8 +13,8 @@ import static frc.robot.Constants.SwerveDriveConstants.kRobotOrientedSwerveReque
 import static frc.robot.Constants.SwerveDriveConstants.kTargetDriveController;
 import static frc.robot.Constants.SwerveDriveConstants.kTargetDriveMaxLateralVelocity;
 import static frc.robot.Constants.SwerveDriveConstants.kTowSwerveRequest;
-import frc.robot.Constants.SwerveDriveConstants.FieldPositions;
 
+import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants;
@@ -32,8 +32,11 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.FieldObject2d;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Constants;
+import frc.robot.Constants.SwerveDriveConstants.FieldPositions;
 import frc.robot.Constants.VisionConstants.Camera;
 import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
 import frc.robot.vision.LimelightHelpers;
@@ -41,7 +44,7 @@ import frc.robot.vision.LimelightHelpers.PoseEstimate;
 
 public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, Reportable {
     public final Field2d field;
-    public boolean useMegaTag2 = true;
+    public boolean useMegaTag2 = true; // keep true until megatag1 is fixed
 
     public NerdDrivetrain(SwerveDrivetrainConstants drivetrainConstants, SwerveModuleConstants<?, ?, ?>... modules) {
         super(drivetrainConstants, modules);
@@ -78,7 +81,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
 
         field = new Field2d();
 
-        setVision(false);
+        if (USE_VISION) setVision(true);
     }
     
     
@@ -86,8 +89,9 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
     public void periodic() {
         field.setRobotPose(getPose());
 
-        if (USE_VISION) {
+        if (USE_VISION && LimelightHelpers.getCurrentPipelineIndex("limelight-front") == 0) {
             // visionUpdate(Camera.Example); TODO add cameras separately
+            visionUpdate(Camera.Front);
         }
     }
 
@@ -156,6 +160,9 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
 
     // ----------------------------------------- Helper Functions ----------------------------------------- //
 
+    /**
+     * sets the control to TowSwerveRequest
+     */
     public void stop() {
         setControl(kTowSwerveRequest);
     }
@@ -196,21 +203,35 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
     // ----------------------------------------- Vision Functions ----------------------------------------- //
 
     /**
-     * activates or deactivates vision by setting the pipeline either to 1 for active or 0 for inactive
+     * activates or deactivates vision by setting the pipeline either to 0 for active or 1 for inactive
      * and by adjusting throttle, see {@link LimelightHelpers#SetThrottle(String, int)}
      * @param activate whether to activate or deactivate
      */
     public void setVision(boolean activate) {
         for (Camera camera : Camera.values()) {
-            LimelightHelpers.setPipelineIndex(camera.name, (activate) ? 1 : 0);
+            LimelightHelpers.setPipelineIndex(camera.name, (activate) ? 0 : 1);
             LimelightHelpers.SetThrottle(camera.name, (activate) ? 0 : Constants.VisionConstants.kDisabledThrottle);
         }
+    }
+    
+    /**
+     * temporarily switch to megatag1 to update robot field heading/pose
+     * @param delay in seconds until switching back to MegaTag2
+     */
+    public Command resetPoseWithAprilTags(double delay) {
+        return Commands.sequence(
+            Commands.runOnce(() -> useMegaTag2 = false),
+            Commands.waitSeconds(delay),
+            Commands.runOnce(() -> useMegaTag2 = true)
+      );
     }
 
     public void visionUpdate(Camera limelight) {
         if (!useMegaTag2) {
             // --------- MT1 --------- //
-            useMegaTag2 = true; // TODO megatag1 gyro initialization
+            PoseEstimate mt = LimelightHelpers.getBotPoseEstimate_wpiBlue(limelight.name);
+            resetAllRotation(mt.pose.getRotation());
+            // useMegaTag2 = true; // TODO megatag1 gyro initialization
         }
         else {
             // --------- MT2 --------- //
@@ -219,12 +240,12 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
             PoseEstimate mt = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(limelight.name);
             if (mt == null || Math.abs(getPigeon2().getAngularVelocityZWorld().getValueAsDouble()) > 720 || mt.tagCount == 0) return;
             setVisionMeasurementStdDevs(VecBuilder.fill(0.7, 0.7, 9999999)); // TODO consider other stddevs
-            addVisionMeasurement(mt.pose, mt.timestampSeconds);
+            addVisionMeasurement(mt.pose, Utils.getCurrentTimeSeconds());
         }
     }
 
     // ----------------------------------------- Gyro Functions ----------------------------------------- //
-    
+
     /** 
      * use with bindings to reset the field oriented control 
      * @see {@link #setOperatorPerspectiveForward} also for more custom setting
@@ -234,7 +255,6 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
     }
 
     public void resetAllRotation(Rotation2d rotation) {
-        getPigeon2().setYaw(rotation.getMeasure());
         resetRotation(rotation);
     }
 
@@ -243,7 +263,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
      * @see {@link #resetAllRotation(Rotation2d)}
      */
     public double getAbsoluteHeadingDegrees() {
-        return MathUtil.inputModulus(getPigeon2().getRotation2d().getDegrees(), -180, 180);
+        return MathUtil.inputModulus(getPose().getRotation().getDegrees(), -180, 180);
     }
 
     /** 
@@ -251,7 +271,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
      * @see {@link #resetAllRotation(Rotation2d)}
      */
     public double getAbsoluteHeadingRadians() {
-        return MathUtil.inputModulus(getPigeon2().getRotation2d().getRadians(), -180, 180);
+        return MathUtil.inputModulus(getPose().getRotation().getRadians(), -Math.PI, Math.PI);
     }
 
     /**
@@ -274,7 +294,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
         ///////////
         for (Camera camera : Camera.values())
             Reportable.addCamera(tab, camera.name, camera.name, "http://" + camera.ip, LOG_LEVEL.ALL);
-        if (Constants.ROBOT_LOG_LEVEL.level == LOG_LEVEL.ALL.level) {
+        if (Constants.ROBOT_LOG_LEVEL.compareTo(LOG_LEVEL.ALL) == 0) {
             Field2d positionField = new Field2d();
             for (FieldPositions position : FieldPositions.values()) {
                 FieldObject2d blue = positionField.getObject(position.name() + "-blue");
@@ -293,7 +313,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
         //////////////
         Reportable.addNumber(tab, "absolute heading", this::getAbsoluteHeadingDegrees, LOG_LEVEL.MEDIUM);
         Reportable.addNumber(tab, "operator heading", () -> getOperatorHeadingDegrees() + getAbsoluteHeadingDegrees(), LOG_LEVEL.MEDIUM);
-        Reportable.addNumber(tab, "odom heading", () -> getPose().getRotation().getDegrees(), LOG_LEVEL.MEDIUM);
+        // Reportable.addNumber(tab, "odom heading", () -> getPose().getRotation().getDegrees(), LOG_LEVEL.MEDIUM);
         
         //////////////
         /// MINIMAL //
