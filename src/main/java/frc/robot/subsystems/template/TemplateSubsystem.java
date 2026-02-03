@@ -202,7 +202,7 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 	
 	/** brake or coast depending on current {@link NeutralModeValue} */
 	public void stop(){
-		disable();
+		this.enabled = false;
 		motor1.setControl(neutralRequest);
 		if (hasMotor2()) motor2.setControl(neutralRequest);
 	}
