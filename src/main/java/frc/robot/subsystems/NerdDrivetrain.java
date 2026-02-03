@@ -271,7 +271,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
      * @see {@link #resetAllRotation(Rotation2d)}
      */
     public double getAbsoluteHeadingRadians() {
-        return MathUtil.inputModulus(getPose().getRotation().getDegrees(), -180, 180);
+        return MathUtil.inputModulus(getPose().getRotation().getRadians(), -Math.PI, Math.PI);
     }
 
     /**
