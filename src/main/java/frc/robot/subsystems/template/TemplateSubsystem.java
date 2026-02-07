@@ -128,7 +128,7 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 
 	@Override
 	public void periodic() {
-		if(!enabled){
+		if(!enabled) {
 			stop();
 			return;
 		}
@@ -142,10 +142,12 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 			case VELOCITY:
 				if (Math.abs(this.desiredValue) <= 0.1) stop();
 				else motor1.setControl(velocityController.withVelocity(this.desiredValue));
-				
 				break;
 			case VOLTAGE:
+				if (Math.abs(this.desiredValue) > 12)
+					DriverStation.reportWarning(name + ": voltage > 12", null);
 				motor1.setControl(voltageController.withOutput(this.desiredValue));
+				break;
 			default:
 				break;
 		}
@@ -200,6 +202,7 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 	public void setNeutralMode(NeutralModeValue mode){
 		this.configuration.MotorOutput.NeutralMode = mode;
 		motor1.setNeutralMode(mode);
+		if (hasMotor2()) motor2.setNeutralMode(mode);
 	}
 	
 	/** brake or coast depending on current {@link NeutralModeValue} */
@@ -357,9 +360,15 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
         ///////////
         Reportable.addNumber(shuffleboardTab,"Desired " + getFlavorText(), () -> getDesiredValue(), Reportable.LOG_LEVEL.ALL);
 		Reportable.addBoolean(shuffleboardTab, "Has Error", () -> _hasError, Reportable.LOG_LEVEL.ALL);
+
+		Reportable.addNumber(shuffleboardTab, "Torque Current", () -> motor1.getTorqueCurrent().getValueAsDouble(), Reportable.LOG_LEVEL.ALL);
+		if (hasMotor2()) Reportable.addNumber(shuffleboardTab, "Torque Current", () -> motor2.getTorqueCurrent().getValueAsDouble(), Reportable.LOG_LEVEL.ALL);
+
+		Reportable.addNumber(shuffleboardTab, "Supply Current", () -> motor1.getSupplyCurrent().getValueAsDouble(), Reportable.LOG_LEVEL.ALL);
+		if (hasMotor2()) Reportable.addNumber(shuffleboardTab, "Supply Current", () -> motor2.getSupplyCurrent().getValueAsDouble(), Reportable.LOG_LEVEL.ALL);
 		
         //////////////
-        /// MEDIUM ///
+		/// MEDIUM ///
         //////////////
         Reportable.addBoolean(shuffleboardTab, "Enabled", () -> this.enabled, Reportable.LOG_LEVEL.MEDIUM);
         Reportable.addNumber(shuffleboardTab, "Temperature 1", () -> getCurrentTemp(), Reportable.LOG_LEVEL.MEDIUM);

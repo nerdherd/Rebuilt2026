@@ -62,7 +62,6 @@ public class Controller {
     }
 
     // ***** VALUE METHODS ***** //
-    // TODO: Ensure all of these bindings are correct
 
     public double getLeftX() { return isPS4 ? PS4.getLeftX() : (isPS5 ? PS5.getLeftX() : guliKit.getLeftX()); }
     public double getLeftY() { return isPS4 ? PS4.getLeftY() : (isPS5 ? PS5.getLeftY() : guliKit.getLeftY()); }

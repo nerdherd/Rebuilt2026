@@ -59,7 +59,7 @@ public class Robot extends TimedRobot {
     m_robotContainer.swerveDrive.setVision(false);
     
     if (Constants.USE_SUBSYSTEMS){
-      // TODO disable subsystems
+      m_robotContainer.superSystem.stop();
     }
   }
 
@@ -71,7 +71,7 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     if (DriverStation.getAlliance().isPresent()) alliance = DriverStation.getAlliance().get();
     m_robotContainer.swerveDrive.setVision(USE_VISION); 
-    m_robotContainer.swerveDrive.resetAllRotation(new Rotation2d(0.0 + 180.0)); // TODO consider auto field orientation
+    m_robotContainer.swerveDrive.resetRotation(new Rotation2d(0.0 + 180.0)); // TODO consider auto field orientation
     // m_robotContainer.swerveDrive.enableLimeLight(); TODO
 
     if (Constants.USE_SUBSYSTEMS) {
