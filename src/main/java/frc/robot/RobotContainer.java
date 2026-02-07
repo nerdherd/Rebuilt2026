@@ -143,7 +143,9 @@ public class RobotContainer {
     ShuffleboardTab autosTab = Shuffleboard.getTab("Autos");
     autosTab.add("Selected Auto", autoChooser);
     try { // vscode fix error display
-      autoChooser.setDefaultOption("Test Auto", new Taxi(swerveDrive, "MegaTag1_Test"));
+      autoChooser.setDefaultOption("Do Nothing", Commands.none());
+      autoChooser.addOption("Move", Commands.run(() -> swerveDrive.driveToTarget(new Pose2d(1.0, 1.0, new Rotation2d(180)))));
+      autoChooser.addOption("Test Auto", new Taxi(swerveDrive, "MegaTag1_Test"));
     } catch (IOException | ParseException e) {}
   }
   

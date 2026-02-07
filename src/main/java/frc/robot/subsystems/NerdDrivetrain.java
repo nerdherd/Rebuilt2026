@@ -81,14 +81,13 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
 
         field = new Field2d();
 
-        if (USE_VISION) setVision(true);
-        else setVision(false);
+        setVision(USE_VISION);
     }
     
     
     @Override
     public void periodic() {
-        field.setRobotPose(getPose());
+        field.setRobotPose(new Pose2d(1.0, 1.0, new Rotation2d(180))); //getPose()
 
         if (USE_VISION) {
             // visionUpdate(Camera.Example); TODO add cameras separately
@@ -228,8 +227,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
         if (!useMegaTag2) {
             // --------- MT1 --------- //
             PoseEstimate mt = LimelightHelpers.getBotPoseEstimate_wpiBlue(limelight.name);
-            resetAllRotation(mt.pose.getRotation());
-            // useMegaTag2 = true; // TODO megatag1 gyro initialization
+            resetRotation(mt.pose.getRotation());
         }
         else {
             // --------- MT2 --------- //
@@ -252,14 +250,9 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
         setOperatorPerspectiveForward(Rotation2d.fromDegrees(getAbsoluteHeadingDegrees()));
     }
 
-    public void resetAllRotation(Rotation2d rotation) {
-        getPigeon2().setYaw(rotation.getMeasure());
-        // resetRotation(rotation);
-    }
-
     /** 
      * get absolute heading in degrees, from blue alliance orientation
-     * @see {@link #resetAllRotation(Rotation2d)}
+     * @see {@link #resetRotation(Rotation2d)}
      */
     public double getAbsoluteHeadingDegrees() {
         return MathUtil.inputModulus(getPigeon2().getRotation2d().getDegrees(), -180, 180);
@@ -267,7 +260,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
 
     /** 
      * get absolute heading in radians, from blue alliance orientation
-     * @see {@link #resetAllRotation(Rotation2d)}
+     * @see {@link #resetRotation(Rotation2d)}
      */
     public double getAbsoluteHeadingRadians() {
         return MathUtil.inputModulus(getPigeon2().getRotation2d().getRadians(), -180, 180);

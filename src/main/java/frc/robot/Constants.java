@@ -41,17 +41,17 @@ import frc.robot.util.MultiProfiledPIDController;
 public final class Constants {
 
   /** current logging level of the robot's subsystems, @see Reportable.add... */
-  public static LOG_LEVEL ROBOT_LOG_LEVEL = LOG_LEVEL.MEDIUM;
+  public static final LOG_LEVEL ROBOT_LOG_LEVEL = LOG_LEVEL.MEDIUM;
   /** 
    * (hopefully) controls whether subsystem objects are used, swerve and others not counted
    * @see {@link frc.robot.subsystems.template.TemplateSubsystem TemplateSubsystem} 
    * @see {@link frc.robot.subsystems.SuperSystem SuperSystem}
    */
-  public static boolean USE_SUBSYSTEMS = true;
+  public static final boolean USE_SUBSYSTEMS = true;
   /**
    * controls whether vision should be initialized
    */
-  public static boolean USE_VISION = true;
+  public static final boolean USE_VISION = true;
 
   public static class ControllerConstants {
     public static final double kDeadband = 0.05;
