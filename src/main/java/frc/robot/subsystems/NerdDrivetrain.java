@@ -81,7 +81,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
 
         field = new Field2d();
 
-        if (USE_VISION) setVision(true);
+        setVision(USE_VISION);
     }
     
     
@@ -194,8 +194,8 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
             double steerTemp = getModule(i).getSteerMotor().getDeviceTemp().getValueAsDouble();
             if (driveTemp >= deviceTempThreshold) output += "Drive " + i + ", Temp: " + driveTemp;
             if (steerTemp >= deviceTempThreshold) output += "Steer " + i + ", Temp: " + steerTemp;
-            
         }
+        
         if (!output.equals("")) return output;
         return "it's chill";
     }
@@ -230,8 +230,8 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
         if (!useMegaTag2) {
             // --------- MT1 --------- //
             PoseEstimate mt = LimelightHelpers.getBotPoseEstimate_wpiBlue(limelight.name);
-            resetAllRotation(mt.pose.getRotation());
-            // useMegaTag2 = true; // TODO megatag1 gyro initialization
+            if (mt == null || Math.abs(getPigeon2().getAngularVelocityZWorld().getValueAsDouble()) > 720 || mt.tagCount == 0) return;
+            resetRotation(mt.pose.getRotation());
         }
         else {
             // --------- MT2 --------- //
@@ -250,17 +250,21 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
      * use with bindings to reset the field oriented control 
      * @see {@link #setOperatorPerspectiveForward} also for more custom setting
      */
-    public void zeroFieldOrientation() {
+    public void zeroOperatorHeading() {
         setOperatorPerspectiveForward(Rotation2d.fromDegrees(getAbsoluteHeadingDegrees()));
     }
-
-    public void resetAllRotation(Rotation2d rotation) {
-        resetRotation(rotation);
+    
+    /**
+     * get heading relative to what the operator sees
+     * @see {@link #zeroOperatorHeading()} for resetting to zero
+     */
+    public double getOperatorHeadingDegrees() {
+        return getOperatorForwardDirection().getDegrees();
     }
 
     /** 
      * get absolute heading in degrees, from blue alliance orientation
-     * @see {@link #resetAllRotation(Rotation2d)}
+     * @see {@link #resetRotation(Rotation2d)}
      */
     public double getAbsoluteHeadingDegrees() {
         return MathUtil.inputModulus(getPose().getRotation().getDegrees(), -180, 180);
@@ -268,18 +272,10 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
 
     /** 
      * get absolute heading in radians, from blue alliance orientation
-     * @see {@link #resetAllRotation(Rotation2d)}
+     * @see {@link #resetRotation(Rotation2d)}
      */
     public double getAbsoluteHeadingRadians() {
         return MathUtil.inputModulus(getPose().getRotation().getRadians(), -Math.PI, Math.PI);
-    }
-
-    /**
-     * get heading relative to what the operator sees
-     * @see {@link #zeroFieldOrientation()} for resetting to zero
-     */
-    public double getOperatorHeadingDegrees() {
-        return getOperatorForwardDirection().getDegrees();
     }
 
     // ----------------------------------------- Logging Functions ----------------------------------------- //
@@ -294,16 +290,20 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
         ///////////
         for (Camera camera : Camera.values())
             Reportable.addCamera(tab, camera.name, camera.name, "http://" + camera.ip, LOG_LEVEL.ALL);
+        
         if (Constants.ROBOT_LOG_LEVEL.compareTo(LOG_LEVEL.ALL) == 0) {
             Field2d positionField = new Field2d();
+
             for (FieldPositions position : FieldPositions.values()) {
                 FieldObject2d blue = positionField.getObject(position.name() + "-blue");
                 blue.setPose(position.blue);
                 FieldObject2d red  = positionField.getObject(position.name() + "-red");
                 red.setPose(position.red);
             }
+
             tab.add("Position Field", positionField).withSize(6,3);
         }
+
         Reportable.addNumber(tab, "field chassis speeds x", () -> getFieldOrientedSpeeds().vxMetersPerSecond, LOG_LEVEL.ALL);
         Reportable.addNumber(tab, "field chassis speeds y", () -> getFieldOrientedSpeeds().vyMetersPerSecond, LOG_LEVEL.ALL);
         Reportable.addNumber(tab, "field chassis speeds r", () -> getFieldOrientedSpeeds().omegaRadiansPerSecond, LOG_LEVEL.ALL);
