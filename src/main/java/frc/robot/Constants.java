@@ -42,12 +42,13 @@ public final class Constants {
 
   /** current logging level of the robot's subsystems, @see Reportable.add... */
   public static final LOG_LEVEL ROBOT_LOG_LEVEL = LOG_LEVEL.MEDIUM;
+  
   /** 
    * (hopefully) controls whether subsystem objects are used, swerve and others not counted
    * @see {@link frc.robot.subsystems.template.TemplateSubsystem TemplateSubsystem} 
    * @see {@link frc.robot.subsystems.SuperSystem SuperSystem}
    */
-  public static final boolean USE_SUBSYSTEMS = true;
+  public static final boolean USE_SUBSYSTEMS = false;
   /**
    * controls whether vision should be initialized
    */
@@ -156,8 +157,8 @@ public final class Constants {
     public static final double kTurnToAngleVelocityToleranceAnglesPerSec = 1;
 
     public static enum FieldPositions {
-      HUB_CENTER(4.626, 4.035, 0.0),
-      ;//TODO Add field positions
+      HUB_CENTER(4.626, 4.035, 0.0);
+      //TODO Add field positions
       
       public Pose2d blue, red; // meters and degrees
       FieldPositions(double _blueX, double _blueY, double _blueHeadingDegrees) {

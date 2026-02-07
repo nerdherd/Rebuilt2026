@@ -8,8 +8,6 @@ import java.io.IOException;
 
 import org.json.simple.parser.ParseException;
 
-import com.ctre.phoenix6.swerve.SwerveDrivetrain;
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -40,12 +38,12 @@ public class RobotContainer {
   private final Controller operatorController = new Controller(ControllerConstants.kOperatorControllerPort);
   
   private SendableChooser<Command> autoChooser = new SendableChooser<Command>();
-  
-  private SwerveJoystickCommand swerveJoystickCommand;
+
+  private static boolean isRedSide = false;
   
   /**
-   * The container for the robot. Contain
-   * s subsystems, OI devices, and commands.
+   * The container for the robot. Contains
+   * subsystems, OI devices, and commands.
    */
   public RobotContainer() {
     try { swerveDrive = TunerConstants.createDrivetrain(); }
@@ -53,10 +51,8 @@ public class RobotContainer {
       DriverStation.reportError("Illegal Swerve Drive Module Type", e.getStackTrace());
     }
 
-    if (Constants.USE_SUBSYSTEMS) {
-      //add subsystems
+    if (Constants.USE_SUBSYSTEMS) { // add subsystems
       superSystem = new SuperSystem(swerveDrive);
-      // swerveDrive.resetPose(new Pose2d(1.0, 1.0, new Rotation2d(0.0)));
     }
     
     initShuffleboard();
@@ -64,8 +60,6 @@ public class RobotContainer {
 
     DriverStation.reportWarning("Initalization complete", false);
   }
-
-  static boolean isRedSide = false;
 
   public static void refreshAlliance() {
     var alliance = DriverStation.getAlliance();
@@ -82,27 +76,21 @@ public class RobotContainer {
    * used in teleop mode.
    */
   public void initDefaultCommands_teleop() {
-    swerveJoystickCommand = 
+    SwerveJoystickCommand swerveJoystickCommand =
     new SwerveJoystickCommand(
       swerveDrive,
       () -> driverController.getLeftY(), // Horizontal Translation
-      () -> driverController.getLeftX(), // Vertical Translation
+      () -> -driverController.getLeftX(), // Vertical Translation
       () -> driverController.getRightX(), // Rotation
       () -> true, // robot oriented variable (true = field oriented)
       () -> false, // tow supplier
       () -> driverController.getTriggerRight(), // Precision/"Sniper Button"
-      () -> false,
-      () -> swerveDrive.getAbsoluteHeadingDegrees(), // TODO i have no clue if this is right // Turn to angle direction 
+      () -> false, // turn to angle supplier
+      () -> swerveDrive.getSwerveHeadingDegrees(), // Turn to angle direction TODO i have no clue if this is right
       () -> new Translation2d(  (driverController.getDpadUp()?1.0:0.0) - (driverController.getDpadDown()?1:0), 
                                 (driverController.getDpadLeft()?1.0:0.0) - (driverController.getDpadRight()?1:0)) // DPad vector
     );
     swerveDrive.setDefaultCommand(swerveJoystickCommand);
-
-    driverController.triggerLeft().whileTrue(new RingDriveCommand(
-      swerveDrive,
-      () -> -driverController.getRightY(), // Horizontal Translation
-      () -> driverController.getLeftX() // Vertical Translation
-      ));
   }
 
   public void initDefaultCommands_test() {
@@ -120,10 +108,17 @@ public class RobotContainer {
   public void configureDriverBindings_teleop() {
 
     driverController.controllerLeft() // Set Drive Heading
-      .onTrue(Commands.runOnce(() -> swerveDrive.zeroFieldOrientation()));
+      .onTrue(Commands.runOnce(() -> swerveDrive.setDriverHeadingForward()));
 
     driverController.controllerRight() // Set Pose Heading
-      .onTrue(swerveDrive.resetPoseWithAprilTags(0.2));
+      .onTrue(Commands.runOnce(() -> swerveDrive.useMegaTag2 = false))
+      .onFalse(Commands.runOnce(() -> swerveDrive.useMegaTag2 = true));
+
+    driverController.triggerLeft().whileTrue(new RingDriveCommand( // Ring Drive (held)
+      swerveDrive,
+      () -> -driverController.getRightY(), // Horizontal Translation
+      () -> driverController.getLeftX() // Vertical Translation
+    ));
 
     if (Constants.USE_SUBSYSTEMS) {}
   }
@@ -132,13 +127,13 @@ public class RobotContainer {
   // Operator bindings
   //////////////////////
   public void configureOperatorBindings_teleop() {
-
     if (Constants.USE_SUBSYSTEMS) {}
   }
 
 
   public void configureBindings_test() {}
-  
+
+
   private void initAutoChoosers() {
     ShuffleboardTab autosTab = Shuffleboard.getTab("Autos");
     autosTab.add("Selected Auto", autoChooser);
@@ -167,11 +162,4 @@ public class RobotContainer {
     return currentAuto;
   }
 
-  public void disableAllMotors_Test()
-  {
-    swerveDrive.setBrake(true);
-  }
-  
-
-  
 }

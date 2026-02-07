@@ -44,7 +44,7 @@ import frc.robot.vision.LimelightHelpers.PoseEstimate;
 
 public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, Reportable {
     public final Field2d field;
-    public boolean useMegaTag2 = true; // keep true until megatag1 is fixed
+    public boolean useMegaTag2 = false;
 
     public NerdDrivetrain(SwerveDrivetrainConstants drivetrainConstants, SwerveModuleConstants<?, ?, ?>... modules) {
         super(drivetrainConstants, modules);
@@ -87,10 +87,12 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
     
     @Override
     public void periodic() {
-        field.setRobotPose(new Pose2d(1.0, 1.0, new Rotation2d(180))); //getPose()
+        DriverStation.reportWarning("swerve periodic", false);
+
+        field.setRobotPose(getPose());
 
         if (USE_VISION) {
-            // visionUpdate(Camera.Example); TODO add cameras separately
+            // visionUpdate(Camera.Example);
             visionUpdate(Camera.Front);
         }
     }
@@ -136,7 +138,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
         // DriverStation.reportWarning(controller.getConstraints().maxVelocity + " " + controller.getConstraints().maxAcceleration, false);
         double x = kTargetDriveController.calculate("x", getPose().getX(), target.getX());
         double y = kTargetDriveController.calculate("y", getPose().getY(), target.getY());
-        double r = kTargetDriveController.calculate("r", getAbsoluteHeadingRadians(), MathUtil.inputModulus(target.getRotation().getRadians(), -Math.PI, Math.PI));
+        double r = kTargetDriveController.calculate("r", getSwerveHeadingRadians(), MathUtil.inputModulus(target.getRotation().getRadians(), -Math.PI, Math.PI));
         double l = Math.sqrt(x*x+y*y);
         // clamp the velocity
         x *= Math.min(1.0, kTargetDriveMaxLateralVelocity / l);
@@ -155,7 +157,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
     public void resetTargetDrive() {
         kTargetDriveController.reset("x", getPose().getX(), getFieldOrientedSpeeds().vxMetersPerSecond * 0.1);
         kTargetDriveController.reset("y", getPose().getY(), getFieldOrientedSpeeds().vyMetersPerSecond * 0.1);
-        kTargetDriveController.reset("r", getAbsoluteHeadingRadians(), getFieldOrientedSpeeds().omegaRadiansPerSecond * 0.1);
+        kTargetDriveController.reset("r", getSwerveHeadingRadians(), getFieldOrientedSpeeds().omegaRadiansPerSecond * 0.1);
     }
 
     // ----------------------------------------- Helper Functions ----------------------------------------- //
@@ -175,7 +177,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
     }
 
     public ChassisSpeeds getFieldOrientedSpeeds() {
-        return ChassisSpeeds.fromRobotRelativeSpeeds(getChassisSpeeds(), Rotation2d.fromDegrees(getAbsoluteHeadingDegrees()));
+        return ChassisSpeeds.fromRobotRelativeSpeeds(getChassisSpeeds(), Rotation2d.fromDegrees(getSwerveHeadingDegrees()));
     }
 
     public void setBrake(boolean brake) {
@@ -200,7 +202,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
     // ----------------------------------------- Vision Functions ----------------------------------------- //
 
     /**
-     * activates or deactivates vision by setting the pipeline either to 1 for active or 0 for inactive
+     * activates or deactivates vision by setting the pipeline either to 0 for active or 1 for inactive
      * and by adjusting throttle, see {@link LimelightHelpers#SetThrottle(String, int)}
      * @param activate whether to activate or deactivate
      */
@@ -213,7 +215,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
     
     /**
      * temporarily switch to megatag1 to update robot field heading/pose
-     * @param delay in seconds until switching back to MegaTag2
+     * @param delay in seconds until switching back to megatag2
      */
     public Command resetPoseWithAprilTags(double delay) {
         return Commands.sequence(
@@ -224,14 +226,16 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
     }
 
     public void visionUpdate(Camera limelight) {
+        if (LimelightHelpers.getCurrentPipelineIndex(limelight.name) != 0) return;
         if (!useMegaTag2) {
             // --------- MT1 --------- //
             PoseEstimate mt = LimelightHelpers.getBotPoseEstimate_wpiBlue(limelight.name);
+            if (mt == null || Math.abs(getPigeon2().getAngularVelocityZWorld().getValueAsDouble()) > 720 || mt.tagCount == 0) return;
             resetRotation(mt.pose.getRotation());
         }
         else {
             // --------- MT2 --------- //
-            double yaw = getAbsoluteHeadingDegrees();
+            double yaw = getSwerveHeadingDegrees();
             LimelightHelpers.SetRobotOrientation(limelight.name, yaw, 0, 0, 0, 0, 0);
             PoseEstimate mt = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(limelight.name);
             if (mt == null || Math.abs(getPigeon2().getAngularVelocityZWorld().getValueAsDouble()) > 720 || mt.tagCount == 0) return;
@@ -246,32 +250,48 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
      * use with bindings to reset the field oriented control 
      * @see {@link #setOperatorPerspectiveForward} also for more custom setting
      */
-    public void zeroFieldOrientation() {
-        setOperatorPerspectiveForward(Rotation2d.fromDegrees(getAbsoluteHeadingDegrees()));
+    public void setDriverHeadingForward() {
+        setOperatorPerspectiveForward(Rotation2d.fromDegrees(getSwerveHeadingDegrees()));
+    }
+
+    /** 
+     * set the operator heading to field forward based on swerve
+     * @see {@link #setOperatorPerspectiveForward} also for more custom setting
+     */
+    public void zeroDriverHeading() {
+        setOperatorPerspectiveForward(Rotation2d.fromDegrees(0));
+    }
+    
+    /**
+     * get heading relative to what the operator sees in degrees
+     * @see {@link #setDriverHeadingForward()} for resetting to zero
+     */
+    public double getDriverHeadingDegrees() {
+        return getOperatorForwardDirection().getDegrees();
+    }
+
+    /**
+     * get heading relative to what the operator sees in radians
+     * @see {@link #setDriverHeadingForward()} for resetting to zero
+     */
+    public double getDriverHeadingRadians() {
+        return getOperatorForwardDirection().getRadians();
     }
 
     /** 
      * get absolute heading in degrees, from blue alliance orientation
      * @see {@link #resetRotation(Rotation2d)}
      */
-    public double getAbsoluteHeadingDegrees() {
-        return MathUtil.inputModulus(getPigeon2().getRotation2d().getDegrees(), -180, 180);
+    public double getSwerveHeadingDegrees() {
+        return MathUtil.inputModulus(getPose().getRotation().getDegrees(), -180, 180);
     }
 
     /** 
      * get absolute heading in radians, from blue alliance orientation
      * @see {@link #resetRotation(Rotation2d)}
      */
-    public double getAbsoluteHeadingRadians() {
-        return MathUtil.inputModulus(getPigeon2().getRotation2d().getRadians(), -180, 180);
-    }
-
-    /**
-     * get heading relative to what the operator sees
-     * @see {@link #zeroFieldOrientation()} for resetting to zero
-     */
-    public double getOperatorHeadingDegrees() {
-        return getOperatorForwardDirection().getDegrees();
+    public double getSwerveHeadingRadians() {
+        return MathUtil.inputModulus(getPose().getRotation().getRadians(), -Math.PI, Math.PI);
     }
 
     // ----------------------------------------- Logging Functions ----------------------------------------- //
@@ -284,9 +304,8 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
         ///////////
         /// ALL ///
         ///////////
-        for (Camera camera : Camera.values())
-            Reportable.addCamera(tab, camera.name, camera.name, "http://" + camera.ip, LOG_LEVEL.ALL);
-        if (Constants.ROBOT_LOG_LEVEL.level == LOG_LEVEL.ALL.level) {
+
+        if (Constants.ROBOT_LOG_LEVEL == LOG_LEVEL.ALL) {
             Field2d positionField = new Field2d();
             for (FieldPositions position : FieldPositions.values()) {
                 FieldObject2d blue = positionField.getObject(position.name() + "-blue");
@@ -296,6 +315,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
             }
             tab.add("Position Field", positionField).withSize(6,3);
         }
+
         Reportable.addNumber(tab, "field chassis speeds x", () -> getFieldOrientedSpeeds().vxMetersPerSecond, LOG_LEVEL.ALL);
         Reportable.addNumber(tab, "field chassis speeds y", () -> getFieldOrientedSpeeds().vyMetersPerSecond, LOG_LEVEL.ALL);
         Reportable.addNumber(tab, "field chassis speeds r", () -> getFieldOrientedSpeeds().omegaRadiansPerSecond, LOG_LEVEL.ALL);
@@ -303,8 +323,8 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
         //////////////
         /// MEDIUM ///
         //////////////
-        Reportable.addNumber(tab, "absolute heading", this::getAbsoluteHeadingDegrees, LOG_LEVEL.MEDIUM);
-        Reportable.addNumber(tab, "operator heading", () -> getOperatorHeadingDegrees() + getAbsoluteHeadingDegrees(), LOG_LEVEL.MEDIUM);
+        Reportable.addNumber(tab, "absolute heading", this::getSwerveHeadingDegrees, LOG_LEVEL.MEDIUM);
+        Reportable.addNumber(tab, "operator heading", () -> getDriverHeadingDegrees() + getSwerveHeadingDegrees(), LOG_LEVEL.MEDIUM);
         Reportable.addNumber(tab, "odom heading", () -> getPose().getRotation().getDegrees(), LOG_LEVEL.MEDIUM);
         
         //////////////

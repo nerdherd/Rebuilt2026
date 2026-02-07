@@ -8,11 +8,11 @@ import static frc.robot.Constants.USE_VISION;
 
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.Commands;
 
 /**
  * The methods in this class are called automatically corresponding to each mode, as described in
@@ -32,6 +32,7 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer. This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+
     DataLogManager.start("/media/sda1/logs");
     DataLogManager.logNetworkTables(true);
   }
@@ -65,22 +66,20 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     RobotContainer.refreshAlliance();
-
     m_robotContainer.swerveDrive.setVision(USE_VISION);
-    // m_robotContainer.swerveDrive.resetRotation(new Rotation2d((RobotContainer.IsRedSide() ? 180.0 : 0.0)));
-    // m_robotContainer.swerveDrive.zeroFieldOrientation(); // TODO consider auto field orientation
 
     if (Constants.USE_SUBSYSTEMS) {
       m_robotContainer.superSystem.setNeutralMode(NeutralModeValue.Brake);
-      m_robotContainer.superSystem.initialize();
     }
 
     // schedule the autonomous command (example)
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
     if (m_autonomousCommand != null) {
-      CommandScheduler.getInstance().schedule(m_robotContainer.swerveDrive.resetPoseWithAprilTags(0.2));
+      if (USE_VISION)
+        CommandScheduler.getInstance().schedule(m_robotContainer.swerveDrive.resetPoseWithAprilTags(0.2));
       CommandScheduler.getInstance().schedule(m_autonomousCommand);
     }
+
   }
 
   /** This function is called periodically during autonomous. */
@@ -89,17 +88,20 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    RobotContainer.refreshAlliance();
-    m_robotContainer.swerveDrive.setVision(USE_VISION);
-    m_robotContainer.swerveDrive.zeroFieldOrientation(); // TODO decide whether to keep this
-
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
 
+    RobotContainer.refreshAlliance();
+    m_robotContainer.swerveDrive.setVision(USE_VISION);
+    
     if (Constants.USE_SUBSYSTEMS) {
       m_robotContainer.superSystem.setNeutralMode(NeutralModeValue.Brake);
-      m_robotContainer.superSystem.initialize();
+    }
+    
+    if (USE_VISION) {
+      CommandScheduler.getInstance().schedule(m_robotContainer.swerveDrive.resetPoseWithAprilTags(0.2));
+      CommandScheduler.getInstance().schedule(Commands.run(() -> m_robotContainer.swerveDrive.zeroDriverHeading()));
     }
 
     m_robotContainer.configureBindings_teleop();
@@ -113,7 +115,7 @@ public class Robot extends TimedRobot {
   @Override
   public void testInit() {
     CommandScheduler.getInstance().cancelAll();
-    m_robotContainer.disableAllMotors_Test();
+    m_robotContainer.swerveDrive.setBrake(true);
     
     if (Constants.USE_SUBSYSTEMS) {
       m_robotContainer.superSystem.setNeutralMode(NeutralModeValue.Coast);

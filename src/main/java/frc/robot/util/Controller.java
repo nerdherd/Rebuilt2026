@@ -62,11 +62,10 @@ public class Controller {
     }
 
     // ***** VALUE METHODS ***** //
-    // TODO: Ensure all of these bindings are correct
 
     public double getLeftX() { return isPS4 ? PS4.getLeftX() : (isPS5 ? PS5.getLeftX() : guliKit.getLeftX()); }
     public double getLeftY() { return isPS4 ? PS4.getLeftY() : (isPS5 ? PS5.getLeftY() : guliKit.getLeftY()); }
-    public double getRightX() { return isPS4 ? PS4.getRightX() : (isPS5 ? PS5.getRightX() :guliKit.getRightX()); }
+    public double getRightX() { return isPS4 ? PS4.getRightX() : (isPS5 ? PS5.getRightX() : guliKit.getRightX()); }
     public double getRightY() { return isPS4 ? PS4.getRightY() : (isPS5 ? PS5.getRightY() : guliKit.getRightY()); }
 
     public boolean getButtonRight() { return isPS4 ? PS4.getCircleButton() : (isPS5 ? PS5.getCircleButton() : guliKit.getA()); }
@@ -125,21 +124,19 @@ public class Controller {
 
     /** <STRONG> GULIKIT ONLY </STRONG> */
     public void setDigitalLeft(boolean isDigital) {
-        if (!isPS4) guliKit.setDigitalLeft(isDigital);
+        if (!isPS4 && !isPS5) guliKit.setDigitalLeft(isDigital);
     }
     /** <STRONG> GULIKIT ONLY </STRONG> */
     public void setDigitalRight(boolean isDigital) {
-        if (!isPS4) guliKit.setDigitalRight(isDigital);
+        if (!isPS4 && !isPS5) guliKit.setDigitalRight(isDigital);
     }
 
     /** <STRONG> GULIKIT ONLY </STRONG> */
-    public boolean isDigLeft() {
-        if (!isPS4) return guliKit.isDigLeft();
-        else return true;
+    public boolean isDigitalL() {
+        return (!isPS4 && !isPS5) ? guliKit.isDigLeft() : true;
     }
     /** <STRONG> GULIKIT ONLY </STRONG> */
-    public boolean isDigRight() {
-        if (!isPS4) return guliKit.isDigRight();
-        else return true;
+    public boolean isDigitalR() {
+        return (!isPS4 && !isPS5) ? guliKit.isDigRight() : true;
     }
 }
