@@ -363,11 +363,11 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
         Reportable.addNumber(shuffleboardTab,"Desired " + getFlavorText(), () -> getDesiredValue(), Reportable.LOG_LEVEL.ALL);
 		Reportable.addBoolean(shuffleboardTab, "Has Error", () -> _hasError, Reportable.LOG_LEVEL.ALL);
 
-		Reportable.addNumber(shuffleboardTab, "Torque Current", () -> motor1.getTorqueCurrent().getValueAsDouble(), Reportable.LOG_LEVEL.ALL);
-		if (hasMotor2()) Reportable.addNumber(shuffleboardTab, "Torque Current", () -> motor2.getTorqueCurrent().getValueAsDouble(), Reportable.LOG_LEVEL.ALL);
+		Reportable.addNumber(shuffleboardTab, "Torque Current 1", () -> motor1.getTorqueCurrent().getValueAsDouble(), Reportable.LOG_LEVEL.ALL);
+		if (hasMotor2()) Reportable.addNumber(shuffleboardTab, "Torque Current 2", () -> motor2.getTorqueCurrent().getValueAsDouble(), Reportable.LOG_LEVEL.ALL);
 
-		Reportable.addNumber(shuffleboardTab, "Supply Current", () -> motor1.getSupplyCurrent().getValueAsDouble(), Reportable.LOG_LEVEL.ALL);
-		if (hasMotor2()) Reportable.addNumber(shuffleboardTab, "Supply Current", () -> motor2.getSupplyCurrent().getValueAsDouble(), Reportable.LOG_LEVEL.ALL);
+		Reportable.addNumber(shuffleboardTab, "Supply Current 1", () -> motor1.getSupplyCurrent().getValueAsDouble(), Reportable.LOG_LEVEL.ALL);
+		if (hasMotor2()) Reportable.addNumber(shuffleboardTab, "Supply Current 2", () -> motor2.getSupplyCurrent().getValueAsDouble(), Reportable.LOG_LEVEL.ALL);
 		
         //////////////
 		/// MEDIUM ///
