@@ -133,6 +133,8 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 			return;
 		}
 
+		if(hasMotor2()) motor2.setControl(followerController);
+
 		switch (mode) {
 			case POSITION:
 				motor1.setControl(positionController.withPosition(this.desiredValue));
@@ -140,8 +142,10 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 				if (configuration.MotionMagic.MotionMagicAcceleration == 0.0) DriverStation.reportWarning(name + ": MM Acceleration is 0.0", null);
 				break;
 			case VELOCITY:
-				if (Math.abs(this.desiredValue) <= 0.1) stop();
-				else motor1.setControl(velocityController.withVelocity(this.desiredValue));
+				if (Math.abs(this.desiredValue) <= 0.1) {
+					motor1.setControl(neutralRequest);
+					motor2.setControl(neutralRequest);
+				} else motor1.setControl(velocityController.withVelocity(this.desiredValue));
 				break;
 			case VOLTAGE:
 				if (Math.abs(this.desiredValue) > 12)
@@ -151,8 +155,6 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 			default:
 				break;
 		}
-
-		if(hasMotor2()) motor2.setControl(followerController);
 	}
 
 	// ------------------------------------ Helper Functions ------------------------------------ //

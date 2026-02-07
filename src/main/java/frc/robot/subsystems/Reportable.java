@@ -38,6 +38,14 @@ public interface Reportable {
 		if(Constants.ROBOT_LOG_LEVEL.compareTo(loggingLevel) >= 0) shuffleboardTab.add(name, sendable);
 	}
 
+	/**
+	 * idk either ¯\_(ツ)_/¯
+	 * @param shuffleboardTab
+	 * @param cameraReadableName
+	 * @param cameraInternalName
+	 * @param IP
+	 * @param loggingLevel
+	 */
 	static public void addCamera(ShuffleboardTab shuffleboardTab, String cameraReadableName, String cameraInternalName, String IP, LOG_LEVEL loggingLevel) {
 		if(Constants.ROBOT_LOG_LEVEL.compareTo(loggingLevel) >= 0) shuffleboardTab.addCamera(cameraReadableName, cameraInternalName, IP);
 	}

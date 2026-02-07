@@ -288,8 +288,6 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
         ///////////
         /// ALL ///
         ///////////
-        for (Camera camera : Camera.values())
-            Reportable.addCamera(tab, camera.name, camera.name, "http://" + camera.ip, LOG_LEVEL.ALL);
         
         if (Constants.ROBOT_LOG_LEVEL.compareTo(LOG_LEVEL.ALL) == 0) {
             Field2d positionField = new Field2d();
