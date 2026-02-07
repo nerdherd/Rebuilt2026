@@ -123,10 +123,7 @@ public class RobotContainer {
       .onTrue(Commands.runOnce(() -> swerveDrive.zeroFieldOrientation()));
 
     driverController.controllerRight() // Set Pose Heading
-      // .onTrue(Commands.runOnce(() -> swerveDrive.resetAllRotation(Rotation2d.kZero)));
       .onTrue(swerveDrive.resetPoseWithAprilTags(0.2));
-    // driverController.controllerRight()
-    //   .onTrue(Commands.runOnce(() -> imu.zeroAbsoluteHeading()));
 
     if (Constants.USE_SUBSYSTEMS) {}
   }

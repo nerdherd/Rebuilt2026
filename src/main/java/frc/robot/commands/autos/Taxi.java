@@ -16,10 +16,8 @@ public class Taxi extends SequentialCommandGroup{
     public Taxi(NerdDrivetrain swerve, String autoname) throws IOException, ParseException {
 
         List<PathPlannerPath> pathGroup = PathPlannerAuto.getPathGroupFromAutoFile(autoname);
-        Pose2d startingPose = pathGroup.get(0).getStartingDifferentialPose();
-
+        
         addCommands(
-            swerve.resetPoseWithAprilTags(0.2),
             Commands.sequence(
                 AutoBuilder.followPath(pathGroup.get(0))
             )

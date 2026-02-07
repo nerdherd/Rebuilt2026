@@ -54,10 +54,8 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().getDefaultButtonLoop().clear();
     CommandScheduler.getInstance().cancelAll();
     m_robotContainer.swerveDrive.setVision(false);
-    
-    if (Constants.USE_SUBSYSTEMS){
-      // TODO disable subsystems
-    }
+
+    if (Constants.USE_SUBSYSTEMS) {}
   }
 
   @Override
@@ -67,18 +65,20 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     RobotContainer.refreshAlliance();
+
     m_robotContainer.swerveDrive.setVision(USE_VISION);
-    m_robotContainer.swerveDrive.resetRotation(new Rotation2d((RobotContainer.IsRedSide() ? 180.0 : 0.0)));
-    m_robotContainer.swerveDrive.zeroFieldOrientation(); // TODO consider auto field orientation
-    // m_robotContainer.swerveDrive.enableLimeLight(); TODO
+    // m_robotContainer.swerveDrive.resetRotation(new Rotation2d((RobotContainer.IsRedSide() ? 180.0 : 0.0)));
+    // m_robotContainer.swerveDrive.zeroFieldOrientation(); // TODO consider auto field orientation
 
     if (Constants.USE_SUBSYSTEMS) {
       m_robotContainer.superSystem.setNeutralMode(NeutralModeValue.Brake);
       m_robotContainer.superSystem.initialize();
     }
-  // schedule the autonomous command (example)
+
+    // schedule the autonomous command (example)
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
     if (m_autonomousCommand != null) {
+      CommandScheduler.getInstance().schedule(m_robotContainer.swerveDrive.resetPoseWithAprilTags(0.2));
       CommandScheduler.getInstance().schedule(m_autonomousCommand);
     }
   }
@@ -92,6 +92,7 @@ public class Robot extends TimedRobot {
     RobotContainer.refreshAlliance();
     m_robotContainer.swerveDrive.setVision(USE_VISION);
     m_robotContainer.swerveDrive.zeroFieldOrientation(); // TODO decide whether to keep this
+
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
@@ -109,20 +110,17 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {}
 
-
   @Override
   public void testInit() {
-    // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
+    m_robotContainer.disableAllMotors_Test();
+    
     if (Constants.USE_SUBSYSTEMS) {
       m_robotContainer.superSystem.setNeutralMode(NeutralModeValue.Coast);
     }
-    // m_robotContainer.superSystem.initialize();
+
     m_robotContainer.initDefaultCommands_test();
     m_robotContainer.configureBindings_test();
-
-    m_robotContainer.disableAllMotors_Test();
-
   }
 
   /** This function is called periodically during test mode. */
