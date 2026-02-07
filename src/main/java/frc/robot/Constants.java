@@ -42,7 +42,7 @@ import frc.robot.util.MultiProfiledPIDController;
 public final class Constants {
 
   /** current logging level of the robot's subsystems, @see Reportable.add... */
-  public static LOG_LEVEL ROBOT_LOG_LEVEL = LOG_LEVEL.ALL;
+  public static LOG_LEVEL ROBOT_LOG_LEVEL = LOG_LEVEL.MINIMAL;
   /** 
    * (hopefully) controls whether subsystem objects are used, swerve and others not counted
    * @see {@link frc.robot.subsystems.template.TemplateSubsystem TemplateSubsystem} 

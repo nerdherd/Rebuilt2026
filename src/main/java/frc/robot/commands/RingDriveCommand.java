@@ -66,12 +66,16 @@ public class RingDriveCommand extends Command {
     swerveDrive.resetTargetDrive();
   }
 
+  public static double deadband(double x, double deadband){
+    return (Math.abs(x)>Math.abs(deadband)) ? x : 0;
+  }
+
   @Override
   public void execute() {
     double xIn = xInput.get();
     double yIn = yInput.get();
-    double filteredXSpeed = translationFilter(xIn, true); // TODO reconsider filters
-    double filteredYSpeed = translationFilter(yIn, true);
+    double filteredXSpeed = deadband(xIn, ControllerConstants.kDeadband); // TODO reconsider filters
+    double filteredYSpeed = deadband(yIn, ControllerConstants.kDeadband);
 
     double ySpeed = filteredXSpeed*RingDriveConstants.kDriveVelocity;
     double xSpeed = filteredYSpeed*(RingDriveConstants.kDriveVelocity / targetD);
@@ -89,37 +93,5 @@ public class RingDriveCommand extends Command {
     swerveDrive.driveFieldOriented(0.0, 0.0, 0.0);
   }
 
-  private double lastExponentialSmoothX = 0.;
-    private double lastExponentialSmoothY = 0.;
-    public double translationFilter(double x, boolean isX){
-        // deadband filter
-        if (Math.abs(x)<Math.abs(ControllerConstants.kDeadband)) return 0.;
-        // scale filter
-        x*=1.7;
-        // clamp filter
-        x = NerdyMath.clamp(x,-1.,1.);
-        // wrapper filter
-        x -= ControllerConstants.kDeadband*Math.signum(x);
-        // exponential smoothing kDriveAlpha
-        if (isX) {
-            x = (kDriveAlpha*x) + ((1-kDriveAlpha)*lastExponentialSmoothX);
-            lastExponentialSmoothX = x;
-        } else {
-            x = (kDriveAlpha*x) + ((1-kDriveAlpha)*lastExponentialSmoothY);
-            lastExponentialSmoothY = x;
-        }
-        // power filter
-        x = Math.signum(x) * Math.abs(Math.pow(x,3));
-        // wrapper filter
-        x = Math.signum(x) * ((Math.abs(x) / SwerveDriveConstants.kDeadbandScaler) + ControllerConstants.kDeadband);
-        // wrapper filter
-        if (isX) x = Math.signum(x) * SwerveDriveConstants.kslewRateLimiterXring.calculate(Math.abs(x));
-        else x = Math.signum(x) * SwerveDriveConstants.kslewRateLimiterYring.calculate(Math.abs(x));
-        // scale filter
-        x*= kTeleDriveMaxSpeedMetersPerSecond;
-        // clamp filter
-        x = NerdyMath.clamp(x,-kTeleDriveMaxSpeedMetersPerSecond,kTeleDriveMaxSpeedMetersPerSecond);
-        return x;
-    }
 }
 

@@ -117,6 +117,7 @@ public class SwerveJoystickCommand extends Command {
 
     private double lastExponentialSmoothX = 0.;
     private double lastExponentialSmoothY = 0.;
+
     public double translationFilter(double x, boolean isX){
         // deadband filter
         if (Math.abs(x)<Math.abs(ControllerConstants.kDeadband)) return 0.;
@@ -145,6 +146,43 @@ public class SwerveJoystickCommand extends Command {
         x*= kTeleDriveMaxSpeedMetersPerSecond;
         // clamp filter
         x = NerdyMath.clamp(x,-kTeleDriveMaxSpeedMetersPerSecond,kTeleDriveMaxSpeedMetersPerSecond);
+        return x;
+    }
+
+
+    public double translationFilterOld(double x, boolean isX){ //cubed
+        if (Math.abs(x)<Math.abs(ControllerConstants.kDeadband)) return 0.;
+        x -= ControllerConstants.kDeadband*Math.signum(x);
+        // exponential smoothing kDriveAlpha
+        if (isX) {
+            x = (kDriveAlpha*x) + ((1-kDriveAlpha)*lastExponentialSmoothX);
+            lastExponentialSmoothX = x;
+        } else {
+            x = (kDriveAlpha*x) + ((1-kDriveAlpha)*lastExponentialSmoothY);
+            lastExponentialSmoothY = x;
+        }
+        x = Math.signum(x) * Math.abs(Math.pow(x,3));
+        x*= 5.5;
+        x = Math.signum(x) * ((Math.abs(x) / SwerveDriveConstants.kDeadbandScaler) + ControllerConstants.kDeadband);
+        if (isX) x = Math.signum(x) * SwerveDriveConstants.kslewRateLimiterX.calculate(Math.abs(x));
+        else x = Math.signum(x) * SwerveDriveConstants.kslewRateLimiterY.calculate(Math.abs(x));
+        x = NerdyMath.clamp(x*kTeleDriveMaxSpeedMetersPerSecond,-kTeleDriveMaxSpeedMetersPerSecond,kTeleDriveMaxSpeedMetersPerSecond);
+        return x;
+    }
+
+    public double translationFilterNew(double x, boolean isX){ //linear
+        if (Math.abs(x)<Math.abs(ControllerConstants.kDeadband)) return 0.;
+        if (isX) {
+            x = (kDriveAlpha*x) + ((1-kDriveAlpha)*lastExponentialSmoothX);
+            lastExponentialSmoothX = x;
+        } else {
+            x = (kDriveAlpha*x) + ((1-kDriveAlpha)*lastExponentialSmoothY);
+            lastExponentialSmoothY = x;
+        }
+        x = Math.signum(x) * ((Math.abs(x) / SwerveDriveConstants.kDeadbandScaler));
+        if (isX) x = Math.signum(x) * SwerveDriveConstants.kslewRateLimiterX.calculate(Math.abs(x));
+        else x = Math.signum(x) * SwerveDriveConstants.kslewRateLimiterY.calculate(Math.abs(x));
+        x = NerdyMath.clamp(x*kTeleDriveMaxSpeedMetersPerSecond,-kTeleDriveMaxSpeedMetersPerSecond,kTeleDriveMaxSpeedMetersPerSecond);
         return x;
     }
 
