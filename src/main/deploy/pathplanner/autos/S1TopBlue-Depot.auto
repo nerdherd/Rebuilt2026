@@ -25,7 +25,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "M1N1"
+            "pathName": "M1D1"
           }
         },
         {
@@ -35,7 +35,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "N1F2"
+                  "pathName": "D1D2"
                 }
               },
               {
@@ -45,12 +45,6 @@
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "F2M1"
           }
         },
         {
@@ -64,11 +58,17 @@
           "data": {
             "name": "Shoot"
           }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "D2M1"
+          }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "TopNeutral",
+  "folder": "Depot, Tower, Outpost",
   "choreoAuto": false
 }

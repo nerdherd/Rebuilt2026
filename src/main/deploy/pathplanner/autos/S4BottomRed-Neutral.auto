@@ -19,13 +19,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "S1M1"
+            "pathName": "S4M2"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "M1N1"
+            "pathName": "M2N3"
           }
         },
         {
@@ -35,7 +35,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "N1F2"
+                  "pathName": "N3F4"
                 }
               },
               {
@@ -50,7 +50,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "F2M1"
+            "pathName": "F4M2"
           }
         },
         {
@@ -69,6 +69,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "TopNeutral",
+  "folder": "BottomNeutral",
   "choreoAuto": false
 }

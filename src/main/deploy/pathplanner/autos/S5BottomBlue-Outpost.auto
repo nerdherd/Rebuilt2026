@@ -19,38 +19,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "S1M1"
+            "pathName": "S5M2"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "M1N1"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "N1F2"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "F2M1"
+            "pathName": "M2O1"
           }
         },
         {
@@ -64,11 +39,17 @@
           "data": {
             "name": "Shoot"
           }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "O1M2"
+          }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "TopNeutral",
+  "folder": "Depot, Tower, Outpost",
   "choreoAuto": false
 }

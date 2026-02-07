@@ -19,7 +19,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "S1N1"
+            "pathName": "S1M1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "M1N1"
           }
         },
         {
@@ -44,7 +50,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "F2S1"
+            "pathName": "F2M1"
           }
         },
         {
@@ -63,6 +69,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Completed Needs Testing",
+  "folder": "TopNeutral",
   "choreoAuto": false
 }

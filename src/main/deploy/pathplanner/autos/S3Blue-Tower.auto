@@ -7,12 +7,6 @@
         {
           "type": "named",
           "data": {
-            "name": "DriveTo"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
             "name": "Shoot"
           }
         },
@@ -25,7 +19,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "M3N3"
+            "pathName": "M3T1"
           }
         },
         {
@@ -33,42 +27,18 @@
           "data": {
             "commands": [
               {
-                "type": "path",
-                "data": {
-                  "pathName": "N3F4"
-                }
-              },
-              {
                 "type": "named",
                 "data": {
-                  "name": "Intake"
+                  "name": "Climb"
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "F4M3"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "DriveTo"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "BottomNeutral",
+  "folder": "Depot, Tower, Outpost",
   "choreoAuto": false
 }
