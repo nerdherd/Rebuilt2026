@@ -1,5 +1,6 @@
 package frc.robot.util;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 
 public class NerdyMath {
@@ -119,5 +120,9 @@ public class NerdyMath {
         double a = (xn - x0);
         double b = (yn - y0);
         return (a*a + b*b) < squaredR;
+    }
+
+    public static double angleToPose(Pose2d from, Pose2d to) {
+        return Math.atan2(to.getY() - from.getY(), to.getX() - from.getX());
     }
 }
