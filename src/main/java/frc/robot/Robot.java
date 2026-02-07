@@ -66,19 +66,20 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     RobotContainer.refreshAlliance();
-    m_robotContainer.swerveDrive.setVision(USE_VISION);
-
+    
     if (Constants.USE_SUBSYSTEMS) {
       m_robotContainer.superSystem.setNeutralMode(NeutralModeValue.Brake);
     }
+    
+    m_robotContainer.swerveDrive.setVision(USE_VISION);
+    if (USE_VISION) CommandScheduler.getInstance().schedule(m_robotContainer.swerveDrive.resetPoseWithAprilTags(0.2));
 
     // schedule the autonomous command (example)
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
     if (m_autonomousCommand != null) {
-      if (USE_VISION)
-        CommandScheduler.getInstance().schedule(m_robotContainer.swerveDrive.resetPoseWithAprilTags(0.2));
       CommandScheduler.getInstance().schedule(m_autonomousCommand);
     }
+    m_robotContainer.swerveDrive.setDefaultCommand(Commands.runOnce(() -> Commands.none(), m_robotContainer.swerveDrive));
 
   }
 
@@ -91,14 +92,13 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-
     RobotContainer.refreshAlliance();
-    m_robotContainer.swerveDrive.setVision(USE_VISION);
     
     if (Constants.USE_SUBSYSTEMS) {
       m_robotContainer.superSystem.setNeutralMode(NeutralModeValue.Brake);
     }
     
+    m_robotContainer.swerveDrive.setVision(USE_VISION);
     if (USE_VISION) {
       CommandScheduler.getInstance().schedule(m_robotContainer.swerveDrive.resetPoseWithAprilTags(0.2));
       CommandScheduler.getInstance().schedule(Commands.run(() -> m_robotContainer.swerveDrive.zeroDriverHeading()));

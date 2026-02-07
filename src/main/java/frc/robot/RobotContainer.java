@@ -87,8 +87,8 @@ public class RobotContainer {
       () -> driverController.getTriggerRight(), // Precision/"Sniper Button"
       () -> false, // turn to angle supplier
       () -> swerveDrive.getSwerveHeadingDegrees(), // Turn to angle direction TODO i have no clue if this is right
-      () -> new Translation2d(  (driverController.getDpadUp()?1.0:0.0) - (driverController.getDpadDown()?1:0), 
-                                (driverController.getDpadLeft()?1.0:0.0) - (driverController.getDpadRight()?1:0)) // DPad vector
+      () -> new Translation2d((driverController.getDpadUp() ? 1 : 0) - (driverController.getDpadDown() ? 1 : 0), 
+                              (driverController.getDpadLeft() ? 1 : 0) - (driverController.getDpadRight() ? 1 :  0)) // DPad vector
     );
     swerveDrive.setDefaultCommand(swerveJoystickCommand);
   }
@@ -110,7 +110,7 @@ public class RobotContainer {
     driverController.controllerLeft() // Set Drive Heading
       .onTrue(Commands.runOnce(() -> swerveDrive.setDriverHeadingForward()));
 
-    driverController.controllerRight() // Set Pose Heading
+    driverController.controllerRight() // Set Pose Heading (pressed)
       .onTrue(Commands.runOnce(() -> swerveDrive.useMegaTag2 = false))
       .onFalse(Commands.runOnce(() -> swerveDrive.useMegaTag2 = true));
 
