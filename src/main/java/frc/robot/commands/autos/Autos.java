@@ -4,16 +4,8 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.RobotContainer;
-
-import com.ctre.phoenix6.swerve.SwerveModule;
-import com.ctre.phoenix6.swerve.SwerveRequest;
-import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
-import com.pathplanner.lib.path.PathPlannerPath;
 public final class Autos {
-
-    private static Autos autos;
     public static SendableChooser<Command> autonChooserRed = new SendableChooser<>(); //if on red side
     public static SendableChooser<Command> autonChooserBlue = new SendableChooser<>(); //if on blue side
 
@@ -27,6 +19,13 @@ public final class Autos {
 
 
     public static void initializeAutos() {
+        Shuffleboard.getTab("Autons").add("Red Autons", autonChooserRed)
+                .withWidget(BuiltInWidgets.kComboBoxChooser).withPosition(0, 0)
+                .withSize(2, 1);
+        Shuffleboard.getTab("Autons").add("Blue Autons", autonChooserBlue)
+                .withWidget(BuiltInWidgets.kComboBoxChooser).withPosition(0, 0)
+                .withSize(2, 1);
+        
         //initialize autos
         //Example: exampleAuto = new PathPlannerAuto("example Auto");
         S3TowerBlue = new PathPlannerAuto("S3Blue-Tower");
@@ -35,14 +34,6 @@ public final class Autos {
         S4BottomBlueOutpost = new PathPlannerAuto("S4BottomBlue-Outpost");
         S2TopRedDepot = new PathPlannerAuto("S2TopRed-Depot");
 
-
-
-        Shuffleboard.getTab("Autons").add("Red Autons", autonChooserRed)
-                .withWidget(BuiltInWidgets.kComboBoxChooser).withPosition(0, 0)
-                .withSize(2, 1);
-        Shuffleboard.getTab("Autons").add("Blue Autons", autonChooserBlue)
-                .withWidget(BuiltInWidgets.kComboBoxChooser).withPosition(0, 0)
-                .withSize(2, 1);
 
         //add options to red 
         //autonChooserRed.addOption("exampleRed", exampleAuto);

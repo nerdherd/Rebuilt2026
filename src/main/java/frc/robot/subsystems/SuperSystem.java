@@ -27,21 +27,21 @@ public class SuperSystem implements Reportable {
     public Command shoot(){
         return Commands.parallel(
             indexer.setDesiredValueCommand(20)
-            );
+        );
     }
     
     public Command stopShooting(){
         return Commands.parallel(
             indexer.setDesiredValueCommand(0)
-            );
+        );
     }
 
     public Command spinUpFlywheel(){
         return Commands.parallel(
             counterRoller.setDesiredValueCommand(30),
             shooter.setDesiredValueCommand(75)
-            );
-        }
+        );
+    }
         
     public Command stopFlywheel(){
         return Commands.parallel(
@@ -122,35 +122,6 @@ public class SuperSystem implements Reportable {
         indexer         .initializeLogging();
         counterRoller   .initializeLogging();
         shooter         .initializeLogging();
-        // just imagine it
-        // applyToSubsystems((subsystem) -> subsystem.initializeLogging());
     }
 
-    // /**
-    //  * i really wanna use this
-    //  * its so tempting
-    //  * @param f
-    //  */
-    // public void applyToSubsystems(Consumer<TemplateSubsystem> f) {
-    //     Field[] fields = Subsystems.class.getFields();
-    //     for (int i = 0; i < fields.length; i++) {
-    //         if (fields[i].getType().equals(TemplateSubsystem.class)) {
-    //             try {
-    //                 f.accept((TemplateSubsystem)fields[i].get(null));
-    //             } catch (IllegalArgumentException e) {
-    //                 e.printStackTrace();
-    //             } catch (IllegalAccessException e) {
-    //                 e.printStackTrace();
-    //             }
-    //         }
-    //     }
-
-    //     // ---- or ----
-    //     f.accept(intakeSlapdown);
-    //     f.accept(intakeRoller);
-    //     f.accept(conveyor);
-    //     f.accept(indexer);
-    //     f.accept(counterRoller);
-    //     f.accept(shooter);
-    // }
 }
