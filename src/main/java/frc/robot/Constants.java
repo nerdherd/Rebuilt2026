@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import com.ctre.phoenix6.configs.CustomParamsConfigs;
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
@@ -100,10 +101,10 @@ public final class Constants {
     public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 2 * 2 * Math.PI;
 
     public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond;
-    public static final double kTeleMaxAcceleration = 2.5;
+    public static final double kTeleMaxAcceleration = 4;
     // THIS CONSTANT HAS TO BE NEGATIVE OTHERWISE THE ROBOT WILL CRASH
     // TODO: Change deceleration with driver feedback, only in small increments (<= -2 is dangerous)
-    public static final double kTeleMaxDeceleration = -2.5; // Russell says he likes 2.5 from sims, but keep at 3 until tested on real robot 
+    public static final double kTeleMaxDeceleration = -4; // Russell says he likes 2.5 from sims, but keep at 3 until tested on real robot 
 
     public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = //
       kPhysicalMaxAngularSpeedRadiansPerSecond * 0.75;
@@ -299,9 +300,16 @@ public final class Constants {
         .withKD(0.0)
       ;
 
+    private static final CustomParamsConfigs kCustomParamsConfigs = 
+      new CustomParamsConfigs()
+        .withCustomParam0(kMotor1ID)
+      ;
+
     public static final TalonFXConfiguration kSubsystemConfiguration = 
       new TalonFXConfiguration()
-      .withSlot0(kSlot0Configs);
+      .withSlot0(kSlot0Configs)
+      .withCustomParams(kCustomParamsConfigs)
+      ;
   }
   
   public static final class CounterRollerConstants{
@@ -331,11 +339,12 @@ public final class Constants {
     private static final MotorOutputConfigs kMotorOutputConfigs =
       new MotorOutputConfigs()
         .withInverted(InvertedValue.Clockwise_Positive);
-        
+
     public static final TalonFXConfiguration kSubsystemConfiguration = 
       new TalonFXConfiguration()
         .withSlot0(kSlot0Configs)
-        .withMotorOutput(kMotorOutputConfigs);
+        .withMotorOutput(kMotorOutputConfigs)
+        ;
   }
 
   /** 
