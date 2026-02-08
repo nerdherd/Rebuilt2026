@@ -26,13 +26,15 @@ public class SuperSystem implements Reportable {
     
     public Command shoot(){
         return Commands.parallel(
-            indexer.setDesiredValueCommand(20)
+            indexer.setDesiredValueCommand(20),
+            conveyor.setDesiredValueCommand(15)
         );
     }
     
     public Command stopShooting(){
         return Commands.parallel(
-            indexer.setDesiredValueCommand(0)
+            indexer.setDesiredValueCommand(0),
+            conveyor.setDesiredValueCommand(0)
         );
     }
 
@@ -70,7 +72,7 @@ public class SuperSystem implements Reportable {
 
     public Command intake() {
         return Commands.parallel(
-            intakeRoller.setDesiredValueCommand(4.5)
+            intakeRoller.setDesiredValueCommand(30)
         );
     }
 

@@ -354,7 +354,7 @@ public final class Constants {
     
     public static final boolean useConveyor = true;
     public static final TemplateSubsystem conveyor = (!USE_SUBSYSTEMS) ? null :
-    new TemplateSubsystem("Conveyor", IntakeRollerConstants.kMotor1ID, SubsystemMode.VELOCITY, 0.0)
+    new TemplateSubsystem("Conveyor", ConveyorConstants.kMotor1ID, SubsystemMode.VELOCITY, 0.0)
       .configureMotors(ConveyorConstants.kSubsystemConfiguration);    
     
     public static final boolean useIndexer = true;

@@ -144,7 +144,7 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 			case VELOCITY:
 				if (Math.abs(this.desiredValue) <= 0.1) {
 					motor1.setControl(neutralRequest);
-					motor2.setControl(neutralRequest);
+					if (hasMotor2()) motor2.setControl(neutralRequest);
 				} else motor1.setControl(velocityController.withVelocity(this.desiredValue));
 				break;
 			case VOLTAGE:
