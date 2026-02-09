@@ -150,6 +150,7 @@ public class SwerveJoystickCommand extends Command {
     }
 
 
+
     public double translationFilterOld(double x, boolean isX){ //cubed
         if (Math.abs(x)<Math.abs(ControllerConstants.kDeadband)) return 0.;
         x -= ControllerConstants.kDeadband*Math.signum(x);
@@ -161,11 +162,10 @@ public class SwerveJoystickCommand extends Command {
             x = (kDriveAlpha*x) + ((1-kDriveAlpha)*lastExponentialSmoothY);
             lastExponentialSmoothY = x;
         }
-        x = Math.signum(x) * Math.abs(Math.pow(x,3));
-        x*= 5.5;
+        x = Math.abs(Math.pow(x,3));
         x = Math.signum(x) * ((Math.abs(x) / SwerveDriveConstants.kDeadbandScaler) + ControllerConstants.kDeadband);
-        if (isX) x = Math.signum(x) * SwerveDriveConstants.kslewRateLimiterX.calculate(Math.abs(x));
-        else x = Math.signum(x) * SwerveDriveConstants.kslewRateLimiterY.calculate(Math.abs(x));
+        if (isX) x = SwerveDriveConstants.kslewRateLimiterX.calculate(x);
+        else x = SwerveDriveConstants.kslewRateLimiterY.calculate(x);
         x = NerdyMath.clamp(x*kTeleDriveMaxSpeedMetersPerSecond,-kTeleDriveMaxSpeedMetersPerSecond,kTeleDriveMaxSpeedMetersPerSecond);
         return x;
     }
@@ -180,8 +180,8 @@ public class SwerveJoystickCommand extends Command {
             lastExponentialSmoothY = x;
         }
         x = Math.signum(x) * ((Math.abs(x) / SwerveDriveConstants.kDeadbandScaler));
-        if (isX) x = Math.signum(x) * SwerveDriveConstants.kslewRateLimiterX.calculate(Math.abs(x));
-        else x = Math.signum(x) * SwerveDriveConstants.kslewRateLimiterY.calculate(Math.abs(x));
+        if (isX) x = SwerveDriveConstants.kslewRateLimiterX.calculate(x);
+        else x = SwerveDriveConstants.kslewRateLimiterY.calculate(x);
         x = NerdyMath.clamp(x*kTeleDriveMaxSpeedMetersPerSecond,-kTeleDriveMaxSpeedMetersPerSecond,kTeleDriveMaxSpeedMetersPerSecond);
         return x;
     }
