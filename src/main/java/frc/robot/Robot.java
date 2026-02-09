@@ -75,8 +75,8 @@ public class Robot extends TimedRobot {
     // m_robotContainer.swerveDrive.enableLimeLight(); TODO
 
     if (Constants.USE_SUBSYSTEMS) {
-      m_robotContainer.superSystem.setNeutralMode(NeutralModeValue.Brake);
       m_robotContainer.superSystem.initialize();
+      m_robotContainer.superSystem.reConfigureMotors();
     }
   // schedule the autonomous command (example) 
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
@@ -99,7 +99,6 @@ public class Robot extends TimedRobot {
     }
 
     if (Constants.USE_SUBSYSTEMS) {
-      m_robotContainer.superSystem.setNeutralMode(NeutralModeValue.Brake);
       m_robotContainer.superSystem.initialize();
     }
 

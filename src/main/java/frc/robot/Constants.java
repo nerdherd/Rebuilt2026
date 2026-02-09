@@ -101,10 +101,10 @@ public final class Constants {
     public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 2 * 2 * Math.PI;
 
     public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond;
-    public static final double kTeleMaxAcceleration = 4;
+    public static final double kTeleMaxAcceleration = 3;
     // THIS CONSTANT HAS TO BE NEGATIVE OTHERWISE THE ROBOT WILL CRASH
     // TODO: Change deceleration with driver feedback, only in small increments (<= -2 is dangerous)
-    public static final double kTeleMaxDeceleration = -4; // Russell says he likes 2.5 from sims, but keep at 3 until tested on real robot 
+    public static final double kTeleMaxDeceleration = -3; // Russell says he likes 2.5 from sims, but keep at 3 until tested on real robot 
 
     public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = //
       kPhysicalMaxAngularSpeedRadiansPerSecond * 0.75;
@@ -230,7 +230,7 @@ public final class Constants {
 
     private static final Slot0Configs kSlot0Configs = 
       new Slot0Configs()
-        .withKP(0.5)
+        .withKP(1.5)
         .withKI(0.0)
         .withKD(0.0)
       ;
@@ -241,8 +241,8 @@ public final class Constants {
 
     private static final MotionMagicConfigs kMotionMagicConfigs = 
       new MotionMagicConfigs()
-        .withMotionMagicAcceleration(1)
-        .withMotionMagicCruiseVelocity(1)
+        .withMotionMagicAcceleration(4)
+        .withMotionMagicCruiseVelocity(2)
       ;
         
     public static final TalonFXConfiguration kSubsystemConfiguration = 
@@ -300,15 +300,9 @@ public final class Constants {
         .withKD(0.0)
       ;
 
-    private static final CustomParamsConfigs kCustomParamsConfigs = 
-      new CustomParamsConfigs()
-        .withCustomParam0(kMotor1ID)
-      ;
-
     public static final TalonFXConfiguration kSubsystemConfiguration = 
       new TalonFXConfiguration()
       .withSlot0(kSlot0Configs)
-      .withCustomParams(kCustomParamsConfigs)
       ;
   }
   
