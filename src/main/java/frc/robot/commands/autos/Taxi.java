@@ -18,6 +18,7 @@ public class Taxi extends SequentialCommandGroup{
         
         addCommands(
             Commands.sequence(
+                Commands.waitSeconds(1),
                 AutoBuilder.followPath(pathGroup.get(0))
             )
         );

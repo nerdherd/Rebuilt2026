@@ -79,8 +79,8 @@ public class RobotContainer {
     SwerveJoystickCommand swerveJoystickCommand =
     new SwerveJoystickCommand(
       swerveDrive,
-      () -> driverController.getLeftY(), // Horizontal Translation
-      () -> -driverController.getLeftX(), // Vertical Translation
+      () -> -driverController.getLeftY(), // Horizontal Translation
+      () -> driverController.getLeftX(), // Vertical Translation
       () -> driverController.getRightX(), // Rotation
       () -> true, // robot oriented variable (true = field oriented)
       () -> false, // tow supplier
@@ -108,7 +108,7 @@ public class RobotContainer {
   public void configureDriverBindings_teleop() {
 
     driverController.controllerLeft() // Set Drive Heading
-      .onTrue(Commands.runOnce(() -> swerveDrive.setDriverHeadingForward()));
+      .onTrue(Commands.runOnce(() -> swerveDrive.zeroDriverHeading()));
 
     driverController.controllerRight() // Set Pose Heading (pressed)
       .onTrue(Commands.runOnce(() -> swerveDrive.useMegaTag2 = false))

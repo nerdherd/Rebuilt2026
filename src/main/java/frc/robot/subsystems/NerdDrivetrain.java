@@ -36,6 +36,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 import frc.robot.Constants.SwerveDriveConstants.FieldPositions;
 import frc.robot.Constants.VisionConstants.Camera;
 import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
@@ -71,10 +72,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
             robotConfig,
             () -> {
                 var alliance = DriverStation.getAlliance();
-                if (alliance.isPresent()) {
-                    return alliance.get() == DriverStation.Alliance.Red;
-                }
-                return false;
+                return alliance.isPresent() ? (alliance.get() == DriverStation.Alliance.Red) : false;
             },
             this
         );
@@ -87,8 +85,6 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
     
     @Override
     public void periodic() {
-        DriverStation.reportWarning("swerve periodic", false);
-
         field.setRobotPose(getPose());
 
         if (USE_VISION) {
@@ -247,15 +243,17 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
     // ----------------------------------------- Gyro Functions ----------------------------------------- //
 
     /** 
-     * use with bindings to reset the field oriented control 
+     * set the operator heading to forward based on alliance field forward
      * @see {@link #setOperatorPerspectiveForward} also for more custom setting
      */
     public void setDriverHeadingForward() {
-        setOperatorPerspectiveForward(Rotation2d.fromDegrees(getSwerveHeadingDegrees()));
+        setOperatorPerspectiveForward(Rotation2d.fromDegrees(
+            getSwerveHeadingDegrees() + (RobotContainer.IsRedSide() ? 180 : 0)
+        ));
     }
 
     /** 
-     * set the operator heading to field forward based on swerve
+     * set the operator heading to forward based on robot
      * @see {@link #setOperatorPerspectiveForward} also for more custom setting
      */
     public void zeroDriverHeading() {
@@ -304,7 +302,6 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
         ///////////
         /// ALL ///
         ///////////
-
         if (Constants.ROBOT_LOG_LEVEL == LOG_LEVEL.ALL) {
             Field2d positionField = new Field2d();
             for (FieldPositions position : FieldPositions.values()) {

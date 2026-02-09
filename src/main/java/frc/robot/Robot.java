@@ -52,6 +52,10 @@ public class Robot extends TimedRobot {
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
   public void disabledInit() {
+    if (m_autonomousCommand != null) {
+      m_autonomousCommand.cancel();
+    }
+    
     CommandScheduler.getInstance().getDefaultButtonLoop().clear();
     CommandScheduler.getInstance().cancelAll();
     m_robotContainer.swerveDrive.setVision(false);
@@ -79,7 +83,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       CommandScheduler.getInstance().schedule(m_autonomousCommand);
     }
-    m_robotContainer.swerveDrive.setDefaultCommand(Commands.runOnce(() -> Commands.none(), m_robotContainer.swerveDrive));
+    m_robotContainer.swerveDrive.setDefaultCommand(Commands.runOnce(() -> Commands.none(), m_robotContainer.swerveDrive)); // quick fix for elastic field pose
 
   }
 
@@ -101,7 +105,7 @@ public class Robot extends TimedRobot {
     m_robotContainer.swerveDrive.setVision(USE_VISION);
     if (USE_VISION) {
       CommandScheduler.getInstance().schedule(m_robotContainer.swerveDrive.resetPoseWithAprilTags(0.2));
-      CommandScheduler.getInstance().schedule(Commands.run(() -> m_robotContainer.swerveDrive.zeroDriverHeading()));
+      CommandScheduler.getInstance().schedule(Commands.run(() -> m_robotContainer.swerveDrive.setDriverHeadingForward()));
     }
 
     m_robotContainer.configureBindings_teleop();
