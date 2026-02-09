@@ -30,20 +30,22 @@ public class SuperSystem implements Reportable {
     
     public Command shoot(){
         return Commands.parallel(
-            indexer.setDesiredValueCommand(20)
+            indexer.setDesiredValueCommand(30),
+            conveyor.setDesiredValueCommand(25)
         );
     }
     
     public Command stopShooting(){
         return Commands.parallel(
-            indexer.setDesiredValueCommand(0)
+            indexer.setDesiredValueCommand(0),
+            conveyor.setDesiredValueCommand(0)
         );
     }
 
     public Command spinUpFlywheel(){
         return Commands.parallel(
             counterRoller.setDesiredValueCommand(30),
-            shooter.setDesiredValueCommand(75)
+            shooter.setDesiredValueCommand(90)
         );
     }
         
@@ -62,7 +64,7 @@ public class SuperSystem implements Reportable {
 
     public Command intakeUp(){
         return Commands.parallel(
-            intakeSlapdown.setDesiredValueCommand(6.5)
+            intakeSlapdown.setDesiredValueCommand(3.8)
         );
     }
 
@@ -74,7 +76,7 @@ public class SuperSystem implements Reportable {
 
     public Command intake() {
         return Commands.parallel(
-            intakeRoller.setDesiredValueCommand(4.5)
+            intakeRoller.setDesiredValueCommand(35)
         );
     }
 
@@ -131,6 +133,16 @@ public class SuperSystem implements Reportable {
         indexer         .setEnabled(useIndexer);
         counterRoller   .setEnabled(useCounterRoller);
         shooter         .setEnabled(useShooter);
+        intakeSlapdown.motor1.setPosition(0.0);
+    }
+
+    public void resetSubsystemValues() {
+        intakeSlapdown  .setDesiredValue(intakeSlapdown.getDefaultValue());
+        intakeRoller    .setDesiredValue(intakeRoller.getDefaultValue());
+        conveyor        .setDesiredValue(conveyor.getDefaultValue());
+        indexer         .setDesiredValue(indexer.getDefaultValue());
+        counterRoller   .setDesiredValue(counterRoller.getDefaultValue());
+        shooter         .setDesiredValue(shooter.getDefaultValue());
     }
 
     @Override
