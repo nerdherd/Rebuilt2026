@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "S2M1"
+            "pathName": "S5M2"
           }
         },
         {
@@ -31,38 +31,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "M1N2"
+            "pathName": "M2O1"
           }
         },
         {
-          "type": "named",
+          "type": "wait",
           "data": {
-            "name": "Intake Down Sequence"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "N2F1"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Intake Up Sequence"
+            "waitTime": 2.0
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "F1M1"
+            "pathName": "O1M2"
           }
         },
         {
@@ -87,6 +68,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "TopNeutral",
+  "folder": "Depot, Tower, Outpost",
   "choreoAuto": false
 }

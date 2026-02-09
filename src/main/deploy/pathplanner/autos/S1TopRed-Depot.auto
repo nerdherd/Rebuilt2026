@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "S2M1"
+            "pathName": "S1M1"
           }
         },
         {
@@ -31,7 +31,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "M1N2"
+            "pathName": "M1D1"
           }
         },
         {
@@ -47,7 +47,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "N2F1"
+                  "pathName": "D1D2"
                 }
               }
             ]
@@ -62,7 +62,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "F1M1"
+            "pathName": "D2M1"
           }
         },
         {
@@ -87,6 +87,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "TopNeutral",
+  "folder": "Depot, Tower, Outpost",
   "choreoAuto": false
 }
