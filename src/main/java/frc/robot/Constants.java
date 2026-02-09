@@ -327,15 +327,18 @@ public final class Constants {
         .withKP(0.5)
         .withKI(0.0)
         .withKD(0.0)
+        .withKV(0.125)
       ;
+
     private static final MotorOutputConfigs kMotorOutputConfigs =
       new MotorOutputConfigs()
         .withInverted(InvertedValue.Clockwise_Positive);
-        
+
     public static final TalonFXConfiguration kSubsystemConfiguration = 
       new TalonFXConfiguration()
         .withSlot0(kSlot0Configs)
-        .withMotorOutput(kMotorOutputConfigs);
+        .withMotorOutput(kMotorOutputConfigs)
+        ;
   }
 
   /** 
