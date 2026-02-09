@@ -5,27 +5,39 @@
     "data": {
       "commands": [
         {
-          "type": "named",
-          "data": {
-            "name": "DriveTo"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot"
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "S5M2"
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Shooter Ramp Up"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 2.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shooter Ramp Down"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "M2N4"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake Down Sequence"
           }
         },
         {
@@ -37,14 +49,14 @@
                 "data": {
                   "pathName": "N4F3"
                 }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
-                }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake Up Sequence"
           }
         },
         {
@@ -56,13 +68,19 @@
         {
           "type": "named",
           "data": {
-            "name": "DriveTo"
+            "name": "Shooter Ramp Up"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 5.0
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Shoot"
+            "name": "Shooter Ramp Down"
           }
         }
       ]
