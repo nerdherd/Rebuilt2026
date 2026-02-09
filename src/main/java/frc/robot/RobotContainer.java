@@ -37,9 +37,42 @@ public class RobotContainer {
   public RobotContainer() {
     swerveDrive = TunerConstants.createDrivetrain();
 
-    //Named Command Initialization
+      //Named Command Initialization
 
-    NamedCommands.registerCommand("Wait", Commands.waitSeconds(1));
+      NamedCommands.registerCommand("Intake Down Sequence", 
+      Commands.sequence(
+        superSystem.intakeDown(), 
+        superSystem.intake()
+        ));
+
+      NamedCommands.registerCommand("Intake Up Sequence", 
+      Commands.sequence(
+        superSystem.stopIntaking(), 
+        superSystem.intakeUp()
+        ));
+
+      NamedCommands.registerCommand("Shooter Ramp Up", 
+      Commands.sequence(
+        superSystem.spinUpFlywheel(), 
+        Commands.waitSeconds(0.5),
+        superSystem.shoot()
+        ));
+
+      NamedCommands.registerCommand("Shooter Ramp Down", 
+      Commands.sequence(
+        superSystem.stopFlywheel(), 
+        superSystem.stopShooting()
+        ));
+
+      NamedCommands.registerCommand("Wait", Commands.waitSeconds(1));
+      NamedCommands.registerCommand("SpinUpFlywheel", superSystem.spinUpFlywheel());
+      NamedCommands.registerCommand("StopFlywheel", superSystem.stopFlywheel());
+      NamedCommands.registerCommand("Shoot", superSystem.shoot());
+      NamedCommands.registerCommand("StopShooting", superSystem.stopShooting());
+      NamedCommands.registerCommand("IntakeUp", superSystem.intakeUp());
+      NamedCommands.registerCommand("IntakeDown", superSystem.intakeDown());
+      NamedCommands.registerCommand("Intake", superSystem.intake());
+      NamedCommands.registerCommand("StopIntaking", superSystem.stopIntaking());
 
     if (Constants.USE_SUBSYSTEMS) {
       superSystem = new SuperSystem(swerveDrive);
