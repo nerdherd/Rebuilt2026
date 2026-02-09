@@ -33,6 +33,8 @@ import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
 import frc.robot.subsystems.Reportable.LOG_LEVEL;
+import frc.robot.subsystems.template.TemplateSubsystem;
+import frc.robot.subsystems.template.TemplateSubsystem.SubsystemMode;
 import frc.robot.util.MultiProfiledPIDController;
 
 /**
