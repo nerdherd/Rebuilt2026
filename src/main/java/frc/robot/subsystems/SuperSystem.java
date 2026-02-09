@@ -51,7 +51,7 @@ public class SuperSystem implements Reportable {
 
     public Command spinUp(){
         return Commands.parallel(
-            shooterPrototype.setDesiredValueCommand(10),
+            shooterPrototype.setDesiredValueCommand(40),
             shooterPrototype.setEnabledCommand(true)
         );
     }

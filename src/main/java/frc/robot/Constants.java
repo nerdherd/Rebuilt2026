@@ -292,13 +292,13 @@ public final class Constants {
 
   public static final class ShooterPrototype{
 
-    public static final int kMotor1ID = 35;
-    public static final int kMotor2ID = 36;
+    public static final int kMotor1ID = 49;
+    public static final int kMotor2ID = 55;
 
 
      public static final Slot0Configs kSlot0Configs = 
       new Slot0Configs()
-        .withKP(10.0)
+        .withKP(0.5)
         .withKI(0.0)
         .withKD(0.0)
       ;
