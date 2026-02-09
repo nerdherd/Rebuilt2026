@@ -59,8 +59,11 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().getDefaultButtonLoop().clear();
     CommandScheduler.getInstance().cancelAll();
     m_robotContainer.swerveDrive.setVision(false);
-
-    if (Constants.USE_SUBSYSTEMS) {}
+    
+    if (Constants.USE_SUBSYSTEMS){
+      m_robotContainer.superSystem.stop();
+      m_robotContainer.superSystem.resetSubsystemValues();
+    }
   }
 
   @Override
@@ -72,7 +75,8 @@ public class Robot extends TimedRobot {
     RobotContainer.refreshAlliance();
     
     if (Constants.USE_SUBSYSTEMS) {
-      m_robotContainer.superSystem.setNeutralMode(NeutralModeValue.Brake);
+      m_robotContainer.superSystem.initialize();
+      m_robotContainer.superSystem.reConfigureMotors();
     }
     
     m_robotContainer.swerveDrive.setVision(USE_VISION);

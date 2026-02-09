@@ -15,7 +15,70 @@ public class SuperSystem implements Reportable {
 
     // ------------------------------------ subsystems ------------------------------------ //
     public void reConfigureMotors() {
-        // redo
+        intakeSlapdown  .applyMotorConfigs();
+        intakeRoller    .applyMotorConfigs();
+        conveyor        .applyMotorConfigs();
+        indexer         .applyMotorConfigs();
+        counterRoller   .applyMotorConfigs();
+        shooter         .applyMotorConfigs();
+    }
+    
+    public Command shoot(){
+        return Commands.parallel(
+            indexer.setDesiredValueCommand(30),
+            conveyor.setDesiredValueCommand(25)
+        );
+    }
+    
+    public Command stopShooting(){
+        return Commands.parallel(
+            indexer.setDesiredValueCommand(0),
+            conveyor.setDesiredValueCommand(0)
+        );
+    }
+
+    public Command spinUpFlywheel(){
+        return Commands.parallel(
+            counterRoller.setDesiredValueCommand(30),
+            shooter.setDesiredValueCommand(90)
+        );
+    }
+        
+    public Command stopFlywheel(){
+        return Commands.parallel(
+            counterRoller.setDesiredValueCommand(0),
+            shooter.setDesiredValueCommand(0)
+        );
+    }
+
+    public Command intakeDown(){
+        return Commands.parallel(
+            intakeSlapdown.setDesiredValueCommand(0)
+        );
+    }
+
+    public Command intakeUp(){
+        return Commands.parallel(
+            intakeSlapdown.setDesiredValueCommand(3.8)
+        );
+    }
+
+    public Command intakeSlapdownStop() {
+        return Commands.parallel(
+            intakeSlapdown.setDesiredValueCommand(0.0)
+        );
+    }
+
+    public Command intake() {
+        return Commands.parallel(
+            intakeRoller.setDesiredValueCommand(35)
+        );
+    }
+
+    public Command stopIntaking(){
+        return Commands.parallel(
+            intakeRoller.setDesiredValueCommand(0)
+        );
     }
 
     public void setNeutralMode(NeutralModeValue neutralMode) {
@@ -30,8 +93,22 @@ public class SuperSystem implements Reportable {
     }   
 
     public void initialize() {
-        //set enabled = true;
-        //set initials 
+        intakeSlapdown  .setEnabled(useIntakeSlapdown);
+        intakeRoller    .setEnabled(useIntakeRoller);
+        conveyor        .setEnabled(useConveyor);
+        indexer         .setEnabled(useIndexer);
+        counterRoller   .setEnabled(useCounterRoller);
+        shooter         .setEnabled(useShooter);
+        intakeSlapdown.motor1.setPosition(0.0);
+    }
+
+    public void resetSubsystemValues() {
+        intakeSlapdown  .setDesiredValue(intakeSlapdown.getDefaultValue());
+        intakeRoller    .setDesiredValue(intakeRoller.getDefaultValue());
+        conveyor        .setDesiredValue(conveyor.getDefaultValue());
+        indexer         .setDesiredValue(indexer.getDefaultValue());
+        counterRoller   .setDesiredValue(counterRoller.getDefaultValue());
+        shooter         .setDesiredValue(shooter.getDefaultValue());
     }
 
     @Override

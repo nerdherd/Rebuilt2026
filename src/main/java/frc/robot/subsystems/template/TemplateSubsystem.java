@@ -53,6 +53,8 @@ public abstract class TemplateSubsystem extends SubsystemBase implements Reporta
 	/** name of the subsystem */
 	protected final String name;
 
+	private final double defaultValue;
+
 	public enum SubsystemMode {
 		POSITION, 
 		VELOCITY
@@ -70,7 +72,8 @@ public abstract class TemplateSubsystem extends SubsystemBase implements Reporta
 	 * @param defaultValue - initial position or velocity depending on {@link SubsystemMode}
 	 */
 	public TemplateSubsystem(String name, int motor1ID, int motor2ID, MotorAlignmentValue reverseMotor2, SubsystemMode mode, double defaultValue) {
-		this.motor1 = new TalonFX(motor1ID);
+		this.motor1 = getMotor(motor1ID);
+		this.defaultValue = defaultValue;
 		if (motor2ID != -1){
 			this.motor2 = new TalonFX(motor2ID);
 			followerController = new Follower(motor1ID, reverseMotor2);
@@ -108,6 +111,8 @@ public abstract class TemplateSubsystem extends SubsystemBase implements Reporta
 			return;
 		}
 
+		if(hasMotor2()) motor2.setControl(followerController);
+
 		switch (mode) {
 			case POSITION:
 				motor1.setControl(positionController.withPosition(this.desiredValue));
@@ -115,13 +120,19 @@ public abstract class TemplateSubsystem extends SubsystemBase implements Reporta
 				if (configuration.MotionMagic.MotionMagicAcceleration == 0.0) DriverStation.reportWarning(name + ": MM Acceleration is 0.0", null);
 				break;
 			case VELOCITY:
-				motor1.setControl(velocityController.withVelocity(this.desiredValue));
+				if (Math.abs(this.desiredValue) <= 0.1) {
+					motor1.setControl(neutralRequest);
+					if (hasMotor2()) motor2.setControl(neutralRequest);
+				} else motor1.setControl(velocityController.withVelocity(this.desiredValue));
+				break;
+			case VOLTAGE:
+				if (Math.abs(this.desiredValue) > 12)
+					DriverStation.reportWarning(name + ": voltage > 12", null);
+				motor1.setControl(voltageController.withOutput(this.desiredValue));
 				break;
 			default:
 				break;
 		}
-
-		if(motor2 != null) motor2.setControl(followerController);
 	}
 
 	// ------------------------------------ Helper Functions ------------------------------------ //
@@ -199,6 +210,10 @@ public abstract class TemplateSubsystem extends SubsystemBase implements Reporta
 		return (mode == SubsystemMode.POSITION) ? motor2.getPosition().getValueAsDouble() : motor2.getVelocity().getValueAsDouble();
 	}
 
+	public double getDefaultValue() {
+		return defaultValue;
+	}
+
 	/**
 	 * @return {@link #enabled}
 	 */
@@ -239,5 +254,31 @@ public abstract class TemplateSubsystem extends SubsystemBase implements Reporta
 	 * @see {@link Reportable#addBoolean(ShuffleboardTab, String, java.util.function.BooleanSupplier, frc.robot.subsystems.Reportable.LOG_LEVEL)}
 	 * @see {@link Reportable#addString(ShuffleboardTab, String, java.util.function.Supplier, frc.robot.subsystems.Reportable.LOG_LEVEL)}
 	 */
-	public abstract void initializeLogging();
+    public void initializeLogging(){
+        ///////////
+        /// ALL ///
+        ///////////
+        Reportable.addNumber(shuffleboardTab,"Desired " + getFlavorText(), () -> getDesiredValue(), Reportable.LOG_LEVEL.ALL);
+		Reportable.addBoolean(shuffleboardTab, "Has Error", () -> _hasError, Reportable.LOG_LEVEL.ALL);
+
+		Reportable.addNumber(shuffleboardTab, "Torque Current 1", () -> motor1.getTorqueCurrent().getValueAsDouble(), Reportable.LOG_LEVEL.ALL);
+		if (hasMotor2()) Reportable.addNumber(shuffleboardTab, "Torque Current 2", () -> motor2.getTorqueCurrent().getValueAsDouble(), Reportable.LOG_LEVEL.ALL);
+
+		Reportable.addNumber(shuffleboardTab, "Supply Current 1", () -> motor1.getSupplyCurrent().getValueAsDouble(), Reportable.LOG_LEVEL.ALL);
+		if (hasMotor2()) Reportable.addNumber(shuffleboardTab, "Supply Current 2", () -> motor2.getSupplyCurrent().getValueAsDouble(), Reportable.LOG_LEVEL.ALL);
+		
+        //////////////
+		/// MEDIUM ///
+        //////////////
+        Reportable.addBoolean(shuffleboardTab, "Enabled", () -> this.enabled, Reportable.LOG_LEVEL.MEDIUM);
+        Reportable.addNumber(shuffleboardTab, "Temperature 1", () -> getCurrentTemp(), Reportable.LOG_LEVEL.MEDIUM);
+        if (hasMotor2()) Reportable.addNumber(shuffleboardTab, "Temperature 2", () -> getCurrentTemp2(), Reportable.LOG_LEVEL.MEDIUM);
+        
+        //////////////
+        /// MINIMAL //
+        //////////////
+        Reportable.addNumber(shuffleboardTab, getFlavorText() + " 1", () -> getCurrentValue(), Reportable.LOG_LEVEL.MINIMAL);
+        if (hasMotor2()) Reportable.addNumber(shuffleboardTab, getFlavorText() + " 2", () -> getCurrentValue2(), Reportable.LOG_LEVEL.MINIMAL);
+        
+    }
 }
