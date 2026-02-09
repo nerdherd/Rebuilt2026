@@ -13,19 +13,7 @@
         {
           "type": "named",
           "data": {
-            "name": "SpinUpFlyWheel"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.5
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot"
+            "name": "Shooter Ramp Up"
           }
         },
         {
@@ -37,13 +25,7 @@
         {
           "type": "named",
           "data": {
-            "name": "StopFlywheel"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "StopShooting"
+            "name": "Shooter Ramp Down"
           }
         },
         {

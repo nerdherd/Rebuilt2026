@@ -5,27 +5,39 @@
     "data": {
       "commands": [
         {
-          "type": "named",
-          "data": {
-            "name": "DriveTo"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot"
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "S2M1"
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Shooter Ramp Up"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 2.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shooter Ramp Down"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "M1D3"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake Down Sequence"
           }
         },
         {
@@ -37,12 +49,6 @@
                 "data": {
                   "pathName": "D3D4"
                 }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
-                }
               }
             ]
           }
@@ -50,19 +56,31 @@
         {
           "type": "named",
           "data": {
-            "name": "DriveTo"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot"
+            "name": "Intake Up Sequence"
           }
         },
         {
           "type": "path",
           "data": {
             "pathName": "D4M1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shooter Ramp Up"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 4.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shooter Ramp Down"
           }
         }
       ]
