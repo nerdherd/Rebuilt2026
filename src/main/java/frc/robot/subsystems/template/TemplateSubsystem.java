@@ -60,6 +60,8 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 	/** name of the subsystem */
 	protected final String name;
 
+	private final double defaultValue;
+
 	public enum SubsystemMode {
 		POSITION, 
 		VELOCITY,
@@ -79,6 +81,7 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 	 */
 	public TemplateSubsystem(String name, int motor1ID, int motor2ID, MotorAlignmentValue reverseMotor2, SubsystemMode mode, double defaultValue) {
 		this.motor1 = getMotor(motor1ID);
+		this.defaultValue = defaultValue;
 		if (motor2ID != -1){
 			this.motor2 = getMotor(motor2ID);
 			followerController = new Follower(motor1ID, reverseMotor2);
@@ -315,6 +318,9 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 		return motor2.getDeviceTemp().getValueAsDouble();
 	}
 
+	public double getDefaultValue() {
+		return defaultValue;
+	}
 
 	/**
 	 * @return {@link #enabled}

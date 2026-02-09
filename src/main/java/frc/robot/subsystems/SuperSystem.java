@@ -117,6 +117,15 @@ public class SuperSystem implements Reportable {
         intakeSlapdown.motor1.setPosition(0.0);
     }
 
+    public void resetSubsystemValues() {
+        intakeSlapdown  .setDesiredValue(intakeSlapdown.getDefaultValue());
+        intakeRoller    .setDesiredValue(intakeRoller.getDefaultValue());
+        conveyor        .setDesiredValue(conveyor.getDefaultValue());
+        indexer         .setDesiredValue(indexer.getDefaultValue());
+        counterRoller   .setDesiredValue(counterRoller.getDefaultValue());
+        shooter         .setDesiredValue(shooter.getDefaultValue());
+    }
+
     @Override
     public void initializeLogging() {
         intakeSlapdown  .initializeLogging();
