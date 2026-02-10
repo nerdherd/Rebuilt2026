@@ -387,6 +387,5 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
         //////////////
         Reportable.addNumber(shuffleboardTab, getFlavorText() + " 1", () -> getCurrentValue(), Reportable.LOG_LEVEL.MINIMAL);
         if (hasMotor2()) Reportable.addNumber(shuffleboardTab, getFlavorText() + " 2", () -> getCurrentValue2(), Reportable.LOG_LEVEL.MINIMAL);
-        
     }
 }

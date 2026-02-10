@@ -1,12 +1,17 @@
 {
-  "robotWidth": 0.8763,
-  "robotLength": 0.8763,
+  "robotWidth": 0.9,
+  "robotLength": 0.9,
   "holonomicMode": true,
-  "pathFolders": [],
+  "pathFolders": [
+    "Bottom Half Paths",
+    "Middle Paths",
+    "Top Half Paths",
+    "claire square"
+  ],
   "autoFolders": [
-    "BottomNeutral",
-    "Depot, Tower, Outpost",
-    "TopNeutral"
+    "Bottom Half Autos",
+    "Middle Autos",
+    "Top Half Autos"
   ],
   "defaultMaxVel": 3.0,
   "defaultMaxAccel": 3.0,
