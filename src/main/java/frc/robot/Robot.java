@@ -103,17 +103,17 @@ public class Robot extends TimedRobot {
     RobotContainer.refreshAlliance();
     
     if (Constants.USE_SUBSYSTEMS) {
-      m_robotContainer.superSystem.setNeutralMode(NeutralModeValue.Brake);
+      m_robotContainer.superSystem.initialize();
     }
     
     m_robotContainer.swerveDrive.setVision(USE_VISION);
     if (USE_VISION) {
       CommandScheduler.getInstance().schedule(m_robotContainer.swerveDrive.resetPoseWithAprilTags(0.2));
-      CommandScheduler.getInstance().schedule(Commands.run(() -> m_robotContainer.swerveDrive.setDriverHeadingForward()));
+      CommandScheduler.getInstance().schedule(Commands.runOnce(() -> m_robotContainer.swerveDrive.setDriverHeadingForward()));
     }
 
-    m_robotContainer.configureBindings_teleop();
     m_robotContainer.initDefaultCommands_teleop();
+    m_robotContainer.configureBindings_teleop();
   }
 
   /** This function is called periodically during operator control. */

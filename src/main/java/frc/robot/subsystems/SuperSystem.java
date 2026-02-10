@@ -135,5 +135,4 @@ public class SuperSystem implements Reportable {
         counterRoller   .initializeLogging();
         shooter         .initializeLogging();
     }
-
 }

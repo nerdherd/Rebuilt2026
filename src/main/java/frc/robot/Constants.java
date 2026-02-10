@@ -57,7 +57,7 @@ public final class Constants {
    * @see {@link frc.robot.subsystems.template.TemplateSubsystem TemplateSubsystem} 
    * @see {@link frc.robot.subsystems.SuperSystem SuperSystem}
    */
-  public static final boolean USE_SUBSYSTEMS = false;
+  public static final boolean USE_SUBSYSTEMS = true;
   /**
    * controls whether vision should be initialized
    */
@@ -329,7 +329,8 @@ public final class Constants {
         .withKP(0.5)
         .withKI(0.0)
         .withKD(0.0)
-      ;
+        .withKV(0.25)
+        ;
     private static final MotorOutputConfigs kMotorOutputConfigs =
       new MotorOutputConfigs()
         .withInverted(InvertedValue.Clockwise_Positive);
@@ -374,7 +375,6 @@ public final class Constants {
     public static final TemplateSubsystem shooter = (!USE_SUBSYSTEMS) ? null :
     new TemplateSubsystem("Shooter", ShooterConstants.kMotor1ID, ShooterConstants.kMotor2ID, MotorAlignmentValue.Opposed,  SubsystemMode.VELOCITY, 0.0)
       .configureMotors(ShooterConstants.kSubsystemConfiguration);    
-
   }
 
   // public static class LEDConstants {
