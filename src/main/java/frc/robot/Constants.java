@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-import com.ctre.phoenix6.configs.CustomParamsConfigs;
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
@@ -51,17 +50,18 @@ import frc.robot.util.MultiProfiledPIDController;
 public final class Constants {
 
   /** current logging level of the robot's subsystems, @see Reportable.add... */
-  public static LOG_LEVEL ROBOT_LOG_LEVEL = LOG_LEVEL.MEDIUM;
+  public static final LOG_LEVEL ROBOT_LOG_LEVEL = LOG_LEVEL.MEDIUM;
+  
   /** 
    * (hopefully) controls whether subsystem objects are used, swerve and others not counted
    * @see {@link frc.robot.subsystems.template.TemplateSubsystem TemplateSubsystem} 
    * @see {@link frc.robot.subsystems.SuperSystem SuperSystem}
    */
-  public static boolean USE_SUBSYSTEMS = true;
+  public static final boolean USE_SUBSYSTEMS = false;
   /**
    * controls whether vision should be initialized
    */
-  public static boolean USE_VISION = true;
+  public static final boolean USE_VISION = true;
 
   public static class ControllerConstants {
     public static final double kDeadband = 0.05;
@@ -166,8 +166,8 @@ public final class Constants {
     public static final double kTurnToAngleVelocityToleranceAnglesPerSec = 1;
 
     public static enum FieldPositions {
-      HUB_CENTER(4.626, 4.035, 0.0),
-      ;//TODO Add field positions
+      HUB_CENTER(4.626, 4.035, 0.0);
+      //TODO Add field positions
       
       public Pose2d blue, red; // meters and degrees
       FieldPositions(double _blueX, double _blueY, double _blueHeadingDegrees) {
@@ -179,7 +179,7 @@ public final class Constants {
   }
 
   public static final class RingDriveConstants {
-    public static final double kInitialDistance = 0.5; // m
+    public static final double kInitialDistance = 0.2; // m
     public static final double kDriveVelocity = 1.0; // m/s
     public static final double kMaximumDistance = 1.0; // m
     public static final double kMinimumDistance = 0.2; // m
@@ -411,7 +411,7 @@ public final class Constants {
   //   public static final int kMotor1ID = ;
   //   public static final int kMotor2ID = ;
 
-  //   private static final Slot0Configs kSlot0Configs = 
+  //   public static final Slot0Configs kSlot0Configs = 
   //     new Slot0Configs()
   //       .withKP(0.0)
   //     ;
@@ -424,7 +424,5 @@ public final class Constants {
   
   public static final class SuperSystemConstants {
     //TODO DO
-
   }
 }
-

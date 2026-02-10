@@ -8,12 +8,9 @@ import java.util.function.Supplier;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.RingDriveConstants;
-import frc.robot.Constants.SwerveDriveConstants.FieldPositions;
-import frc.robot.Robot;
 import frc.robot.subsystems.NerdDrivetrain;
 import frc.robot.util.NerdyMath;
 import frc.robot.util.filters.DeadbandFilter;
@@ -50,9 +47,11 @@ public class RingDriveCommand extends Command {
 
   @Override
   public void initialize() {
-    
-    if (Robot.getAlliance().equals(DriverStation.Alliance.Red)) center = FieldPositions.HUB_CENTER.red;
+    /*
+    RobotContainer.refreshAlliance();
+    if (RobotContainer.IsRedSide()) center = FieldPositions.HUB_CENTER.red;
     else center = FieldPositions.HUB_CENTER.blue;
+     */
     
     targetD = RingDriveConstants.kInitialDistance;
     targetTheta = NerdyMath.angleToPose(center, swerveDrive.getPose());
@@ -75,7 +74,6 @@ public class RingDriveCommand extends Command {
     targetTheta += xSpeed / 50.0;
 
     swerveDrive.driveToTarget(new Pose2d(targetD*Math.cos(targetTheta) + center.getX(), targetD*Math.sin(targetTheta) + center.getY(), Rotation2d.fromRadians(targetTheta + Math.PI)));
-    // swerveDrive.driveToTarget(new Pose2d(1, 1, new Rotation2d(180.0)));
   }
 
   @Override
