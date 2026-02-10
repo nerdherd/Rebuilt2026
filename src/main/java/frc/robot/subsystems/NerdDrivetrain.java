@@ -89,7 +89,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
 
         if (USE_VISION) {
             // visionUpdate(Camera.Example);
-            visionUpdate(Camera.Front);
+            visionUpdate(Camera.Charlie);
         }
     }
 

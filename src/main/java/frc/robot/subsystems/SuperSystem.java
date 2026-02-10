@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Constants.SwerveDriveConstants.FieldPositions;
 import frc.robot.Robot;
+import frc.robot.RobotContainer;
 
 public class SuperSystem implements Reportable {
     public NerdDrivetrain swerveDrivetrain;
@@ -90,7 +91,7 @@ public class SuperSystem implements Reportable {
         return Commands.run(
             () -> {
                 // calculate distance
-                Pose2d hub = (Robot.getAlliance().equals(DriverStation.Alliance.Red)) ? FieldPositions.HUB_CENTER.red : FieldPositions.HUB_CENTER.blue;
+                Pose2d hub = (RobotContainer.IsRedSide()) ? FieldPositions.HUB_CENTER.red : FieldPositions.HUB_CENTER.blue;
                 double distance = swerveDrivetrain.getPose().getTranslation().getDistance(hub.getTranslation());
                 // convert to rps
                 double rps = 5.18091 * distance * distance + 24.80186; //TODO find conversion equation
