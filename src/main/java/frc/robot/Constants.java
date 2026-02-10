@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
@@ -313,7 +314,9 @@ public final class Constants {
       new Slot0Configs() //TODO
         .withKP(0.5)
         .withKI(0.0)
-        .withKD(0.0);
+        .withKD(0.0)
+        .withKV(0.125)
+      ;
 
     public static final TalonFXConfiguration kSubsystemConfiguration = 
       new TalonFXConfiguration()
@@ -326,11 +329,18 @@ public final class Constants {
 
     private static final Slot0Configs kSlot0Configs = 
       new Slot0Configs() //TODO
-        .withKP(0.5)
+        .withKP(0.1)
         .withKI(0.0)
         .withKD(0.0)
         .withKV(0.125)
         ;
+    
+    private static final CurrentLimitsConfigs kCurrentLimitsConfigs = 
+      new CurrentLimitsConfigs()
+        .withStatorCurrentLimit(120)
+        .withStatorCurrentLimitEnable(false)
+      ;
+
     private static final MotorOutputConfigs kMotorOutputConfigs =
       new MotorOutputConfigs()
         .withInverted(InvertedValue.Clockwise_Positive);
@@ -338,6 +348,7 @@ public final class Constants {
     public static final TalonFXConfiguration kSubsystemConfiguration = 
       new TalonFXConfiguration()
         .withSlot0(kSlot0Configs)
+        .withCurrentLimits(kCurrentLimitsConfigs)
         .withMotorOutput(kMotorOutputConfigs)
         ;
   }
@@ -374,7 +385,7 @@ public final class Constants {
     public static final boolean useShooter = true;
     public static final TemplateSubsystem shooter = (!USE_SUBSYSTEMS) ? null :
     new TemplateSubsystem("Shooter", ShooterConstants.kMotor1ID, ShooterConstants.kMotor2ID, MotorAlignmentValue.Opposed,  SubsystemMode.VELOCITY, 0.0)
-      .configureMotors(ShooterConstants.kSubsystemConfiguration);    
+      .configureMotors(ShooterConstants.kSubsystemConfiguration);
   }
 
   // public static class LEDConstants {

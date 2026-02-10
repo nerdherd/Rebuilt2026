@@ -195,6 +195,15 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
         return "it's chill";
     }
 
+    private double pollStatorCurrentSum() {
+        double sum = 0;
+        for (int i = 0; i < 4; i++) {
+            sum += getModule(i).getDriveMotor().getTorqueCurrent().getValueAsDouble();
+            sum += getModule(i).getSteerMotor().getTorqueCurrent().getValueAsDouble();
+        }
+        return sum;
+    }
+
     // ----------------------------------------- Vision Functions ----------------------------------------- //
 
     /**
@@ -328,6 +337,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
         /// MINIMAL //
         //////////////
         Reportable.addString(tab, "temperatures", this::pollTemperatures, LOG_LEVEL.MINIMAL); // maybe better on medium
+        Reportable.addNumber(tab, "stator current sum", this::pollStatorCurrentSum, LOG_LEVEL.MINIMAL);
         // TODO poll voltages somehow, maybe just log all of them
     }
 
