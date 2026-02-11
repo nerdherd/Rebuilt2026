@@ -52,18 +52,15 @@ public class Robot extends TimedRobot {
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
   public void disabledInit() {
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.cancel();
-    }
-    
     CommandScheduler.getInstance().getDefaultButtonLoop().clear();
     CommandScheduler.getInstance().cancelAll();
-    m_robotContainer.swerveDrive.setVision(false);
     
     if (Constants.USE_SUBSYSTEMS){
       m_robotContainer.superSystem.stop();
       m_robotContainer.superSystem.resetSubsystemValues();
     }
+
+    m_robotContainer.swerveDrive.setVision(false);
   }
 
   @Override
@@ -80,15 +77,19 @@ public class Robot extends TimedRobot {
     }
     
     m_robotContainer.swerveDrive.setVision(USE_VISION);
-    if (USE_VISION) CommandScheduler.getInstance().schedule(m_robotContainer.swerveDrive.resetPoseWithAprilTags(0.2));
+    if (USE_VISION) {
+      CommandScheduler.getInstance().schedule(m_robotContainer.swerveDrive.resetPoseWithAprilTags(0.1));
+      CommandScheduler.getInstance().schedule(Commands.runOnce(m_robotContainer.swerveDrive::setDriverHeadingForward));
+    }
 
     // schedule the autonomous command (example)
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
     if (m_autonomousCommand != null) {
       CommandScheduler.getInstance().schedule(m_autonomousCommand);
     }
-    m_robotContainer.swerveDrive.setDefaultCommand(Commands.runOnce(() -> Commands.none(), m_robotContainer.swerveDrive)); // quick fix for elastic field pose
 
+    // fix for elastic field pose not updating
+    m_robotContainer.swerveDrive.setDefaultCommand(Commands.runOnce(Commands::none, m_robotContainer.swerveDrive));
   }
 
   /** This function is called periodically during autonomous. */
@@ -97,10 +98,10 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+    RobotContainer.refreshAlliance();
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-    RobotContainer.refreshAlliance();
     
     if (Constants.USE_SUBSYSTEMS) {
       m_robotContainer.superSystem.initialize();
@@ -108,8 +109,8 @@ public class Robot extends TimedRobot {
     
     m_robotContainer.swerveDrive.setVision(USE_VISION);
     if (USE_VISION) {
-      CommandScheduler.getInstance().schedule(m_robotContainer.swerveDrive.resetPoseWithAprilTags(0.2));
-      CommandScheduler.getInstance().schedule(Commands.runOnce(() -> m_robotContainer.swerveDrive.setDriverHeadingForward()));
+      CommandScheduler.getInstance().schedule(m_robotContainer.swerveDrive.resetPoseWithAprilTags(0.1));
+      CommandScheduler.getInstance().schedule(Commands.runOnce(m_robotContainer.swerveDrive::setDriverHeadingForward));
     }
 
     m_robotContainer.initDefaultCommands_teleop();
