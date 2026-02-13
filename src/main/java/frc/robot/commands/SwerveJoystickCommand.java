@@ -1,118 +1,77 @@
 package frc.robot.commands;
 
-import static frc.robot.Constants.SwerveDriveConstants.kDriveAlpha;
-import static frc.robot.Constants.SwerveDriveConstants.kMinimumMotorOutput;
-import static frc.robot.Constants.SwerveDriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond;
-import static frc.robot.Constants.SwerveDriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
-import static frc.robot.Constants.SwerveDriveConstants.kTeleMaxAcceleration;
-import static frc.robot.Constants.SwerveDriveConstants.kTeleMaxDeceleration;
+import static frc.robot.Constants.SwerveDriveConstants.kDriveMaxVelocity;
+import static frc.robot.Constants.SwerveDriveConstants.kDrivePrecisionMultiplier;
+import static frc.robot.Constants.SwerveDriveConstants.kRobotOrientedVelocity;
+import static frc.robot.Constants.SwerveDriveConstants.kTurnMaxVelocity;
+import static frc.robot.Constants.SwerveDriveConstants.kTurnPrecisionMultiplier;
+import static frc.robot.Constants.SwerveDriveConstants.kTurnToAngleMaxVelocity;
+import static frc.robot.Constants.ControllerConstants.kTranslationInputFilter;
+import static frc.robot.Constants.ControllerConstants.kRotationInputFilter;
 
 import java.util.function.Supplier;
 
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.SwerveDriveConstants;
 import frc.robot.subsystems.NerdDrivetrain;
-import frc.robot.util.filters.OldDriverFilter2;
-import frc.robot.util.filters.DeadbandFilter;
-import frc.robot.util.filters.Filter;
-import frc.robot.util.filters.FilterSeries;
-import frc.robot.util.filters.ScaleFilter;
 public class SwerveJoystickCommand extends Command {
     private final NerdDrivetrain swerveDrive;
-    private final Supplier<Double> xSpdFunction, ySpdFunction, turningSpdFunction;
-    private final Supplier<Boolean> useFieldOriented;
-    private final Supplier<Boolean> useTowMode;
-    private final Supplier<Boolean> usePrecisionMode;
-    private final Supplier<Double> desiredAngle;
-    private final Supplier<Boolean> turnToAngleSupplier;
-    private final PIDController turnToAngleController;
-    private final Supplier<Translation2d> dPadDirectionalSupplier;
-    private Filter xFilter, yFilter, turningFilter;
-
-    public static double targetAngle = 0;
+    private final Supplier<Double> xTranslationInput, yTranslationInput, turnInput, desiredAngle;
+    private final Supplier<Translation2d> robotOrientedAdjustment;
+    private final Supplier<Boolean> useTurnToAngle, useFieldOriented, useTowMode, usePrecisionMode;
+    private final PIDController angleController;
 
     /**
-     * Construct a new SwerveJoystickCommand
-     * 
-     * @param swerveDrive           The Swerve Drive subsystem
-     * @param xSpdFunction          A supplier returning the desired x speed
-     * @param ySpdFunction          A supplier returning the desired y speed
-     * @param turningSpdFunction    A supplier returning the desired turning speed
-     * @param fieldOrientedFunction A boolean supplier that toggles field oriented/robot oriented mode.
-     * @param towSupplier           A boolean supplier that toggles the tow mode.
-     * @param precisionSupplier     A boolean supplier that toggles the precision mode.
+     * Construct a new joystick command
+     * @param swerveDrive
+     * @param xTranslationInput - +forward
+     * @param yTranslationInput - +right
+     * @param turnInput - manual turning
+     * @param useFieldOriented
+     * @param useTowMode
+     * @param usePrecisionMode
+     * @param desiredAngleSupplier - rad, return 0.0 to use manual
+     * @param robotOrientedAdjustment
      */
-    public SwerveJoystickCommand(NerdDrivetrain swerveDrive,
-            Supplier<Double> xSpdFunction, 
-            Supplier<Double> ySpdFunction, 
-            Supplier<Double> turningSpdFunction,
-            Supplier<Boolean> fieldOrientedFunction, 
-            Supplier<Boolean> towSupplier, 
-            Supplier<Boolean> precisionSupplier,
-            Supplier<Boolean> turnToAngleSupplier,
+    public SwerveJoystickCommand(
+            NerdDrivetrain swerveDrive,
+            Supplier<Double> xTranslationInput, 
+            Supplier<Double> yTranslationInput, 
+            Supplier<Double> turnInput,
+            Supplier<Boolean> useTurnToAngle,
             Supplier<Double> desiredAngleSupplier,
-            Supplier<Translation2d> dPadDirectionalSupplier
+            Supplier<Translation2d> robotOrientedAdjustment,
+            Supplier<Boolean> useFieldOriented, 
+            Supplier<Boolean> useTowMode, 
+            Supplier<Boolean> usePrecisionMode
         ) {
         this.swerveDrive = swerveDrive;
-        this.xSpdFunction = xSpdFunction;
-        this.ySpdFunction = ySpdFunction;
-        this.turningSpdFunction = turningSpdFunction;
-        this.useFieldOriented = fieldOrientedFunction;
-        this.useTowMode = towSupplier;
-        this.usePrecisionMode = precisionSupplier;
 
-        
-        this.turnToAngleSupplier = turnToAngleSupplier;
+        this.xTranslationInput = xTranslationInput;
+        this.yTranslationInput = yTranslationInput;
+        this.turnInput = turnInput;
+        this.useTurnToAngle = useTurnToAngle;
         this.desiredAngle = desiredAngleSupplier;
 
+        this.robotOrientedAdjustment = robotOrientedAdjustment;
 
-        this.dPadDirectionalSupplier = dPadDirectionalSupplier;
+        this.useFieldOriented = useFieldOriented;
+        this.useTowMode = useTowMode;
+        this.usePrecisionMode = usePrecisionMode;
 
-
-        this.xFilter = new OldDriverFilter2(
-            ControllerConstants.kDeadband, 
-            kMinimumMotorOutput,
-            kTeleDriveMaxSpeedMetersPerSecond, 
-            kDriveAlpha, 
-            kTeleMaxAcceleration, 
-            kTeleMaxDeceleration);
-        this.yFilter = new OldDriverFilter2(
-            ControllerConstants.kDeadband, 
-            kMinimumMotorOutput,
-            kTeleDriveMaxSpeedMetersPerSecond, 
-            kDriveAlpha, 
-            kTeleMaxAcceleration, 
-            kTeleMaxDeceleration);
-        this.turningFilter = new FilterSeries(
-            new DeadbandFilter(ControllerConstants.kRotationDeadband),
-            new ScaleFilter(kTeleDriveMaxAngularSpeedRadiansPerSecond)
+        this.angleController = new PIDController(
+            SwerveDriveConstants.kTurnToAnglePIDConstants.kP,
+            SwerveDriveConstants.kTurnToAnglePIDConstants.kI,
+            SwerveDriveConstants.kTurnToAnglePIDConstants.kD
             );
-        
-
-        this.turnToAngleController = new PIDController(
-            SwerveDriveConstants.kPThetaAuto,
-            SwerveDriveConstants.kIThetaAuto,
-            SwerveDriveConstants.kDThetaAuto
+        this.angleController.setTolerance(
+            SwerveDriveConstants.kTurnToAngleTolerances.maxVelocity, 
+            SwerveDriveConstants.kTurnToAngleTolerances.maxAcceleration
             );
-
-        // this.turnToAngleController = new PIDController(
-        //     SwerveAutoConstants.kPTurnToAngle, 
-        //     SwerveAutoConstants.kITurnToAngle, 
-        //     SwerveAutoConstants.kDTurnToAngle, 
-        //     0.02);
-        
-        this.turnToAngleController.setTolerance(
-            SwerveDriveConstants.kTurnToAnglePositionToleranceAngle, 
-            SwerveDriveConstants.kTurnToAngleVelocityToleranceAnglesPerSec * 0.02);
+        this.angleController.enableContinuousInput(-Math.PI, Math.PI);
     
-
-        this.turnToAngleController.enableContinuousInput(0, 360);
-
         addRequirements(swerveDrive);
     }
 
@@ -125,71 +84,29 @@ public class SwerveJoystickCommand extends Command {
             swerveDrive.setControl(SwerveDriveConstants.kTowSwerveRequest);
             return;
         }
-
-        // get speeds
-        double turningSpeed;
-        double xSpeed = xSpdFunction.get();
-        double ySpeed = -ySpdFunction.get();
+        
+        boolean precision = usePrecisionMode.get();
+        /** m/s */
+        Translation2d filteredInput = kTranslationInputFilter.apply(xTranslationInput.get(), yTranslationInput.get());
+        double xSpeed = filteredInput.getX() * kDriveMaxVelocity * (precision ? kDrivePrecisionMultiplier : 1.0);
+        double ySpeed = filteredInput.getY() * kDriveMaxVelocity * (precision ? kDrivePrecisionMultiplier : 1.0);
 
         /** rad/s */
-        double filteredTurningSpeed;
-        /** m/s */
-        double filteredXSpeed = xFilter.calculate(xSpeed); // TODO reconsider filters
-        /** m/s */
-        double filteredYSpeed = yFilter.calculate(ySpeed);
+        double turnSpeed;
 
-        if (turnToAngleSupplier.get()) {
-            double tempAngle = desiredAngle.get();
-            if ((Math.abs(tempAngle - 1000.0) > 0.01)) {
-                targetAngle = tempAngle;
-            } else {
-                targetAngle = ((targetAngle + turningSpdFunction.get() % 360) + 360) % 360;
-                // SwerveDriveConstants.kPThetaTeleop.loadPreferences();
-                // SwerveDriveConstants.kIThetaTeleop.loadPreferences();
-                // SwerveDriveConstants.kDThetaTeleop.loadPreferences();
-                // turnToAngleController.setP(SwerveDriveConstants.kPThetaTeleop.get());
-                // turnToAngleController.setI(SwerveDriveConstants.kIThetaTeleop.get());
-                // turnToAngleController.setD(SwerveDriveConstants.kDThetaTeleop.get());
-            }
-            // todo, since we use field ori control, better to turn to field 0,90, 180,270
-            turningSpeed = turnToAngleController.calculate(swerveDrive.getDriverHeadingDegrees(), targetAngle);
-            SmartDashboard.putNumber("Turning Speed Initial", turningSpeed);
-            // turningSpeed += Math.signum(turningSpeed) * SwerveAutoConstants.kTurnToAngleFeedForwardDegreesPerSecond;
-            turningSpeed = Math.toRadians(turningSpeed);
-            turningSpeed = MathUtil.clamp(
-                turningSpeed, 
-                -SwerveDriveConstants.kTurnToAngleMaxAngularSpeedRadiansPerSecond, 
-                SwerveDriveConstants.kTurnToAngleMaxAngularSpeedRadiansPerSecond);
-            SmartDashboard.putNumber("Turning Speed", turningSpeed);
-            SmartDashboard.putNumber("Target Angle", targetAngle);
-            
-            filteredTurningSpeed = turningSpeed;
+        if (useTurnToAngle.get()) {
+            double targetAngle = desiredAngle.get();
+            if (!Double.isNaN(targetAngle)) {
+                turnSpeed = angleController.calculate(swerveDrive.getDriverHeadingRadians(), targetAngle);
+                turnSpeed = Math.min(kTurnToAngleMaxVelocity, Math.max(-kTurnToAngleMaxVelocity, turnSpeed));
+            } else turnSpeed = 0.0;
         }
-        else {
-            // Manual turning
-            turningSpeed = turningSpdFunction.get();
-            turningSpeed *= -0.5; // TODO WHY?
-            filteredTurningSpeed = turningFilter.calculate(turningSpeed);
-        }
+        else turnSpeed = kRotationInputFilter.apply(turnInput.get()) * kTurnMaxVelocity * (precision ? kTurnPrecisionMultiplier : 1.0);
 
-
-        if (usePrecisionMode.get()) {
-            filteredXSpeed /= 4;
-            filteredYSpeed /= 4;
-            filteredTurningSpeed /= 2; // Also slows down the turn to angle speed
-        }
-               
-        Translation2d dPad = dPadDirectionalSupplier.get();
-        if (!dPad.equals(Translation2d.kZero)) {
-            swerveDrive.driveRobotOriented(dPad.getX() * 1.0, dPad.getY() * 1.0, 0.0);
-        } else if (useFieldOriented.get()) {
-            swerveDrive.driveFieldOriented(filteredXSpeed, filteredYSpeed, filteredTurningSpeed);
-        } else {
-            swerveDrive.driveRobotOriented(filteredXSpeed, filteredYSpeed, filteredTurningSpeed);
-        }
-    } 
-
-    public double getTargetAngle() {
-        return targetAngle;
+        // 
+        Translation2d adjustment = robotOrientedAdjustment.get();
+        if (!adjustment.equals(Translation2d.kZero)) swerveDrive.driveRobotOriented(adjustment.getX() * kRobotOrientedVelocity, adjustment.getY() * kRobotOrientedVelocity, 0.0);
+        else if (useFieldOriented.get()) swerveDrive.driveFieldOriented(xSpeed, ySpeed, turnSpeed);
+        else swerveDrive.driveRobotOriented(xSpeed, ySpeed, turnSpeed);
     }
 }

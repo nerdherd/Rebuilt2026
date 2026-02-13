@@ -274,7 +274,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
      * @see {@link #setDriverHeadingForward()} for resetting to zero
      */
     public double getDriverHeadingDegrees() {
-        return getOperatorForwardDirection().getDegrees();
+        return getOperatorForwardDirection().getDegrees() + getSwerveHeadingDegrees();
     }
 
     /**
@@ -282,7 +282,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
      * @see {@link #setDriverHeadingForward()} for resetting to zero
      */
     public double getDriverHeadingRadians() {
-        return getOperatorForwardDirection().getRadians();
+        return getOperatorForwardDirection().getRadians() + getSwerveHeadingRadians();
     }
 
     /** 
@@ -330,7 +330,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
         /// MEDIUM ///
         //////////////
         Reportable.addNumber(tab, "absolute heading", this::getSwerveHeadingDegrees, LOG_LEVEL.MEDIUM);
-        Reportable.addNumber(tab, "operator heading", () -> getDriverHeadingDegrees() + getSwerveHeadingDegrees(), LOG_LEVEL.MEDIUM);
+        Reportable.addNumber(tab, "operator heading", this::getDriverHeadingDegrees, LOG_LEVEL.MEDIUM);
         Reportable.addNumber(tab, "odom heading", () -> getPose().getRotation().getDegrees(), LOG_LEVEL.MEDIUM);
         
         //////////////
@@ -338,7 +338,6 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
         //////////////
         Reportable.addString(tab, "temperatures", this::pollTemperatures, LOG_LEVEL.MINIMAL); // maybe better on medium
         Reportable.addNumber(tab, "stator current sum", this::pollStatorCurrentSum, LOG_LEVEL.MINIMAL);
-        // TODO poll voltages somehow, maybe just log all of them
     }
 
 }

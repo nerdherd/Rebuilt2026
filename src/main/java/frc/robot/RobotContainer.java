@@ -4,25 +4,17 @@
 
 package frc.robot;
 
-import java.io.IOException;
-import org.json.simple.parser.ParseException;
+import static frc.robot.Constants.ControllerConstants.kTurnToAngleFilter;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Constants.ControllerConstants;
-import frc.robot.commands.RingDriveCommand;
 import frc.robot.commands.SwerveJoystickCommand;
 import frc.robot.commands.autos.Autos;
-import frc.robot.commands.autos.Taxi;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.NerdDrivetrain;
 import frc.robot.subsystems.SuperSystem;
@@ -37,8 +29,6 @@ public class RobotContainer {
   private final Controller driverController = new Controller(ControllerConstants.kDriverControllerPort);
   private final Controller operatorController = new Controller(ControllerConstants.kOperatorControllerPort);
   
-  private SendableChooser<Command> autoChooser = new SendableChooser<Command>();
-
   private static boolean isRedSide = false;
   
   /**
@@ -76,17 +66,28 @@ public class RobotContainer {
     SwerveJoystickCommand swerveJoystickCommand =
     new SwerveJoystickCommand(
       swerveDrive,
-      () -> -driverController.getLeftY(), // Horizontal Translation
-      () -> driverController.getLeftX(), // Vertical Translation
-      () -> driverController.getRightX(), // Rotation
-      () -> true, // robot oriented variable (true = field oriented)
-      () -> false, // tow supplier
-      () -> driverController.getTriggerLeft(), // Precision/"Sniper Button"
-      () -> false, // turn to angle supplier
-      () -> swerveDrive.getSwerveHeadingDegrees(), // Turn to angle direction TODO i have no clue if this is right
-      () -> new Translation2d((driverController.getDpadUp() ? 1 : 0) - (driverController.getDpadDown() ? 1 : 0), 
-                              (driverController.getDpadLeft() ? 1 : 0) - (driverController.getDpadRight() ? 1 :  0)) // DPad vector
+      // Horizontal Translation
+      () -> -driverController.getLeftY(), 
+      // Vertical Translation
+      () -> -driverController.getLeftX(), 
+      // Turn
+      () -> -driverController.getRightX(), 
+      // use turn to angle
+      () -> false,
+      // turn to angle target direction, 0.0 to use manual
+      () -> kTurnToAngleFilter.apply(driverController.getRightX(), driverController.getRightY()),
+      // robot oriented adjustment (dpad)
+      () -> new Translation2d(
+        (driverController.getDpadUp() ? 1 : 0) - (driverController.getDpadDown() ? 1 : 0), 
+        (driverController.getDpadLeft() ? 1 : 0) - (driverController.getDpadRight() ? 1 : 0)),
+      // joystick drive field oriented
+      () -> true, 
+      // tow supplier
+      () -> false, 
+      // precision/programmer mode :)
+      () -> driverController.getTriggerLeft()
     );
+    
     swerveDrive.setDefaultCommand(swerveJoystickCommand);
   }
 
