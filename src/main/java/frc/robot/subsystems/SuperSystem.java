@@ -94,10 +94,10 @@ public class SuperSystem implements Reportable {
                 Pose2d hub = (RobotContainer.IsRedSide()) ? FieldPositions.HUB_CENTER.red : FieldPositions.HUB_CENTER.blue;
                 double distance = swerveDrivetrain.getPose().getTranslation().getDistance(hub.getTranslation());
                 // convert to rps
-                double rps = 5.18091 * distance * distance + 24.80186; //TODO find conversion equation
+                double rps = 0.0018247 * distance * distance + 28.6056; //TODO find conversion equation
                 // spin up flywheel
-                counterRoller.setDesiredValueCommand(30);
-                shooter.setDesiredValueCommand(rps);
+                counterRoller.setDesiredValue(30);
+                shooter.setDesiredValue(rps);
             }
         );
     }
