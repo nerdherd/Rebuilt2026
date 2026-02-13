@@ -4,15 +4,12 @@
 
 package frc.robot;
 
-import static frc.robot.Constants.Subsystems.useShooter;
-
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.signals.InvertedValue;
-import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveModule.SteerRequestType;
@@ -343,15 +340,28 @@ public final class Constants {
         .withStatorCurrentLimitEnable(false)
       ;
 
-    private static final MotorOutputConfigs kMotorOutputConfigs =
+    private static final MotorOutputConfigs kLeftMotorOutputConfigs =
       new MotorOutputConfigs()
         .withInverted(InvertedValue.Clockwise_Positive);
 
-    public static final TalonFXConfiguration kSubsystemConfiguration = 
+    private static final MotorOutputConfigs kRightMotorOutputConfigs =
+      new MotorOutputConfigs()
+        .withInverted(InvertedValue.CounterClockwise_Positive);
+
+    private static final TalonFXConfiguration kSubsystemConfiguration = 
       new TalonFXConfiguration()
         .withSlot0(kSlot0Configs)
         .withCurrentLimits(kCurrentLimitsConfigs)
-        .withMotorOutput(kMotorOutputConfigs)
+        ;
+
+    public static final TalonFXConfiguration kLeftConfiguration = 
+      kSubsystemConfiguration.clone()
+        .withMotorOutput(kLeftMotorOutputConfigs)
+        ;
+
+    public static final TalonFXConfiguration kRightConfiguration =
+      kSubsystemConfiguration.clone()
+        .withMotorOutput(kRightMotorOutputConfigs)
         ;
   }
 
@@ -417,7 +427,7 @@ public final class Constants {
         SubsystemMode.VELOCITY, 
         0.0,
         useShooter)
-      .configureMotors(ShooterConstants.kSubsystemConfiguration);
+      .configureMotors(ShooterConstants.kLeftConfiguration);
     public static final TemplateSubsystem shooterRight = (!USE_SUBSYSTEMS) ? null :
     new TemplateSubsystem(
         "Shooter Right", 
@@ -425,7 +435,11 @@ public final class Constants {
         SubsystemMode.VELOCITY, 
         0.0,
         useShooter)
-      .configureMotors(ShooterConstants.kSubsystemConfiguration);
+      .configureMotors(ShooterConstants.kRightConfiguration);
+    
+    // literally just so the class actually loads
+    // thanks java lazy loading
+    public static void init() {} 
   }
 
   // public static class LEDConstants {
