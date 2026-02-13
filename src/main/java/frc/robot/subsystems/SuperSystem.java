@@ -7,6 +7,8 @@ import java.util.function.Consumer;
 
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.subsystems.template.TemplateSubsystem;
@@ -17,16 +19,17 @@ public class SuperSystem implements Reportable {
 
     public SuperSystem(NerdDrivetrain swerveDrivetrain) {
         this.swerveDrivetrain = swerveDrivetrain;
+        // DriverStation.reportWarning("length: " + subsystems.size(), false);
     }
     
     public static void registerSubsystem(TemplateSubsystem subsystem) {
         subsystems.add(subsystem);
     }
-
+    
     public void applySubsystems(Consumer<TemplateSubsystem> f) {
         for (TemplateSubsystem subsystem : subsystems) f.accept(subsystem);
     }
-
+    
     // ------------------------------------ subsystems ------------------------------------ //
     public void reConfigureMotors() {
         applySubsystems((s) -> s.applyMotorConfigs());
@@ -49,8 +52,8 @@ public class SuperSystem implements Reportable {
     public Command spinUpFlywheel(){
         return Commands.parallel(
             counterRoller.setDesiredValueCommand(30),
-            shooterLeft.setDesiredValueCommand(50),
-            shooterRight.setDesiredValueCommand(50)
+            shooterLeft.setDesiredValueCommand(30),
+            shooterRight.setDesiredValueCommand(30)
         );
     }
         
