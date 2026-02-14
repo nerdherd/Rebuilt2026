@@ -9,6 +9,8 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Constants.SwerveDriveConstants.FieldPositions;
@@ -102,8 +104,7 @@ public class SuperSystem implements Reportable {
         return Commands.run(
             () -> {
                 // calculate distance
-                Pose2d hub = (RobotContainer.IsRedSide()) ? FieldPositions.HUB_CENTER.red : FieldPositions.HUB_CENTER.blue;
-                double distance = swerveDrivetrain.getPose().getTranslation().getDistance(hub.getTranslation());
+                double distance = getHubDistance();
                 // convert to rps
                 double rps = 0.0018247 * distance * distance + 28.6056; //TODO find conversion equation
                 // spin up flywheel
@@ -137,8 +138,16 @@ public class SuperSystem implements Reportable {
         applySubsystems((s) -> s.setDesiredValue(s.getDefaultValue()));
     }
 
+    public double getHubDistance() {
+        Pose2d hub = (RobotContainer.IsRedSide()) ? FieldPositions.HUB_CENTER.red : FieldPositions.HUB_CENTER.blue;
+        return swerveDrivetrain.getPose().getTranslation().getDistance(hub.getTranslation());
+    }
+
     @Override
     public void initializeLogging() {
         applySubsystems((s) -> s.initializeLogging());
+
+        ShuffleboardTab tab = Shuffleboard.getTab("Supersystem");
+        Reportable.addNumber(tab, "Hub Distance", this::getHubDistance, LOG_LEVEL.MEDIUM);
     }
 }
