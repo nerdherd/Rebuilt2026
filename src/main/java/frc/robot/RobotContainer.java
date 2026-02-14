@@ -10,6 +10,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Constants.ControllerConstants;
@@ -19,6 +20,7 @@ import frc.robot.commands.autos.Autos;
 import frc.robot.subsystems.NerdDrivetrain;
 import frc.robot.subsystems.SuperSystem;
 import frc.robot.util.Controller;
+import frc.robot.util.Controller.Type;
 
 public class RobotContainer {
   public NerdDrivetrain swerveDrive;
@@ -26,13 +28,13 @@ public class RobotContainer {
   
   public SuperSystem superSystem;
 
-  private final Controller driverController = new Controller(ControllerConstants.kDriverControllerPort, false);
-  private final Controller operatorController = new Controller(ControllerConstants.kOperatorControllerPort,false); 
+  private final Controller driverController = new Controller(ControllerConstants.kDriverControllerPort, Type.GuliKit, true, true);
+  private final Controller operatorController = new Controller(ControllerConstants.kOperatorControllerPort, Type.GuliKit, true, true); 
   private SwerveJoystickCommand swerveJoystickCommand;
   
   /**
-   * The container for the robot. Contain
-   * s subsystems, OI devices, and commands.
+   * The container for the robot. Contains
+   * subsystems, OI devices, and commands.
    */
   public RobotContainer() {
     swerveDrive = TunerConstants.createDrivetrain();
@@ -84,7 +86,7 @@ public class RobotContainer {
   }
 
   public void initDefaultCommands_test() {
-    initDefaultCommands_teleop();
+    
   }
 
   public void configureBindings_teleop() {
@@ -133,7 +135,62 @@ public class RobotContainer {
   }
 
 
-  public void configureBindings_test() {}
+  public void configureBindings_test() {
+
+    driverController.buttonRight()
+      .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Button A Test", "hi")))
+      .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Button A Test", "bye")));
+    driverController.buttonDown()
+      .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Button B Test", "hi")))
+      .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Button B Test", "bye")));
+    driverController.buttonUp()
+      .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Button X Test", "hi")))
+      .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Button X Test", "bye")));
+    driverController.buttonLeft()
+      .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Button Y Test", "hi")))
+      .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Button Y Test", "bye")));
+
+    driverController.bumperLeft()
+      .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Bumper L Test", "hi")))
+      .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Bumper L Test", "bye")));
+    driverController.bumperRight()
+      .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Bumper R Test", "hi")))
+      .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Bumper R Test", "bye")));
+    
+      driverController.triggerLeft()
+      .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Trigger ZL Test", "hi")))
+      .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Trigger ZL Test", "bye")));
+    driverController.triggerRight()
+      .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Trigger ZR Test", "hi")))
+      .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Trigger ZR Test", "bye")));
+
+    driverController.dpadUp()
+      .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Dpad Up Test", "hi")))
+      .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Dpad Up Test", "bye")));
+    driverController.dpadRight()
+      .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Dpad Right Test", "hi")))
+      .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Dpad Right Test", "bye")));
+    driverController.dpadDown()
+      .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Dpad Down Test", "hi")))
+      .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Dpad Down Test", "bye")));
+    driverController.dpadLeft()
+      .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Dpad Left Test", "hi")))
+      .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Dpad Left Test", "bye")));
+
+    driverController.controllerLeft()
+      .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Button Minus Test", "hi")))
+      .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Button Minus Test", "bye")));
+    driverController.controllerRight()
+      .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Button Plus Test", "hi")))
+      .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Button Plus Test", "bye")));
+    
+      driverController.joystickLeft()
+      .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Button Left Joy Test", "hi")))
+      .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Button Left Joy Test", "bye")));
+    driverController.joystickRight()
+      .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Button Right Joy Test", "hi")))
+      .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Button Right Joy Test", "bye")));
+  }
   
   public void initShuffleboard() {
     swerveDrive.initializeLogging();
@@ -149,15 +206,12 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    if (Robot.getAlliance().equals(DriverStation.Alliance.Red)) {
-            return Autos.autonChooserRed.getSelected();
-        } else {
-            return Autos.autonChooserBlue.getSelected();
-        }
+    if (Robot.getAlliance().equals(DriverStation.Alliance.Red))
+      return Autos.autonChooserRed.getSelected();
+    else return Autos.autonChooserBlue.getSelected();
   }
 
-  public void disableAllMotors_Test()
-  {
+  public void disableAllMotors_Test() {
     swerveDrive.setBrake(true);
   }
 

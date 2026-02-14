@@ -57,11 +57,11 @@ public final class Constants {
    * @see {@link frc.robot.subsystems.template.TemplateSubsystem TemplateSubsystem} 
    * @see {@link frc.robot.subsystems.SuperSystem SuperSystem}
    */
-  public static boolean USE_SUBSYSTEMS = true;
+  public static boolean USE_SUBSYSTEMS = false;
   /**
    * controls whether vision should be initialized
    */
-  public static boolean USE_VISION = true;
+  public static boolean USE_VISION = false;
 
   public static class ControllerConstants {
     public static final double kDeadband = 0.05;
