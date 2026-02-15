@@ -256,17 +256,15 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
      * @see {@link #setOperatorPerspectiveForward} also for more custom setting
      */
     public void setDriverHeadingForward() {
-        setOperatorPerspectiveForward(Rotation2d.fromDegrees(
-            (RobotContainer.IsRedSide() ? 180 : 0)
-        ));
+        setOperatorPerspectiveForward(RobotContainer.IsRedSide() ? Rotation2d.k180deg : Rotation2d.kZero);
     }
 
     /** 
      * set the operator heading to forward based on robot
      * @see {@link #setOperatorPerspectiveForward} also for more custom setting
      */
-    public void zeroDriverHeading() {
-        setOperatorPerspectiveForward(Rotation2d.fromDegrees(0));
+    public void setRobotHeadingForward() {
+        setOperatorPerspectiveForward(getPose().getRotation());
     }
     
     /**
