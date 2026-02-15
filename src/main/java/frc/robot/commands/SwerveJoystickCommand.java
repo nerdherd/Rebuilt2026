@@ -47,8 +47,7 @@ public class SwerveJoystickCommand extends Command {
      * @param towSupplier           A boolean supplier that toggles the tow mode.
      * @param precisionSupplier     A boolean supplier that toggles the precision mode.
      */
-    public SwerveJoystickCommand(
-            NerdDrivetrain swerveDrive,
+    public SwerveJoystickCommand(NerdDrivetrain swerveDrive,
             Supplier<Double> xSpdFunction, 
             Supplier<Double> ySpdFunction, 
             Supplier<Double> turningSpdFunction,
@@ -153,7 +152,7 @@ public class SwerveJoystickCommand extends Command {
                 // turnToAngleController.setD(SwerveDriveConstants.kDThetaTeleop.get());
             }
             // todo, since we use field ori control, better to turn to field 0,90, 180,270
-            turningSpeed = turnToAngleController.calculate(swerveDrive.getOperatorHeadingDegrees(), targetAngle);
+            turningSpeed = turnToAngleController.calculate(swerveDrive.getDriverHeadingDegrees(), targetAngle);
             SmartDashboard.putNumber("Turning Speed Initial", turningSpeed);
             // turningSpeed += Math.signum(turningSpeed) * SwerveAutoConstants.kTurnToAngleFeedForwardDegreesPerSecond;
             turningSpeed = Math.toRadians(turningSpeed);
@@ -189,4 +188,8 @@ public class SwerveJoystickCommand extends Command {
             swerveDrive.driveRobotOriented(filteredXSpeed, filteredYSpeed, filteredTurningSpeed);
         }
     } 
+
+    public double getTargetAngle() {
+        return targetAngle;
+    }
 }
