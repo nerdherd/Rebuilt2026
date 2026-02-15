@@ -222,9 +222,9 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    if (DriverStation.getAlliance().equals(DriverStation.Alliance.Red))
-      return Autos.autonChooserRed.getSelected();
-    else return Autos.autonChooserBlue.getSelected();
+    refreshAlliance();
+    if (IsRedSide()) return Autos.autonChooserRed.getSelected();
+    return Autos.autonChooserBlue.getSelected();
   }
 
   public void disableAllMotors_Test() {
