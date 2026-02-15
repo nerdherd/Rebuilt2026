@@ -54,11 +54,11 @@ public final class Constants {
    * @see {@link frc.robot.subsystems.template.TemplateSubsystem TemplateSubsystem} 
    * @see {@link frc.robot.subsystems.SuperSystem SuperSystem}
    */
-  public static boolean USE_SUBSYSTEMS = false;
+  public static boolean USE_SUBSYSTEMS = true;
   /**
    * controls whether vision should be initialized
    */
-  public static boolean USE_VISION = false;
+  public static boolean USE_VISION = true;
 
   public static class ControllerConstants {
     public static final int kDriverControllerPort = 0;
