@@ -14,14 +14,10 @@ import frc.robot.Constants;
 
 public interface Reportable {
 	public enum LOG_LEVEL {
-		ALL(4),
-		MEDIUM(3),
-		MINIMAL(2),
-		NONE(1)
-		;
-
-		public int level = 0;
-		LOG_LEVEL(int level) { this.level = level; }
+		ALL,
+		MEDIUM,
+		MINIMAL,
+		NONE
 	}
 
 	public void initializeLogging();
@@ -51,6 +47,6 @@ public interface Reportable {
 	 * @param loggingLevel
 	 */
 	static public void addCamera(ShuffleboardTab shuffleboardTab, String cameraReadableName, String cameraInternalName, String IP, LOG_LEVEL loggingLevel) {
-		if(Constants.ROBOT_LOG_LEVEL.level >= loggingLevel.level) shuffleboardTab.addCamera(cameraReadableName, cameraInternalName, IP);
+		if(Constants.ROBOT_LOG_LEVEL.compareTo(loggingLevel) >= 0) shuffleboardTab.addCamera(cameraReadableName, cameraInternalName, IP);
 	}
 }
