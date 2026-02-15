@@ -257,7 +257,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
      */
     public void setDriverHeadingForward() {
         setOperatorPerspectiveForward(Rotation2d.fromDegrees(
-            getSwerveHeadingDegrees() + (RobotContainer.IsRedSide() ? 180 : 0)
+            (RobotContainer.IsRedSide() ? 180 : 0)
         ));
     }
 
@@ -329,9 +329,8 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
         //////////////
         /// MEDIUM ///
         //////////////
-        Reportable.addNumber(tab, "absolute heading", this::getSwerveHeadingDegrees, LOG_LEVEL.MEDIUM);
-        Reportable.addNumber(tab, "operator heading", this::getDriverHeadingDegrees, LOG_LEVEL.MEDIUM);
-        Reportable.addNumber(tab, "odom heading", () -> getPose().getRotation().getDegrees(), LOG_LEVEL.MEDIUM);
+        Reportable.addNumber(tab, "swerve heading", this::getSwerveHeadingDegrees, LOG_LEVEL.MEDIUM);
+        Reportable.addNumber(tab, "driver heading", this::getDriverHeadingDegrees, LOG_LEVEL.MEDIUM);
         
         //////////////
         /// MINIMAL //
