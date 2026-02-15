@@ -256,17 +256,15 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
      * @see {@link #setOperatorPerspectiveForward} also for more custom setting
      */
     public void setDriverHeadingForward() {
-        setOperatorPerspectiveForward(Rotation2d.fromDegrees(
-            getSwerveHeadingDegrees() + (RobotContainer.IsRedSide() ? 180 : 0)
-        ));
+        setOperatorPerspectiveForward(RobotContainer.IsRedSide() ? Rotation2d.k180deg : Rotation2d.kZero);
     }
 
     /** 
      * set the operator heading to forward based on robot
      * @see {@link #setOperatorPerspectiveForward} also for more custom setting
      */
-    public void zeroDriverHeading() {
-        setOperatorPerspectiveForward(Rotation2d.fromDegrees(0));
+    public void setRobotHeadingForward() {
+        setOperatorPerspectiveForward(getPose().getRotation());
     }
     
     /**
@@ -274,7 +272,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
      * @see {@link #setDriverHeadingForward()} for resetting to zero
      */
     public double getDriverHeadingDegrees() {
-        return getOperatorForwardDirection().getDegrees();
+        return getOperatorForwardDirection().getDegrees() + getSwerveHeadingDegrees();
     }
 
     /**
@@ -282,7 +280,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
      * @see {@link #setDriverHeadingForward()} for resetting to zero
      */
     public double getDriverHeadingRadians() {
-        return getOperatorForwardDirection().getRadians();
+        return getOperatorForwardDirection().getRadians() + getSwerveHeadingRadians();
     }
 
     /** 
@@ -329,16 +327,14 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
         //////////////
         /// MEDIUM ///
         //////////////
-        Reportable.addNumber(tab, "absolute heading", this::getSwerveHeadingDegrees, LOG_LEVEL.MEDIUM);
-        Reportable.addNumber(tab, "operator heading", () -> getDriverHeadingDegrees() + getSwerveHeadingDegrees(), LOG_LEVEL.MEDIUM);
-        Reportable.addNumber(tab, "odom heading", () -> getPose().getRotation().getDegrees(), LOG_LEVEL.MEDIUM);
+        Reportable.addNumber(tab, "swerve heading", this::getSwerveHeadingDegrees, LOG_LEVEL.MEDIUM);
+        Reportable.addNumber(tab, "driver heading", this::getDriverHeadingDegrees, LOG_LEVEL.MEDIUM);
         
         //////////////
         /// MINIMAL //
         //////////////
         Reportable.addString(tab, "temperatures", this::pollTemperatures, LOG_LEVEL.MINIMAL); // maybe better on medium
         Reportable.addNumber(tab, "stator current sum", this::pollStatorCurrentSum, LOG_LEVEL.MINIMAL);
-        // TODO poll voltages somehow, maybe just log all of them
     }
 
 }
