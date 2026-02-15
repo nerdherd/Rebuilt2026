@@ -47,7 +47,7 @@ import frc.robot.util.NerdyMath;
 public final class Constants {
 
   /** current logging level of the robot's subsystems, @see Reportable.add... */
-  public static final LOG_LEVEL ROBOT_LOG_LEVEL = LOG_LEVEL.MEDIUM;
+  public static final LOG_LEVEL ROBOT_LOG_LEVEL = LOG_LEVEL.MINIMAL;
   
   /** 
    * (hopefully) controls whether subsystem objects are used, swerve and others not counted
@@ -317,23 +317,23 @@ public final class Constants {
 
     private static final Slot0Configs kSlot0ConfigsLeft = 
       new Slot0Configs()
-        .withKP(0.05)
+        // .withKP(0.05)
         .withKI(0.0)
         .withKD(0.0)
-        .withKV(0.137035)
+        .withKV(0.13)
         ;
     
     private static final Slot0Configs kSlot0ConfigsRight = 
       new Slot0Configs()
-        .withKP(0.05)
+        // .withKP(0.05)
         .withKI(0.0)
         .withKD(0.0)
-        .withKV(0.129204)
+        .withKV(0.125)
         ;
     
     private static final CurrentLimitsConfigs kCurrentLimitsConfigs = 
       new CurrentLimitsConfigs()
-        .withStatorCurrentLimit(120)
+        .withStatorCurrentLimit(60)
         .withStatorCurrentLimitEnable(false)
       ;
 
@@ -344,11 +344,11 @@ public final class Constants {
 
     private static final MotorOutputConfigs kLeftMotorOutputConfigs =
       new MotorOutputConfigs()
-        .withInverted(InvertedValue.Clockwise_Positive);
+        .withInverted(InvertedValue.CounterClockwise_Positive);
 
     private static final MotorOutputConfigs kRightMotorOutputConfigs =
       new MotorOutputConfigs()
-        .withInverted(InvertedValue.CounterClockwise_Positive);
+        .withInverted(InvertedValue.Clockwise_Positive);
 
     private static final TalonFXConfiguration kSubsystemConfiguration = 
       new TalonFXConfiguration()
@@ -373,7 +373,7 @@ public final class Constants {
    * Container class to hold all subsystem objects.
    */
   public static final class Subsystems {
-    public static final boolean useIntakeSlapdown = true;
+    public static final boolean useIntakeSlapdown = false;
     public static final TemplateSubsystem intakeSlapdown = (!USE_SUBSYSTEMS) ? null :
     new TemplateSubsystem(
         "Intake Slapdown", 
@@ -383,7 +383,7 @@ public final class Constants {
         useIntakeSlapdown)
       .configureMotors(IntakeSlapdownConstants.kSubsystemConfiguration);
     
-    public static final boolean useIntakeRoller = true;
+    public static final boolean useIntakeRoller = false;
     public static final TemplateSubsystem intakeRoller = (!USE_SUBSYSTEMS) ? null :
     new TemplateSubsystem(
         "Intake Roller", 
@@ -393,7 +393,7 @@ public final class Constants {
         useIntakeRoller)
       .configureMotors(IntakeRollerConstants.kSubsystemConfiguration);
     
-    public static final boolean useConveyor = true;
+    public static final boolean useConveyor = false;
     public static final TemplateSubsystem conveyor = (!USE_SUBSYSTEMS) ? null :
     new TemplateSubsystem(
         "Conveyor", 
@@ -428,7 +428,7 @@ public final class Constants {
     new TemplateSubsystem(
         "Shooter Left", 
         ShooterConstants.kMotor1ID,
-        SubsystemMode.VELOCITY, 
+        SubsystemMode.PROFILED_VELOCITY, 
         0.0,
         useShooter)
       .configureMotors(ShooterConstants.kLeftConfiguration);
@@ -436,7 +436,7 @@ public final class Constants {
     new TemplateSubsystem(
         "Shooter Right", 
         ShooterConstants.kMotor2ID, 
-        SubsystemMode.VELOCITY, 
+        SubsystemMode.PROFILED_VELOCITY, 
         0.0,
         useShooter)
       .configureMotors(ShooterConstants.kRightConfiguration);

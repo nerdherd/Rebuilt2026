@@ -34,7 +34,6 @@ public class SuperSystem implements Reportable {
     
     public Command setShooterCommand(double speed) {
         return Commands.parallel(
-            counterRoller.setDesiredValueCommand(30),
             shooterLeft.setDesiredValueCommand(speed),
             shooterRight.setDesiredValueCommand(speed)
         );
@@ -60,14 +59,16 @@ public class SuperSystem implements Reportable {
     }
 
     public Command spinUpFlywheel(){
-        return setShooterCommand(30);
+        return Commands.parallel(
+            counterRoller.setDesiredValueCommand(30),
+            setShooterCommand(60)
+        );
     }
         
     public Command stopFlywheel(){
         return Commands.parallel(
             counterRoller.setDesiredValueCommand(0),
-            shooterLeft.setDesiredValueCommand(0),
-            shooterRight.setDesiredValueCommand(0)
+            setShooterCommand(0.0)
         );
     }
 
@@ -149,6 +150,6 @@ public class SuperSystem implements Reportable {
         applySubsystems((s) -> s.initializeLogging());
 
         ShuffleboardTab tab = Shuffleboard.getTab("Supersystem");
-        Reportable.addNumber(tab, "Hub Distance", this::getHubDistance, LOG_LEVEL.MEDIUM);
+        Reportable.addNumber(tab, "Hub Distance", this::getHubDistance, LOG_LEVEL.MINIMAL);
     }
 }
