@@ -337,6 +337,11 @@ public final class Constants {
         .withStatorCurrentLimitEnable(false)
       ;
 
+    private static final MotionMagicConfigs kMotionMagicConfigs = 
+      new MotionMagicConfigs()
+        .withMotionMagicAcceleration(25)
+      ;
+
     private static final MotorOutputConfigs kLeftMotorOutputConfigs =
       new MotorOutputConfigs()
         .withInverted(InvertedValue.Clockwise_Positive);
@@ -348,6 +353,7 @@ public final class Constants {
     private static final TalonFXConfiguration kSubsystemConfiguration = 
       new TalonFXConfiguration()
         .withCurrentLimits(kCurrentLimitsConfigs)
+        .withMotionMagic(kMotionMagicConfigs)
         ;
 
     public static final TalonFXConfiguration kLeftConfiguration = 
