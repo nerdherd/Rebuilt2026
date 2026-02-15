@@ -4,26 +4,21 @@
 
 package frc.robot.commands;
 
+import static frc.robot.Constants.ControllerConstants.kTranslationDeadband;
+
 import java.util.function.Supplier;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.RingDriveConstants;
-import frc.robot.Constants.SwerveDriveConstants.FieldPositions;
-import frc.robot.Robot;
 import frc.robot.subsystems.NerdDrivetrain;
 import frc.robot.util.NerdyMath;
-import frc.robot.util.filters.DeadbandFilter;
-import frc.robot.util.filters.Filter;
 
 public class RingDriveCommand extends Command {
   private final NerdDrivetrain swerveDrive;
   private double targetTheta, targetD;
   private final Supplier<Double> xInput, yInput;
-  private Filter xFilter, yFilter;
   private Pose2d center;
 
   /**
@@ -37,22 +32,17 @@ public class RingDriveCommand extends Command {
     this.xInput = xInput;
     this.yInput = yInput;
 
-    this.xFilter = new DeadbandFilter(
-      ControllerConstants.kDeadband
-      );
-    this.yFilter = new DeadbandFilter(
-      ControllerConstants.kDeadband
-      );
-
     center = Pose2d.kZero;
     addRequirements(this.swerveDrive);
   }
 
   @Override
   public void initialize() {
-    
-    if (Robot.getAlliance().equals(DriverStation.Alliance.Red)) center = FieldPositions.HUB_CENTER.red;
+    /*
+    RobotContainer.refreshAlliance();
+    if (RobotContainer.IsRedSide()) center = FieldPositions.HUB_CENTER.red;
     else center = FieldPositions.HUB_CENTER.blue;
+     */
     
     targetD = RingDriveConstants.kInitialDistance;
     targetTheta = NerdyMath.angleToPose(center, swerveDrive.getPose());
@@ -61,13 +51,11 @@ public class RingDriveCommand extends Command {
 
   @Override
   public void execute() {
-    double xIn = xInput.get();
-    double yIn = yInput.get();
-    double filteredXSpeed = xFilter.calculate(xIn); // TODO reconsider filters
-    double filteredYSpeed = yFilter.calculate(yIn);
+    double _xInput = NerdyMath.deadband(xInput.get(), kTranslationDeadband);
+    double _yInput = NerdyMath.deadband(yInput.get(), kTranslationDeadband);
 
-    double ySpeed = filteredXSpeed*RingDriveConstants.kDriveVelocity;
-    double xSpeed = filteredYSpeed*(RingDriveConstants.kDriveVelocity / targetD);
+    double ySpeed = _xInput*RingDriveConstants.kDriveVelocity;
+    double xSpeed = _yInput*(RingDriveConstants.kDriveVelocity / targetD);
 
     targetD -= ySpeed / 50.0;
     targetD = NerdyMath.clamp(targetD, RingDriveConstants.kMinimumDistance, RingDriveConstants.kMaximumDistance);
@@ -75,7 +63,6 @@ public class RingDriveCommand extends Command {
     targetTheta += xSpeed / 50.0;
 
     swerveDrive.driveToTarget(new Pose2d(targetD*Math.cos(targetTheta) + center.getX(), targetD*Math.sin(targetTheta) + center.getY(), Rotation2d.fromRadians(targetTheta + Math.PI)));
-    // swerveDrive.driveToTarget(new Pose2d(1, 1, new Rotation2d(180.0)));
   }
 
   @Override

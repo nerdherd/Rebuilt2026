@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Reportable;
+import frc.robot.subsystems.SuperSystem;
 
 public class TemplateSubsystem extends SubsystemBase implements Reportable {
 	/** primary motor; required */
@@ -48,6 +49,8 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 	 * target position or velocity depending on {@link SubsystemMode}
 	 */
 	private double desiredValue; 
+
+	public final boolean useSubsystem;
 
 	/** whether the subsystem will run {@link #periodic()} or use {@link #neutralRequest} */
 	protected boolean enabled = false;
@@ -79,9 +82,10 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 	 * @param mode - the {@link SubsystemMode} for this subsystem
 	 * @param defaultValue - initial position or velocity depending on {@link SubsystemMode}
 	 */
-	public TemplateSubsystem(String name, int motor1ID, int motor2ID, MotorAlignmentValue reverseMotor2, SubsystemMode mode, double defaultValue) {
+	public TemplateSubsystem(String name, int motor1ID, int motor2ID, MotorAlignmentValue reverseMotor2, SubsystemMode mode, double defaultValue, boolean useSubsystem) {
 		this.motor1 = getMotor(motor1ID);
 		this.defaultValue = defaultValue;
+		this.useSubsystem = useSubsystem;
 		if (motor2ID != -1){
 			this.motor2 = getMotor(motor2ID);
 			followerController = new Follower(motor1ID, reverseMotor2);
@@ -97,6 +101,7 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 				positionController = new MotionMagicVoltage(defaultValue);
 				velocityController = null;
 				voltageController  = null;
+				motor1.setPosition(defaultValue);
 				break;
 			case VELOCITY:
 				positionController = null;
@@ -116,10 +121,11 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 		}
 		this.name = name;
 		shuffleboardTab = Shuffleboard.getTab(this.name);
+		SuperSystem.registerSubsystem(this);
 	}
 
-	public TemplateSubsystem(String name, int motor1ID, SubsystemMode mode, double defaultValue){
-		this(name, motor1ID, -1, MotorAlignmentValue.Aligned, mode, defaultValue);
+	public TemplateSubsystem(String name, int motor1ID, SubsystemMode mode, double defaultValue, boolean useSubsystem){
+		this(name, motor1ID, -1, MotorAlignmentValue.Aligned, mode, defaultValue, useSubsystem);
 	}
 	
 	/** applies configuration to motors; should be used on construction */
@@ -387,6 +393,5 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
         //////////////
         Reportable.addNumber(shuffleboardTab, getFlavorText() + " 1", () -> getCurrentValue(), Reportable.LOG_LEVEL.MINIMAL);
         if (hasMotor2()) Reportable.addNumber(shuffleboardTab, getFlavorText() + " 2", () -> getCurrentValue2(), Reportable.LOG_LEVEL.MINIMAL);
-        
     }
 }

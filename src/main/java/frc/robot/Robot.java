@@ -8,12 +8,11 @@ import static frc.robot.Constants.USE_VISION;
 
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DataLogManager;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.Commands;
 
 /**
  * The methods in this class are called automatically corresponding to each mode, as described in
@@ -24,8 +23,6 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private final RobotContainer m_robotContainer;
-  private static DriverStation.Alliance alliance;
-
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -35,6 +32,7 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer. This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+
     DataLogManager.start("/media/sda1/logs");
     DataLogManager.logNetworkTables(true);
   }
@@ -56,12 +54,13 @@ public class Robot extends TimedRobot {
   public void disabledInit() {
     CommandScheduler.getInstance().getDefaultButtonLoop().clear();
     CommandScheduler.getInstance().cancelAll();
-    m_robotContainer.swerveDrive.setVision(false);
     
     if (Constants.USE_SUBSYSTEMS){
       m_robotContainer.superSystem.stop();
       m_robotContainer.superSystem.resetSubsystemValues();
     }
+
+    m_robotContainer.swerveDrive.setVision(false);
   }
 
   @Override
@@ -70,20 +69,27 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    if (DriverStation.getAlliance().isPresent()) alliance = DriverStation.getAlliance().get();
-    m_robotContainer.swerveDrive.setVision(USE_VISION); 
-    m_robotContainer.swerveDrive.resetRotation(new Rotation2d(0.0 + 180.0)); // TODO consider auto field orientation
-    // m_robotContainer.swerveDrive.enableLimeLight(); TODO
-
+    RobotContainer.refreshAlliance();
+    
     if (Constants.USE_SUBSYSTEMS) {
       m_robotContainer.superSystem.initialize();
       m_robotContainer.superSystem.reConfigureMotors();
     }
-  // schedule the autonomous command (example) 
+    
+    m_robotContainer.swerveDrive.setVision(USE_VISION);
+    if (USE_VISION) {
+      CommandScheduler.getInstance().schedule(m_robotContainer.swerveDrive.resetPoseWithAprilTags(0.1));
+      CommandScheduler.getInstance().schedule(Commands.runOnce(m_robotContainer.swerveDrive::setDriverHeadingForward));
+    }
+
+    // schedule the autonomous command (example)
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
     if (m_autonomousCommand != null) {
       CommandScheduler.getInstance().schedule(m_autonomousCommand);
     }
+
+    // fix for elastic field pose not updating
+    m_robotContainer.swerveDrive.setDefaultCommand(Commands.runOnce(Commands::none, m_robotContainer.swerveDrive));
   }
 
   /** This function is called periodically during autonomous. */
@@ -92,40 +98,40 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    if (DriverStation.getAlliance().isPresent()) alliance = DriverStation.getAlliance().get();
-    m_robotContainer.swerveDrive.setVision(USE_VISION);
-    // TODO decide whether to keep this
+    RobotContainer.refreshAlliance();
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-
+    
     if (Constants.USE_SUBSYSTEMS) {
       m_robotContainer.superSystem.initialize();
     }
+    
+    m_robotContainer.swerveDrive.setVision(USE_VISION);
+    if (USE_VISION) {
+      CommandScheduler.getInstance().schedule(m_robotContainer.swerveDrive.resetPoseWithAprilTags(0.1));
+      CommandScheduler.getInstance().schedule(Commands.runOnce(m_robotContainer.swerveDrive::setDriverHeadingForward));
+    }
 
-    m_robotContainer.configureBindings_teleop();
     m_robotContainer.initDefaultCommands_teleop();
+    m_robotContainer.configureBindings_teleop();
   }
 
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {}
 
-
   @Override
   public void testInit() {
-    // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
+    m_robotContainer.swerveDrive.setBrake(true);
+    
     if (Constants.USE_SUBSYSTEMS) {
       m_robotContainer.superSystem.setNeutralMode(NeutralModeValue.Coast);
-      m_robotContainer.superSystem.initialize();
     }
-    // m_robotContainer.superSystem.initialize();
+
     m_robotContainer.initDefaultCommands_test();
     m_robotContainer.configureBindings_test();
-
-    m_robotContainer.disableAllMotors_Test();
-
   }
 
   /** This function is called periodically during test mode. */
@@ -139,8 +145,4 @@ public class Robot extends TimedRobot {
   /** This function is called periodically whilst in simulation. */
   @Override
   public void simulationPeriodic() {}
-
-  public static DriverStation.Alliance getAlliance() {
-        return alliance;
-    }
 }
