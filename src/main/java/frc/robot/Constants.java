@@ -13,7 +13,6 @@ import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.signals.InvertedValue;
-import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveModule.SteerRequestType;
@@ -330,15 +329,28 @@ public final class Constants {
         .withStatorCurrentLimitEnable(false)
       ;
 
-    private static final MotorOutputConfigs kMotorOutputConfigs =
+    private static final MotorOutputConfigs kLeftMotorOutputConfigs =
       new MotorOutputConfigs()
         .withInverted(InvertedValue.Clockwise_Positive);
 
-    public static final TalonFXConfiguration kSubsystemConfiguration = 
+    private static final MotorOutputConfigs kRightMotorOutputConfigs =
+      new MotorOutputConfigs()
+        .withInverted(InvertedValue.CounterClockwise_Positive);
+
+    private static final TalonFXConfiguration kSubsystemConfiguration = 
       new TalonFXConfiguration()
         .withSlot0(kSlot0Configs)
         .withCurrentLimits(kCurrentLimitsConfigs)
-        .withMotorOutput(kMotorOutputConfigs)
+        ;
+
+    public static final TalonFXConfiguration kLeftConfiguration = 
+      kSubsystemConfiguration.clone()
+        .withMotorOutput(kLeftMotorOutputConfigs)
+        ;
+
+    public static final TalonFXConfiguration kRightConfiguration =
+      kSubsystemConfiguration.clone()
+        .withMotorOutput(kRightMotorOutputConfigs)
         ;
   }
 
@@ -348,33 +360,75 @@ public final class Constants {
   public static final class Subsystems {
     public static final boolean useIntakeSlapdown = true;
     public static final TemplateSubsystem intakeSlapdown = (!USE_SUBSYSTEMS) ? null :
-    new TemplateSubsystem("Intake Slapdown", IntakeSlapdownConstants.kMotor1ID, SubsystemMode.POSITION, 0.0)
+    new TemplateSubsystem(
+        "Intake Slapdown", 
+        IntakeSlapdownConstants.kMotor1ID, 
+        SubsystemMode.POSITION, 
+        0.0,
+        useIntakeSlapdown)
       .configureMotors(IntakeSlapdownConstants.kSubsystemConfiguration);
     
     public static final boolean useIntakeRoller = true;
     public static final TemplateSubsystem intakeRoller = (!USE_SUBSYSTEMS) ? null :
-    new TemplateSubsystem("Intake Roller", IntakeRollerConstants.kMotor1ID, SubsystemMode.VELOCITY, 0.0)
+    new TemplateSubsystem(
+        "Intake Roller", 
+        IntakeRollerConstants.kMotor1ID, 
+        SubsystemMode.VELOCITY, 
+        0.0,
+        useIntakeRoller)
       .configureMotors(IntakeRollerConstants.kSubsystemConfiguration);
     
     public static final boolean useConveyor = true;
     public static final TemplateSubsystem conveyor = (!USE_SUBSYSTEMS) ? null :
-    new TemplateSubsystem("Conveyor", ConveyorConstants.kMotor1ID, SubsystemMode.VELOCITY, 0.0)
+    new TemplateSubsystem(
+        "Conveyor", 
+        ConveyorConstants.kMotor1ID, 
+        SubsystemMode.VELOCITY, 
+        0.0,
+        useConveyor)
       .configureMotors(ConveyorConstants.kSubsystemConfiguration);    
     
     public static final boolean useIndexer = true;
     public static final TemplateSubsystem indexer = (!USE_SUBSYSTEMS) ? null :
-    new TemplateSubsystem("Indexer", IndexerConstants.kMotor1ID, SubsystemMode.VELOCITY, 0.0)
+    new TemplateSubsystem(
+        "Indexer", 
+        IndexerConstants.kMotor1ID, 
+        SubsystemMode.VELOCITY, 
+        0.0,
+        useIndexer)
       .configureMotors(IndexerConstants.kSubsystemConfiguration);
     
     public static final boolean useCounterRoller = true;
     public static final TemplateSubsystem counterRoller = (!USE_SUBSYSTEMS) ? null :
-    new TemplateSubsystem("Counter Roller", CounterRollerConstants.kMotor1ID, SubsystemMode.VELOCITY, 0.0)
+    new TemplateSubsystem(
+        "Counter Roller", 
+        CounterRollerConstants.kMotor1ID, 
+        SubsystemMode.VELOCITY, 
+        0.0,
+        useCounterRoller)
       .configureMotors(CounterRollerConstants.kSubsystemConfiguration);
     
     public static final boolean useShooter = true;
-    public static final TemplateSubsystem shooter = (!USE_SUBSYSTEMS) ? null :
-    new TemplateSubsystem("Shooter", ShooterConstants.kMotor1ID, ShooterConstants.kMotor2ID, MotorAlignmentValue.Opposed,  SubsystemMode.VELOCITY, 0.0)
-      .configureMotors(ShooterConstants.kSubsystemConfiguration);
+    public static final TemplateSubsystem shooterLeft = (!USE_SUBSYSTEMS) ? null :
+    new TemplateSubsystem(
+        "Shooter Left", 
+        ShooterConstants.kMotor1ID,
+        SubsystemMode.VELOCITY, 
+        0.0,
+        useShooter)
+      .configureMotors(ShooterConstants.kLeftConfiguration);
+    public static final TemplateSubsystem shooterRight = (!USE_SUBSYSTEMS) ? null :
+    new TemplateSubsystem(
+        "Shooter Right", 
+        ShooterConstants.kMotor2ID, 
+        SubsystemMode.VELOCITY, 
+        0.0,
+        useShooter)
+      .configureMotors(ShooterConstants.kRightConfiguration);
+    
+    // literally just so the class actually loads
+    // thanks java lazy loading
+    public static void init() {} 
   }
 
   // public static class LEDConstants {

@@ -2,26 +2,37 @@ package frc.robot.subsystems;
 
 import static frc.robot.Constants.Subsystems.*;
 
+import java.util.ArrayList;
+import java.util.function.Consumer;
+
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.subsystems.template.TemplateSubsystem;
 
 public class SuperSystem implements Reportable {
+    public static final ArrayList<TemplateSubsystem> subsystems = new ArrayList<>();
     public NerdDrivetrain swerveDrivetrain;
 
     public SuperSystem(NerdDrivetrain swerveDrivetrain) {
         this.swerveDrivetrain = swerveDrivetrain;
+        // DriverStation.reportWarning("length: " + subsystems.size(), false);
+    }
+    
+    public static void registerSubsystem(TemplateSubsystem subsystem) {
+        subsystems.add(subsystem);
+    }
+    
+    public void applySubsystems(Consumer<TemplateSubsystem> f) {
+        for (TemplateSubsystem subsystem : subsystems) f.accept(subsystem);
     }
     
     // ------------------------------------ subsystems ------------------------------------ //
     public void reConfigureMotors() {
-        intakeSlapdown  .applyMotorConfigs();
-        intakeRoller    .applyMotorConfigs();
-        conveyor        .applyMotorConfigs();
-        indexer         .applyMotorConfigs();
-        counterRoller   .applyMotorConfigs();
-        shooter         .applyMotorConfigs();
+        applySubsystems((s) -> s.applyMotorConfigs());
     }
     
     public Command shoot(){
@@ -41,14 +52,16 @@ public class SuperSystem implements Reportable {
     public Command spinUpFlywheel(){
         return Commands.parallel(
             counterRoller.setDesiredValueCommand(30),
-            shooter.setDesiredValueCommand(50)
+            shooterLeft.setDesiredValueCommand(30),
+            shooterRight.setDesiredValueCommand(30)
         );
     }
         
     public Command stopFlywheel(){
         return Commands.parallel(
             counterRoller.setDesiredValueCommand(0),
-            shooter.setDesiredValueCommand(0)
+            shooterLeft.setDesiredValueCommand(0),
+            shooterRight.setDesiredValueCommand(0)
         );
     }
 
@@ -83,12 +96,7 @@ public class SuperSystem implements Reportable {
     }
 
     public void setNeutralMode(NeutralModeValue neutralMode) {
-        intakeSlapdown  .setNeutralMode(neutralMode);
-        intakeRoller    .setNeutralMode(neutralMode);
-        conveyor        .setNeutralMode(neutralMode);
-        indexer         .setNeutralMode(neutralMode);
-        counterRoller   .setNeutralMode(neutralMode);
-        shooter         .setNeutralMode(neutralMode);
+        applySubsystems((s) -> s.setNeutralMode(neutralMode));
     }
 
     /**
@@ -98,41 +106,20 @@ public class SuperSystem implements Reportable {
      */
     public Command stop() {
         return Commands.runOnce(() -> {
-            intakeSlapdown  .stop();
-            intakeRoller    .stop();
-            conveyor        .stop();
-            indexer         .stop();
-            counterRoller   .stop();
-            shooter         .stop();
+            applySubsystems((s) -> s.stop());
         });
     }   
 
     public void initialize() {
-        intakeSlapdown  .setEnabled(useIntakeSlapdown);
-        intakeRoller    .setEnabled(useIntakeRoller);
-        conveyor        .setEnabled(useConveyor);
-        indexer         .setEnabled(useIndexer);
-        counterRoller   .setEnabled(useCounterRoller);
-        shooter         .setEnabled(useShooter);
-        intakeSlapdown.motor1.setPosition(0.0);
+        applySubsystems((s) -> s.setEnabled(s.useSubsystem));
     }
 
     public void resetSubsystemValues() {
-        intakeSlapdown  .setDesiredValue(intakeSlapdown.getDefaultValue());
-        intakeRoller    .setDesiredValue(intakeRoller.getDefaultValue());
-        conveyor        .setDesiredValue(conveyor.getDefaultValue());
-        indexer         .setDesiredValue(indexer.getDefaultValue());
-        counterRoller   .setDesiredValue(counterRoller.getDefaultValue());
-        shooter         .setDesiredValue(shooter.getDefaultValue());
+        applySubsystems((s) -> s.setDesiredValue(s.getDefaultValue()));
     }
 
     @Override
     public void initializeLogging() {
-        intakeSlapdown  .initializeLogging();
-        intakeRoller    .initializeLogging();
-        conveyor        .initializeLogging();
-        indexer         .initializeLogging();
-        counterRoller   .initializeLogging();
-        shooter         .initializeLogging();
+        applySubsystems((s) -> s.initializeLogging());
     }
 }

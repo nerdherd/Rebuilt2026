@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Constants.ControllerConstants;
+import frc.robot.Constants.Subsystems;
 import frc.robot.commands.SwerveJoystickCommand;
 import frc.robot.commands.autos.Autos;
 import frc.robot.generated.TunerConstants;
@@ -42,6 +43,7 @@ public class RobotContainer {
       superSystem = new SuperSystem(swerveDrive);
     }
     
+    Subsystems.init();
     initShuffleboard();
     Autos.initializeAutos();
 
