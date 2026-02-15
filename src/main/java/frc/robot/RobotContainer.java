@@ -29,8 +29,9 @@ public class RobotContainer {
   
   public SuperSystem superSystem;
 
-  private final Controller driverController = new Controller(ControllerConstants.kDriverControllerPort);
-  private final Controller operatorController = new Controller(ControllerConstants.kOperatorControllerPort);
+  private final Controller driverController = new Controller(ControllerConstants.kDriverControllerPort, Type.PS4);
+  private final Controller operatorController = new Controller(ControllerConstants.kOperatorControllerPort, Type.PS4);
+  private final Controller testController = new Controller(2, Type.PS4);
   
   private static boolean isRedSide = false;
   
@@ -96,7 +97,7 @@ public class RobotContainer {
   }
 
   public void initDefaultCommands_test() {
-    
+    initDefaultCommands_teleop();
   }
 
   public void configureBindings_teleop() {
@@ -152,57 +153,57 @@ public class RobotContainer {
 
   public void configureBindings_test() {
 
-    driverController.buttonRight()
+    testController.buttonRight()
       .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Button A Test", "hi")))
       .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Button A Test", "bye")));
-    driverController.buttonDown()
+    testController.buttonDown()
       .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Button B Test", "hi")))
       .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Button B Test", "bye")));
-    driverController.buttonUp()
+    testController.buttonUp()
       .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Button X Test", "hi")))
       .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Button X Test", "bye")));
-    driverController.buttonLeft()
+    testController.buttonLeft()
       .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Button Y Test", "hi")))
       .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Button Y Test", "bye")));
 
-    driverController.bumperLeft()
+    testController.bumperLeft()
       .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Bumper L Test", "hi")))
       .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Bumper L Test", "bye")));
-    driverController.bumperRight()
+    testController.bumperRight()
       .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Bumper R Test", "hi")))
       .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Bumper R Test", "bye")));
     
-      driverController.triggerLeft()
+    testController.triggerLeft()
       .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Trigger ZL Test", "hi")))
       .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Trigger ZL Test", "bye")));
-    driverController.triggerRight()
+    testController.triggerRight()
       .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Trigger ZR Test", "hi")))
       .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Trigger ZR Test", "bye")));
 
-    driverController.dpadUp()
+   testController.dpadUp()
       .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Dpad Up Test", "hi")))
       .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Dpad Up Test", "bye")));
-    driverController.dpadRight()
+    testController.dpadRight()
       .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Dpad Right Test", "hi")))
       .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Dpad Right Test", "bye")));
-    driverController.dpadDown()
+    testController.dpadDown()
       .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Dpad Down Test", "hi")))
       .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Dpad Down Test", "bye")));
-    driverController.dpadLeft()
+    testController.dpadLeft()
       .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Dpad Left Test", "hi")))
       .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Dpad Left Test", "bye")));
 
-    driverController.controllerLeft()
+    testController.controllerLeft()
       .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Button Minus Test", "hi")))
       .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Button Minus Test", "bye")));
-    driverController.controllerRight()
+    testController.controllerRight()
       .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Button Plus Test", "hi")))
       .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Button Plus Test", "bye")));
     
-      driverController.joystickLeft()
+    testController.joystickLeft()
       .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Button Left Joy Test", "hi")))
       .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Button Left Joy Test", "bye")));
-    driverController.joystickRight()
+    testController.joystickRight()
       .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Button Right Joy Test", "hi")))
       .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Button Right Joy Test", "bye")));
   }
@@ -221,7 +222,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    if (Robot.getAlliance().equals(DriverStation.Alliance.Red))
+    if (DriverStation.getAlliance().equals(DriverStation.Alliance.Red))
       return Autos.autonChooserRed.getSelected();
     else return Autos.autonChooserBlue.getSelected();
   }
@@ -229,3 +230,5 @@ public class RobotContainer {
   public void disableAllMotors_Test() {
     swerveDrive.setBrake(true);
   }
+
+}
