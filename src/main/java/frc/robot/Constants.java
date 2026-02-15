@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import static frc.robot.Constants.Subsystems.shooterRight;
+
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
@@ -326,12 +328,20 @@ public final class Constants {
     public static final int kMotor1ID = 35;
     public static final int kMotor2ID = 36;
 
-    private static final Slot0Configs kSlot0Configs = 
+    private static final Slot0Configs kSlot0ConfigsLeft = 
       new Slot0Configs() //TODO
-        .withKP(0.1)
+        .withKP(0.05)
         .withKI(0.0)
         .withKD(0.0)
-        .withKV(0.125)
+        .withKV(0.137035)
+        ;
+    
+    private static final Slot0Configs kSlot0ConfigsRight = 
+      new Slot0Configs() //TODO
+        .withKP(0.05)
+        .withKI(0.0)
+        .withKD(0.0)
+        .withKV(0.129204)
         ;
     
     private static final CurrentLimitsConfigs kCurrentLimitsConfigs = 
@@ -350,17 +360,18 @@ public final class Constants {
 
     private static final TalonFXConfiguration kSubsystemConfiguration = 
       new TalonFXConfiguration()
-        .withSlot0(kSlot0Configs)
         .withCurrentLimits(kCurrentLimitsConfigs)
         ;
 
     public static final TalonFXConfiguration kLeftConfiguration = 
       kSubsystemConfiguration.clone()
+        .withSlot0(kSlot0ConfigsLeft)
         .withMotorOutput(kLeftMotorOutputConfigs)
         ;
 
     public static final TalonFXConfiguration kRightConfiguration =
       kSubsystemConfiguration.clone()
+        .withSlot0(kSlot0ConfigsRight)
         .withMotorOutput(kRightMotorOutputConfigs)
         ;
   }
@@ -389,7 +400,7 @@ public final class Constants {
         useIntakeRoller)
       .configureMotors(IntakeRollerConstants.kSubsystemConfiguration);
     
-    public static final boolean useConveyor = false;
+    public static final boolean useConveyor = true;
     public static final TemplateSubsystem conveyor = (!USE_SUBSYSTEMS) ? null :
     new TemplateSubsystem(
         "Conveyor", 

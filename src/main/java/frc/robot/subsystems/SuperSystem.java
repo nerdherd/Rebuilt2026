@@ -35,6 +35,14 @@ public class SuperSystem implements Reportable {
         for (TemplateSubsystem subsystem : subsystems) f.accept(subsystem);
     }
     
+    public Command setShooterCommand(double speed) {
+        return Commands.parallel(
+            counterRoller.setDesiredValueCommand(30),
+            shooterLeft.setDesiredValueCommand(speed),
+            shooterRight.setDesiredValueCommand(speed)
+        );
+    }
+
     // ------------------------------------ subsystems ------------------------------------ //
     public void reConfigureMotors() {
         applySubsystems((s) -> s.applyMotorConfigs());
@@ -55,11 +63,7 @@ public class SuperSystem implements Reportable {
     }
 
     public Command spinUpFlywheel(){
-        return Commands.parallel(
-            counterRoller.setDesiredValueCommand(30),
-            shooterLeft.setDesiredValueCommand(30),
-            shooterRight.setDesiredValueCommand(30)
-        );
+        return setShooterCommand(30);
     }
         
     public Command stopFlywheel(){
@@ -78,7 +82,7 @@ public class SuperSystem implements Reportable {
 
     public Command intakeUp(){
         return Commands.parallel(
-            intakeSlapdown.setDesiredValueCommand(3.8)
+            intakeSlapdown.setDesiredValueCommand(4.5)
         );
     }
 
