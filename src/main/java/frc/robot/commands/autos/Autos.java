@@ -21,6 +21,7 @@ public final class Autos {
     private static PathPlannerAuto S4BottomBlueOutpost;
     private static PathPlannerAuto S2TopRedDepot;
     private static PathPlannerAuto S2TopBlueDepot;
+    private static PathPlannerAuto S5BottomRedOutpost;
 
 
     public static void initializeAutos() {
@@ -41,12 +42,15 @@ public final class Autos {
         S4BottomBlueOutpost = new PathPlannerAuto("S4BottomBlue-Outpost");
         S2TopRedDepot = new PathPlannerAuto("S2TopRed-Depot");
         S2TopBlueDepot = new PathPlannerAuto("S2TopBlue-Depot");
+        S5BottomRedOutpost = new PathPlannerAuto("S5BottomRed-Outpost");
 
 
         //add options to red 
+
         //autonChooserRed.addOption("exampleRed", exampleAuto);
         autonChooserRed.addOption("S3Tower-Red", S3TowerRed);
         autonChooserRed.addOption("S2TopRed-Depot", S2TopRedDepot);
+        autonChooserRed.addOption("S5BottomRed-Outpost", S5BottomRedOutpost);
         
         //add options to blue
         //autonChooserBlue.addOption("exampleBlue", exampleAuto);

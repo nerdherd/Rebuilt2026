@@ -37,6 +37,10 @@ public class RobotContainer {
   public RobotContainer() {
     swerveDrive = TunerConstants.createDrivetrain();
 
+    if (Constants.USE_SUBSYSTEMS) {
+      superSystem = new SuperSystem(swerveDrive);
+    }
+
       //Named Command Initialization
 
       NamedCommands.registerCommand("Intake Down Sequence", 
@@ -54,7 +58,7 @@ public class RobotContainer {
       NamedCommands.registerCommand("Shooter Ramp Up", 
       Commands.sequence(
         superSystem.spinUpFlywheel(), 
-        Commands.waitSeconds(0.5),
+        Commands.waitSeconds(1),
         superSystem.shoot()
         ));
 
@@ -74,9 +78,7 @@ public class RobotContainer {
       NamedCommands.registerCommand("Intake", superSystem.intake());
       NamedCommands.registerCommand("StopIntaking", superSystem.stopIntaking());
 
-    if (Constants.USE_SUBSYSTEMS) {
-      superSystem = new SuperSystem(swerveDrive);
-    }
+    
     
     initShuffleboard();
     Autos.initializeAutos();
