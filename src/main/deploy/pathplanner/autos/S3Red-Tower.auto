@@ -1,0 +1,43 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "S3M3-Temp"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shooter Ramp Up"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 5.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shooter Ramp Down"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "M3T1"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "Depot, Tower, Outpost",
+  "choreoAuto": false
+}
