@@ -1,7 +1,5 @@
 package frc.robot.util;
 
-import java.text.Annotation;
-
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.PS5Controller;
 import edu.wpi.first.wpilibj.XboxController;
@@ -10,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
+// thank you william
 public class Controller {
     private CommandPS4Controller cmdPS4;
     private PS4Controller ps4;
