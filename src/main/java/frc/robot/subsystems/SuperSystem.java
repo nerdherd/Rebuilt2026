@@ -141,7 +141,7 @@ public class SuperSystem implements Reportable {
     }
 
     public double getHubDistance() {
-        Pose2d hub = (RobotContainer.IsRedSide()) ? FieldPositions.HUB_CENTER.red : FieldPositions.HUB_CENTER.blue;
+        Pose2d hub = FieldPositions.HUB_CENTER.get();
         return swerveDrivetrain.getPose().getTranslation().getDistance(hub.getTranslation());
     }
 
