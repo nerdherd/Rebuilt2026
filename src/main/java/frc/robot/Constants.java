@@ -48,7 +48,7 @@ import frc.robot.util.Translation2dSlewRateLimiter;
 public final class Constants {
 
   /** current logging level of the robot's subsystems, @see Reportable.add... */
-  public static final LOG_LEVEL ROBOT_LOG_LEVEL = LOG_LEVEL.MINIMAL;
+  public static final LOG_LEVEL ROBOT_LOG_LEVEL = LOG_LEVEL.MEDIUM;
   
   /** 
    * (hopefully) controls whether subsystem objects are used, swerve and others not counted
@@ -389,7 +389,7 @@ public final class Constants {
    * Container class to hold all subsystem objects.
    */
   public static final class Subsystems {
-    public static final boolean useIntakeSlapdown = false;
+    public static final boolean useIntakeSlapdown = true;
     public static final TemplateSubsystem intakeSlapdown = (!USE_SUBSYSTEMS) ? null :
     new TemplateSubsystem(
         "Intake Slapdown", 
@@ -399,7 +399,7 @@ public final class Constants {
         useIntakeSlapdown)
       .configureMotors(IntakeSlapdownConstants.kSubsystemConfiguration);
     
-    public static final boolean useIntakeRoller = false;
+    public static final boolean useIntakeRoller = true;
     public static final TemplateSubsystem intakeRoller = (!USE_SUBSYSTEMS) ? null :
     new TemplateSubsystem(
         "Intake Roller", 
