@@ -173,6 +173,11 @@ public final class Constants {
         blue = new Pose2d(new Translation2d(_blueX, _blueY), new Rotation2d(Units.degreesToRadians(_blueHeadingDegrees)));
         red = FlippingUtil.flipFieldPose(blue);
       }
+
+      public Pose2d get() {
+        RobotContainer.refreshAlliance();
+        return RobotContainer.IsRedSide() ? this.red : this.blue;
+      }
     }
   }
 
@@ -393,7 +398,7 @@ public final class Constants {
         useIntakeRoller)
       .configureMotors(IntakeRollerConstants.kSubsystemConfiguration);
     
-    public static final boolean useConveyor = false;
+    public static final boolean useConveyor = true;
     public static final TemplateSubsystem conveyor = (!USE_SUBSYSTEMS) ? null :
     new TemplateSubsystem(
         "Conveyor", 

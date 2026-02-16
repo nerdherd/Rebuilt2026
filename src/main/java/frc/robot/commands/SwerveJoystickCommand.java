@@ -97,7 +97,7 @@ public class SwerveJoystickCommand extends Command {
         if (useTurnToAngle.get()) {
             double targetAngle = desiredAngle.get();
             if (!Double.isNaN(targetAngle)) {
-                turnSpeed = angleController.calculate(swerveDrive.getDriverHeadingRadians(), targetAngle);
+                turnSpeed = angleController.calculate(swerveDrive.getSwerveHeadingRadians(), targetAngle);
                 turnSpeed = Math.min(kTurnToAngleMaxVelocity, Math.max(-kTurnToAngleMaxVelocity, turnSpeed));
             } else turnSpeed = 0.0;
         }
