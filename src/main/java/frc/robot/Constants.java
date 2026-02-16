@@ -258,9 +258,16 @@ public final class Constants {
         .withKD(0.0)
       ;
 
+    private static final CurrentLimitsConfigs kCurrentLimitsConfigs = 
+      new CurrentLimitsConfigs()
+        .withStatorCurrentLimit(60)
+        .withSupplyCurrentLimitEnable(true)
+      ;
+
     public static final TalonFXConfiguration kSubsystemConfiguration = 
       new TalonFXConfiguration()
         .withSlot0(kSlot0Configs)
+        .withCurrentLimits(kCurrentLimitsConfigs)
       ;
     
   }

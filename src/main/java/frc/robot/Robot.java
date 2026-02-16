@@ -33,7 +33,7 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
 
-    DataLogManager.start();
+    DataLogManager.start("media/");
     DataLogManager.logNetworkTables(true);
   }
 
