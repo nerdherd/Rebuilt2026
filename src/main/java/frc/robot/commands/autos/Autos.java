@@ -4,6 +4,12 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.subsystems.SuperSystem;
+
+import javax.annotation.processing.SupportedSourceVersion;
+
+import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 public final class Autos {
     public static SendableChooser<Command> autonChooserRed = new SendableChooser<>(); //if on red side
@@ -27,6 +33,8 @@ public final class Autos {
                 .withWidget(BuiltInWidgets.kComboBoxChooser).withPosition(0, 0)
                 .withSize(2, 1);
         
+
+                
         //initialize autos
         //Example: exampleAuto = new PathPlannerAuto("example Auto");
         S3TowerBlue = new PathPlannerAuto("S3Blue-Tower");
@@ -48,7 +56,43 @@ public final class Autos {
         autonChooserBlue.addOption("S5BottomBlue-Outpost", S5BottomBlueOutpost);
         autonChooserBlue.addOption("S4BottomBlue-Outpost", S4BottomBlueOutpost);
         autonChooserBlue.addOption("S2TopBlue-Depot", S2TopBlueDepot);
+    }
 
+    public static void initializeNamedCommands(SuperSystem superSystem) {
+        NamedCommands.registerCommand("Intake Down Sequence", 
+        Commands.sequence(
+            superSystem.intakeDown(), 
+            superSystem.intake()
+            ));
+
+        NamedCommands.registerCommand("Intake Up Sequence", 
+        Commands.sequence(
+            superSystem.stopIntaking(), 
+            superSystem.intakeUp()
+            ));
+
+        NamedCommands.registerCommand("Shooter Ramp Up", 
+        Commands.sequence(
+            superSystem.spinUpFlywheel(), 
+            Commands.waitSeconds(1),
+            superSystem.shoot()
+            ));
+
+        NamedCommands.registerCommand("Shooter Ramp Down", 
+        Commands.sequence(
+            superSystem.stopFlywheel(), 
+            superSystem.stopShooting()
+            ));
+
+        NamedCommands.registerCommand("Wait", Commands.waitSeconds(1));
+        NamedCommands.registerCommand("SpinUpFlywheel", superSystem.spinUpFlywheel());
+        NamedCommands.registerCommand("StopFlywheel", superSystem.stopFlywheel());
+        NamedCommands.registerCommand("Shoot", superSystem.shoot());
+        NamedCommands.registerCommand("StopShooting", superSystem.stopShooting());
+        NamedCommands.registerCommand("IntakeUp", superSystem.intakeUp());
+        NamedCommands.registerCommand("IntakeDown", superSystem.intakeDown());
+        NamedCommands.registerCommand("Intake", superSystem.intake());
+        NamedCommands.registerCommand("StopIntaking", superSystem.stopIntaking());
 
     }
 
