@@ -204,7 +204,7 @@ public final class Constants {
 
     public static enum Camera {
       // Example("limelight-ex", "10.6.87.XX:5802"),
-      Front("limelight-front", "10.6.87.200:5802"); // Abruticus
+      Charlie("limelight-charlie", "10.6.87.15:5802"); // Abruticus
 
       public final String name, ip;
       Camera(String name, String ip) {
@@ -253,9 +253,16 @@ public final class Constants {
         .withKD(0.0)
       ;
 
+    private static final CurrentLimitsConfigs kCurrentLimitsConfigs = 
+      new CurrentLimitsConfigs()
+        .withStatorCurrentLimit(60)
+        .withSupplyCurrentLimitEnable(true)
+      ;
+
     public static final TalonFXConfiguration kSubsystemConfiguration = 
       new TalonFXConfiguration()
         .withSlot0(kSlot0Configs)
+        .withCurrentLimits(kCurrentLimitsConfigs)
       ;
     
   }
@@ -325,17 +332,17 @@ public final class Constants {
     
     private static final CurrentLimitsConfigs kCurrentLimitsConfigs = 
       new CurrentLimitsConfigs()
-        .withStatorCurrentLimit(120)
-        .withStatorCurrentLimitEnable(false)
+        .withStatorCurrentLimit(80)
+        .withStatorCurrentLimitEnable(true)
       ;
 
     private static final MotorOutputConfigs kLeftMotorOutputConfigs =
       new MotorOutputConfigs()
-        .withInverted(InvertedValue.Clockwise_Positive);
+        .withInverted(InvertedValue.CounterClockwise_Positive);
 
     private static final MotorOutputConfigs kRightMotorOutputConfigs =
       new MotorOutputConfigs()
-        .withInverted(InvertedValue.CounterClockwise_Positive);
+        .withInverted(InvertedValue.Clockwise_Positive);
 
     private static final TalonFXConfiguration kSubsystemConfiguration = 
       new TalonFXConfiguration()

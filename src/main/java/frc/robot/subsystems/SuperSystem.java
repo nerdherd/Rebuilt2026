@@ -49,8 +49,8 @@ public class SuperSystem implements Reportable {
     public Command spinUpFlywheel(){
         return Commands.parallel(
             counterRoller.setDesiredValueCommand(30),
-            shooterLeft.setDesiredValueCommand(30),
-            shooterRight.setDesiredValueCommand(30)
+            shooterLeft.setDesiredValueCommand(60),
+            shooterRight.setDesiredValueCommand(60)
         );
     }
         
