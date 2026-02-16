@@ -55,7 +55,7 @@ public final class Constants {
    * @see {@link frc.robot.subsystems.template.TemplateSubsystem TemplateSubsystem} 
    * @see {@link frc.robot.subsystems.SuperSystem SuperSystem}
    */
-  public static final boolean USE_SUBSYSTEMS = true;
+  public static final boolean USE_SUBSYSTEMS = false;
   /**
    * controls whether vision should be initialized
    */
@@ -70,7 +70,7 @@ public final class Constants {
     public static final double kRotationDeadband = 0.1; // out of 1
     public static final double kTurnToAngleDeadband = 0.5; // out of 1
 
-    public static final double kInputAcceleration = 2; // unit/s, on the scale of a unit circle/fractions
+    public static final double kInputAcceleration = 0.1; // unit/s, on the scale of a unit circle/fractions
     public static final double kEasePower = 3.0; // increase to further separate lower and higher values
 
     public static final Translation2dSlewRateLimiter kTranslationInputRateLimiter = new Translation2dSlewRateLimiter(kInputAcceleration);
@@ -86,7 +86,7 @@ public final class Constants {
         dir = dir.div(length);
         length = Math.min(1.0, length);
         length = Math.pow(length, kEasePower);
-        return dir.times(length);
+        return kTranslationInputRateLimiter.calculate(dir.times(length));
     };
 
     public static final Function<Double, Double> kRotationInputFilter = 

@@ -2,6 +2,7 @@ package frc.robot.util;
 
 import edu.wpi.first.math.MathSharedStore;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.DriverStation;
 
 public class Translation2dSlewRateLimiter {
     private final double rateLimit;
@@ -22,9 +23,10 @@ public class Translation2dSlewRateLimiter {
         double currentTime = MathSharedStore.getTimestamp();
         double elapsedTime = currentTime - prevTime;
         Translation2d diff = input.minus(prevVal);
-        diff.times(Math.min(rateLimit * elapsedTime / diff.getNorm(), 1.0));
-        prevVal.plus(diff);
+        diff = diff.times(Math.min(rateLimit * elapsedTime / diff.getNorm(), 1.0));
+        prevVal = prevVal.plus(diff);
         prevTime = currentTime;
+        DriverStation.reportWarning(prevVal + ", " + diff, false);
         return prevVal;
     }
 
