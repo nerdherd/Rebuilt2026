@@ -127,15 +127,6 @@ public class RobotContainer {
       driverController.triggerRight()
         .onTrue(superSystem.intake())
         .onFalse(superSystem.stopIntaking());
-
-      driverController.bumperLeft()
-        .onTrue(superSystem.shoot())
-        .onFalse(superSystem.stopShooting());
-      driverController.triggerLeft()
-        .whileTrue(superSystem.shootWithDistance())
-        .onFalse(superSystem.stopFlywheel());
-
-
     }
   }
 
@@ -154,7 +145,8 @@ public class RobotContainer {
         .onTrue(superSystem.shoot())
         .onFalse(superSystem.stopShooting());
       operatorController.triggerRight()
-        .onTrue(superSystem.spinUpFlywheel())
+        .whileTrue(superSystem.shootWithDistance())
+        // .onTrue(superSystem.spinUpFlywheel())
         .onFalse(superSystem.stopFlywheel());
     }
   }

@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Constants.SwerveDriveConstants.FieldPositions;
-import frc.robot.RobotContainer;
 import frc.robot.subsystems.template.TemplateSubsystem;
 
 public class SuperSystem implements Reportable {
@@ -80,7 +79,7 @@ public class SuperSystem implements Reportable {
 
     public Command intakeUp(){
         return Commands.parallel(
-            intakeSlapdown.setDesiredValueCommand(4.5)
+            intakeSlapdown.setDesiredValueCommand(3.8)
         );
     }
 
@@ -108,7 +107,7 @@ public class SuperSystem implements Reportable {
                 // calculate distance
                 double distance = getHubDistance();
                 // convert to rps
-                double rps = 2.9043 * distance * distance + 28.95386; //TODO find conversion equation
+                double rps = 2.9043 * distance * distance + 28.95386; // field day 2/15/2026
                 // spin up flywheel
                 counterRoller.setDesiredValue(30);
                 shooterLeft.setDesiredValue(rps);
@@ -150,6 +149,6 @@ public class SuperSystem implements Reportable {
         applySubsystems((s) -> s.initializeLogging());
 
         ShuffleboardTab tab = Shuffleboard.getTab("Supersystem");
-        Reportable.addNumber(tab, "Hub Distance", this::getHubDistance, LOG_LEVEL.MINIMAL);
+        Reportable.addNumber(tab, "Hub Distance", this::getHubDistance, LOG_LEVEL.ALL);
     }
 }
