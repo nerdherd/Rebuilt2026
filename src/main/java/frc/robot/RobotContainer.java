@@ -4,8 +4,6 @@
 
 package frc.robot;
 
-import static frc.robot.Constants.ControllerConstants.kTurnToAngleFilter;
-
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
@@ -15,12 +13,14 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.Subsystems;
+import frc.robot.Constants.SwerveDriveConstants.FieldPositions;
 import frc.robot.commands.SwerveJoystickCommand;
 import frc.robot.commands.autos.Autos;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.NerdDrivetrain;
 import frc.robot.subsystems.SuperSystem;
 import frc.robot.util.Controller;
+import frc.robot.util.NerdyMath;
 import frc.robot.util.Controller.Type;
 
 public class RobotContainer {
@@ -78,9 +78,9 @@ public class RobotContainer {
       // Turn
       () -> -driverController.getRightX(), 
       // use turn to angle
-      () -> false,
+      () -> driverController.getButtonRight(),
       // turn to angle target direction, 0.0 to use manual
-      () -> kTurnToAngleFilter.apply(driverController.getRightX(), driverController.getRightY()),
+      () -> NerdyMath.angleToPose(swerveDrive.getPose(), FieldPositions.HUB_CENTER.get()),
       // robot oriented adjustment (dpad)
       () -> new Translation2d(
         (driverController.getDpadUp() ? 1 : 0) - (driverController.getDpadDown() ? 1 : 0), 
@@ -138,15 +138,16 @@ public class RobotContainer {
       operatorController.triggerLeft()
         .onTrue(superSystem.intake())
         .onFalse(superSystem.stopIntaking());
+      operatorController.bumperLeft()
+        .onTrue(superSystem.intakeUp())
+        .onFalse(superSystem.intakeDown());
       operatorController.bumperRight()
         .onTrue(superSystem.shoot())
         .onFalse(superSystem.stopShooting());
       operatorController.triggerRight()
-        .onTrue(superSystem.spinUpFlywheel())
+        .whileTrue(superSystem.shootWithDistance())
+        // .onTrue(superSystem.spinUpFlywheel())
         .onFalse(superSystem.stopFlywheel());
-      operatorController.bumperLeft()
-        .onTrue(superSystem.intakeUp())
-        .onFalse(superSystem.intakeDown());
     }
   }
 

@@ -6,6 +6,7 @@ package frc.robot.subsystems.template;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
+import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.NeutralOut;
 import com.ctre.phoenix6.controls.VelocityVoltage;
@@ -39,6 +40,8 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 	private final VelocityVoltage velocityController;
 	/** voltage controller for {@link SubsystemMode#VOLTAGE} */
 	private final VoltageOut voltageController;
+	/** velocity controller for {@link SubsystemMode#PROFILED_VELOCITY} */
+	private final MotionMagicVelocityVoltage profiledVelocityController;
 	/** follower controller for {@link #motor2} */
 	private final Follower followerController;
 
@@ -68,7 +71,8 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 	public enum SubsystemMode {
 		POSITION, 
 		VELOCITY,
-		VOLTAGE
+		VOLTAGE,
+		PROFILED_VELOCITY
 	}
 	/** {@link SubsystemMode} of this subsystem */
 	private final SubsystemMode mode;
@@ -98,25 +102,35 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 
 		switch (mode) {
 			case POSITION:
-				positionController = new MotionMagicVoltage(defaultValue);
-				velocityController = null;
-				voltageController  = null;
+				positionController 			= new MotionMagicVoltage(defaultValue);
+				velocityController 			= null;
+				voltageController  			= null;
+				profiledVelocityController  = null;
 				motor1.setPosition(defaultValue);
 				break;
 			case VELOCITY:
-				positionController = null;
-				velocityController = new VelocityVoltage(defaultValue);
-				voltageController  = null;
+				positionController 			= null;
+				velocityController 			= new VelocityVoltage(defaultValue);
+				voltageController  			= null;
+				profiledVelocityController  = null;
 				break;
 			case VOLTAGE:
-				positionController = null;
-				velocityController = null;
-				voltageController  = new VoltageOut(defaultValue);
+				positionController 			= null;
+				velocityController 			= null;
+				voltageController  			= new VoltageOut(defaultValue);
+				profiledVelocityController 	= null;
+				break;
+			case PROFILED_VELOCITY:
+				positionController 			= null;
+				velocityController 			= null;
+				voltageController  			= null;
+				profiledVelocityController 	= new MotionMagicVelocityVoltage(defaultValue);
 				break;
 			default:
-				positionController = null;
-				velocityController = null;
-				voltageController  = null;
+				positionController 			= null;
+				velocityController 			= null;
+				voltageController  			= null;
+				profiledVelocityController 	= null;
 				break;
 		}
 		this.name = name;
@@ -161,6 +175,9 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 					DriverStation.reportWarning(name + ": voltage > 12", null);
 				motor1.setControl(voltageController.withOutput(this.desiredValue));
 				break;
+			case PROFILED_VELOCITY:
+				motor1.setControl(profiledVelocityController.withVelocity(this.desiredValue).withAcceleration(configuration.MotionMagic.MotionMagicAcceleration));
+				if (configuration.MotionMagic.MotionMagicAcceleration == 0.0) DriverStation.reportWarning(name + ": MM Acceleration is 0.0", null);
 			default:
 				break;
 		}
@@ -193,6 +210,7 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 		switch (mode) {
 			case POSITION:
 				return "Position";
+			case PROFILED_VELOCITY:
 			case VELOCITY:
 				return "Velocity";
 			case VOLTAGE:
@@ -270,6 +288,7 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 		switch (mode) {
 			case POSITION:
 				return motor1.getPosition().getValueAsDouble();
+			case PROFILED_VELOCITY:
 			case VELOCITY:
 				return motor1.getVelocity().getValueAsDouble();
 			case VOLTAGE:
@@ -290,6 +309,7 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 		switch (mode) {
 			case POSITION:
 				return motor2.getPosition().getValueAsDouble();
+			case PROFILED_VELOCITY:
 			case VELOCITY:
 				return motor2.getVelocity().getValueAsDouble();
 			case VOLTAGE:
