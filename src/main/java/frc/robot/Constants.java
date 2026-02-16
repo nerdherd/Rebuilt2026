@@ -48,7 +48,7 @@ import frc.robot.util.Translation2dSlewRateLimiter;
 public final class Constants {
 
   /** current logging level of the robot's subsystems, @see Reportable.add... */
-  public static final LOG_LEVEL ROBOT_LOG_LEVEL = LOG_LEVEL.MEDIUM;
+  public static final LOG_LEVEL ROBOT_LOG_LEVEL = LOG_LEVEL.MINIMAL;
   
   /** 
    * (hopefully) controls whether subsystem objects are used, swerve and others not counted
@@ -177,6 +177,11 @@ public final class Constants {
         blue = new Pose2d(new Translation2d(_blueX, _blueY), new Rotation2d(Units.degreesToRadians(_blueHeadingDegrees)));
         red = FlippingUtil.flipFieldPose(blue);
       }
+
+      public Pose2d get() {
+        RobotContainer.refreshAlliance();
+        return RobotContainer.IsRedSide() ? this.red : this.blue;
+      }
     }
   }
 
@@ -208,7 +213,7 @@ public final class Constants {
 
     public static enum Camera {
       // Example("limelight-ex", "10.6.87.XX:5802"),
-      Front("limelight-front", "10.6.87.200:5802"); // Abruticus
+      Charlie("limelight-charlie", "10.6.87.15:5802");
 
       public final String name, ip;
       Camera(String name, String ip) {
@@ -257,9 +262,16 @@ public final class Constants {
         .withKD(0.0)
       ;
 
+    private static final CurrentLimitsConfigs kCurrentLimitsConfigs = 
+      new CurrentLimitsConfigs()
+        .withStatorCurrentLimit(60)
+        .withSupplyCurrentLimitEnable(true)
+      ;
+
     public static final TalonFXConfiguration kSubsystemConfiguration = 
       new TalonFXConfiguration()
         .withSlot0(kSlot0Configs)
+        .withCurrentLimits(kCurrentLimitsConfigs)
       ;
     
   }
@@ -319,9 +331,17 @@ public final class Constants {
     public static final int kMotor1ID = 35;
     public static final int kMotor2ID = 36;
 
-    private static final Slot0Configs kSlot0Configs = 
+    private static final Slot0Configs kSlot0ConfigsLeft = 
       new Slot0Configs()
-        .withKP(0.1)
+        // .withKP(0.05)
+        .withKI(0.0)
+        .withKD(0.0)
+        .withKV(0.13)
+        ;
+    
+    private static final Slot0Configs kSlot0ConfigsRight = 
+      new Slot0Configs()
+        // .withKP(0.05)
         .withKI(0.0)
         .withKD(0.0)
         .withKV(0.125)
@@ -329,31 +349,38 @@ public final class Constants {
     
     private static final CurrentLimitsConfigs kCurrentLimitsConfigs = 
       new CurrentLimitsConfigs()
-        .withStatorCurrentLimit(120)
+        .withStatorCurrentLimit(60)
         .withStatorCurrentLimitEnable(false)
+      ;
+
+    private static final MotionMagicConfigs kMotionMagicConfigs = 
+      new MotionMagicConfigs()
+        .withMotionMagicAcceleration(25)
       ;
 
     private static final MotorOutputConfigs kLeftMotorOutputConfigs =
       new MotorOutputConfigs()
-        .withInverted(InvertedValue.Clockwise_Positive);
+        .withInverted(InvertedValue.CounterClockwise_Positive);
 
     private static final MotorOutputConfigs kRightMotorOutputConfigs =
       new MotorOutputConfigs()
-        .withInverted(InvertedValue.CounterClockwise_Positive);
+        .withInverted(InvertedValue.Clockwise_Positive);
 
     private static final TalonFXConfiguration kSubsystemConfiguration = 
       new TalonFXConfiguration()
-        .withSlot0(kSlot0Configs)
         .withCurrentLimits(kCurrentLimitsConfigs)
+        .withMotionMagic(kMotionMagicConfigs)
         ;
 
     public static final TalonFXConfiguration kLeftConfiguration = 
       kSubsystemConfiguration.clone()
+        .withSlot0(kSlot0ConfigsLeft)
         .withMotorOutput(kLeftMotorOutputConfigs)
         ;
 
     public static final TalonFXConfiguration kRightConfiguration =
       kSubsystemConfiguration.clone()
+        .withSlot0(kSlot0ConfigsRight)
         .withMotorOutput(kRightMotorOutputConfigs)
         ;
   }
@@ -362,7 +389,7 @@ public final class Constants {
    * Container class to hold all subsystem objects.
    */
   public static final class Subsystems {
-    public static final boolean useIntakeSlapdown = true;
+    public static final boolean useIntakeSlapdown = false;
     public static final TemplateSubsystem intakeSlapdown = (!USE_SUBSYSTEMS) ? null :
     new TemplateSubsystem(
         "Intake Slapdown", 
@@ -372,7 +399,7 @@ public final class Constants {
         useIntakeSlapdown)
       .configureMotors(IntakeSlapdownConstants.kSubsystemConfiguration);
     
-    public static final boolean useIntakeRoller = true;
+    public static final boolean useIntakeRoller = false;
     public static final TemplateSubsystem intakeRoller = (!USE_SUBSYSTEMS) ? null :
     new TemplateSubsystem(
         "Intake Roller", 
@@ -417,7 +444,7 @@ public final class Constants {
     new TemplateSubsystem(
         "Shooter Left", 
         ShooterConstants.kMotor1ID,
-        SubsystemMode.VELOCITY, 
+        SubsystemMode.PROFILED_VELOCITY, 
         0.0,
         useShooter)
       .configureMotors(ShooterConstants.kLeftConfiguration);
@@ -425,7 +452,7 @@ public final class Constants {
     new TemplateSubsystem(
         "Shooter Right", 
         ShooterConstants.kMotor2ID, 
-        SubsystemMode.VELOCITY, 
+        SubsystemMode.PROFILED_VELOCITY, 
         0.0,
         useShooter)
       .configureMotors(ShooterConstants.kRightConfiguration);

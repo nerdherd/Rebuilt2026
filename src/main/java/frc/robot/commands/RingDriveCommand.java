@@ -38,11 +38,7 @@ public class RingDriveCommand extends Command {
 
   @Override
   public void initialize() {
-    /*
-    RobotContainer.refreshAlliance();
-    if (RobotContainer.IsRedSide()) center = FieldPositions.HUB_CENTER.red;
-    else center = FieldPositions.HUB_CENTER.blue;
-     */
+    // center = FieldPositions.HUB_CENTER.get();
     
     targetD = RingDriveConstants.kInitialDistance;
     targetTheta = NerdyMath.angleToPose(center, swerveDrive.getPose());

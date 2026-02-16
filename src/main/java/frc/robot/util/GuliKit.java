@@ -39,8 +39,8 @@ public class GuliKit {
     }
 
     // STATE METHODS \\
-    public void setDigitalLeft(boolean isDigital) { this.isDigLeft = isDigital; }
-    public void setDigitalRight(boolean isDigital) { this.isDigRight = isDigital; }
+    public void setDigLeft(boolean isDigital) { this.isDigLeft = isDigital; }
+    public void setDigRight(boolean isDigital) { this.isDigRight = isDigital; }
 
     public boolean isDigLeft() { return isDigLeft; }
     public boolean isDigRight() { return isDigRight; }

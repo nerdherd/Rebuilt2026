@@ -7,8 +7,12 @@ import java.util.function.Consumer;
 
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.Constants.SwerveDriveConstants.FieldPositions;
 import frc.robot.subsystems.template.TemplateSubsystem;
 
 public class SuperSystem implements Reportable {
@@ -27,6 +31,13 @@ public class SuperSystem implements Reportable {
         for (TemplateSubsystem subsystem : subsystems) f.accept(subsystem);
     }
     
+    public Command setShooterCommand(double speed) {
+        return Commands.parallel(
+            shooterLeft.setDesiredValueCommand(speed),
+            shooterRight.setDesiredValueCommand(speed)
+        );
+    }
+
     // ------------------------------------ subsystems ------------------------------------ //
     public void reConfigureMotors() {
         applySubsystems((s) -> s.applyMotorConfigs());
@@ -49,16 +60,14 @@ public class SuperSystem implements Reportable {
     public Command spinUpFlywheel(){
         return Commands.parallel(
             counterRoller.setDesiredValueCommand(30),
-            shooterLeft.setDesiredValueCommand(30),
-            shooterRight.setDesiredValueCommand(30)
+            setShooterCommand(39)
         );
     }
         
     public Command stopFlywheel(){
         return Commands.parallel(
             counterRoller.setDesiredValueCommand(0),
-            shooterLeft.setDesiredValueCommand(0),
-            shooterRight.setDesiredValueCommand(0)
+            setShooterCommand(0.0)
         );
     }
 
@@ -92,6 +101,21 @@ public class SuperSystem implements Reportable {
         );
     }
 
+    public Command shootWithDistance() {
+        return Commands.run(
+            () -> {
+                // calculate distance
+                double distance = getHubDistance();
+                // convert to rps
+                double rps = 2.9043 * distance * distance + 28.95386; // field day 2/15/2026
+                // spin up flywheel
+                counterRoller.setDesiredValue(30);
+                shooterLeft.setDesiredValue(rps);
+                shooterRight.setDesiredValue(rps);
+            }
+        );
+    }
+
     public void setNeutralMode(NeutralModeValue neutralMode) {
         applySubsystems((s) -> s.setNeutralMode(neutralMode));
     }
@@ -115,8 +139,16 @@ public class SuperSystem implements Reportable {
         applySubsystems((s) -> s.setDesiredValue(s.getDefaultValue()));
     }
 
+    public double getHubDistance() {
+        Pose2d hub = FieldPositions.HUB_CENTER.get();
+        return swerveDrivetrain.getPose().getTranslation().getDistance(hub.getTranslation());
+    }
+
     @Override
     public void initializeLogging() {
         applySubsystems((s) -> s.initializeLogging());
+
+        ShuffleboardTab tab = Shuffleboard.getTab("Supersystem");
+        Reportable.addNumber(tab, "Hub Distance", this::getHubDistance, LOG_LEVEL.ALL);
     }
 }
