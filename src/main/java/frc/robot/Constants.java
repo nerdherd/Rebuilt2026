@@ -70,7 +70,7 @@ public final class Constants {
     public static final double kRotationDeadband = 0.1; // out of 1
     public static final double kTurnToAngleDeadband = 0.5; // out of 1
 
-    public static final double kInputAcceleration = 0.1; // unit/s, on the scale of a unit circle/fractions
+    public static final double kInputAcceleration = 5.0; // unit/s, on the scale of a unit circle/fractions
     public static final double kEasePower = 3.0; // increase to further separate lower and higher values
 
     public static final Translation2dSlewRateLimiter kTranslationInputRateLimiter = new Translation2dSlewRateLimiter(kInputAcceleration);
