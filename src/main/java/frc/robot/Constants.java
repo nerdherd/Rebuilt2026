@@ -32,6 +32,7 @@ import frc.robot.subsystems.template.TemplateSubsystem;
 import frc.robot.subsystems.template.TemplateSubsystem.SubsystemMode;
 import frc.robot.util.MultiProfiledPIDController;
 import frc.robot.util.NerdyMath;
+import frc.robot.util.Translation2dSlewRateLimiter;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -54,7 +55,7 @@ public final class Constants {
    * @see {@link frc.robot.subsystems.template.TemplateSubsystem TemplateSubsystem} 
    * @see {@link frc.robot.subsystems.SuperSystem SuperSystem}
    */
-  public static final boolean USE_SUBSYSTEMS = true;
+  public static final boolean USE_SUBSYSTEMS = false;
   /**
    * controls whether vision should be initialized
    */
@@ -69,20 +70,23 @@ public final class Constants {
     public static final double kRotationDeadband = 0.1; // out of 1
     public static final double kTurnToAngleDeadband = 0.5; // out of 1
 
-    public static final double easePower = 3.0; // increase to further separate lower and higher values
+    public static final double kInputAcceleration = 5.0; // unit/s, on the scale of a unit circle/fractions
+    public static final double kEasePower = 3.0; // increase to further separate lower and higher values
 
+    public static final Translation2dSlewRateLimiter kTranslationInputRateLimiter = new Translation2dSlewRateLimiter(kInputAcceleration);
+    
     // returns a vector within the unit circle
     public static final BiFunction<Double, Double, Translation2d> kTranslationInputFilter = 
     (x, y) -> {
         x = NerdyMath.deadband(x, kTranslationDeadband);
         y = NerdyMath.deadband(y, kTranslationDeadband);
-        if (x == 0.0 && y == 0.0) return new Translation2d();
+        if (x == 0.0 && y == 0.0) return kTranslationInputRateLimiter.calculate(Translation2d.kZero);
         Translation2d dir = new Translation2d(x, y);
         double length = dir.getNorm();
         dir = dir.div(length);
         length = Math.min(1.0, length);
-        length = Math.pow(length, easePower);
-        return dir.times(length);
+        length = Math.pow(length, kEasePower);
+        return kTranslationInputRateLimiter.calculate(dir.times(length));
     };
 
     public static final Function<Double, Double> kRotationInputFilter = 
