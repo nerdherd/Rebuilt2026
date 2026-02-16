@@ -80,7 +80,7 @@ public final class Constants {
     (x, y) -> {
         x = NerdyMath.deadband(x, kTranslationDeadband);
         y = NerdyMath.deadband(y, kTranslationDeadband);
-        if (x == 0.0 && y == 0.0) return new Translation2d();
+        if (x == 0.0 && y == 0.0) return kTranslationInputRateLimiter.calculate(Translation2d.kZero);
         Translation2d dir = new Translation2d(x, y);
         double length = dir.getNorm();
         dir = dir.div(length);
