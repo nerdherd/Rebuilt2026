@@ -10,6 +10,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Constants.ControllerConstants;
@@ -20,6 +21,7 @@ import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.NerdDrivetrain;
 import frc.robot.subsystems.SuperSystem;
 import frc.robot.util.Controller;
+import frc.robot.util.Controller.Type;
 
 public class RobotContainer {
   public NerdDrivetrain swerveDrive;
@@ -27,8 +29,9 @@ public class RobotContainer {
   
   public SuperSystem superSystem;
 
-  private final Controller driverController = new Controller(ControllerConstants.kDriverControllerPort);
-  private final Controller operatorController = new Controller(ControllerConstants.kOperatorControllerPort);
+  private final Controller driverController = new Controller(ControllerConstants.kDriverControllerPort, Type.PS4);
+  private final Controller operatorController = new Controller(ControllerConstants.kOperatorControllerPort, Type.PS4);
+  private final Controller testController = new Controller(2, Type.PS4);
   
   private static boolean isRedSide = false;
   
@@ -148,7 +151,62 @@ public class RobotContainer {
   }
 
 
-  public void configureBindings_test() {}
+  public void configureBindings_test() {
+
+    testController.buttonRight()
+      .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Button A Test", "hi")))
+      .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Button A Test", "bye")));
+    testController.buttonDown()
+      .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Button B Test", "hi")))
+      .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Button B Test", "bye")));
+    testController.buttonUp()
+      .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Button X Test", "hi")))
+      .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Button X Test", "bye")));
+    testController.buttonLeft()
+      .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Button Y Test", "hi")))
+      .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Button Y Test", "bye")));
+
+    testController.bumperLeft()
+      .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Bumper L Test", "hi")))
+      .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Bumper L Test", "bye")));
+    testController.bumperRight()
+      .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Bumper R Test", "hi")))
+      .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Bumper R Test", "bye")));
+    
+    testController.triggerLeft()
+      .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Trigger ZL Test", "hi")))
+      .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Trigger ZL Test", "bye")));
+    testController.triggerRight()
+      .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Trigger ZR Test", "hi")))
+      .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Trigger ZR Test", "bye")));
+
+   testController.dpadUp()
+      .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Dpad Up Test", "hi")))
+      .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Dpad Up Test", "bye")));
+    testController.dpadRight()
+      .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Dpad Right Test", "hi")))
+      .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Dpad Right Test", "bye")));
+    testController.dpadDown()
+      .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Dpad Down Test", "hi")))
+      .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Dpad Down Test", "bye")));
+    testController.dpadLeft()
+      .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Dpad Left Test", "hi")))
+      .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Dpad Left Test", "bye")));
+
+    testController.controllerLeft()
+      .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Button Minus Test", "hi")))
+      .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Button Minus Test", "bye")));
+    testController.controllerRight()
+      .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Button Plus Test", "hi")))
+      .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Button Plus Test", "bye")));
+    
+    testController.joystickLeft()
+      .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Button Left Joy Test", "hi")))
+      .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Button Left Joy Test", "bye")));
+    testController.joystickRight()
+      .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Button Right Joy Test", "hi")))
+      .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Button Right Joy Test", "bye")));
+  }
   
   public void initShuffleboard() {
     swerveDrive.initializeLogging();
@@ -165,10 +223,12 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     refreshAlliance();
-    if (IsRedSide()) {
-            return Autos.autonChooserRed.getSelected();
-        } else {
-            return Autos.autonChooserBlue.getSelected();
-        }
+    if (IsRedSide()) return Autos.autonChooserRed.getSelected();
+    return Autos.autonChooserBlue.getSelected();
   }
+
+  public void disableAllMotors_Test() {
+    swerveDrive.setBrake(true);
+  }
+
 }
