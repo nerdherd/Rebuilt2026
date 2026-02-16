@@ -1,0 +1,92 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "S3M3-Temp"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shooter Ramp Up"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 2.001
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shooter Ramp Down"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "M3N3"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake Down Sequence"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "N3F4"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake Up Sequence"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "F4M3"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shooter Ramp Up"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 4.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shooter Ramp Down"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "BottomNeutral",
+  "choreoAuto": false
+}
