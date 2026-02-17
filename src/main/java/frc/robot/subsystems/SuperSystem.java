@@ -14,6 +14,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Constants.SwerveDriveConstants.FieldPositions;
 import frc.robot.subsystems.template.TemplateSubsystem;
+import frc.robot.util.logging.NerdLog;
+import frc.robot.util.logging.Reportable;
 
 public class SuperSystem implements Reportable {
     public static final ArrayList<TemplateSubsystem> subsystems = new ArrayList<>();
@@ -148,7 +150,7 @@ public class SuperSystem implements Reportable {
     public void initializeLogging() {
         applySubsystems((s) -> s.initializeLogging());
 
-        ShuffleboardTab tab = Shuffleboard.getTab("Supersystem");
-        Reportable.addNumber(tab, "Hub Distance", this::getHubDistance, LOG_LEVEL.ALL);
+        String tab = "Supersystem";
+        NerdLog.logNumber(tab, "Hub Distance", this::getHubDistance, "m", LOG_LEVEL.ALL);
     }
 }

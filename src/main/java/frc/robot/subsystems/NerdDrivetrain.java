@@ -28,8 +28,6 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.FieldObject2d;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -40,6 +38,8 @@ import frc.robot.RobotContainer;
 import frc.robot.Constants.SwerveDriveConstants.FieldPositions;
 import frc.robot.Constants.VisionConstants.Camera;
 import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
+import frc.robot.util.logging.NerdLog;
+import frc.robot.util.logging.Reportable;
 import frc.robot.vision.LimelightHelpers;
 import frc.robot.vision.LimelightHelpers.PoseEstimate;
 
@@ -303,8 +303,8 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
 
     @Override
     public void initializeLogging() {
-        ShuffleboardTab tab = Shuffleboard.getTab("NerdDrivetrain");
-        tab.add("Robot Field", field).withSize(6,3);
+        String tab = "NerdDrivetrain";
+        NerdLog.logData(tab, "Robot Field", () -> field, LOG_LEVEL.MINIMAL);
 
         ///////////
         /// ALL ///
@@ -317,24 +317,24 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
                 FieldObject2d red  = positionField.getObject(position.name() + "-red");
                 red.setPose(position.red);
             }
-            tab.add("Position Field", positionField).withSize(6,3);
+            NerdLog.logData("NerdDrivetrain", "Position Field", () -> positionField, LOG_LEVEL.ALL);
         }
 
-        Reportable.addNumber(tab, "field chassis speeds x", () -> getFieldOrientedSpeeds().vxMetersPerSecond, LOG_LEVEL.ALL);
-        Reportable.addNumber(tab, "field chassis speeds y", () -> getFieldOrientedSpeeds().vyMetersPerSecond, LOG_LEVEL.ALL);
-        Reportable.addNumber(tab, "field chassis speeds r", () -> getFieldOrientedSpeeds().omegaRadiansPerSecond, LOG_LEVEL.ALL);
+        NerdLog.logNumber(tab, "field chassis speeds x", () -> getFieldOrientedSpeeds().vxMetersPerSecond, "m/s", LOG_LEVEL.ALL);
+        NerdLog.logNumber(tab, "field chassis speeds y", () -> getFieldOrientedSpeeds().vyMetersPerSecond, "m/s", LOG_LEVEL.ALL);
+        NerdLog.logNumber(tab, "field chassis speeds r", () -> getFieldOrientedSpeeds().omegaRadiansPerSecond, "rad/s", LOG_LEVEL.ALL);
         
         //////////////
         /// MEDIUM ///
         //////////////
-        Reportable.addNumber(tab, "swerve heading", this::getSwerveHeadingDegrees, LOG_LEVEL.MEDIUM);
-        Reportable.addNumber(tab, "driver heading", this::getDriverHeadingDegrees, LOG_LEVEL.MEDIUM);
+        NerdLog.logNumber(tab, "swerve heading", this::getSwerveHeadingDegrees, "deg", LOG_LEVEL.MEDIUM);
+        NerdLog.logNumber(tab, "driver heading", this::getDriverHeadingDegrees, "deg", LOG_LEVEL.MEDIUM);
         
         //////////////
         /// MINIMAL //
         //////////////
-        Reportable.addString(tab, "temperatures", this::pollTemperatures, LOG_LEVEL.MINIMAL); // maybe better on medium
-        Reportable.addNumber(tab, "stator current sum", this::pollStatorCurrentSum, LOG_LEVEL.MINIMAL);
+        NerdLog.logString(tab, "temperatures", this::pollTemperatures, LOG_LEVEL.MINIMAL); // maybe better on medium
+        NerdLog.logNumber(tab, "stator current sum", this::pollStatorCurrentSum, "A", LOG_LEVEL.MINIMAL);
     }
 
 }

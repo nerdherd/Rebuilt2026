@@ -48,7 +48,7 @@ public class RobotContainer {
     }
     
     Subsystems.init();
-    initShuffleboard();
+    initializeLogging();
     Autos.initializeAutos();
 
     DriverStation.reportWarning("Initialization complete", false);
@@ -210,7 +210,7 @@ public class RobotContainer {
       .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Button Right Joy Test", "bye")));
   }
   
-  public void initShuffleboard() {
+  public void initializeLogging() {
     swerveDrive.initializeLogging();
   
     if (Constants.USE_SUBSYSTEMS) { 

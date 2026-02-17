@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems.template;
 
+import static frc.robot.Constants.LoggingConstants.kSubsystemLogPath;
+
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
@@ -17,14 +19,13 @@ import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.generated.TunerConstants;
-import frc.robot.subsystems.Reportable;
 import frc.robot.subsystems.SuperSystem;
+import frc.robot.util.logging.NerdLog;
+import frc.robot.util.logging.Reportable;
 
 public class TemplateSubsystem extends SubsystemBase implements Reportable {
 	/** primary motor; required */
@@ -61,8 +62,6 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 	/** used to indicate when the subsystem has an error, configured during debugging.  by default always false (reported at {@link LOG_LEVEL#ALL}) */
 	public boolean _hasError = false;
 
-	/** shuffleboard tab for logging, named through the constructor */
-	protected final ShuffleboardTab shuffleboardTab;
 	/** name of the subsystem */
 	protected final String name;
 
@@ -134,7 +133,6 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 				break;
 		}
 		this.name = name;
-		shuffleboardTab = Shuffleboard.getTab(this.name);
 		SuperSystem.registerSubsystem(this);
 	}
 
@@ -219,6 +217,21 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 				break;
 		}
 		return "";
+	}
+
+	public String getUnit() {
+		switch (mode) {
+			case POSITION:
+				return "rot";
+			case PROFILED_VELOCITY:
+			case VELOCITY:
+				return "rps";
+			case VOLTAGE:
+				return "V";
+			default:
+				break;
+		}
+		return null;
 	}
 
 	/** applies motor configurations based on {@link #configuration} */
@@ -384,34 +397,34 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 
 	/** 
 	 * intialize shuffleboard logging on {@link #shuffleboardTab}
-	 * @see {@link Reportable#addNumber(ShuffleboardTab, String, java.util.function.DoubleSupplier, frc.robot.subsystems.Reportable.LOG_LEVEL)}
-	 * @see {@link Reportable#addBoolean(ShuffleboardTab, String, java.util.function.BooleanSupplier, frc.robot.subsystems.Reportable.LOG_LEVEL)}
-	 * @see {@link Reportable#addString(ShuffleboardTab, String, java.util.function.Supplier, frc.robot.subsystems.Reportable.LOG_LEVEL)}
+	 * @see {@link Reportable#addNumber(ShuffleboardTab, String, java.util.function.DoubleSupplier, frc.robot.util.logging.Reportable.LOG_LEVEL)}
+	 * @see {@link Reportable#addBoolean(ShuffleboardTab, String, java.util.function.BooleanSupplier, frc.robot.util.logging.Reportable.LOG_LEVEL)}
+	 * @see {@link Reportable#addString(ShuffleboardTab, String, java.util.function.Supplier, frc.robot.util.logging.Reportable.LOG_LEVEL)}
 	 */
     public void initializeLogging(){
         ///////////
         /// ALL ///
         ///////////
-        Reportable.addNumber(shuffleboardTab,"Desired " + getFlavorText(), () -> getDesiredValue(), Reportable.LOG_LEVEL.ALL);
-		Reportable.addBoolean(shuffleboardTab, "Has Error", () -> _hasError, Reportable.LOG_LEVEL.ALL);
+        NerdLog.logNumber(kSubsystemLogPath + name,"Desired " + getFlavorText(), () -> getDesiredValue(), getUnit(), Reportable.LOG_LEVEL.ALL);
+		NerdLog.logBoolean(kSubsystemLogPath + name, "Has Error", () -> _hasError, Reportable.LOG_LEVEL.ALL);
 
-		Reportable.addNumber(shuffleboardTab, "Torque Current 1", () -> motor1.getTorqueCurrent().getValueAsDouble(), Reportable.LOG_LEVEL.ALL);
-		if (hasMotor2()) Reportable.addNumber(shuffleboardTab, "Torque Current 2", () -> motor2.getTorqueCurrent().getValueAsDouble(), Reportable.LOG_LEVEL.ALL);
+		NerdLog.logNumber(kSubsystemLogPath + name, "Torque Current 1", () -> motor1.getTorqueCurrent().getValueAsDouble(), "A", Reportable.LOG_LEVEL.ALL);
+		if (hasMotor2()) NerdLog.logNumber(kSubsystemLogPath + name, "Torque Current 2", () -> motor2.getTorqueCurrent().getValueAsDouble(), "A", Reportable.LOG_LEVEL.ALL);
 
-		Reportable.addNumber(shuffleboardTab, "Supply Current 1", () -> motor1.getSupplyCurrent().getValueAsDouble(), Reportable.LOG_LEVEL.ALL);
-		if (hasMotor2()) Reportable.addNumber(shuffleboardTab, "Supply Current 2", () -> motor2.getSupplyCurrent().getValueAsDouble(), Reportable.LOG_LEVEL.ALL);
+		NerdLog.logNumber(kSubsystemLogPath + name, "Supply Current 1", () -> motor1.getSupplyCurrent().getValueAsDouble(), "A", Reportable.LOG_LEVEL.ALL);
+		if (hasMotor2()) NerdLog.logNumber(kSubsystemLogPath + name, "Supply Current 2", () -> motor2.getSupplyCurrent().getValueAsDouble(), "A", Reportable.LOG_LEVEL.ALL);
 		
         //////////////
 		/// MEDIUM ///
         //////////////
-        Reportable.addBoolean(shuffleboardTab, "Enabled", () -> this.enabled, Reportable.LOG_LEVEL.MEDIUM);
-        Reportable.addNumber(shuffleboardTab, "Temperature 1", () -> getCurrentTemp(), Reportable.LOG_LEVEL.MEDIUM);
-        if (hasMotor2()) Reportable.addNumber(shuffleboardTab, "Temperature 2", () -> getCurrentTemp2(), Reportable.LOG_LEVEL.MEDIUM);
+        NerdLog.logBoolean(kSubsystemLogPath + name, "Enabled", () -> this.enabled, Reportable.LOG_LEVEL.MEDIUM);
+        NerdLog.logNumber(kSubsystemLogPath + name, "Temperature 1", () -> getCurrentTemp(), "C", Reportable.LOG_LEVEL.MEDIUM);
+        if (hasMotor2()) NerdLog.logNumber(kSubsystemLogPath + name, "Temperature 2", () -> getCurrentTemp2(), "C", Reportable.LOG_LEVEL.MEDIUM);
         
         //////////////
         /// MINIMAL //
         //////////////
-        Reportable.addNumber(shuffleboardTab, getFlavorText() + " 1", () -> getCurrentValue(), Reportable.LOG_LEVEL.MINIMAL);
-        if (hasMotor2()) Reportable.addNumber(shuffleboardTab, getFlavorText() + " 2", () -> getCurrentValue2(), Reportable.LOG_LEVEL.MINIMAL);
+        NerdLog.logNumber(kSubsystemLogPath + name, getFlavorText() + " 1", () -> getCurrentValue(), getUnit(), Reportable.LOG_LEVEL.MINIMAL);
+        if (hasMotor2()) NerdLog.logNumber(kSubsystemLogPath + name, getFlavorText() + " 2", () -> getCurrentValue2(), getUnit(), Reportable.LOG_LEVEL.MINIMAL);
     }
 }
