@@ -171,4 +171,14 @@ public class NerdLog {
 		DogLog.logFault(message, AlertType.kError);
 		DriverStation.reportWarning(message, true);
 	}
+
+	public static void printCount() {
+		String output = "";
+		for (LOG_LEVEL level : LOG_LEVEL.values()) {
+			if (logSuppliers.containsKey(level)) {
+				output = output + level.name() + ": " + logSuppliers.get(level).size() + "\n";
+			}
+		}
+		print(output);
+	}
 }

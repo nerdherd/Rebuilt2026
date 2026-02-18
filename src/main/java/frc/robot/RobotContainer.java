@@ -27,7 +27,7 @@ import frc.robot.util.logging.Reportable.LOG_LEVEL;
 
 public class RobotContainer {
   public NerdDrivetrain swerveDrive;
-  public PowerDistribution pdp = new PowerDistribution(0, ModuleType.kCTRE);
+  public PowerDistribution pdp = new PowerDistribution(1, ModuleType.kRev);
   
   public SuperSystem superSystem;
 
@@ -218,6 +218,8 @@ public class RobotContainer {
     if (Constants.USE_SUBSYSTEMS) { 
       superSystem.initializeLogging();
     }
+
+    NerdLog.printCount();
   }
   
   /**

@@ -6,6 +6,7 @@ package frc.robot.subsystems.template;
 
 import static frc.robot.Constants.LoggingConstants.kSubsystemTab;
 
+import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
@@ -414,8 +415,8 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 
 		NerdLog.logNumber(kSubsystemTab + name, "Supply Current 1", () -> motor1.getSupplyCurrent().getValueAsDouble(), "A", Reportable.LOG_LEVEL.ALL);
 		if (hasMotor2()) NerdLog.logNumber(kSubsystemTab + name, "Supply Current 2", () -> motor2.getSupplyCurrent().getValueAsDouble(), "A", Reportable.LOG_LEVEL.ALL);
-		
-        //////////////
+
+		//////////////
 		/// MEDIUM ///
         //////////////
         NerdLog.logBoolean(kSubsystemTab + name, "Enabled", () -> this.enabled, Reportable.LOG_LEVEL.MEDIUM);
