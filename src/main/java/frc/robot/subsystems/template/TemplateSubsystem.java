@@ -404,7 +404,7 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
         ///////////
         /// ALL ///
         ///////////
-		NerdLog.logData(kSubsystemTab + name, "Commands", () -> this, LOG_LEVEL.ALL); 
+		NerdLog.logData(kSubsystemTab + name, "Commands", this, LOG_LEVEL.ALL); 
 		
         NerdLog.logNumber(kSubsystemTab + name,"Desired " + getFlavorText(), () -> getDesiredValue(), getUnit(), Reportable.LOG_LEVEL.ALL);
 		NerdLog.logBoolean(kSubsystemTab + name, "Has Error", () -> _hasError, Reportable.LOG_LEVEL.ALL);

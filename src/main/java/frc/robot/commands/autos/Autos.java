@@ -26,8 +26,8 @@ public final class Autos {
 
 
     public static void initializeAutos() {
-        NerdLog.logData(kAutosTab, "Red Autons", () -> autonChooserRed, LOG_LEVEL.MINIMAL);
-        NerdLog.logData(kAutosTab, "Blue Autons", () -> autonChooserBlue, LOG_LEVEL.MINIMAL);
+        NerdLog.logData(kAutosTab, "Red Autons", autonChooserRed, LOG_LEVEL.MINIMAL);
+        NerdLog.logData(kAutosTab, "Blue Autons", autonChooserBlue, LOG_LEVEL.MINIMAL);
 
         //initialize autos
         //Example: exampleAuto = new PathPlannerAuto("example Auto");
