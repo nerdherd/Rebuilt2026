@@ -151,7 +151,7 @@ public class SuperSystem implements Reportable {
         applySubsystems((s) -> s.initializeLogging());
 
         NerdLog.logNumber(kSupersystemTab, "Hub Distance", this::getHubDistance, "m", LOG_LEVEL.ALL);
-        NerdLog.logData(kSupersystemTab, "Command Scheduler", () -> CommandScheduler.getInstance(), LOG_LEVEL.ALL);
+        NerdLog.logData(kSupersystemTab, "Command Scheduler", CommandScheduler.getInstance(), LOG_LEVEL.ALL);
         
     }
 }

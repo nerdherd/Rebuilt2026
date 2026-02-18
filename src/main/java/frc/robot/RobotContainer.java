@@ -213,7 +213,7 @@ public class RobotContainer {
   }
   
   public void initializeLogging() {
-    NerdLog.logData("Robot", "PDP", () -> pdp, LOG_LEVEL.ALL);
+    NerdLog.logData("Robot", "PDP", pdp, LOG_LEVEL.ALL);
     swerveDrive.initializeLogging();
     if (Constants.USE_SUBSYSTEMS) { 
       superSystem.initializeLogging();

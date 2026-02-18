@@ -7,9 +7,12 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.function.Supplier;
 
+import com.ctre.phoenix6.swerve.SwerveDrivetrain.SwerveDriveState;
+
 import dev.doglog.DogLog;
 import edu.wpi.first.math.MathSharedStore;
 import edu.wpi.first.util.sendable.Sendable;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.util.struct.StructSerializable;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Alert.AlertType;
@@ -112,13 +115,9 @@ public class NerdLog {
 		logSuppliers.get(loggingLevel).add(logger);
 	}
 
-	public static void logData(String key, String name, Supplier<Sendable> supplier, LOG_LEVEL loggingLevel) {
+	public static void logData(String key, String name, Sendable supplier, LOG_LEVEL loggingLevel) {
 		if(Constants.ROBOT_LOG_LEVEL.ordinal() > loggingLevel.ordinal()) return;
-		if (!logSuppliers.containsKey(loggingLevel)) logSuppliers.put(loggingLevel, new ArrayList<>());
-		Runnable logger = () -> {
-			SmartDashboard.putData(key + "/" + name, supplier.get());
-		};
-		logSuppliers.get(loggingLevel).add(logger);
+		SmartDashboard.putData(key + "/" + name, supplier);
 	}
 
 	public static void logStructSerializable(String key, String name, Supplier<StructSerializable> supplier, LOG_LEVEL loggingLevel) {
@@ -128,6 +127,34 @@ public class NerdLog {
 			DogLog.forceNt.log(key + "/" + name, supplier.get());
 		};
 		logSuppliers.get(loggingLevel).add(logger);
+	}
+
+	public static void logSwerveModules(String key, String name, Supplier<SwerveDriveState> supplier, LOG_LEVEL loggingLevel) {
+		if(Constants.ROBOT_LOG_LEVEL.ordinal() > loggingLevel.ordinal()) return;
+		SmartDashboard.putData(key + "/" + name, generateModuleSendable(supplier));
+	}
+
+	private static Sendable generateModuleSendable(Supplier<SwerveDriveState> state) {
+		return new Sendable() {
+			@Override
+			public void initSendable(SendableBuilder builder) {
+				builder.setSmartDashboardType("SwerveDrive");
+
+				builder.addDoubleProperty("Front Left Angle", () -> state.get().ModuleStates[0].angle.getRadians(), null);
+				builder.addDoubleProperty("Front Left Velocity", () -> state.get().ModuleStates[0].speedMetersPerSecond, null);
+
+				builder.addDoubleProperty("Front Right Angle", () -> state.get().ModuleStates[1].angle.getRadians(), null);
+				builder.addDoubleProperty("Front Right Velocity", () -> state.get().ModuleStates[1].speedMetersPerSecond, null);
+
+				builder.addDoubleProperty("Back Left Angle", () -> state.get().ModuleStates[2].angle.getRadians(), null);
+				builder.addDoubleProperty("Back Left Velocity", () -> state.get().ModuleStates[2].speedMetersPerSecond, null);
+
+				builder.addDoubleProperty("Back Right Angle", () -> state.get().ModuleStates[3].angle.getRadians(), null);
+				builder.addDoubleProperty("Back Right Velocity", () -> state.get().ModuleStates[3].speedMetersPerSecond, null);
+
+				builder.addDoubleProperty("Robot Angle", () -> state.get().Pose.getRotation().getRadians(), null);
+			}
+		};
 	}
 
 	public static void print(String message) {

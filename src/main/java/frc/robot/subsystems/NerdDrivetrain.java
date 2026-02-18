@@ -304,7 +304,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
 
     @Override
     public void initializeLogging() {
-        NerdLog.logData(kSwerveTab, "Robot Field", () -> field, LOG_LEVEL.MINIMAL);
+        NerdLog.logData(kSwerveTab, "robot field", field, LOG_LEVEL.MINIMAL);
 
         ///////////
         /// ALL ///
@@ -312,16 +312,15 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
         if (Constants.ROBOT_LOG_LEVEL == LOG_LEVEL.ALL) {
             Field2d positionField = new Field2d();
             for (FieldPositions position : FieldPositions.values()) {
-                FieldObject2d blue = positionField.getObject(position.name() + "-blue");
-                blue.setPose(position.blue);
-                FieldObject2d red  = positionField.getObject(position.name() + "-red");
-                red.setPose(position.red);
+                positionField.getObject(position.name() + "-blue").setPose(position.blue);
+                positionField.getObject(position.name() + "-red").setPose(position.red);
             }
-            NerdLog.logData("NerdDrivetrain", "Position Field", () -> positionField, LOG_LEVEL.ALL);
+            NerdLog.logData("NerdDrivetrain", "position field", positionField, LOG_LEVEL.ALL);
         }
 
         NerdLog.logStructSerializable(kSwerveTab, "field chassis speeds", () -> getFieldOrientedSpeeds(), LOG_LEVEL.ALL);
-        
+        NerdLog.logSwerveModules(kSwerveTab, "modules", this::getState, LOG_LEVEL.ALL);
+
         //////////////
         /// MEDIUM ///
         //////////////
