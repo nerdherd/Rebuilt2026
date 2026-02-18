@@ -5,6 +5,7 @@
 package frc.robot;
 
 import static frc.robot.Constants.USE_VISION;
+import static frc.robot.Constants.LoggingConstants.kLogTimeProfile;
 
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
@@ -50,9 +51,9 @@ public class Robot extends TimedRobot {
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
     
-    // double startTime = MathSharedStore.getTimestamp();
+    DogLog.time(kLogTimeProfile);
     NerdLog.periodic();
-    // DriverStation.reportWarning((MathSharedStore.getTimestamp() - startTime) + "s", false);
+    DogLog.timeEnd(kLogTimeProfile);
   }
 
   /** This function is called once each time the robot enters Disabled mode. */

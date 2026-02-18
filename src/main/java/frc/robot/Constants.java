@@ -223,6 +223,7 @@ public final class Constants {
     public static final String kSupersystemTab = "Supersystem";
     public static final String kSwerveTab = "NerdDrivetrain";
     public static final String kAutosTab = "Autons";
+    public static final String kLogTimeProfile = "Robot/NerdLog.periodic()";
   }
 
   public static final class VisionConstants {
