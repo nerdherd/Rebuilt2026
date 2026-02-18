@@ -49,7 +49,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+    DogLog.time("Robot/CommandSchedulerPeriodic");
     CommandScheduler.getInstance().run();
+    DogLog.timeEnd("Robot/CommandSchedulerPeriodic");
     
     DogLog.time(kLogTimeProfile);
     NerdLog.periodic();

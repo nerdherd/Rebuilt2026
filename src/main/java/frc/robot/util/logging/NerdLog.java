@@ -24,12 +24,13 @@ import frc.robot.util.logging.Reportable.LOG_LEVEL;
 
 public class NerdLog {
     private static HashMap<Reportable.LOG_LEVEL, ArrayList<Runnable>> logSuppliers = new HashMap<>();
-	private static ArrayList<BaseStatusSignal> refreshList = new ArrayList<>();
+	private static HashMap<String, ArrayList<BaseStatusSignal>> refreshList = new HashMap<>();
 	private static double timeLastPublished = 0.0;
 	private static int publishCount = 0;
 
 	public static void periodic() {
-		BaseStatusSignal.refreshAll(refreshList);
+		for (ArrayList<BaseStatusSignal> signals : refreshList.values())
+			BaseStatusSignal.refreshAll(signals);
 		double currentTime = MathSharedStore.getTimestamp();
 		if (currentTime - timeLastPublished >= LoggingConstants.LOGGING_INTERVAL) {
 			LOG_LEVEL[] levels = LOG_LEVEL.values();
@@ -52,14 +53,15 @@ public class NerdLog {
 		logSuppliers.get(loggingLevel).add(logger);
 	}
 	
-    public static void logNumber(String key, String name, BaseStatusSignal signal, String unit, LOG_LEVEL loggingLevel) {
+    public static void logNumber(String key, String name, BaseStatusSignal signal, String networkName, LOG_LEVEL loggingLevel) {
 		if(Constants.ROBOT_LOG_LEVEL.ordinal() > loggingLevel.ordinal()) return;
 		if (!logSuppliers.containsKey(loggingLevel)) logSuppliers.put(loggingLevel, new ArrayList<>());
 		Runnable logger = () -> {
-			DogLog.log(key + "/" + name, signal.getValueAsDouble(), unit);
+			DogLog.log(key + "/" + name, signal.getValueAsDouble(), signal.getUnits());
 		};
 		logSuppliers.get(loggingLevel).add(logger);
-		refreshList.add(signal);
+		if (!refreshList.containsKey(networkName)) refreshList.put(networkName, new ArrayList<>());
+		refreshList.get(networkName).add(signal);
 	}
 
 	public static void logNumber(String key, String name, Supplier<Double> supplier, LOG_LEVEL loggingLevel) {
@@ -192,7 +194,9 @@ public class NerdLog {
 				output = output + level.name() + ": " + logSuppliers.get(level).size() + "\n";
 			}
 		}
-		output = output + "SIGNALS: " + refreshList.size() + "\n";
+		for (String network : refreshList.keySet()) {
+			output = output + "SIGNALS (" + ((network.equals("")) ? "rio" : network) + "): " + refreshList.get(network).size() + "\n";
+		}
 		print(output);
 	}
 }

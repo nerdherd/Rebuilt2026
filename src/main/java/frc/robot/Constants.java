@@ -49,7 +49,7 @@ import frc.robot.util.logging.Reportable.LOG_LEVEL;
 public final class Constants {
 
   /** current logging level of the robot's subsystems, @see Reportable.add... */
-  public static final LOG_LEVEL ROBOT_LOG_LEVEL = LOG_LEVEL.ALL;
+  public static final LOG_LEVEL ROBOT_LOG_LEVEL = LOG_LEVEL.MEDIUM;
   
   /** 
    * (hopefully) controls whether subsystem objects are used, swerve and others not counted
