@@ -297,41 +297,41 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 	 * {@link #desiredValue}
 	 * @return the position or velocity based on motor1
 	 */
-	public double getCurrentValue() {
+	public BaseStatusSignal getCurrentValue() {
 		switch (mode) {
 			case POSITION:
-				return motor1.getPosition().getValueAsDouble();
+				return motor1.getPosition(false);
 			case PROFILED_VELOCITY:
 			case VELOCITY:
-				return motor1.getVelocity().getValueAsDouble();
+				return motor1.getVelocity(false);
 			case VOLTAGE:
-				return motor1.getMotorVoltage().getValueAsDouble();
+				return motor1.getMotorVoltage(false);
 			default:
 				break;
 		}
 
-		return 0.0;
+		return null;
 	}
 
 	/**
 	 * {@link #desiredValue}
 	 * @return the position or velocity based on motor2
 	 */
-	public double getCurrentValue2() {
-		if (!hasMotor2()) return 0.0;
+	public BaseStatusSignal getCurrentValue2() {
+		if (!hasMotor2()) return null;
 		switch (mode) {
 			case POSITION:
-				return motor2.getPosition().getValueAsDouble();
+				return motor2.getPosition(false);
 			case PROFILED_VELOCITY:
 			case VELOCITY:
-				return motor2.getVelocity().getValueAsDouble();
+				return motor2.getVelocity(false);
 			case VOLTAGE:
-				return motor2.getMotorVoltage().getValueAsDouble();
+				return motor2.getMotorVoltage(false);
 			default:
 				break;
 		}
 
-		return 0.0;
+		return null;
 	}
 
 	/**
@@ -410,23 +410,23 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
         NerdLog.logNumber(kSubsystemTab + name,"Desired " + getFlavorText(), () -> getDesiredValue(), getUnit(), Reportable.LOG_LEVEL.ALL);
 		NerdLog.logBoolean(kSubsystemTab + name, "Has Error", () -> _hasError, Reportable.LOG_LEVEL.ALL);
 
-		NerdLog.logNumber(kSubsystemTab + name, "Torque Current 1", () -> motor1.getTorqueCurrent().getValueAsDouble(), "A", Reportable.LOG_LEVEL.ALL);
-		if (hasMotor2()) NerdLog.logNumber(kSubsystemTab + name, "Torque Current 2", () -> motor2.getTorqueCurrent().getValueAsDouble(), "A", Reportable.LOG_LEVEL.ALL);
+		NerdLog.logNumber(kSubsystemTab + name, "Torque Current 1", motor1.getTorqueCurrent(false), "A", Reportable.LOG_LEVEL.ALL);
+		if (hasMotor2()) NerdLog.logNumber(kSubsystemTab + name, "Torque Current 2", motor2.getTorqueCurrent(false), "A", Reportable.LOG_LEVEL.ALL);
 
-		NerdLog.logNumber(kSubsystemTab + name, "Supply Current 1", () -> motor1.getSupplyCurrent().getValueAsDouble(), "A", Reportable.LOG_LEVEL.ALL);
-		if (hasMotor2()) NerdLog.logNumber(kSubsystemTab + name, "Supply Current 2", () -> motor2.getSupplyCurrent().getValueAsDouble(), "A", Reportable.LOG_LEVEL.ALL);
+		NerdLog.logNumber(kSubsystemTab + name, "Supply Current 1", motor1.getSupplyCurrent(false), "A", Reportable.LOG_LEVEL.ALL);
+		if (hasMotor2()) NerdLog.logNumber(kSubsystemTab + name, "Supply Current 2", motor2.getSupplyCurrent(false), "A", Reportable.LOG_LEVEL.ALL);
 
 		//////////////
 		/// MEDIUM ///
         //////////////
         NerdLog.logBoolean(kSubsystemTab + name, "Enabled", () -> this.enabled, Reportable.LOG_LEVEL.MEDIUM);
-        NerdLog.logNumber(kSubsystemTab + name, "Temperature 1", () -> getCurrentTemp(), "C", Reportable.LOG_LEVEL.MEDIUM);
-        if (hasMotor2()) NerdLog.logNumber(kSubsystemTab + name, "Temperature 2", () -> getCurrentTemp2(), "C", Reportable.LOG_LEVEL.MEDIUM);
+        NerdLog.logNumber(kSubsystemTab + name, "Temperature 1", motor1.getDeviceTemp(false), "C", Reportable.LOG_LEVEL.MEDIUM);
+        if (hasMotor2()) NerdLog.logNumber(kSubsystemTab + name, "Temperature 2", motor2.getDeviceTemp(false), "C", Reportable.LOG_LEVEL.MEDIUM);
         
         //////////////
         /// MINIMAL //
         //////////////
-        NerdLog.logNumber(kSubsystemTab + name, getFlavorText() + " 1", () -> getCurrentValue(), getUnit(), Reportable.LOG_LEVEL.MINIMAL);
-        if (hasMotor2()) NerdLog.logNumber(kSubsystemTab + name, getFlavorText() + " 2", () -> getCurrentValue2(), getUnit(), Reportable.LOG_LEVEL.MINIMAL);
+        NerdLog.logNumber(kSubsystemTab + name, getFlavorText() + " 1", getCurrentValue(), getUnit(), Reportable.LOG_LEVEL.MINIMAL);
+        if (hasMotor2()) NerdLog.logNumber(kSubsystemTab + name, getFlavorText() + " 2", getCurrentValue2(), getUnit(), Reportable.LOG_LEVEL.MINIMAL);
     }
 }
