@@ -6,8 +6,8 @@ package frc.robot.util.logging;
 
 public interface Reportable {
 	public enum LOG_LEVEL {
-		ALL(100),
-		MEDIUM(10),
+		ALL(1),
+		MEDIUM(1),
 		MINIMAL(1),
 		NONE(1)
 		;

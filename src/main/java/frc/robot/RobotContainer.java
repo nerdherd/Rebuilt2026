@@ -22,6 +22,8 @@ import frc.robot.subsystems.SuperSystem;
 import frc.robot.util.Controller;
 import frc.robot.util.NerdyMath;
 import frc.robot.util.Controller.Type;
+import frc.robot.util.logging.NerdLog;
+import frc.robot.util.logging.Reportable.LOG_LEVEL;
 
 public class RobotContainer {
   public NerdDrivetrain swerveDrive;
@@ -51,7 +53,7 @@ public class RobotContainer {
     initializeLogging();
     Autos.initializeAutos();
 
-    DriverStation.reportWarning("Initialization complete", false);
+    NerdLog.print("Initialization Complete");
   }
 
   public static void refreshAlliance() {
@@ -211,8 +213,8 @@ public class RobotContainer {
   }
   
   public void initializeLogging() {
+    NerdLog.logData("Robot", "PDP", () -> pdp, LOG_LEVEL.ALL);
     swerveDrive.initializeLogging();
-  
     if (Constants.USE_SUBSYSTEMS) { 
       superSystem.initializeLogging();
     }

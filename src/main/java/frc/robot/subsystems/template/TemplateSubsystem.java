@@ -4,7 +4,7 @@
 
 package frc.robot.subsystems.template;
 
-import static frc.robot.Constants.LoggingConstants.kSubsystemLogPath;
+import static frc.robot.Constants.LoggingConstants.kSubsystemTab;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
@@ -18,7 +18,6 @@ import com.ctre.phoenix6.signals.ConnectedMotorValue;
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -159,8 +158,8 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 		switch (mode) {
 			case POSITION:
 				motor1.setControl(positionController.withPosition(this.desiredValue));
-				if (configuration.MotionMagic.MotionMagicCruiseVelocity == 0.0) DriverStation.reportWarning(name + ": MM Cruise Velocity is 0.0", null);
-				if (configuration.MotionMagic.MotionMagicAcceleration == 0.0) DriverStation.reportWarning(name + ": MM Acceleration is 0.0", null);
+				if (configuration.MotionMagic.MotionMagicCruiseVelocity == 0.0) NerdLog.reportWarning(name + ": MM Cruise Velocity is 0.0");
+				if (configuration.MotionMagic.MotionMagicAcceleration == 0.0) NerdLog.reportWarning(name + ": MM Acceleration is 0.0");
 				break;
 			case VELOCITY:
 				if (Math.abs(this.desiredValue) <= 0.1) {
@@ -170,12 +169,12 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 				break;
 			case VOLTAGE:
 				if (Math.abs(this.desiredValue) > 12)
-					DriverStation.reportWarning(name + ": voltage > 12", null);
+					NerdLog.reportWarning(name + ": voltage > 12");
 				motor1.setControl(voltageController.withOutput(this.desiredValue));
 				break;
 			case PROFILED_VELOCITY:
 				motor1.setControl(profiledVelocityController.withVelocity(this.desiredValue).withAcceleration(configuration.MotionMagic.MotionMagicAcceleration));
-				if (configuration.MotionMagic.MotionMagicAcceleration == 0.0) DriverStation.reportWarning(name + ": MM Acceleration is 0.0", null);
+				if (configuration.MotionMagic.MotionMagicAcceleration == 0.0) NerdLog.reportWarning(name + ": MM Acceleration is 0.0");
 			default:
 				break;
 		}
@@ -405,26 +404,28 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
         ///////////
         /// ALL ///
         ///////////
-        NerdLog.logNumber(kSubsystemLogPath + name,"Desired " + getFlavorText(), () -> getDesiredValue(), getUnit(), Reportable.LOG_LEVEL.ALL);
-		NerdLog.logBoolean(kSubsystemLogPath + name, "Has Error", () -> _hasError, Reportable.LOG_LEVEL.ALL);
+		NerdLog.logData(kSubsystemTab + name, "Commands", () -> this, LOG_LEVEL.ALL); 
+		
+        NerdLog.logNumber(kSubsystemTab + name,"Desired " + getFlavorText(), () -> getDesiredValue(), getUnit(), Reportable.LOG_LEVEL.ALL);
+		NerdLog.logBoolean(kSubsystemTab + name, "Has Error", () -> _hasError, Reportable.LOG_LEVEL.ALL);
 
-		NerdLog.logNumber(kSubsystemLogPath + name, "Torque Current 1", () -> motor1.getTorqueCurrent().getValueAsDouble(), "A", Reportable.LOG_LEVEL.ALL);
-		if (hasMotor2()) NerdLog.logNumber(kSubsystemLogPath + name, "Torque Current 2", () -> motor2.getTorqueCurrent().getValueAsDouble(), "A", Reportable.LOG_LEVEL.ALL);
+		NerdLog.logNumber(kSubsystemTab + name, "Torque Current 1", () -> motor1.getTorqueCurrent().getValueAsDouble(), "A", Reportable.LOG_LEVEL.ALL);
+		if (hasMotor2()) NerdLog.logNumber(kSubsystemTab + name, "Torque Current 2", () -> motor2.getTorqueCurrent().getValueAsDouble(), "A", Reportable.LOG_LEVEL.ALL);
 
-		NerdLog.logNumber(kSubsystemLogPath + name, "Supply Current 1", () -> motor1.getSupplyCurrent().getValueAsDouble(), "A", Reportable.LOG_LEVEL.ALL);
-		if (hasMotor2()) NerdLog.logNumber(kSubsystemLogPath + name, "Supply Current 2", () -> motor2.getSupplyCurrent().getValueAsDouble(), "A", Reportable.LOG_LEVEL.ALL);
+		NerdLog.logNumber(kSubsystemTab + name, "Supply Current 1", () -> motor1.getSupplyCurrent().getValueAsDouble(), "A", Reportable.LOG_LEVEL.ALL);
+		if (hasMotor2()) NerdLog.logNumber(kSubsystemTab + name, "Supply Current 2", () -> motor2.getSupplyCurrent().getValueAsDouble(), "A", Reportable.LOG_LEVEL.ALL);
 		
         //////////////
 		/// MEDIUM ///
         //////////////
-        NerdLog.logBoolean(kSubsystemLogPath + name, "Enabled", () -> this.enabled, Reportable.LOG_LEVEL.MEDIUM);
-        NerdLog.logNumber(kSubsystemLogPath + name, "Temperature 1", () -> getCurrentTemp(), "C", Reportable.LOG_LEVEL.MEDIUM);
-        if (hasMotor2()) NerdLog.logNumber(kSubsystemLogPath + name, "Temperature 2", () -> getCurrentTemp2(), "C", Reportable.LOG_LEVEL.MEDIUM);
+        NerdLog.logBoolean(kSubsystemTab + name, "Enabled", () -> this.enabled, Reportable.LOG_LEVEL.MEDIUM);
+        NerdLog.logNumber(kSubsystemTab + name, "Temperature 1", () -> getCurrentTemp(), "C", Reportable.LOG_LEVEL.MEDIUM);
+        if (hasMotor2()) NerdLog.logNumber(kSubsystemTab + name, "Temperature 2", () -> getCurrentTemp2(), "C", Reportable.LOG_LEVEL.MEDIUM);
         
         //////////////
         /// MINIMAL //
         //////////////
-        NerdLog.logNumber(kSubsystemLogPath + name, getFlavorText() + " 1", () -> getCurrentValue(), getUnit(), Reportable.LOG_LEVEL.MINIMAL);
-        if (hasMotor2()) NerdLog.logNumber(kSubsystemLogPath + name, getFlavorText() + " 2", () -> getCurrentValue2(), getUnit(), Reportable.LOG_LEVEL.MINIMAL);
+        NerdLog.logNumber(kSubsystemTab + name, getFlavorText() + " 1", () -> getCurrentValue(), getUnit(), Reportable.LOG_LEVEL.MINIMAL);
+        if (hasMotor2()) NerdLog.logNumber(kSubsystemTab + name, getFlavorText() + " 2", () -> getCurrentValue2(), getUnit(), Reportable.LOG_LEVEL.MINIMAL);
     }
 }

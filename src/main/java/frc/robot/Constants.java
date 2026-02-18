@@ -49,7 +49,7 @@ import frc.robot.util.logging.Reportable.LOG_LEVEL;
 public final class Constants {
 
   /** current logging level of the robot's subsystems, @see Reportable.add... */
-  public static final LOG_LEVEL ROBOT_LOG_LEVEL = LOG_LEVEL.MEDIUM;
+  public static final LOG_LEVEL ROBOT_LOG_LEVEL = LOG_LEVEL.ALL;
   
   /** 
    * (hopefully) controls whether subsystem objects are used, swerve and others not counted
@@ -219,7 +219,10 @@ public final class Constants {
         .withLogEntryQueueCapacity(1000)
       ;
 
-    public static final String kSubsystemLogPath = "Subsystems/"; // ends with a /
+    public static final String kSubsystemTab = "Subsystems/"; // ends with a /
+    public static final String kSupersystemTab = "Supersystem";
+    public static final String kSwerveTab = "NerdDrivetrain";
+    public static final String kAutosTab = "Autons";
   }
 
   public static final class VisionConstants {

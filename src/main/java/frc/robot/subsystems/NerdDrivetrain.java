@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import static frc.robot.Constants.USE_VISION;
+import static frc.robot.Constants.LoggingConstants.kSwerveTab;
 import static frc.robot.Constants.PathPlannerConstants.kPPRotationPIDConstants;
 import static frc.robot.Constants.PathPlannerConstants.kPPTranslationPIDConstants;
 import static frc.robot.Constants.SwerveDriveConstants.kApplyRobotSpeedsRequest;
@@ -303,8 +304,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
 
     @Override
     public void initializeLogging() {
-        String tab = "NerdDrivetrain";
-        NerdLog.logData(tab, "Robot Field", () -> field, LOG_LEVEL.MINIMAL);
+        NerdLog.logData(kSwerveTab, "Robot Field", () -> field, LOG_LEVEL.MINIMAL);
 
         ///////////
         /// ALL ///
@@ -320,21 +320,19 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
             NerdLog.logData("NerdDrivetrain", "Position Field", () -> positionField, LOG_LEVEL.ALL);
         }
 
-        NerdLog.logNumber(tab, "field chassis speeds x", () -> getFieldOrientedSpeeds().vxMetersPerSecond, "m/s", LOG_LEVEL.ALL);
-        NerdLog.logNumber(tab, "field chassis speeds y", () -> getFieldOrientedSpeeds().vyMetersPerSecond, "m/s", LOG_LEVEL.ALL);
-        NerdLog.logNumber(tab, "field chassis speeds r", () -> getFieldOrientedSpeeds().omegaRadiansPerSecond, "rad/s", LOG_LEVEL.ALL);
+        NerdLog.logStructSerializable(kSwerveTab, "field chassis speeds", () -> getFieldOrientedSpeeds(), LOG_LEVEL.ALL);
         
         //////////////
         /// MEDIUM ///
         //////////////
-        NerdLog.logNumber(tab, "swerve heading", this::getSwerveHeadingDegrees, "deg", LOG_LEVEL.MEDIUM);
-        NerdLog.logNumber(tab, "driver heading", this::getDriverHeadingDegrees, "deg", LOG_LEVEL.MEDIUM);
+        NerdLog.logNumber(kSwerveTab, "swerve heading", this::getSwerveHeadingDegrees, "deg", LOG_LEVEL.MEDIUM);
+        NerdLog.logNumber(kSwerveTab, "driver heading", this::getDriverHeadingDegrees, "deg", LOG_LEVEL.MEDIUM);
         
         //////////////
         /// MINIMAL //
         //////////////
-        NerdLog.logString(tab, "temperatures", this::pollTemperatures, LOG_LEVEL.MINIMAL); // maybe better on medium
-        NerdLog.logNumber(tab, "stator current sum", this::pollStatorCurrentSum, "A", LOG_LEVEL.MINIMAL);
+        NerdLog.logString(kSwerveTab, "temperatures", this::pollTemperatures, LOG_LEVEL.MINIMAL); // maybe better on medium
+        NerdLog.logNumber(kSwerveTab, "stator current sum", this::pollStatorCurrentSum, "A", LOG_LEVEL.MINIMAL);
     }
 
 }
