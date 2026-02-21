@@ -252,7 +252,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
     // ----------------------------------------- Gyro Functions ----------------------------------------- //
 
     /** 
-     * set the operator heading to forward based on alliance field forward
+     * Set the operator heading to forward based on alliance field forward
      * @see {@link #setOperatorPerspectiveForward} also for more custom setting
      */
     public void setDriverHeadingForward() {
@@ -260,7 +260,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
     }
 
     /** 
-     * set the operator heading to forward based on robot
+     * Set the operator heading to forward based on robot
      * @see {@link #setOperatorPerspectiveForward} also for more custom setting
      */
     public void setRobotHeadingForward() {
@@ -268,7 +268,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
     }
     
     /**
-     * get heading relative to what the operator sees in degrees
+     * Get heading relative to what the operator sees in degrees
      * @see {@link #setDriverHeadingForward()} for resetting to zero
      */
     public double getDriverHeadingDegrees() {
@@ -276,7 +276,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
     }
 
     /**
-     * get heading relative to what the operator sees in radians
+     * Get heading relative to what the operator sees in radians
      * @see {@link #setDriverHeadingForward()} for resetting to zero
      */
     public double getDriverHeadingRadians() {
@@ -284,7 +284,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
     }
 
     /** 
-     * get absolute heading in degrees, from blue alliance orientation
+     * Get absolute heading in degrees, from blue alliance orientation
      * @see {@link #resetRotation(Rotation2d)}
      */
     public double getSwerveHeadingDegrees() {
@@ -292,7 +292,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
     }
 
     /** 
-     * get absolute heading in radians, from blue alliance orientation
+     * Get absolute heading in radians, from blue alliance orientation
      * @see {@link #resetRotation(Rotation2d)}
      */
     public double getSwerveHeadingRadians() {
@@ -303,7 +303,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
 
     @Override
     public void initializeLogging() {
-        NerdLog.logData(kSwerveTab, "robot field", field, LOG_LEVEL.MINIMAL);
+        NerdLog.logData(kSwerveTab + "/Robot Field", field, LOG_LEVEL.MINIMAL);
 
         ///////////
         /// ALL ///
@@ -314,23 +314,23 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
                 positionField.getObject(position.name() + "-blue").setPose(position.blue);
                 positionField.getObject(position.name() + "-red").setPose(position.red);
             }
-            NerdLog.logData("NerdDrivetrain", "position field", positionField, LOG_LEVEL.ALL);
+            NerdLog.logData("NerdDrivetrain/Object Field", positionField, LOG_LEVEL.ALL);
         }
 
-        NerdLog.logStructSerializable(kSwerveTab, "field chassis speeds", () -> getFieldOrientedSpeeds(), LOG_LEVEL.ALL);
-        NerdLog.logSwerveModules(kSwerveTab, "modules", this::getState, LOG_LEVEL.ALL);
+        NerdLog.logStructSerializable(kSwerveTab + "/Field Chassis Speeds", () -> getFieldOrientedSpeeds(), LOG_LEVEL.ALL);
+        NerdLog.logSwerveModules(kSwerveTab + "/Swerve Module States", this::getState, LOG_LEVEL.ALL);
 
         //////////////
         /// MEDIUM ///
         //////////////
-        NerdLog.logNumber(kSwerveTab, "swerve heading", this::getSwerveHeadingDegrees, "deg", LOG_LEVEL.MEDIUM);
-        NerdLog.logNumber(kSwerveTab, "driver heading", this::getDriverHeadingDegrees, "deg", LOG_LEVEL.MEDIUM);
+        NerdLog.logNumber(kSwerveTab + "/Swerve Heading", this::getSwerveHeadingDegrees, "deg", LOG_LEVEL.MEDIUM);
+        NerdLog.logNumber(kSwerveTab + "/Driver Heading", this::getDriverHeadingDegrees, "deg", LOG_LEVEL.MEDIUM);
         
         //////////////
         /// MINIMAL //
         //////////////
-        NerdLog.logString(kSwerveTab, "temperatures", this::pollTemperatures, LOG_LEVEL.MINIMAL); // maybe better on medium
-        NerdLog.logNumber(kSwerveTab, "stator current sum", this::pollStatorCurrentSum, "A", LOG_LEVEL.MINIMAL);
+        NerdLog.logString(kSwerveTab + "/Temperatures", this::pollTemperatures, LOG_LEVEL.MINIMAL); // maybe better on medium
+        NerdLog.logNumber(kSwerveTab +"/Stator Current Sum", this::pollStatorCurrentSum, "A", LOG_LEVEL.MINIMAL);
     }
 
 }
