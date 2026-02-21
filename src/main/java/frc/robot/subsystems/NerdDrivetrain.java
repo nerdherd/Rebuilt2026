@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import static frc.robot.Constants.USE_VISION;
+import static frc.robot.Constants.LoggingConstants.kSwerveTab;
 import static frc.robot.Constants.PathPlannerConstants.kPPRotationPIDConstants;
 import static frc.robot.Constants.PathPlannerConstants.kPPTranslationPIDConstants;
 import static frc.robot.Constants.SwerveDriveConstants.kApplyRobotSpeedsRequest;
@@ -28,10 +29,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
-import edu.wpi.first.wpilibj.smartdashboard.FieldObject2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.Subsystem;
@@ -40,6 +38,8 @@ import frc.robot.RobotContainer;
 import frc.robot.Constants.SwerveDriveConstants.FieldPositions;
 import frc.robot.Constants.VisionConstants.Camera;
 import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
+import frc.robot.util.logging.NerdLog;
+import frc.robot.util.logging.Reportable;
 import frc.robot.vision.LimelightHelpers;
 import frc.robot.vision.LimelightHelpers.PoseEstimate;
 
@@ -303,8 +303,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
 
     @Override
     public void initializeLogging() {
-        ShuffleboardTab tab = Shuffleboard.getTab("NerdDrivetrain");
-        tab.add("Robot Field", field).withSize(6,3);
+        NerdLog.logData(kSwerveTab, "robot field", field, LOG_LEVEL.MINIMAL);
 
         ///////////
         /// ALL ///
@@ -312,29 +311,26 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
         if (Constants.ROBOT_LOG_LEVEL == LOG_LEVEL.ALL) {
             Field2d positionField = new Field2d();
             for (FieldPositions position : FieldPositions.values()) {
-                FieldObject2d blue = positionField.getObject(position.name() + "-blue");
-                blue.setPose(position.blue);
-                FieldObject2d red  = positionField.getObject(position.name() + "-red");
-                red.setPose(position.red);
+                positionField.getObject(position.name() + "-blue").setPose(position.blue);
+                positionField.getObject(position.name() + "-red").setPose(position.red);
             }
-            tab.add("Position Field", positionField).withSize(6,3);
+            NerdLog.logData("NerdDrivetrain", "position field", positionField, LOG_LEVEL.ALL);
         }
 
-        Reportable.addNumber(tab, "field chassis speeds x", () -> getFieldOrientedSpeeds().vxMetersPerSecond, LOG_LEVEL.ALL);
-        Reportable.addNumber(tab, "field chassis speeds y", () -> getFieldOrientedSpeeds().vyMetersPerSecond, LOG_LEVEL.ALL);
-        Reportable.addNumber(tab, "field chassis speeds r", () -> getFieldOrientedSpeeds().omegaRadiansPerSecond, LOG_LEVEL.ALL);
-        
+        NerdLog.logStructSerializable(kSwerveTab, "field chassis speeds", () -> getFieldOrientedSpeeds(), LOG_LEVEL.ALL);
+        NerdLog.logSwerveModules(kSwerveTab, "modules", this::getState, LOG_LEVEL.ALL);
+
         //////////////
         /// MEDIUM ///
         //////////////
-        Reportable.addNumber(tab, "swerve heading", this::getSwerveHeadingDegrees, LOG_LEVEL.MEDIUM);
-        Reportable.addNumber(tab, "driver heading", this::getDriverHeadingDegrees, LOG_LEVEL.MEDIUM);
+        NerdLog.logNumber(kSwerveTab, "swerve heading", this::getSwerveHeadingDegrees, "deg", LOG_LEVEL.MEDIUM);
+        NerdLog.logNumber(kSwerveTab, "driver heading", this::getDriverHeadingDegrees, "deg", LOG_LEVEL.MEDIUM);
         
         //////////////
         /// MINIMAL //
         //////////////
-        Reportable.addString(tab, "temperatures", this::pollTemperatures, LOG_LEVEL.MINIMAL); // maybe better on medium
-        Reportable.addNumber(tab, "stator current sum", this::pollStatorCurrentSum, LOG_LEVEL.MINIMAL);
+        NerdLog.logString(kSwerveTab, "temperatures", this::pollTemperatures, LOG_LEVEL.MINIMAL); // maybe better on medium
+        NerdLog.logNumber(kSwerveTab, "stator current sum", this::pollStatorCurrentSum, "A", LOG_LEVEL.MINIMAL);
     }
 
 }

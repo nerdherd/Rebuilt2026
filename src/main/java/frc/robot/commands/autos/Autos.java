@@ -1,13 +1,13 @@
 package frc.robot.commands.autos;
 
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.subsystems.SuperSystem;
+import frc.robot.util.logging.NerdLog;
+import frc.robot.util.logging.Reportable.LOG_LEVEL;
 
-import javax.annotation.processing.SupportedSourceVersion;
+import static frc.robot.Constants.LoggingConstants.kAutosTab;
 
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
@@ -17,7 +17,7 @@ public final class Autos {
 
     //autos
     // Example: private static PathPlannerAuto exampleAuto;
-    private static Command S3TowerBlue;
+    private static PathPlannerAuto S3TowerBlue;
     private static PathPlannerAuto S3TowerRed;
     private static PathPlannerAuto S5BottomBlueOutpost;
     private static PathPlannerAuto S4BottomBlueOutpost;
@@ -26,15 +26,9 @@ public final class Autos {
 
 
     public static void initializeAutos() {
-        Shuffleboard.getTab("Autons").add("Red Autons", autonChooserRed)
-                .withWidget(BuiltInWidgets.kComboBoxChooser).withPosition(0, 0)
-                .withSize(2, 1);
-        Shuffleboard.getTab("Autons").add("Blue Autons", autonChooserBlue)
-                .withWidget(BuiltInWidgets.kComboBoxChooser).withPosition(0, 0)
-                .withSize(2, 1);
-        
+        NerdLog.logData(kAutosTab, "Red Autons", autonChooserRed, LOG_LEVEL.MINIMAL);
+        NerdLog.logData(kAutosTab, "Blue Autons", autonChooserBlue, LOG_LEVEL.MINIMAL);
 
-                
         //initialize autos
         //Example: exampleAuto = new PathPlannerAuto("example Auto");
         S3TowerBlue = new PathPlannerAuto("S3Blue-Tower");
@@ -43,7 +37,6 @@ public final class Autos {
         S4BottomBlueOutpost = new PathPlannerAuto("S4BottomBlue-Outpost");
         S2TopRedDepot = new PathPlannerAuto("S2TopRed-Depot");
         S2TopBlueDepot = new PathPlannerAuto("S2TopBlue-Depot");
-
 
         //add options to red 
         //autonChooserRed.addOption("exampleRed", exampleAuto);
