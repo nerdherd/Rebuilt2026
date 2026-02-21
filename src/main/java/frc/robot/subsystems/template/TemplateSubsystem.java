@@ -174,7 +174,10 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 				motor1.setControl(voltageController.withOutput(this.desiredValue));
 				break;
 			case PROFILED_VELOCITY:
-				motor1.setControl(profiledVelocityController.withVelocity(this.desiredValue).withAcceleration(configuration.MotionMagic.MotionMagicAcceleration));
+				if (Math.abs(this.desiredValue) <= 0.1) {
+					motor1.setControl(neutralRequest);
+					if (hasMotor2()) motor2.setControl(neutralRequest);
+				} else motor1.setControl(profiledVelocityController.withVelocity(this.desiredValue).withAcceleration(configuration.MotionMagic.MotionMagicAcceleration));
 				if (configuration.MotionMagic.MotionMagicAcceleration == 0.0) NerdLog.reportWarning(name + ": MM Acceleration is 0.0");
 			default:
 				break;
