@@ -53,13 +53,13 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    DogLog.time("Robot/CommandScheduler Runtime");
+    DogLog.time("Periodic/CommandScheduler Runtime");
     CommandScheduler.getInstance().run();
-    DogLog.timeEnd("Robot/CommandScheduler Runtime");
+    DogLog.timeEnd("Periodic/CommandScheduler Runtime");
     
-    DogLog.time("Robot/NerdLog Runtime");
+    DogLog.time("Periodic/NerdLog Runtime");
     NerdLog.periodic();
-    DogLog.timeEnd("Robot/NerdLog Runtime");
+    DogLog.timeEnd("Periodic/NerdLog Runtime");
   }
 
   /** This function is called once each time the robot enters Disabled mode. */

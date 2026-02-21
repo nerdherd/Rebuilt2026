@@ -1,12 +1,13 @@
 {
   "version": 1.0,
   "grid_size": 128,
+  "tabs": [
     {
       "name": "Main",
       "grid_layout": {
         "layouts": [
           {
-            "title": "Autons",
+            "title": "Autos",
             "x": 0.0,
             "y": 512.0,
             "width": 384.0,
@@ -17,27 +18,27 @@
             },
             "children": [
               {
-                "title": "Blue Autons",
+                "title": "Blue Autos",
                 "x": 0.0,
                 "y": 0.0,
                 "width": 128.0,
                 "height": 128.0,
                 "type": "ComboBox Chooser",
                 "properties": {
-                  "topic": "/SmartDashboard/Autons/Blue Autons",
+                  "topic": "/SmartDashboard/Autos/Blue Autos",
                   "period": 0.06,
                   "sort_options": false
                 }
               },
               {
-                "title": "Red Autons",
+                "title": "Red Autos",
                 "x": 0.0,
                 "y": 0.0,
                 "width": 128.0,
                 "height": 128.0,
                 "type": "ComboBox Chooser",
                 "properties": {
-                  "topic": "/SmartDashboard/Autons/Red Autons",
+                  "topic": "/SmartDashboard/Autos/Red Autos",
                   "period": 0.06,
                   "sort_options": false
                 }
@@ -47,14 +48,14 @@
         ],
         "containers": [
           {
-            "title": "robot field",
+            "title": "Robot Field",
             "x": 0.0,
             "y": 0.0,
-            "width": 1024.0,
+            "width": 896.0,
             "height": 512.0,
             "type": "Field",
             "properties": {
-              "topic": "/SmartDashboard/NerdDrivetrain/robot field",
+              "topic": "/SmartDashboard/SwerveDrive/Robot Field",
               "period": 0.06,
               "field_game": "Rebuilt",
               "robot_width": 0.85,
@@ -76,25 +77,9 @@
         "layouts": [],
         "containers": [
           {
-            "title": "NerdLog.periodic()",
-            "x": 384.0,
-            "y": 512.0,
-            "width": 512.0,
-            "height": 384.0,
-            "type": "Graph",
-            "properties": {
-              "topic": "/Robot/Robot/NerdLog.periodic()",
-              "period": 0.033,
-              "data_type": "double",
-              "time_displayed": 5.0,
-              "color": 4278238420,
-              "line_width": 2.0
-            }
-          },
-          {
             "title": "QueueRemainingCapacity",
             "x": 512.0,
-            "y": 256.0,
+            "y": 384.0,
             "width": 128.0,
             "height": 128.0,
             "type": "Text Display",
@@ -131,22 +116,6 @@
             "properties": {
               "topic": "/SmartDashboard/Alerts",
               "period": 0.06
-            }
-          },
-          {
-            "title": "CommandSchedulerPeriodic",
-            "x": 0.0,
-            "y": 512.0,
-            "width": 384.0,
-            "height": 384.0,
-            "type": "Graph",
-            "properties": {
-              "topic": "/Robot/Robot/CommandSchedulerPeriodic",
-              "period": 0.033,
-              "data_type": "double",
-              "time_displayed": 5.0,
-              "color": 4278238420,
-              "line_width": 2.0
             }
           },
           {
@@ -189,6 +158,38 @@
               "period": 0.06,
               "data_type": "string[]",
               "show_submit_button": false
+            }
+          },
+          {
+            "title": "CommandScheduler Runtime",
+            "x": 0.0,
+            "y": 512.0,
+            "width": 384.0,
+            "height": 384.0,
+            "type": "Graph",
+            "properties": {
+              "topic": "/Robot/Periodic/CommandScheduler Runtime",
+              "period": 0.033,
+              "data_type": "double",
+              "time_displayed": 5.0,
+              "color": 4278238420,
+              "line_width": 2.0
+            }
+          },
+          {
+            "title": "NerdLog Runtime",
+            "x": 512.0,
+            "y": 512.0,
+            "width": 384.0,
+            "height": 384.0,
+            "type": "Graph",
+            "properties": {
+              "topic": "/Robot/Periodic/NerdLog Runtime",
+              "period": 0.033,
+              "data_type": "double",
+              "time_displayed": 5.0,
+              "color": 4278238420,
+              "line_width": 2.0
             }
           }
         ]
