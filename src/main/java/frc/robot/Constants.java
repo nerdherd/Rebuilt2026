@@ -219,11 +219,10 @@ public final class Constants {
         .withLogEntryQueueCapacity(1000)
       ;
 
-    public static final String kSubsystemTab = "Subsystems/"; // ends with a /
-    public static final String kSupersystemTab = "Supersystem";
-    public static final String kSwerveTab = "NerdDrivetrain";
-    public static final String kAutosTab = "Autons";
-    public static final String kLogTimeProfile = "Robot/NerdLog.periodic()";
+    public static final String kSubsystemTab = "SuperSystem/"; // ends with a /
+    public static final String kSupersystemTab = "SuperSystem";
+    public static final String kSwerveTab = "SwerveDrive";
+    public static final String kAutosTab = "Autos";
   }
 
   public static final class VisionConstants {

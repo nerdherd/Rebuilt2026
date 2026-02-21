@@ -17,7 +17,7 @@ public final class Autos {
 
     //autos
     // Example: private static PathPlannerAuto exampleAuto;
-    private static Command S3TowerBlue;
+    private static PathPlannerAuto S3TowerBlue;
     private static PathPlannerAuto S3TowerRed;
     private static PathPlannerAuto S5BottomBlueOutpost;
     private static PathPlannerAuto S4BottomBlueOutpost;
@@ -37,7 +37,6 @@ public final class Autos {
         S4BottomBlueOutpost = new PathPlannerAuto("S4BottomBlue-Outpost");
         S2TopRedDepot = new PathPlannerAuto("S2TopRed-Depot");
         S2TopBlueDepot = new PathPlannerAuto("S2TopBlue-Depot");
-
 
         //add options to red 
         //autonChooserRed.addOption("exampleRed", exampleAuto);
