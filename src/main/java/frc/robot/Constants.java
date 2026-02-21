@@ -222,7 +222,7 @@ public final class Constants {
     public static final String kSubsystemTab = "SuperSystem/"; // ends with a /
     public static final String kSupersystemTab = "SuperSystem";
     public static final String kSwerveTab = "SwerveDrive";
-    public static final String kAutosTab = "Autos";
+    public static final String kAutosTab = "Autons";
   }
 
   public static final class VisionConstants {

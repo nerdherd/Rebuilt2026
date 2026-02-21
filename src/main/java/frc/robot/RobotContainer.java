@@ -17,7 +17,6 @@ import frc.robot.Constants.SwerveDriveConstants.FieldPositions;
 import frc.robot.commands.SwerveJoystickCommand;
 import frc.robot.commands.autos.Autos;
 import frc.robot.generated.TunerConstants;
-import frc.robot.generated.abruticus.AbruticusTunerConstants;
 import frc.robot.subsystems.NerdDrivetrain;
 import frc.robot.subsystems.SuperSystem;
 import frc.robot.util.Controller;
@@ -115,7 +114,7 @@ public class RobotContainer {
   public void configureDriverBindings_teleop() {
 
     driverController.controllerLeft() // Set Drive Heading
-      .onTrue(Commands.runOnce(() -> swerveDrive.setRobotHeadingForward()));
+      .onTrue(Commands.runOnce(() -> swerveDrive.setDriverHeadingForward()));
 
     driverController.controllerRight() // Set Pose Heading (pressed)
       .onTrue(Commands.runOnce(() -> swerveDrive.useMegaTag2 = false))
