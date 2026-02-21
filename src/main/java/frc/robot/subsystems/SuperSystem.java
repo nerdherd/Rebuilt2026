@@ -97,9 +97,21 @@ public class SuperSystem implements Reportable {
         );
     }
 
-    public Command stopIntaking(){
+    public Command stopIntaking() {
         return Commands.parallel(
             intakeRoller.setDesiredValueCommand(0)
+        );
+    }
+
+    public Command climbUp() {
+        return Commands.parallel(
+            climb.setDesiredValueCommand(0) // TODO
+        );
+    }
+
+    public Command climbDown() {
+        return Commands.parallel(
+            climb.setDesiredValueCommand(0)
         );
     }
 

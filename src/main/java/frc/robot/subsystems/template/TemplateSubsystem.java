@@ -242,7 +242,6 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 
 	/** sets and applies a {@link NeutralModeValue} to motors */
 	public void setNeutralMode(NeutralModeValue mode){
-		this.configuration.MotorOutput.NeutralMode = mode;
 		motor1.setNeutralMode(mode);
 		if (hasMotor2()) motor2.setNeutralMode(mode);
 	}
