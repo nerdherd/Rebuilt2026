@@ -23,6 +23,7 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 
+import dev.doglog.DogLog;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -30,6 +31,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.Subsystem;
@@ -303,7 +305,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
 
     @Override
     public void initializeLogging() {
-        NerdLog.logData(kSwerveTab, "robot field", field, LOG_LEVEL.MINIMAL);
+        NerdLog.logData(kSwerveTab + "/Robot Field", field, LOG_LEVEL.MINIMAL);
 
         ///////////
         /// ALL ///
@@ -314,23 +316,23 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
                 positionField.getObject(position.name() + "-blue").setPose(position.blue);
                 positionField.getObject(position.name() + "-red").setPose(position.red);
             }
-            NerdLog.logData("NerdDrivetrain", "position field", positionField, LOG_LEVEL.ALL);
+            NerdLog.logData("NerdDrivetrain/Object Field", positionField, LOG_LEVEL.ALL);
         }
 
-        NerdLog.logStructSerializable(kSwerveTab, "field chassis speeds", () -> getFieldOrientedSpeeds(), LOG_LEVEL.ALL);
-        NerdLog.logSwerveModules(kSwerveTab, "modules", this::getState, LOG_LEVEL.ALL);
+        NerdLog.logStructSerializable(kSwerveTab + "/Field Chassis Speeds", () -> getFieldOrientedSpeeds(), LOG_LEVEL.ALL);
+        NerdLog.logSwerveModules(kSwerveTab + "/Swerve Module States", this::getState, LOG_LEVEL.ALL);
 
         //////////////
         /// MEDIUM ///
         //////////////
-        NerdLog.logNumber(kSwerveTab, "swerve heading", this::getSwerveHeadingDegrees, "deg", LOG_LEVEL.MEDIUM);
-        NerdLog.logNumber(kSwerveTab, "driver heading", this::getDriverHeadingDegrees, "deg", LOG_LEVEL.MEDIUM);
+        NerdLog.logNumber(kSwerveTab + "/Swerve Heading", this::getSwerveHeadingDegrees, "deg", LOG_LEVEL.MEDIUM);
+        NerdLog.logNumber(kSwerveTab + "/Driver Heading", this::getDriverHeadingDegrees, "deg", LOG_LEVEL.MEDIUM);
         
         //////////////
         /// MINIMAL //
         //////////////
-        NerdLog.logString(kSwerveTab, "temperatures", this::pollTemperatures, LOG_LEVEL.MINIMAL); // maybe better on medium
-        NerdLog.logNumber(kSwerveTab, "stator current sum", this::pollStatorCurrentSum, "A", LOG_LEVEL.MINIMAL);
+        NerdLog.logString(kSwerveTab + "/Temperatures", this::pollTemperatures, LOG_LEVEL.MINIMAL); // maybe better on medium
+        NerdLog.logNumber(kSwerveTab +"/Stator Current Sum", this::pollStatorCurrentSum, "A", LOG_LEVEL.MINIMAL);
     }
 
 }

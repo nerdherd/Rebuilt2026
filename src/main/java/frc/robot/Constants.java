@@ -22,7 +22,6 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.util.FlippingUtil;
 
-import dev.doglog.DogLogOptions;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -210,19 +209,11 @@ public final class Constants {
 
   public static final class LoggingConstants {
     public static final double LOGGING_INTERVAL = 0.02; // seconds
-    public static final DogLogOptions LOGGING_CONFIGS = 
-      new DogLogOptions()
-        .withCaptureNt(true)
-        .withLogExtras(true)
-        .withCaptureDs(true)
-        .withNtPublish(true)
-        .withLogEntryQueueCapacity(1000)
-      ;
 
     public static final String kSubsystemTab = "SuperSystem/"; // ends with a /
     public static final String kSupersystemTab = "SuperSystem";
     public static final String kSwerveTab = "SwerveDrive";
-    public static final String kAutosTab = "Autons";
+    public static final String kAutosTab = "Autos";
   }
 
   public static final class VisionConstants {
