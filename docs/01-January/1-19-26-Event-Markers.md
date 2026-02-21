@@ -1,9 +1,8 @@
-#Event Markers
+# Event Markers
      Avika
      Group:John
  
-#Goal
--
+# Goals
 - Program Event Markers 
 
 - Made three paths on PathPlanner
