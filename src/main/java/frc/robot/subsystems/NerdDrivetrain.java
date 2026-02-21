@@ -23,7 +23,6 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 
-import dev.doglog.DogLog;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -31,7 +30,6 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.Subsystem;
@@ -254,7 +252,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
     // ----------------------------------------- Gyro Functions ----------------------------------------- //
 
     /** 
-     * set the operator heading to forward based on alliance field forward
+     * Set the operator heading to forward based on alliance field forward
      * @see {@link #setOperatorPerspectiveForward} also for more custom setting
      */
     public void setDriverHeadingForward() {
@@ -262,7 +260,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
     }
 
     /** 
-     * set the operator heading to forward based on robot
+     * Set the operator heading to forward based on robot
      * @see {@link #setOperatorPerspectiveForward} also for more custom setting
      */
     public void setRobotHeadingForward() {
@@ -270,7 +268,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
     }
     
     /**
-     * get heading relative to what the operator sees in degrees
+     * Get heading relative to what the operator sees in degrees
      * @see {@link #setDriverHeadingForward()} for resetting to zero
      */
     public double getDriverHeadingDegrees() {
@@ -278,7 +276,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
     }
 
     /**
-     * get heading relative to what the operator sees in radians
+     * Get heading relative to what the operator sees in radians
      * @see {@link #setDriverHeadingForward()} for resetting to zero
      */
     public double getDriverHeadingRadians() {
@@ -286,7 +284,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
     }
 
     /** 
-     * get absolute heading in degrees, from blue alliance orientation
+     * Get absolute heading in degrees, from blue alliance orientation
      * @see {@link #resetRotation(Rotation2d)}
      */
     public double getSwerveHeadingDegrees() {
@@ -294,7 +292,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
     }
 
     /** 
-     * get absolute heading in radians, from blue alliance orientation
+     * Get absolute heading in radians, from blue alliance orientation
      * @see {@link #resetRotation(Rotation2d)}
      */
     public double getSwerveHeadingRadians() {

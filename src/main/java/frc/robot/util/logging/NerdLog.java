@@ -73,14 +73,14 @@ public class NerdLog {
 	}
 	
 	/**
-	 * 
+	 * Log a BaseStatusSignal on a network.
 	 * @param key
 	 * @param name
 	 * @param signal
 	 * @param networkName
 	 * @param loggingLevel
 	 */
-    public static void logNumber(String name, BaseStatusSignal signal, String networkName, LOG_LEVEL loggingLevel) {
+    public static void logSignal(String name, BaseStatusSignal signal, String networkName, LOG_LEVEL loggingLevel) {
 		if(Constants.ROBOT_LOG_LEVEL.ordinal() > loggingLevel.ordinal()) return;
 		if (!logSuppliers.containsKey(loggingLevel)) logSuppliers.put(loggingLevel, new ArrayList<>());
 		Runnable logger = () -> {
