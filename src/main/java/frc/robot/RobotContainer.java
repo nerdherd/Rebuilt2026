@@ -46,12 +46,12 @@ public class RobotContainer {
 
     if (Constants.USE_SUBSYSTEMS) { // add subsystems
       superSystem = new SuperSystem(swerveDrive);
-      Autos.initializeNamedCommands(superSystem);
+      Autos.initNamedCommands(superSystem);
     }
     
     Subsystems.init();
+    Autos.initAutoChooser();
     initializeLogging();
-    Autos.initializeAutos();
 
     NerdLog.print("Initialization Complete");
   }
@@ -228,9 +228,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    refreshAlliance();
-    if (IsRedSide()) return Autos.autonChooserRed.getSelected();
-    return Autos.autonChooserBlue.getSelected();
+    return Autos.autoChooser.getSelected();
   }
 
   public void disableAllMotors_Test() {
