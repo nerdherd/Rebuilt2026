@@ -8,6 +8,7 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
+import com.ctre.phoenix6.configs.FeedbackConfigs;
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
@@ -378,6 +379,40 @@ public final class Constants {
         .withMotorOutput(kRightMotorOutputConfigs);
   }
 
+  public static final class ClimbConstants {
+    public static final int kMotor1ID = 45;
+
+    private static final Slot0Configs kSlot0Configs = 
+      new Slot0Configs()
+        .withKP(0.1)
+        .withKI(0.0)
+        .withKD(0.0)
+      ;
+    private static final MotorOutputConfigs kMotorOutputConfigs =
+      new MotorOutputConfigs()
+        .withNeutralMode(NeutralModeValue.Brake)
+      ;
+    private static final FeedbackConfigs kFeedbackConfigs = 
+      new FeedbackConfigs()
+        .withRotorToSensorRatio(1.0)
+      ;
+
+    private static final MotionMagicConfigs kMotionMagicConfigs = 
+      new MotionMagicConfigs()
+        .withMotionMagicAcceleration(1)
+        .withMotionMagicCruiseVelocity(1)
+      ;
+        
+    public static final TalonFXConfiguration kSubsystemConfiguration = 
+      new TalonFXConfiguration()
+        .withSlot0(kSlot0Configs)
+        .withMotorOutput(kMotorOutputConfigs)
+        .withFeedback(kFeedbackConfigs)
+        .withMotionMagic(kMotionMagicConfigs)
+      ;
+
+  }
+
   /** 
    * Container class to hold all subsystem objects.
    */
@@ -449,6 +484,16 @@ public final class Constants {
         0.0,
         useShooter)
       .configureMotors(ShooterConstants.kRightConfiguration);
+
+    public static final boolean useClimb = true;
+    public static final TemplateSubsystem climb = (!USE_SUBSYSTEMS) ? null :
+    new TemplateSubsystem(
+        "Climb", 
+        ClimbConstants.kMotor1ID, 
+        SubsystemMode.POSITION, 
+        0.0,
+        useClimb)
+      .configureMotors(ClimbConstants.kSubsystemConfiguration);
     
     /**
      * literally just so the class actually loads,
