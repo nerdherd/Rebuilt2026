@@ -1,17 +1,15 @@
-#	Radio Configuration
+# Radio Configuration
 	   John
 	   Group: Anthony Ge, William, John, Sara, Aadi 
 
  **Goal: Configure the radio**
  
-How to configure the radio
--
+# How to configure the radio
 1. Wire radio to testbench [^1]
  2. If version is above 1.1.0 go to http://www.radio.local else go to http://192.168.69.1/
  3. 
 
- Results
-- 
+# Results
 - 
 
 

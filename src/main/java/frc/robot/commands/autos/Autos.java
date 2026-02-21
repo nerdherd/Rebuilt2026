@@ -11,11 +11,13 @@ import static frc.robot.Constants.LoggingConstants.kAutosTab;
 
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
+
+
 public final class Autos {
     public static SendableChooser<Command> autonChooserRed = new SendableChooser<>(); //if on red side
     public static SendableChooser<Command> autonChooserBlue = new SendableChooser<>(); //if on blue side
 
-    //autos
+    // autos
     // Example: private static PathPlannerAuto exampleAuto;
     private static PathPlannerAuto S3TowerBlue;
     private static PathPlannerAuto S3TowerRed;
@@ -26,11 +28,11 @@ public final class Autos {
 
 
     public static void initializeAutos() {
-        NerdLog.logData(kAutosTab, "Red Autons", autonChooserRed, LOG_LEVEL.MINIMAL);
-        NerdLog.logData(kAutosTab, "Blue Autons", autonChooserBlue, LOG_LEVEL.MINIMAL);
+        NerdLog.logData(kAutosTab + "/Red Autos", autonChooserRed, LOG_LEVEL.MINIMAL);
+        NerdLog.logData(kAutosTab + "/Blue Autos", autonChooserBlue, LOG_LEVEL.MINIMAL);
 
-        //initialize autos
-        //Example: exampleAuto = new PathPlannerAuto("example Auto");
+        // initialize autos
+        // Example: exampleAuto = new PathPlannerAuto("example Auto");
         S3TowerBlue = new PathPlannerAuto("S3Blue-Tower");
         S3TowerRed = new PathPlannerAuto("S3Red-Tower");
         S5BottomBlueOutpost = new PathPlannerAuto("S5BottomBlue-Outpost");
@@ -38,13 +40,13 @@ public final class Autos {
         S2TopRedDepot = new PathPlannerAuto("S2TopRed-Depot");
         S2TopBlueDepot = new PathPlannerAuto("S2TopBlue-Depot");
 
-        //add options to red 
-        //autonChooserRed.addOption("exampleRed", exampleAuto);
+        // add options to red 
+        // Example: autonChooserRed.addOption("exampleRed", exampleAuto);
         autonChooserRed.addOption("S3Tower-Red", S3TowerRed);
         autonChooserRed.addOption("S2TopRed-Depot", S2TopRedDepot);
         
-        //add options to blue
-        //autonChooserBlue.addOption("exampleBlue", exampleAuto);
+        // add options to blue
+        // Example: autonChooserBlue.addOption("exampleBlue", exampleAuto);
         autonChooserBlue.addOption("S3Tower-Blue", S3TowerBlue);
         autonChooserBlue.addOption("S5BottomBlue-Outpost", S5BottomBlueOutpost);
         autonChooserBlue.addOption("S4BottomBlue-Outpost", S4BottomBlueOutpost);
@@ -56,26 +58,26 @@ public final class Autos {
         Commands.sequence(
             superSystem.intakeDown(), 
             superSystem.intake()
-            ));
+        ));
 
         NamedCommands.registerCommand("Intake Up Sequence", 
         Commands.sequence(
             superSystem.stopIntaking(), 
             superSystem.intakeUp()
-            ));
+        ));
 
         NamedCommands.registerCommand("Shooter Ramp Up", 
         Commands.sequence(
             superSystem.spinUpFlywheel(), 
             Commands.waitSeconds(1),
             superSystem.shoot()
-            ));
+        ));
 
         NamedCommands.registerCommand("Shooter Ramp Down", 
         Commands.sequence(
             superSystem.stopFlywheel(), 
             superSystem.stopShooting()
-            ));
+        ));
 
         NamedCommands.registerCommand("Wait", Commands.waitSeconds(1));
         NamedCommands.registerCommand("SpinUpFlywheel", superSystem.spinUpFlywheel());
@@ -86,7 +88,5 @@ public final class Autos {
         NamedCommands.registerCommand("IntakeDown", superSystem.intakeDown());
         NamedCommands.registerCommand("Intake", superSystem.intake());
         NamedCommands.registerCommand("StopIntaking", superSystem.stopIntaking());
-
     }
-
 }

@@ -1,13 +1,11 @@
-#Make auto paths
+# Make auto paths
     John
     Group: John, Sara
 
-Goals
--
+# Goals
 - Make a path for every combination of starting position to non-start positions and non-start to non-start
 
-How to make an Auto Path
--
+# How to make an Auto Path
 1. Create a new path
 2. Open Waypoints > Start Point > Link Waypoint (Link button)
 3. Select the waypoint for the Start Point
@@ -20,8 +18,7 @@ How to make an Auto Path
 10. Check that the robot's path doesn't go over a part of the field that it physically can't go over. If the robot does go over a part of the field drag the Control Points to make the path avoid those points. Try to keep the runtime (The number at the top left of the right window) as small as possible.
 11. Name the path according the predetermined naming conventions
 
-New Linked Waypoints
--
+# New Linked Waypoints
 
 |Position Name|X coordinate|Y coordinate|Rotation|   
 |-----------|-----------|-----------|-----------| 

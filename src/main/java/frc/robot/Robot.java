@@ -9,11 +9,11 @@ import static frc.robot.Constants.USE_VISION;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import dev.doglog.DogLog;
+import dev.doglog.DogLogOptions;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
-import frc.robot.Constants.LoggingConstants;
 import frc.robot.util.logging.NerdLog;
 
 /**
@@ -35,7 +35,12 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
 
-    DogLog.setOptions(LoggingConstants.LOGGING_CONFIGS);
+    DogLog.setOptions(new DogLogOptions()
+      .withCaptureDs(true)
+      .withCaptureNt(true)
+      .withNtPublish(true)
+      .withLogEntryQueueCapacity(1000)
+    );
     DogLog.setEnabled(true);
   }
 
@@ -48,13 +53,13 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    DogLog.time("Robot/CommandScheduler.run()");
+    DogLog.time("Periodic/CommandScheduler Runtime");
     CommandScheduler.getInstance().run();
-    DogLog.timeEnd("Robot/CommandScheduler.run()");
+    DogLog.timeEnd("Periodic/CommandScheduler Runtime");
     
-    DogLog.time("Robot/NerdLog.periodic()");
+    DogLog.time("Periodic/NerdLog Runtime");
     NerdLog.periodic();
-    DogLog.timeEnd("Robot/NerdLog.periodic()");
+    DogLog.timeEnd("Periodic/NerdLog Runtime");
   }
 
   /** This function is called once each time the robot enters Disabled mode. */

@@ -2,14 +2,14 @@
 	John & Sara
 	Group: William, Sara, John
 
-Goals
+# Goals
 -
 - Make linked waypoints
 - Make auto paths
 - Learn about Event Markers
 
 
-Linked waypoints
+# Linked Waypoints
 -
 |Position Name|X coordinate|Y coordinate|Rotation|   
 |-----------|-----------|-----------|-----------|  

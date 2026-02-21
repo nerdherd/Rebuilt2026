@@ -53,7 +53,7 @@ public class RobotContainer {
     initializeLogging();
     Autos.initializeAutos();
 
-    NerdLog.print("Initialization Complete");
+    NerdLog.reportInfo("Initialization Complete");
   }
 
   public static void refreshAlliance() {
@@ -213,13 +213,14 @@ public class RobotContainer {
   }
   
   public void initializeLogging() {
-    NerdLog.logData("Robot", "PDP", pdp, LOG_LEVEL.ALL);
+    NerdLog.logData("Robot/PDP", pdp, LOG_LEVEL.ALL);
+
     swerveDrive.initializeLogging();
     if (Constants.USE_SUBSYSTEMS) { 
       superSystem.initializeLogging();
     }
 
-    NerdLog.printCount();
+    NerdLog.reportLogCount();
   }
   
   /**
@@ -236,5 +237,4 @@ public class RobotContainer {
   public void disableAllMotors_Test() {
     swerveDrive.setBrake(true);
   }
-
 }
