@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import static frc.robot.Constants.LoggingConstants.kSupersystemTab;
 import static frc.robot.Constants.Subsystems.*;
+import static frc.robot.Constants.CounterRollerConstants.kShooterSpeedRatio;
 
 import java.util.ArrayList;
 import java.util.function.Consumer;
@@ -35,6 +36,7 @@ public class SuperSystem implements Reportable {
     
     public Command setShooterCommand(double speed) {
         return Commands.parallel(
+            // counterRoller.setDesiredValueCommand(speed * kShooterSpeedRatio),
             shooterLeft.setDesiredValueCommand(speed),
             shooterRight.setDesiredValueCommand(speed)
         );
@@ -51,6 +53,18 @@ public class SuperSystem implements Reportable {
             conveyor.setDesiredValueCommand(25)
         );
     }
+
+    public Command reverseConveyor() {
+        return conveyor.setDesiredValueCommand(-25);
+    }
+
+    public Command stopConveyor() {
+        return conveyor.setDesiredValueCommand(0);
+    }
+    
+    public Command outtake() {
+        return intakeRoller.setDesiredValueCommand(-5);
+    }
     
     public Command stopShooting(){
         return Commands.parallel(
@@ -62,7 +76,7 @@ public class SuperSystem implements Reportable {
     public Command spinUpFlywheel(){
         return Commands.parallel(
             counterRoller.setDesiredValueCommand(30),
-            setShooterCommand(39)
+            setShooterCommand(45)
         );
     }
         
@@ -75,13 +89,13 @@ public class SuperSystem implements Reportable {
 
     public Command intakeDown(){
         return Commands.parallel(
-            intakeSlapdown.setDesiredValueCommand(0)
+            intakeSlapdown.setDesiredValueCommand(-17.433)
         );
     }
 
     public Command intakeUp(){
         return Commands.parallel(
-            intakeSlapdown.setDesiredValueCommand(3.8)
+            intakeSlapdown.setDesiredValueCommand(-14.25)
         );
     }
 
@@ -93,7 +107,7 @@ public class SuperSystem implements Reportable {
 
     public Command intake() {
         return Commands.parallel(
-            intakeRoller.setDesiredValueCommand(35)
+            intakeRoller.setDesiredValueCommand(6.5)
         );
     }
 
@@ -151,6 +165,7 @@ public class SuperSystem implements Reportable {
 
     public void resetSubsystemValues() {
         applySubsystems((s) -> s.setDesiredValue(s.getDefaultValue()));
+        intakeSlapdown.motor1.setPosition(0.0);
     }
 
     public double getHubDistance() {

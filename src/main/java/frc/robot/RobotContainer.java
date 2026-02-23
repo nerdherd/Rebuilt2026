@@ -148,9 +148,15 @@ public class RobotContainer {
         .onTrue(superSystem.shoot())
         .onFalse(superSystem.stopShooting());
       operatorController.triggerRight()
-        .whileTrue(superSystem.shootWithDistance())
-        // .onTrue(superSystem.spinUpFlywheel())
+        // .whileTrue(superSystem.shootWithDistance())
+        .onTrue(superSystem.spinUpFlywheel())
         .onFalse(superSystem.stopFlywheel());
+      operatorController.buttonRight()
+        .onTrue(superSystem.reverseConveyor())
+        .onFalse(superSystem.stopConveyor());
+      operatorController.buttonDown()
+        .onTrue(superSystem.outtake())
+        .onFalse(superSystem.stopIntaking());
     }
   }
 
