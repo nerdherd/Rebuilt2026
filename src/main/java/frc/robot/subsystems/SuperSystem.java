@@ -97,9 +97,21 @@ public class SuperSystem implements Reportable {
         );
     }
 
-    public Command stopIntaking(){
+    public Command stopIntaking() {
         return Commands.parallel(
             intakeRoller.setDesiredValueCommand(0)
+        );
+    }
+
+    public Command climbUp() {
+        return Commands.parallel(
+            climb.setDesiredValueCommand(0) // TODO
+        );
+    }
+
+    public Command climbDown() {
+        return Commands.parallel(
+            climb.setDesiredValueCommand(0)
         );
     }
 
@@ -146,12 +158,13 @@ public class SuperSystem implements Reportable {
         return swerveDrivetrain.getPose().getTranslation().getDistance(hub.getTranslation());
     }
 
+    
+
     @Override
     public void initializeLogging() {
         applySubsystems((s) -> s.initializeLogging());
 
-        NerdLog.logNumber(kSupersystemTab, "Hub Distance", this::getHubDistance, "m", LOG_LEVEL.ALL);
-        NerdLog.logData(kSupersystemTab, "Command Scheduler", CommandScheduler.getInstance(), LOG_LEVEL.ALL);
-        
+        NerdLog.logNumber(kSupersystemTab + "/Hub Distance", this::getHubDistance, "m", LOG_LEVEL.ALL);
+        NerdLog.logData(kSupersystemTab + "/Command Scheduler", CommandScheduler.getInstance(), LOG_LEVEL.ALL);
     }
 }

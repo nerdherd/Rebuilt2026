@@ -11,12 +11,13 @@ import static frc.robot.Constants.LoggingConstants.kAutosTab;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
-import com.pathplanner.lib.commands.PathPlannerAuto;
+
+
 public final class Autos {
     public static SendableChooser<Command> autoChooser = AutoBuilder.buildAutoChooser();
-    
+
     public static void initAutoChooser() {
-        NerdLog.logData(kAutosTab, "Selected Auto", autoChooser, LOG_LEVEL.MINIMAL);
+        NerdLog.logData(kAutosTab + "/Selected Auto", autoChooser, LOG_LEVEL.MINIMAL);
     }
 
     public static void initNamedCommands(SuperSystem superSystem) {
@@ -55,7 +56,6 @@ public final class Autos {
         NamedCommands.registerCommand("IntakeDown", superSystem.intakeDown());
         NamedCommands.registerCommand("Intake", superSystem.intake());
         NamedCommands.registerCommand("StopIntaking", superSystem.stopIntaking());
-
     }
 
 }

@@ -8,6 +8,7 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
+import com.ctre.phoenix6.configs.FeedbackConfigs;
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
@@ -22,7 +23,6 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.util.FlippingUtil;
 
-import dev.doglog.DogLogOptions;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -133,21 +133,20 @@ public final class Constants {
     public static final SwerveRequest.RobotCentric      kRobotOrientedSwerveRequest = 
       new SwerveRequest.RobotCentric()
         .withDriveRequestType(DriveRequestType.OpenLoopVoltage)
-        .withSteerRequestType(SteerRequestType.Position)
-        ;
+        .withSteerRequestType(SteerRequestType.Position);
+
     /** Field oriented controller - use @see NerdDrivertrain#resetFieldOrientation() */
     public static final SwerveRequest.FieldCentric      kFieldOrientedSwerveRequest = 
       new SwerveRequest.FieldCentric()
         .withDriveRequestType(DriveRequestType.OpenLoopVoltage)
         .withSteerRequestType(SteerRequestType.Position)
-        .withForwardPerspective(ForwardPerspectiveValue.OperatorPerspective)
-        ;
+        .withForwardPerspective(ForwardPerspectiveValue.OperatorPerspective);
+
     /** Field oriented controller - use @see NerdDrivertrain#resetFieldOrientation() */
     public static final SwerveRequest.SwerveDriveBrake  kTowSwerveRequest = 
       new SwerveRequest.SwerveDriveBrake()
         .withDriveRequestType(DriveRequestType.OpenLoopVoltage)
-        .withSteerRequestType(SteerRequestType.Position)
-        ;
+        .withSteerRequestType(SteerRequestType.Position);
 
     ////////////////////////////////////////////
     /// -- Drive to Target Configurations -- ///
@@ -156,10 +155,12 @@ public final class Constants {
     /** @see NerdDrivetrain.driveToTarget() */
     public static final double kTargetDriveMaxLateralVelocity = 5.0;
     public static final PIDConstants kTargetDriveLateralPID = new PIDConstants(5.0, 0.0, 0.5);
+
     /** m/s and m/s/s @see NerdDrivetrain.driveToTarget() */
     public static final Constraints kTargetDriveLateralConstraints = new Constraints(kTargetDriveMaxLateralVelocity, kTargetDriveMaxLateralVelocity);
     public static final double kTargetDriveMaxRotationalVelocity = 9.4;
     public static final PIDConstants kTargetDriveRotationalPID = new PIDConstants(4.0, 0.0, 0.2);
+
     /** rad/s and rad/s/s @see NerdDrivetrain.driveToTarget() */
     public static final Constraints kTargetDriveRotationalConstraints = new Constraints(kTargetDriveMaxRotationalVelocity, kTargetDriveMaxRotationalVelocity);
 
@@ -170,8 +171,8 @@ public final class Constants {
       .withContinuousInput("r", -Math.PI, Math.PI);
 
     public static enum FieldPositions {
+      // Add field positions
       HUB_CENTER(4.626, 4.035, 0.0);
-      //TODO Add field positions
       
       public Pose2d blue, red; // meters and degrees
       FieldPositions(double _blueX, double _blueY, double _blueHeadingDegrees) {
@@ -210,19 +211,11 @@ public final class Constants {
 
   public static final class LoggingConstants {
     public static final double LOGGING_INTERVAL = 0.02; // seconds
-    public static final DogLogOptions LOGGING_CONFIGS = 
-      new DogLogOptions()
-        .withCaptureNt(true)
-        .withLogExtras(true)
-        .withCaptureDs(true)
-        .withNtPublish(true)
-        .withLogEntryQueueCapacity(1000)
-      ;
 
     public static final String kSubsystemTab = "SuperSystem/"; // ends with a /
     public static final String kSupersystemTab = "SuperSystem";
     public static final String kSwerveTab = "SwerveDrive";
-    public static final String kAutosTab = "Autons";
+    public static final String kAutosTab = "Autos";
   }
 
   public static final class VisionConstants {
@@ -248,26 +241,22 @@ public final class Constants {
       new Slot0Configs()
         .withKP(1.5)
         .withKI(0.0)
-        .withKD(0.0)
-      ;
+        .withKD(0.0);
+
     private static final MotorOutputConfigs kMotorOutputConfigs =
       new MotorOutputConfigs()
         .withNeutralMode(NeutralModeValue.Brake);
-      ;
 
     private static final MotionMagicConfigs kMotionMagicConfigs = 
       new MotionMagicConfigs()
         .withMotionMagicAcceleration(4)
-        .withMotionMagicCruiseVelocity(2)
-      ;
+        .withMotionMagicCruiseVelocity(2);
         
     public static final TalonFXConfiguration kSubsystemConfiguration = 
       new TalonFXConfiguration()
         .withSlot0(kSlot0Configs)
         .withMotorOutput(kMotorOutputConfigs)
-        .withMotionMagic(kMotionMagicConfigs)
-      ;
-
+        .withMotionMagic(kMotionMagicConfigs);
   }
 
   public static final class IntakeRollerConstants {
@@ -277,20 +266,17 @@ public final class Constants {
       new Slot0Configs()
         .withKP(0.5)
         .withKI(0.0)
-        .withKD(0.0)
-      ;
+        .withKD(0.0);
 
     private static final CurrentLimitsConfigs kCurrentLimitsConfigs = 
       new CurrentLimitsConfigs()
         .withStatorCurrentLimit(60)
-        .withSupplyCurrentLimitEnable(true)
-      ;
+        .withSupplyCurrentLimitEnable(true);
 
     public static final TalonFXConfiguration kSubsystemConfiguration = 
       new TalonFXConfiguration()
         .withSlot0(kSlot0Configs)
-        .withCurrentLimits(kCurrentLimitsConfigs)
-      ;
+        .withCurrentLimits(kCurrentLimitsConfigs);
     
   }
   
@@ -320,13 +306,11 @@ public final class Constants {
       new Slot0Configs()
         .withKP(0.5)
         .withKI(0.0)
-        .withKD(0.0)
-      ;
+        .withKD(0.0);
 
     public static final TalonFXConfiguration kSubsystemConfiguration = 
       new TalonFXConfiguration()
-      .withSlot0(kSlot0Configs)
-      ;
+        .withSlot0(kSlot0Configs);
   }
   
   public static final class CounterRollerConstants {
@@ -337,12 +321,11 @@ public final class Constants {
         .withKP(0.5)
         .withKI(0.0)
         .withKD(0.0)
-        .withKV(0.125)
-      ;
+        .withKV(0.125);
 
     public static final TalonFXConfiguration kSubsystemConfiguration = 
       new TalonFXConfiguration()
-      .withSlot0(kSlot0Configs);
+        .withSlot0(kSlot0Configs);
   }
 
   public static final class ShooterConstants {
@@ -354,27 +337,23 @@ public final class Constants {
         // .withKP(0.05)
         .withKI(0.0)
         .withKD(0.0)
-        .withKV(0.13)
-        ;
+        .withKV(0.13);
     
     private static final Slot0Configs kSlot0ConfigsRight = 
       new Slot0Configs()
         // .withKP(0.05)
         .withKI(0.0)
         .withKD(0.0)
-        .withKV(0.125)
-        ;
+        .withKV(0.125);
     
     private static final CurrentLimitsConfigs kCurrentLimitsConfigs = 
       new CurrentLimitsConfigs()
         .withStatorCurrentLimit(60)
-        .withStatorCurrentLimitEnable(false)
-      ;
+        .withStatorCurrentLimitEnable(false);
 
     private static final MotionMagicConfigs kMotionMagicConfigs = 
       new MotionMagicConfigs()
-        .withMotionMagicAcceleration(25)
-      ;
+        .withMotionMagicAcceleration(25);
 
     private static final MotorOutputConfigs kLeftMotorOutputConfigs =
       new MotorOutputConfigs()
@@ -387,20 +366,51 @@ public final class Constants {
     private static final TalonFXConfiguration kSubsystemConfiguration = 
       new TalonFXConfiguration()
         .withCurrentLimits(kCurrentLimitsConfigs)
-        .withMotionMagic(kMotionMagicConfigs)
-        ;
+        .withMotionMagic(kMotionMagicConfigs);
 
     public static final TalonFXConfiguration kLeftConfiguration = 
       kSubsystemConfiguration.clone()
         .withSlot0(kSlot0ConfigsLeft)
-        .withMotorOutput(kLeftMotorOutputConfigs)
-        ;
+        .withMotorOutput(kLeftMotorOutputConfigs);
 
     public static final TalonFXConfiguration kRightConfiguration =
       kSubsystemConfiguration.clone()
         .withSlot0(kSlot0ConfigsRight)
-        .withMotorOutput(kRightMotorOutputConfigs)
-        ;
+        .withMotorOutput(kRightMotorOutputConfigs);
+  }
+
+  public static final class ClimbConstants {
+    public static final int kMotor1ID = 45;
+
+    private static final Slot0Configs kSlot0Configs = 
+      new Slot0Configs()
+        .withKP(0.1)
+        .withKI(0.0)
+        .withKD(0.0)
+      ;
+    private static final MotorOutputConfigs kMotorOutputConfigs =
+      new MotorOutputConfigs()
+        .withNeutralMode(NeutralModeValue.Brake)
+      ;
+    private static final FeedbackConfigs kFeedbackConfigs = 
+      new FeedbackConfigs()
+        .withRotorToSensorRatio(1.0)
+      ;
+
+    private static final MotionMagicConfigs kMotionMagicConfigs = 
+      new MotionMagicConfigs()
+        .withMotionMagicAcceleration(1)
+        .withMotionMagicCruiseVelocity(1)
+      ;
+        
+    public static final TalonFXConfiguration kSubsystemConfiguration = 
+      new TalonFXConfiguration()
+        .withSlot0(kSlot0Configs)
+        .withMotorOutput(kMotorOutputConfigs)
+        .withFeedback(kFeedbackConfigs)
+        .withMotionMagic(kMotionMagicConfigs)
+      ;
+
   }
 
   /** 
@@ -474,9 +484,21 @@ public final class Constants {
         0.0,
         useShooter)
       .configureMotors(ShooterConstants.kRightConfiguration);
+
+    public static final boolean useClimb = true;
+    public static final TemplateSubsystem climb = (!USE_SUBSYSTEMS) ? null :
+    new TemplateSubsystem(
+        "Climb", 
+        ClimbConstants.kMotor1ID, 
+        SubsystemMode.POSITION, 
+        0.0,
+        useClimb)
+      .configureMotors(ClimbConstants.kSubsystemConfiguration);
     
-    // literally just so the class actually loads
-    // thanks java lazy loading
+    /**
+     * literally just so the class actually loads,
+     * thanks java lazy loading
+     */
     public static void init() {} 
   }
 
@@ -506,26 +528,4 @@ public final class Constants {
   //   }
 
   // }
-
-  // ************************************** SUBSYSTEM CONSTANTS *************************************** //
-
-  // Template Copy and Paste
-  // public static final class SubsystemConstants {
-  //   public static final int kMotor1ID = ;
-  //   public static final int kMotor2ID = ;
-
-  //   public static final Slot0Configs kSlot0Configs = 
-  //     new Slot0Configs()
-  //       .withKP(0.0)
-  //     ;
-
-  //   public static final TalonFXConfiguration kSubsystemConfiguration = 
-  //     new TalonFXConfiguration()
-  //     .withSlot0(kSlot0Configs)
-  //     ;
-  // }
-  
-  public static final class SuperSystemConstants {
-    //TODO DO
-  }
 }
