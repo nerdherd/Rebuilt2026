@@ -49,7 +49,7 @@ public class SuperSystem implements Reportable {
     
     public Command shoot(){
         return Commands.parallel(
-            indexer.setDesiredValueCommand(30),
+            indexer.setDesiredValueCommand(50),
             conveyor.setDesiredValueCommand(25)
         );
     }
@@ -95,7 +95,7 @@ public class SuperSystem implements Reportable {
 
     public Command intakeUp(){
         return Commands.parallel(
-            intakeSlapdown.setDesiredValueCommand(-14.25)
+            intakeSlapdown.setDesiredValueCommand(-11.0)
         );
     }
 
@@ -107,7 +107,7 @@ public class SuperSystem implements Reportable {
 
     public Command intake() {
         return Commands.parallel(
-            intakeRoller.setDesiredValueCommand(6.5)
+            intakeRoller.setDesiredValueCommand(7.5)
         );
     }
 
