@@ -249,8 +249,8 @@ public final class Constants {
 
     private static final MotionMagicConfigs kMotionMagicConfigs = 
       new MotionMagicConfigs()
-        .withMotionMagicAcceleration(4)
-        .withMotionMagicCruiseVelocity(2);
+        .withMotionMagicAcceleration(36)
+        .withMotionMagicCruiseVelocity(18);
         
     public static final TalonFXConfiguration kSubsystemConfiguration = 
       new TalonFXConfiguration()
@@ -271,7 +271,7 @@ public final class Constants {
     private static final CurrentLimitsConfigs kCurrentLimitsConfigs = 
       new CurrentLimitsConfigs()
         .withStatorCurrentLimit(60)
-        .withStatorCurrentLimitEnable(false);
+        .withStatorCurrentLimitEnable(true);
 
     private static final FeedbackConfigs kFeedbackConfigs = 
       new FeedbackConfigs()
@@ -411,6 +411,11 @@ public final class Constants {
       new FeedbackConfigs()
         .withRotorToSensorRatio(1.0)
       ;
+    private static final CurrentLimitsConfigs kCurrentLimitConfigs =
+      new CurrentLimitsConfigs()
+        .withStatorCurrentLimit(20)
+        .withStatorCurrentLimitEnable(true)
+      ;
 
     private static final MotionMagicConfigs kMotionMagicConfigs = 
       new MotionMagicConfigs()
@@ -423,6 +428,7 @@ public final class Constants {
         .withSlot0(kSlot0Configs)
         .withMotorOutput(kMotorOutputConfigs)
         .withFeedback(kFeedbackConfigs)
+        .withCurrentLimits(kCurrentLimitConfigs)
         .withMotionMagic(kMotionMagicConfigs)
       ;
 
