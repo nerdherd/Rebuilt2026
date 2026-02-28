@@ -100,7 +100,7 @@ public class RobotContainer {
   }
 
   public void initDefaultCommands_test() {
-    initDefaultCommands_teleop();
+    // initDefaultCommands_teleop();
   }
 
   public void configureBindings_teleop() {
@@ -114,7 +114,7 @@ public class RobotContainer {
   public void configureDriverBindings_teleop() {
 
     driverController.controllerLeft() // Set Drive Heading
-      .onTrue(Commands.runOnce(() -> swerveDrive.setDriverHeadingForward()));
+      .onTrue(Commands.runOnce(() -> swerveDrive.setRobotHeadingForward()));
 
     driverController.controllerRight() // Set Pose Heading (pressed)
       .onTrue(Commands.runOnce(() -> swerveDrive.useMegaTag2 = false))
@@ -145,7 +145,7 @@ public class RobotContainer {
         .onTrue(superSystem.intakeUp())
         .onFalse(superSystem.intakeDown());
       operatorController.bumperRight()
-        .onTrue(superSystem.shoot())
+        .onTrue(superSystem.shoot())            
         .onFalse(superSystem.stopShooting());
       operatorController.triggerRight()
         // .whileTrue(superSystem.shootWithDistance())

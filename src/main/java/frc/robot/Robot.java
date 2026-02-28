@@ -68,7 +68,7 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().getDefaultButtonLoop().clear();
     CommandScheduler.getInstance().cancelAll();
     
-    if (Constants.USE_SUBSYSTEMS){
+    if (Constants.USE_SUBSYSTEMS) {
       m_robotContainer.superSystem.stop();
       m_robotContainer.superSystem.resetSubsystemValues();
     }

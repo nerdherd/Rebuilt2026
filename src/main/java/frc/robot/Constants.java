@@ -49,7 +49,7 @@ import frc.robot.util.logging.Reportable.LOG_LEVEL;
 public final class Constants {
 
   /** current logging level of the robot's subsystems, @see Reportable.add... */
-  public static final LOG_LEVEL ROBOT_LOG_LEVEL = LOG_LEVEL.MEDIUM;
+  public static final LOG_LEVEL ROBOT_LOG_LEVEL = LOG_LEVEL.ALL;
   
   /** 
    * (hopefully) controls whether subsystem objects are used, swerve and others not counted
@@ -306,7 +306,7 @@ public final class Constants {
   }
    
   public static final class ConveyorConstants {
-    public static final int kMotor1ID = 26;
+    public static final int kMotor1ID = 54;
 
     private static final Slot0Configs kSlot0Configs = 
       new Slot0Configs()
@@ -436,7 +436,7 @@ public final class Constants {
    * Container class to hold all subsystem objects.
    */
   public static final class Subsystems {
-    public static final boolean useIntakeSlapdown = false;
+    public static final boolean useIntakeSlapdown = false ;
     public static final TemplateSubsystem intakeSlapdown = (!USE_SUBSYSTEMS) ? null :
     new TemplateSubsystem(
         "Intake Slapdown", 
