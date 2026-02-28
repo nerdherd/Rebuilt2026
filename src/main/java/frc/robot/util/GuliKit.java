@@ -1,3 +1,5 @@
+// VERSION 2.0
+
 package frc.robot.util;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -39,15 +41,15 @@ public class GuliKit {
     }
 
     // STATE METHODS \\
-    public void setDigLeft(boolean isDigital) { this.isDigLeft = isDigital; }
+    public void setDigLeft(boolean isDigital)  { this.isDigLeft = isDigital; }
     public void setDigRight(boolean isDigital) { this.isDigRight = isDigital; }
 
-    public boolean isDigLeft() { return isDigLeft; }
+    public boolean isDigLeft()  { return isDigLeft; }
     public boolean isDigRight() { return isDigRight; }
 
     // VALUE METHODS \\
-    public double getLeftX() { return controller.getRawAxis(0); }
-    public double getLeftY() { return controller.getRawAxis(1); }
+    public double getLeftX()  { return controller.getRawAxis(0); }
+    public double getLeftY()  { return controller.getRawAxis(1); }
     public double getRightX() { return controller.getRawAxis(4); }
     public double getRightY() { return controller.getRawAxis(5); }
 
@@ -57,20 +59,20 @@ public class GuliKit {
     public boolean getX() { return buttonY.getAsBoolean(); }
     public boolean getL() { return bumperL.getAsBoolean(); }
     public boolean getR() { return bumperR.getAsBoolean(); }
-    public boolean getZLdigital() { return controller.getRawAxis(2) > 0.65 ? true : false; }
-    public boolean getZRdigital() { return controller.getRawAxis(3) > 0.65 ? true : false; }
-    public double getZLanalog() { return controller.getRawAxis(2); }
-    public double getZRanalog() { return controller.getRawAxis(3); }
+    public boolean getZL()    { return controller.getRawAxis(2) > 0.65; }
+    public boolean getZR()    { return controller.getRawAxis(3) > 0.65; }
+    public double getZLaxis() { return controller.getRawAxis(2); }
+    public double getZRaxis() { return controller.getRawAxis(3); }
 
-    public boolean getMinus() { return buttonMinus.getAsBoolean(); }
-    public boolean getPlus() { return buttonPlus.getAsBoolean(); }
-    public boolean getLeftJoy() { return buttonLeftJoy.getAsBoolean(); }
+    public boolean getMinus()    { return buttonMinus.getAsBoolean(); }
+    public boolean getPlus()     { return buttonPlus.getAsBoolean(); }
+    public boolean getLeftJoy()  { return buttonLeftJoy.getAsBoolean(); }
     public boolean getRightJoy() { return buttonRightJoy.getAsBoolean(); }
 
-    public boolean getDpadUp() { return (controller.getPOV() >= 300 || controller.getPOV() <= 60) && controller.getPOV() != -1; }
+    public boolean getDpadUp()    { return (controller.getPOV() >= 300 || controller.getPOV() <= 60) && controller.getPOV() != -1; }
     public boolean getDpadRight() { return controller.getPOV() >= 30 && controller.getPOV() <= 150; }
-    public boolean getDpadDown() { return controller.getPOV() >= 120 && controller.getPOV() <= 240; }
-    public boolean getDpadLeft() { return controller.getPOV() >= 210 && controller.getPOV() <= 330; }
+    public boolean getDpadDown()  { return controller.getPOV() >= 120 && controller.getPOV() <= 240; }
+    public boolean getDpadLeft()  { return controller.getPOV() >= 210 && controller.getPOV() <= 330; }
 
     // OBJECT METHODS \\
     public JoystickButton buttonB() { return buttonB; }
@@ -79,16 +81,16 @@ public class GuliKit {
     public JoystickButton buttonX() { return buttonX; }
     public JoystickButton bumperL() { return bumperL; }
     public JoystickButton bumperR() { return bumperR; }
-    public Trigger triggerZL() { return new Trigger(() -> controller.getRawAxis(2) > 0.65); }
-    public Trigger triggerZR() { return new Trigger(() -> controller.getRawAxis(3) > 0.65); }
+    public Trigger triggerZL() { return new Trigger(this::getZL); }
+    public Trigger triggerZR() { return new Trigger(this::getZR); }
 
-    public JoystickButton buttonMinus() { return buttonMinus; }
-    public JoystickButton buttonPlus() { return buttonPlus; }
-    public JoystickButton buttonLeftJoy() { return buttonLeftJoy; }
+    public JoystickButton buttonMinus()    { return buttonMinus; }
+    public JoystickButton buttonPlus()     { return buttonPlus; }
+    public JoystickButton buttonLeftJoy()  { return buttonLeftJoy; }
     public JoystickButton buttonRightJoy() { return buttonRightJoy; }
 
-    public Trigger dpadUp() { return new Trigger(this::getDpadUp); }
+    public Trigger dpadUp()    { return new Trigger(this::getDpadUp); }
     public Trigger dpadRight() { return new Trigger(this::getDpadRight); }
-    public Trigger dpadDown() { return new Trigger(this::getDpadDown); }
-    public Trigger dpadLeft() { return new Trigger(this::getDpadLeft); }
+    public Trigger dpadDown()  { return new Trigger(this::getDpadDown); }
+    public Trigger dpadLeft()  { return new Trigger(this::getDpadLeft); }
 }
