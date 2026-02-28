@@ -6,7 +6,7 @@ package frc.robot.util.logging;
 
 public interface Reportable {
 	/**
-	 * Contols how much data is logged.
+	 * Controls how much data is logged.
 	 */
 	public enum LOG_LEVEL {
 		ALL(1),

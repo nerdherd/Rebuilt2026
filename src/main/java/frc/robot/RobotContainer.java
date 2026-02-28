@@ -46,12 +46,12 @@ public class RobotContainer {
 
     if (Constants.USE_SUBSYSTEMS) { // add subsystems
       superSystem = new SuperSystem(swerveDrive);
-      Autos.initializeNamedCommands(superSystem);
+      Autos.initNamedCommands(superSystem);
     }
     
     Subsystems.init();
+    Autos.initAutoChooser();
     initializeLogging();
-    Autos.initializeAutos();
 
     NerdLog.reportInfo("Initialization Complete");
   }
@@ -137,6 +137,7 @@ public class RobotContainer {
   // Operator bindings
   //////////////////////
   public void configureOperatorBindings_teleop() {
+
     if (Constants.USE_SUBSYSTEMS) {
       operatorController.triggerLeft()
         .onTrue(superSystem.intake())
@@ -144,13 +145,15 @@ public class RobotContainer {
       operatorController.bumperLeft()
         .onTrue(superSystem.intakeUp())
         .onFalse(superSystem.intakeDown());
-      operatorController.bumperRight()
-        .onTrue(superSystem.shoot())
-        .onFalse(superSystem.stopShooting());
+
       operatorController.triggerRight()
         // .whileTrue(superSystem.shootWithDistance())
         .onTrue(superSystem.spinUpFlywheel())
         .onFalse(superSystem.stopFlywheel());
+      operatorController.bumperRight()
+        .onTrue(superSystem.shoot())
+        .onFalse(superSystem.stopShooting());
+        
       operatorController.buttonRight()
         .onTrue(superSystem.reverseConveyor())
         .onFalse(superSystem.stopConveyor());
@@ -159,7 +162,6 @@ public class RobotContainer {
         .onFalse(superSystem.stopIntaking());
     }
   }
-
 
   public void configureBindings_test() {
 
@@ -216,6 +218,7 @@ public class RobotContainer {
     testController.joystickRight()
       .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Button Right Joy Test", "hi")))
       .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Button Right Joy Test", "bye")));
+      
   }
   
   public void initializeLogging() {
@@ -235,9 +238,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    refreshAlliance();
-    if (IsRedSide()) return Autos.autonChooserRed.getSelected();
-    return Autos.autonChooserBlue.getSelected();
+    return Autos.autoChooser.getSelected();
   }
 
   public void disableAllMotors_Test() {
