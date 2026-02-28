@@ -2,7 +2,6 @@ package frc.robot.subsystems;
 
 import static frc.robot.Constants.LoggingConstants.kSupersystemTab;
 import static frc.robot.Constants.Subsystems.*;
-import static frc.robot.Constants.CounterRollerConstants.kShooterSpeedRatio;
 
 import java.util.ArrayList;
 import java.util.function.Consumer;
@@ -36,7 +35,6 @@ public class SuperSystem implements Reportable {
     
     public Command setShooterCommand(double speed) {
         return Commands.parallel(
-            // counterRoller.setDesiredValueCommand(speed * kShooterSpeedRatio),
             shooterLeft.setDesiredValueCommand(speed),
             shooterRight.setDesiredValueCommand(speed)
         );
@@ -49,13 +47,13 @@ public class SuperSystem implements Reportable {
     
     public Command shoot(){
         return Commands.parallel(
-            indexer.setDesiredValueCommand(50),
-            conveyor.setDesiredValueCommand(25)
+            indexer.setDesiredValueCommand(5),
+            conveyor.setDesiredValueCommand(4)
         );
     }
 
     public Command reverseConveyor() {
-        return conveyor.setDesiredValueCommand(-25);
+        return conveyor.setDesiredValueCommand(-4);
     }
 
     public Command stopConveyor() {
