@@ -47,9 +47,21 @@ public class SuperSystem implements Reportable {
     
     public Command shoot(){
         return Commands.parallel(
-            indexer.setDesiredValueCommand(30),
-            conveyor.setDesiredValueCommand(25)
+            indexer.setDesiredValueCommand(5),
+            conveyor.setDesiredValueCommand(4)
         );
+    }
+
+    public Command reverseConveyor() {
+        return conveyor.setDesiredValueCommand(-4);
+    }
+
+    public Command stopConveyor() {
+        return conveyor.setDesiredValueCommand(0);
+    }
+    
+    public Command outtake() {
+        return intakeRoller.setDesiredValueCommand(-5);
     }
     
     public Command stopShooting(){
@@ -62,7 +74,7 @@ public class SuperSystem implements Reportable {
     public Command spinUpFlywheel(){
         return Commands.parallel(
             counterRoller.setDesiredValueCommand(30),
-            setShooterCommand(39)
+            setShooterCommand(45)
         );
     }
         
@@ -75,13 +87,13 @@ public class SuperSystem implements Reportable {
 
     public Command intakeDown(){
         return Commands.parallel(
-            intakeSlapdown.setDesiredValueCommand(0)
+            intakeSlapdown.setDesiredValueCommand(-17.433)
         );
     }
 
     public Command intakeUp(){
         return Commands.parallel(
-            intakeSlapdown.setDesiredValueCommand(3.8)
+            intakeSlapdown.setDesiredValueCommand(-11.0)
         );
     }
 
@@ -93,7 +105,7 @@ public class SuperSystem implements Reportable {
 
     public Command intake() {
         return Commands.parallel(
-            intakeRoller.setDesiredValueCommand(35)
+            intakeRoller.setDesiredValueCommand(7.5)
         );
     }
 
@@ -151,6 +163,7 @@ public class SuperSystem implements Reportable {
 
     public void resetSubsystemValues() {
         applySubsystems((s) -> s.setDesiredValue(s.getDefaultValue()));
+        intakeSlapdown.motor1.setPosition(0.0);
     }
 
     public double getHubDistance() {

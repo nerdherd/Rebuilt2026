@@ -249,8 +249,8 @@ public final class Constants {
 
     private static final MotionMagicConfigs kMotionMagicConfigs = 
       new MotionMagicConfigs()
-        .withMotionMagicAcceleration(4)
-        .withMotionMagicCruiseVelocity(2);
+        .withMotionMagicAcceleration(36)
+        .withMotionMagicCruiseVelocity(18);
         
     public static final TalonFXConfiguration kSubsystemConfiguration = 
       new TalonFXConfiguration()
@@ -271,12 +271,18 @@ public final class Constants {
     private static final CurrentLimitsConfigs kCurrentLimitsConfigs = 
       new CurrentLimitsConfigs()
         .withStatorCurrentLimit(60)
-        .withSupplyCurrentLimitEnable(true);
+        .withStatorCurrentLimitEnable(true);
+
+    private static final FeedbackConfigs kFeedbackConfigs = 
+      new FeedbackConfigs()
+        .withRotorToSensorRatio(1.0)
+      ;
 
     public static final TalonFXConfiguration kSubsystemConfiguration = 
       new TalonFXConfiguration()
         .withSlot0(kSlot0Configs)
-        .withCurrentLimits(kCurrentLimitsConfigs);
+        .withCurrentLimits(kCurrentLimitsConfigs)
+        .withFeedback(kFeedbackConfigs);
     
   }
   
@@ -308,9 +314,15 @@ public final class Constants {
         .withKI(0.0)
         .withKD(0.0);
 
+    public static final MotorOutputConfigs kMotorOutputConfigs =
+      new MotorOutputConfigs()
+        .withInverted(InvertedValue.Clockwise_Positive);
+
+
     public static final TalonFXConfiguration kSubsystemConfiguration = 
       new TalonFXConfiguration()
-        .withSlot0(kSlot0Configs);
+        .withSlot0(kSlot0Configs)
+        .withMotorOutput(kMotorOutputConfigs);
   }
   
   public static final class CounterRollerConstants {
@@ -344,7 +356,8 @@ public final class Constants {
         // .withKP(0.05)
         .withKI(0.0)
         .withKD(0.0)
-        .withKV(0.125);
+        .withKV(0.119621)
+        .withKS(0.19695);
     
     private static final CurrentLimitsConfigs kCurrentLimitsConfigs = 
       new CurrentLimitsConfigs()
@@ -396,6 +409,11 @@ public final class Constants {
       new FeedbackConfigs()
         .withRotorToSensorRatio(1.0)
       ;
+    private static final CurrentLimitsConfigs kCurrentLimitConfigs =
+      new CurrentLimitsConfigs()
+        .withStatorCurrentLimit(20)
+        .withStatorCurrentLimitEnable(true)
+      ;
 
     private static final MotionMagicConfigs kMotionMagicConfigs = 
       new MotionMagicConfigs()
@@ -408,6 +426,7 @@ public final class Constants {
         .withSlot0(kSlot0Configs)
         .withMotorOutput(kMotorOutputConfigs)
         .withFeedback(kFeedbackConfigs)
+        .withCurrentLimits(kCurrentLimitConfigs)
         .withMotionMagic(kMotionMagicConfigs)
       ;
 
@@ -417,7 +436,7 @@ public final class Constants {
    * Container class to hold all subsystem objects.
    */
   public static final class Subsystems {
-    public static final boolean useIntakeSlapdown = true;
+    public static final boolean useIntakeSlapdown = false;
     public static final TemplateSubsystem intakeSlapdown = (!USE_SUBSYSTEMS) ? null :
     new TemplateSubsystem(
         "Intake Slapdown", 
@@ -432,7 +451,7 @@ public final class Constants {
     new TemplateSubsystem(
         "Intake Roller", 
         IntakeRollerConstants.kMotor1ID, 
-        SubsystemMode.VELOCITY, 
+        SubsystemMode.VOLTAGE, 
         0.0,
         useIntakeRoller)
       .configureMotors(IntakeRollerConstants.kSubsystemConfiguration);
@@ -442,7 +461,7 @@ public final class Constants {
     new TemplateSubsystem(
         "Conveyor", 
         ConveyorConstants.kMotor1ID, 
-        SubsystemMode.VELOCITY, 
+        SubsystemMode.VOLTAGE, 
         0.0,
         useConveyor)
       .configureMotors(ConveyorConstants.kSubsystemConfiguration);    
@@ -452,7 +471,7 @@ public final class Constants {
     new TemplateSubsystem(
         "Indexer", 
         IndexerConstants.kMotor1ID, 
-        SubsystemMode.VELOCITY, 
+        SubsystemMode.VOLTAGE, 
         0.0,
         useIndexer)
       .configureMotors(IndexerConstants.kSubsystemConfiguration);
@@ -485,7 +504,7 @@ public final class Constants {
         useShooter)
       .configureMotors(ShooterConstants.kRightConfiguration);
 
-    public static final boolean useClimb = true;
+    public static final boolean useClimb = false;
     public static final TemplateSubsystem climb = (!USE_SUBSYSTEMS) ? null :
     new TemplateSubsystem(
         "Climb", 
