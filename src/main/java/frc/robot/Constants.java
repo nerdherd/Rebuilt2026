@@ -338,8 +338,6 @@ public final class Constants {
     public static final TalonFXConfiguration kSubsystemConfiguration = 
       new TalonFXConfiguration()
         .withSlot0(kSlot0Configs);
-
-    public static final double kShooterSpeedRatio = 0.3;
   }
 
   public static final class ShooterConstants {
@@ -438,7 +436,7 @@ public final class Constants {
    * Container class to hold all subsystem objects.
    */
   public static final class Subsystems {
-    public static final boolean useIntakeSlapdown = true;
+    public static final boolean useIntakeSlapdown = false;
     public static final TemplateSubsystem intakeSlapdown = (!USE_SUBSYSTEMS) ? null :
     new TemplateSubsystem(
         "Intake Slapdown", 
@@ -463,7 +461,7 @@ public final class Constants {
     new TemplateSubsystem(
         "Conveyor", 
         ConveyorConstants.kMotor1ID, 
-        SubsystemMode.VELOCITY, 
+        SubsystemMode.VOLTAGE, 
         0.0,
         useConveyor)
       .configureMotors(ConveyorConstants.kSubsystemConfiguration);    
@@ -473,7 +471,7 @@ public final class Constants {
     new TemplateSubsystem(
         "Indexer", 
         IndexerConstants.kMotor1ID, 
-        SubsystemMode.VELOCITY, 
+        SubsystemMode.VOLTAGE, 
         0.0,
         useIndexer)
       .configureMotors(IndexerConstants.kSubsystemConfiguration);
