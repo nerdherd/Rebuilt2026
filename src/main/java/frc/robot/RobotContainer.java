@@ -137,6 +137,7 @@ public class RobotContainer {
   // Operator bindings
   //////////////////////
   public void configureOperatorBindings_teleop() {
+
     if (Constants.USE_SUBSYSTEMS) {
       operatorController.triggerLeft()
         .onTrue(superSystem.intake())
@@ -144,13 +145,15 @@ public class RobotContainer {
       operatorController.bumperLeft()
         .onTrue(superSystem.intakeUp())
         .onFalse(superSystem.intakeDown());
-      operatorController.bumperRight()
-        .onTrue(superSystem.shoot())
-        .onFalse(superSystem.stopShooting());
+
       operatorController.triggerRight()
         // .whileTrue(superSystem.shootWithDistance())
         .onTrue(superSystem.spinUpFlywheel())
         .onFalse(superSystem.stopFlywheel());
+      operatorController.bumperRight()
+        .onTrue(superSystem.shoot())
+        .onFalse(superSystem.stopShooting());
+        
       operatorController.buttonRight()
         .onTrue(superSystem.reverseConveyor())
         .onFalse(superSystem.stopConveyor());
@@ -159,7 +162,6 @@ public class RobotContainer {
         .onFalse(superSystem.stopIntaking());
     }
   }
-
 
   public void configureBindings_test() {
 
@@ -216,6 +218,7 @@ public class RobotContainer {
     testController.joystickRight()
       .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Button Right Joy Test", "hi")))
       .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Button Right Joy Test", "bye")));
+      
   }
   
   public void initializeLogging() {
