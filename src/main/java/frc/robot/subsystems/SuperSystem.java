@@ -12,6 +12,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.SwerveDriveConstants.FieldPositions;
 import frc.robot.subsystems.template.TemplateSubsystem;
 import frc.robot.util.logging.NerdLog;
@@ -133,7 +134,7 @@ public class SuperSystem implements Reportable {
                 // calculate distance
                 double distance = getHubDistance();
                 // convert to rps
-                double rps = 2.9043 * distance * distance + 28.95386; // field day 2/15/2026
+                double rps = ShooterConstants.kShootWithDistanceA * distance * distance + ShooterConstants.kShootWithDistanceB;
                 // spin up flywheel
                 counterRoller.setDesiredValue(30);
                 shooterLeft.setDesiredValue(rps);

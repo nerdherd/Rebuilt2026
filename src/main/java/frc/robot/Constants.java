@@ -65,6 +65,7 @@ public final class Constants {
   public static class ControllerConstants {
     public static final int kDriverControllerPort = 0;
     public static final int kOperatorControllerPort = 1;
+    public static final int kTestControllerPort = 2;
 
     // deadbands
     public static final double kTranslationDeadband = 0.1; // out of 1
@@ -390,6 +391,12 @@ public final class Constants {
       kSubsystemConfiguration.clone()
         .withSlot0(kSlot0ConfigsRight)
         .withMotorOutput(kRightMotorOutputConfigs);
+
+    // Regression of a*x^2 + b
+    // Update at CAMS on 2/28/2026
+    public static final double kShootWithDistanceA = 1.55069; // a
+    public static final double kShootWithDistanceB = 26.36085; // b
+
   }
 
   public static final class ClimbConstants {
