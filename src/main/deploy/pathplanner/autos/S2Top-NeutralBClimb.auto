@@ -5,15 +5,22 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "S2F1B"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Intake Down Sequence"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "S2F1B"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake Down Sequence"
+                }
+              }
+            ]
           }
         }
       ]
