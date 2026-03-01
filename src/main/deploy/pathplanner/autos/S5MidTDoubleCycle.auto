@@ -5,35 +5,27 @@
     "data": {
       "commands": [
         {
-          "type": "parallel",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "S1N1"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake Down Sequence"
-                }
-              }
-            ]
+            "name": "Intake Down Sequence"
           }
         },
         {
-          "type": "sequential",
+          "type": "wait",
           "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "N1F1"
-                }
-              }
-            ]
+            "waitTime": 2.0
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "S5N4"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "N4F4"
           }
         },
         {
@@ -43,13 +35,13 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "F1M4"
+                  "pathName": "F4M5"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "SpinUpFlywheel"
+                  "name": "ShootDistance"
                 }
               }
             ]
@@ -74,7 +66,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "M4C1"
+                  "pathName": "M5N4"
                 }
               },
               {
@@ -85,11 +77,48 @@
               }
             ]
           }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "N4F3"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "F3M5"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ShootDistance"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 3.0
+          }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "Top",
+  "folder": "Bottom",
   "choreoAuto": false
 }

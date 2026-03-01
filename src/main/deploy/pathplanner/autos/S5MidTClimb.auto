@@ -5,35 +5,21 @@
     "data": {
       "commands": [
         {
-          "type": "parallel",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "S1N1"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake Down Sequence"
-                }
-              }
-            ]
+            "name": "Intake Down Sequence"
           }
         },
         {
-          "type": "sequential",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "N1F1"
-                }
-              }
-            ]
+            "pathName": "S5N4"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "N4F4"
           }
         },
         {
@@ -43,7 +29,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "F1M4"
+                  "pathName": "F4M5"
                 }
               },
               {
@@ -74,7 +60,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "M4C1"
+                  "pathName": "M5T1"
                 }
               },
               {
@@ -90,6 +76,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Top",
+  "folder": "Bottom",
   "choreoAuto": false
 }
