@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.374567022538553,
-        "y": 7.397247924075285
+        "x": 3.3120632755055146,
+        "y": 2.5
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.374567022538553,
-        "y": 7.147247924075285
+        "x": 4.169232062802336,
+        "y": 2.2920236755093164
       },
       "isLocked": false,
-      "linkedName": "M4"
+      "linkedName": "Actual M4"
     },
     {
       "anchor": {
-        "x": 0.9537485172004754,
-        "y": 3.7391221826809016
+        "x": 1.525,
+        "y": 3.75
       },
       "prevControl": {
-        "x": 3.1094570185026726,
-        "y": 3.739122182680901
+        "x": 1.2752351136786613,
+        "y": 3.739160186307471
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 0.0
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -69.77514056883201
+    "rotation": 50.28187415895837
   },
   "useDefaultConstraints": true
 }
