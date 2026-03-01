@@ -62,6 +62,9 @@ public final class Autos {
             superSystem.stopShooting()
         ));
 
+
+
+        NamedCommands.registerCommand("ShootDistance", superSystem.shootWithDistance());
         NamedCommands.registerCommand("Wait", Commands.waitSeconds(1));
         NamedCommands.registerCommand("SpinUpFlywheel", superSystem.spinUpFlywheel());
         NamedCommands.registerCommand("StopFlywheel", superSystem.stopFlywheel());
