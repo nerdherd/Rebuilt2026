@@ -59,11 +59,17 @@
           "data": {
             "pathName": "M1T1"
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Climb"
+          }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "TopNeutral",
+  "folder": "Top",
   "choreoAuto": false
 }
