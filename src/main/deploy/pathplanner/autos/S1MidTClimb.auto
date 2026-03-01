@@ -49,29 +49,16 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "ShootDistance"
+                  "name": "SpinUpFlywheel"
                 }
               }
             ]
           }
         },
         {
-          "type": "parallel",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "ShootDistance"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Shoot"
-                }
-              }
-            ]
+            "name": "Shoot"
           }
         },
         {
@@ -87,7 +74,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "M4N1"
+                  "pathName": "M4T1"
                 }
               },
               {
@@ -98,68 +85,11 @@
               }
             ]
           }
-        },
-        {
-          "type": "sequential",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "N1F2"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "F2M4"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "ShootDistance"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "ShootDistance"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Shoot"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 3.0
-          }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "Top",
+  "folder": "TopNeutral",
   "choreoAuto": false
 }

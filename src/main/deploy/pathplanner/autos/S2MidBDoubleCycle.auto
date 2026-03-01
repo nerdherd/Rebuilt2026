@@ -5,27 +5,22 @@
     "data": {
       "commands": [
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "Intake Down Sequence"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 2.0
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "S5N4"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "N4F4"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "S2F1B"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake Down Sequence"
+                }
+              }
+            ]
           }
         },
         {
@@ -35,7 +30,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "F4M5"
+                  "pathName": "F1BM1"
                 }
               },
               {
@@ -66,7 +61,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "M5N4"
+                  "pathName": "M1F2B"
                 }
               },
               {
@@ -79,19 +74,13 @@
           }
         },
         {
-          "type": "path",
-          "data": {
-            "pathName": "N4F3"
-          }
-        },
-        {
           "type": "parallel",
           "data": {
             "commands": [
               {
                 "type": "path",
                 "data": {
-                  "pathName": "F3M5"
+                  "pathName": "F2BM1"
                 }
               },
               {
@@ -119,6 +108,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Bottom",
+  "folder": "TopNeutral",
   "choreoAuto": false
 }

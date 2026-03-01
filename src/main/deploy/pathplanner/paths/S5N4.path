@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.421037255906261,
-        "y": 0.6973254520032146
+        "x": 7.546467236467235,
+        "y": 0.45609686609686717
       },
       "isLocked": false,
       "linkedName": "S5"
@@ -20,8 +20,8 @@
         "y": 1.25
       },
       "prevControl": {
-        "x": 6.614111787256203,
-        "y": 1.0900622034259264
+        "x": 7.365584045584045,
+        "y": 0.7920227920227922
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,8 +33,8 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 1.5,
+    "maxAcceleration": 1.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,

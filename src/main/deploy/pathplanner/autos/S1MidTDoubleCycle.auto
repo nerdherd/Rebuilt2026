@@ -5,27 +5,35 @@
     "data": {
       "commands": [
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "Intake Down Sequence"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "S1N1"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake"
+                }
+              }
+            ]
           }
         },
         {
-          "type": "wait",
+          "type": "sequential",
           "data": {
-            "waitTime": 2.0
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "S5N4"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "N4F4"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "N1F1"
+                }
+              }
+            ]
           }
         },
         {
@@ -35,7 +43,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "F4M5"
+                  "pathName": "F1M4"
                 }
               },
               {
@@ -48,9 +56,22 @@
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "Shoot"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "ShootDistance"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Shoot"
+                }
+              }
+            ]
           }
         },
         {
@@ -66,7 +87,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "M5N4"
+                  "pathName": "M4N1"
                 }
               },
               {
@@ -79,9 +100,16 @@
           }
         },
         {
-          "type": "path",
+          "type": "sequential",
           "data": {
-            "pathName": "N4F3"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "N1F2"
+                }
+              }
+            ]
           }
         },
         {
@@ -91,7 +119,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "F3M5"
+                  "pathName": "F2M4"
                 }
               },
               {
@@ -104,9 +132,22 @@
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "Shoot"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "ShootDistance"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Shoot"
+                }
+              }
+            ]
           }
         },
         {
@@ -119,6 +160,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Bottom",
+  "folder": "Top",
   "choreoAuto": false
 }

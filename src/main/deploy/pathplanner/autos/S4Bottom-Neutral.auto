@@ -5,12 +5,6 @@
     "data": {
       "commands": [
         {
-          "type": "path",
-          "data": {
-            "pathName": "S3M3-Temp"
-          }
-        },
-        {
           "type": "named",
           "data": {
             "name": "Shooter Ramp Up"
@@ -31,7 +25,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "M3N2"
+            "pathName": "S4M2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "M2N3"
           }
         },
         {
@@ -47,7 +47,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "N2F1"
+                  "pathName": "N3F4"
                 }
               }
             ]
@@ -62,7 +62,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "F1M3"
+            "pathName": "F4M2"
           }
         },
         {
@@ -74,7 +74,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 4.0
+            "waitTime": 2.0
           }
         },
         {
@@ -87,6 +87,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Top",
+  "folder": "BottomNeutral",
   "choreoAuto": false
 }
