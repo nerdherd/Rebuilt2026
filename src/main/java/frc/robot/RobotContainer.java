@@ -33,7 +33,7 @@ public class RobotContainer {
 
   private final Controller driverController = new Controller(ControllerConstants.kDriverControllerPort, Type.PS4);
   private final Controller operatorController = new Controller(ControllerConstants.kOperatorControllerPort, Type.PS4);
-  private final Controller testController = new Controller(2, Type.Xbox360);
+  private final Controller testController = new Controller(ControllerConstants.kTestControllerPort, Type.Xbox360);
   
   private static boolean isRedSide = false;
   
