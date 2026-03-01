@@ -8,11 +8,11 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.344094151212553,
+        "x": 2.3440941512125524,
         "y": 0.5350927246790307
       },
       "isLocked": false,
-      "linkedName": "S5"
+      "linkedName": "M5"
     },
     {
       "anchor": {
@@ -48,7 +48,7 @@
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 68.17790258085836
   },
   "useDefaultConstraints": true
 }
