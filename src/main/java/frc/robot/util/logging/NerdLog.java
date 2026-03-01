@@ -73,7 +73,7 @@ public class NerdLog {
 	}
 	
 	/**
-	 * Log a BaseStatusSignal on a network.
+	 * Logs a BaseStatusSignal on a network.
 	 * @param key
 	 * @param name
 	 * @param signal

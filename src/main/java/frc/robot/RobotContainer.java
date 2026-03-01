@@ -33,7 +33,7 @@ public class RobotContainer {
 
   private final Controller driverController = new Controller(ControllerConstants.kDriverControllerPort, Type.PS4);
   private final Controller operatorController = new Controller(ControllerConstants.kOperatorControllerPort, Type.PS4);
-  private final Controller testController = new Controller(2, Type.PS4);
+  private final Controller testController = new Controller(2, Type.Xbox360);
   
   private static boolean isRedSide = false;
   
@@ -46,12 +46,12 @@ public class RobotContainer {
 
     if (Constants.USE_SUBSYSTEMS) { // add subsystems
       superSystem = new SuperSystem(swerveDrive);
-      Autos.initializeNamedCommands(superSystem);
+      Autos.initNamedCommands(superSystem);
     }
     
     Subsystems.init();
+    Autos.initAutoChooser();
     initializeLogging();
-    Autos.initializeAutos();
 
     NerdLog.reportInfo("Initialization Complete");
   }
@@ -137,6 +137,7 @@ public class RobotContainer {
   // Operator bindings
   //////////////////////
   public void configureOperatorBindings_teleop() {
+
     if (Constants.USE_SUBSYSTEMS) {
       operatorController.triggerLeft()
         .onTrue(superSystem.intake())
@@ -151,6 +152,10 @@ public class RobotContainer {
         // .whileTrue(superSystem.shootWithDistance())
         .onTrue(superSystem.spinUpFlywheel())
         .onFalse(superSystem.stopFlywheel());
+      operatorController.bumperRight()
+        .onTrue(superSystem.shoot())
+        .onFalse(superSystem.stopShooting());
+        
       operatorController.buttonRight()
         .onTrue(superSystem.reverseConveyor())
         .onFalse(superSystem.stopConveyor());
@@ -160,21 +165,20 @@ public class RobotContainer {
     }
   }
 
-
   public void configureBindings_test() {
 
     testController.buttonRight()
-      .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Button A Test", "hi")))
-      .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Button A Test", "bye")));
+      .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Button Right Test", "hi")))
+      .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Button Right Test", "bye")));
     testController.buttonDown()
-      .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Button B Test", "hi")))
-      .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Button B Test", "bye")));
+      .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Button Down Test", "hi")))
+      .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Button Down Test", "bye")));
     testController.buttonUp()
-      .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Button X Test", "hi")))
-      .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Button X Test", "bye")));
+      .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Button Up Test", "hi")))
+      .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Button Up Test", "bye")));
     testController.buttonLeft()
-      .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Button Y Test", "hi")))
-      .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Button Y Test", "bye")));
+      .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Button Left Test", "hi")))
+      .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Button Left Test", "bye")));
 
     testController.bumperLeft()
       .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Bumper L Test", "hi")))
@@ -184,11 +188,11 @@ public class RobotContainer {
       .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Bumper R Test", "bye")));
     
     testController.triggerLeft()
-      .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Trigger ZL Test", "hi")))
-      .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Trigger ZL Test", "bye")));
+      .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Trigger L Test", "hi")))
+      .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Trigger L Test", "bye")));
     testController.triggerRight()
-      .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Trigger ZR Test", "hi")))
-      .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Trigger ZR Test", "bye")));
+      .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Trigger R Test", "hi")))
+      .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Trigger R Test", "bye")));
 
    testController.dpadUp()
       .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Dpad Up Test", "hi")))
@@ -204,11 +208,11 @@ public class RobotContainer {
       .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Dpad Left Test", "bye")));
 
     testController.controllerLeft()
-      .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Button Minus Test", "hi")))
-      .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Button Minus Test", "bye")));
+      .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Controller Left Test", "hi")))
+      .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Controller Left Test", "bye")));
     testController.controllerRight()
-      .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Button Plus Test", "hi")))
-      .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Button Plus Test", "bye")));
+      .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Controller Right Test", "hi")))
+      .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Controller Right Test", "bye")));
     
     testController.joystickLeft()
       .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Button Left Joy Test", "hi")))
@@ -216,6 +220,7 @@ public class RobotContainer {
     testController.joystickRight()
       .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Button Right Joy Test", "hi")))
       .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Button Right Joy Test", "bye")));
+      
   }
   
   public void initializeLogging() {
@@ -235,9 +240,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    refreshAlliance();
-    if (IsRedSide()) return Autos.autonChooserRed.getSelected();
-    return Autos.autonChooserBlue.getSelected();
+    return Autos.autoChooser.getSelected();
   }
 
   public void disableAllMotors_Test() {

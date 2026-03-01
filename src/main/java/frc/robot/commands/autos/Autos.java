@@ -9,59 +9,41 @@ import frc.robot.util.logging.Reportable.LOG_LEVEL;
 
 import static frc.robot.Constants.LoggingConstants.kAutosTab;
 
+import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
-import com.pathplanner.lib.commands.PathPlannerAuto;
 
 
 public final class Autos {
-    public static SendableChooser<Command> autonChooserRed = new SendableChooser<>(); //if on red side
-    public static SendableChooser<Command> autonChooserBlue = new SendableChooser<>(); //if on blue side
+    public static SendableChooser<Command> autoChooser = new SendableChooser<>();
 
-    // autos
-    // Example: private static PathPlannerAuto exampleAuto;
-    private static PathPlannerAuto S3TowerBlue;
-    private static PathPlannerAuto S3TowerRed;
-    private static PathPlannerAuto S5BottomBlueOutpost;
-    private static PathPlannerAuto S4BottomBlueOutpost;
-    private static PathPlannerAuto S2TopRedDepot;
-    private static PathPlannerAuto S2TopBlueDepot;
+    public static void initAutoChooser() {
+        autoChooser.setDefaultOption("Do Nothing", Commands.none());
+        autoChooser.addOption("S3Bottom-Neutral", AutoBuilder.buildAuto("S3Bottom-Neutral"));
+        autoChooser.addOption("S4Bottom-Neutral", AutoBuilder.buildAuto("S4Bottom-Neutral"));
+        autoChooser.addOption("S5Bottom-Neutral", AutoBuilder.buildAuto("S5Bottom-Neutral"));
 
-
-    public static void initializeAutos() {
-        NerdLog.logData(kAutosTab + "/Red Autos", autonChooserRed, LOG_LEVEL.MINIMAL);
-        NerdLog.logData(kAutosTab + "/Blue Autos", autonChooserBlue, LOG_LEVEL.MINIMAL);
-
-        // initialize autos
-        // Example: exampleAuto = new PathPlannerAuto("example Auto");
-        S3TowerBlue = new PathPlannerAuto("S3Blue-Tower");
-        S3TowerRed = new PathPlannerAuto("S3Red-Tower");
-        S5BottomBlueOutpost = new PathPlannerAuto("S5BottomBlue-Outpost");
-        S4BottomBlueOutpost = new PathPlannerAuto("S4BottomBlue-Outpost");
-        S2TopRedDepot = new PathPlannerAuto("S2TopRed-Depot");
-        S2TopBlueDepot = new PathPlannerAuto("S2TopBlue-Depot");
-
-        // add options to red 
-        // Example: autonChooserRed.addOption("exampleRed", exampleAuto);
-        autonChooserRed.addOption("S3Tower-Red", S3TowerRed);
-        autonChooserRed.addOption("S2TopRed-Depot", S2TopRedDepot);
+        autoChooser.addOption("S1Top-Neutral", AutoBuilder.buildAuto("S1Top-Neutral"));
+        autoChooser.addOption("S2Top-Neutral", AutoBuilder.buildAuto("S2Top-Neutral"));
+        autoChooser.addOption("S3Top-Neutral", AutoBuilder.buildAuto("S3Top-Neutral"));
+        autoChooser.addOption("S1Top-Depot", AutoBuilder.buildAuto("S1Top-Depot"));
+        autoChooser.addOption("S2Top-Depot", AutoBuilder.buildAuto("S2Top-Depot"));
+        autoChooser.addOption("S3-Tower", AutoBuilder.buildAuto("S3-Tower"));
         
-        // add options to blue
-        // Example: autonChooserBlue.addOption("exampleBlue", exampleAuto);
-        autonChooserBlue.addOption("S3Tower-Blue", S3TowerBlue);
-        autonChooserBlue.addOption("S5BottomBlue-Outpost", S5BottomBlueOutpost);
-        autonChooserBlue.addOption("S4BottomBlue-Outpost", S4BottomBlueOutpost);
-        autonChooserBlue.addOption("S2TopBlue-Depot", S2TopBlueDepot);
+        autoChooser.addOption("S4Bottom-Outpost", AutoBuilder.buildAuto("S4Bottom-Outpost"));
+        autoChooser.addOption("S5Bottom-Outpost", AutoBuilder.buildAuto("S5Bottom-Outpost"));
+        
+        NerdLog.logData(kAutosTab + "/Selected Auto", autoChooser, LOG_LEVEL.MINIMAL);
     }
 
-    public static void initializeNamedCommands(SuperSystem superSystem) {
+    public static void initNamedCommands(SuperSystem superSystem) {
         NamedCommands.registerCommand("Intake Down Sequence", 
-        Commands.sequence(
+        Commands.parallel(
             superSystem.intakeDown(), 
             superSystem.intake()
         ));
 
         NamedCommands.registerCommand("Intake Up Sequence", 
-        Commands.sequence(
+        Commands.parallel(
             superSystem.stopIntaking(), 
             superSystem.intakeUp()
         ));
@@ -75,7 +57,8 @@ public final class Autos {
 
         NamedCommands.registerCommand("Shooter Ramp Down", 
         Commands.sequence(
-            superSystem.stopFlywheel(), 
+            superSystem.stopFlywheel(),
+            Commands.waitSeconds(1),
             superSystem.stopShooting()
         ));
 
@@ -89,4 +72,5 @@ public final class Autos {
         NamedCommands.registerCommand("Intake", superSystem.intake());
         NamedCommands.registerCommand("StopIntaking", superSystem.stopIntaking());
     }
+
 }

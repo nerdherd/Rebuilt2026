@@ -45,7 +45,7 @@ public class SuperSystem implements Reportable {
         applySubsystems((s) -> s.applyMotorConfigs());
     }
     
-    public Command shoot(){
+    public Command shoot() {
         return Commands.parallel(
             indexer.setDesiredValueCommand(5),
             conveyor.setDesiredValueCommand(4)
