@@ -5,34 +5,35 @@
     "data": {
       "commands": [
         {
-          "type": "path",
-          "data": {
-            "pathName": "S1N1"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Intake Down Sequence"
-          }
-        },
-        {
           "type": "parallel",
           "data": {
             "commands": [
               {
                 "type": "path",
                 "data": {
-                  "pathName": "N1F2"
+                  "pathName": "S1N1"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake Down Sequence"
                 }
               }
             ]
           }
         },
         {
-          "type": "named",
+          "type": "sequential",
           "data": {
-            "name": "Intake Up Sequence"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "N1F1"
+                }
+              }
+            ]
           }
         },
         {
@@ -42,7 +43,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "F2M4"
+                  "pathName": "F1M4"
                 }
               },
               {
@@ -67,9 +68,22 @@
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "Shooter Ramp Down"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "M4C1"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Shooter Ramp Down"
+                }
+              }
+            ]
           }
         }
       ]
