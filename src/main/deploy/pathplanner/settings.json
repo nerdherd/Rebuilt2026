@@ -4,9 +4,9 @@
   "holonomicMode": true,
   "pathFolders": [],
   "autoFolders": [
-    "BottomNeutral",
+    "Bottom",
     "Depot, Tower, Outpost",
-    "TopNeutral"
+    "Top"
   ],
   "defaultMaxVel": 3.0,
   "defaultMaxAccel": 3.0,

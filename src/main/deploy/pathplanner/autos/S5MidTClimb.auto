@@ -5,34 +5,21 @@
     "data": {
       "commands": [
         {
-          "type": "path",
-          "data": {
-            "pathName": "S1N1"
-          }
-        },
-        {
           "type": "named",
           "data": {
             "name": "Intake Down Sequence"
           }
         },
         {
-          "type": "parallel",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "N1F2"
-                }
-              }
-            ]
+            "pathName": "S5N4"
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "Intake Up Sequence"
+            "pathName": "N4F4"
           }
         },
         {
@@ -42,7 +29,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "F2M4"
+                  "pathName": "F4M5"
                 }
               },
               {
@@ -67,15 +54,28 @@
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "Shooter Ramp Down"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "M5T1"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Shooter Ramp Down"
+                }
+              }
+            ]
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "Top",
+  "folder": "Bottom",
   "choreoAuto": false
 }

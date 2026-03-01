@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "S5M2"
+            "pathName": "S3M3-Temp"
           }
         },
         {
@@ -31,7 +31,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "M2N4"
+            "pathName": "M3N3"
           }
         },
         {
@@ -47,7 +47,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "N4F3"
+                  "pathName": "N3F4B"
                 }
               }
             ]
@@ -62,7 +62,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "F3M2"
+            "pathName": "F4M3"
           }
         },
         {
@@ -74,7 +74,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 5.0
+            "waitTime": 4.0
           }
         },
         {
@@ -87,6 +87,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "BottomNeutral",
+  "folder": "Bottom",
   "choreoAuto": false
 }
