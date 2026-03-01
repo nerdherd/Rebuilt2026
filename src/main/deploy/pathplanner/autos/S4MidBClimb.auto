@@ -5,33 +5,28 @@
     "data": {
       "commands": [
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "Shooter Ramp Up"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 2.0
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shooter Ramp Down"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "S4N3"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake Down Sequence"
+                }
+              }
+            ]
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "M2N3"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Intake Down Sequence"
+            "pathName": "N3F4B"
           }
         },
         {
@@ -41,7 +36,13 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "N3F4B"
+                  "pathName": "F4BM4"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "SpinUpFlywheel"
                 }
               }
             ]
@@ -50,31 +51,38 @@
         {
           "type": "named",
           "data": {
-            "name": "Intake Up Sequence"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "F4M2"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shooter Ramp Up"
+            "name": "Shoot"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 2.0
+            "waitTime": 3.0
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "M4T1"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Shooter Ramp Down"
+                }
+              }
+            ]
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Shooter Ramp Down"
+            "name": "Climb"
           }
         }
       ]
