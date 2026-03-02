@@ -30,7 +30,22 @@ public final class Autos {
         autoChooser.addOption("S3-Tower", AutoBuilder.buildAuto("S3-Tower"));
         autoChooser.addOption("S5-MID", AutoBuilder.buildAuto("S5MidTDoubleCycle"));
         
-        autoChooser.addOption("S1-MIDDouble", AutoBuilder.buildAuto("S1MidTDoubleCycle"));
+        autoChooser.addOption("S1MidTDoubleCycle", AutoBuilder.buildAuto("S1MidTDoubleCycle"));
+        autoChooser.addOption("S1MidTClimb", AutoBuilder.buildAuto("S1MidTClimb"));
+        
+        
+        autoChooser.addOption("S2MidBDoubleCycle", AutoBuilder.buildAuto("S2MidBDoubleCycle"));
+        autoChooser.addOption("S2MidBClimb", AutoBuilder.buildAuto("S2MidBClimb"));
+        
+        
+        autoChooser.addOption("SS5MidTDoubleCycle", AutoBuilder.buildAuto("S5MidTDoubleCycle"));
+        autoChooser.addOption("S5MidTClimb", AutoBuilder.buildAuto("S5MidTClimb"));
+        
+        autoChooser.addOption("S4MidBDoubleCycle", AutoBuilder.buildAuto("S4MidBDoubleCycle"));
+        autoChooser.addOption("S4MidBClimb", AutoBuilder.buildAuto("S4MidBClimb"));
+
+
+
         
         autoChooser.addOption("S4Bottom-Outpost", AutoBuilder.buildAuto("S4Bottom-Outpost"));
         autoChooser.addOption("S5Bottom-Outpost", AutoBuilder.buildAuto("S5Bottom-Outpost"));
