@@ -106,26 +106,32 @@ public class SuperSystem implements Reportable {
 
     public Command intake() {
         return Commands.parallel(
-            intakeRoller.setDesiredValueCommand(7.5)
-        );
-    }
-
-    public Command stopIntaking() {
-        return Commands.parallel(
-            intakeRoller.setDesiredValueCommand(0)
+            intakeRoller.setDesiredValueCommand(7.5),
+            conveyor.setDesiredValueCommand(3)
+            );
+        }
+        
+        public Command stopIntaking() {
+            return Commands.parallel(
+                intakeRoller.setDesiredValueCommand(0),
+                conveyor.setDesiredValueCommand(0.0)
         );
     }
 
     public Command climbUp() {
         return Commands.parallel(
-            climb.setDesiredValueCommand(0) // TODO
+            climb.setDesiredValueCommand(3) // TODO
         );
     }
 
     public Command climbDown() {
         return Commands.parallel(
-            climb.setDesiredValueCommand(0)
+            climb.setDesiredValueCommand(-3)
         );
+    }
+
+    public Command stopClimb() {
+        return climb.setDesiredValueCommand(0);
     }
 
     public Command shootWithDistance() {

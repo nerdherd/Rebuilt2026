@@ -3,45 +3,45 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.3309535905697762,
-        "y": 3.0826040047017407
+        "x": 2.5303,
+        "y": 2.975
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.683319088319088,
-        "y": 1.8127207977207989
+        "x": 3.0115595238095243,
+        "y": 1.6919166666666658
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "M2"
     },
     {
       "anchor": {
-        "x": 1.2413960113960116,
-        "y": 1.9290028490028486
+        "x": 1.078785714285715,
+        "y": 1.9726547619047632
       },
       "prevControl": {
-        "x": 1.224766258765068,
-        "y": 1.6795565595386963
+        "x": 1.3278458613346351,
+        "y": 1.9943121659959742
       },
       "nextControl": {
-        "x": 1.2580257640269552,
-        "y": 2.178449138467001
+        "x": 0.8297255672367942,
+        "y": 1.9509973578135522
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.2413960113960116,
-        "y": 2.7300569800569803
+        "x": 1.05,
+        "y": 2.8
       },
       "prevControl": {
-        "x": 1.2282563031153206,
-        "y": 2.480402522723853
+        "x": 0.9937851233253102,
+        "y": 3.0435977989236553
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "T1"
+      "linkedName": null
     }
   ],
   "rotationTargets": [
@@ -69,7 +69,7 @@
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 34.24319226630843
   },
   "useDefaultConstraints": true
 }

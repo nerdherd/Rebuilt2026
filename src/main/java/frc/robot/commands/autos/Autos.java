@@ -51,7 +51,7 @@ public final class Autos {
         NamedCommands.registerCommand("Shooter Ramp Up", 
         Commands.sequence(
             superSystem.spinUpFlywheel(), 
-            Commands.waitSeconds(1),
+            Commands.waitSeconds(2),
             superSystem.shoot()
         ));
 
@@ -60,6 +60,19 @@ public final class Autos {
             superSystem.stopFlywheel(),
             Commands.waitSeconds(1),
             superSystem.stopShooting()
+        ));
+
+        NamedCommands.registerCommand("Climb Up", 
+        Commands.sequence(
+            superSystem.climbUp(),
+            Commands.waitSeconds(11.0)
+        ));
+
+        NamedCommands.registerCommand("Climb Down", 
+        Commands.sequence(
+             superSystem.climbDown(),
+            Commands.waitSeconds(9.0),
+            superSystem.stopClimb()
         ));
 
         NamedCommands.registerCommand("Wait", Commands.waitSeconds(1));
@@ -71,6 +84,8 @@ public final class Autos {
         NamedCommands.registerCommand("IntakeDown", superSystem.intakeDown());
         NamedCommands.registerCommand("Intake", superSystem.intake());
         NamedCommands.registerCommand("StopIntaking", superSystem.stopIntaking());
+
+        
     }
 
 }

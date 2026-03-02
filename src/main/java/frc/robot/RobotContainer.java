@@ -81,7 +81,7 @@ public class RobotContainer {
       // Turn
       () -> -driverController.getRightX(), 
       // use turn to angle
-      () -> driverController.getButtonRight(),
+      () -> driverController.getBumperRight(),
       // turn to angle target direction, 0.0 to use manual
       () -> NerdyMath.angleToPose(swerveDrive.getPose(), FieldPositions.HUB_CENTER.get()),
       // robot oriented adjustment (dpad)
@@ -100,6 +100,7 @@ public class RobotContainer {
   }
 
   public void initDefaultCommands_test() {
+    swerveDrive.removeDefaultCommand();
     // initDefaultCommands_teleop();
   }
 
@@ -147,8 +148,8 @@ public class RobotContainer {
         .onFalse(superSystem.intakeDown());
 
       operatorController.triggerRight()
-        // .whileTrue(superSystem.shootWithDistance())
-        .onTrue(superSystem.spinUpFlywheel())
+        .whileTrue(superSystem.shootWithDistance())
+        // .onTrue(superSystem.spinUpFlywheel())
         .onFalse(superSystem.stopFlywheel());
       operatorController.bumperRight()
         .onTrue(superSystem.shoot())
@@ -160,6 +161,14 @@ public class RobotContainer {
       operatorController.buttonDown()
         .onTrue(superSystem.outtake())
         .onFalse(superSystem.stopIntaking());
+      
+      operatorController.dpadUp()
+        .onTrue(superSystem.climbUp())
+        .onFalse(superSystem.stopClimb());
+        
+      operatorController.dpadDown()
+        .onTrue(superSystem.climbDown())
+        .onFalse(superSystem.stopClimb());
     }
   }
 

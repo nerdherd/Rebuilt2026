@@ -7,37 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "S4M2"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shooter Ramp Up"
+            "pathName": "S4O1"
           }
         },
         {
           "type": "wait",
           "data": {
             "waitTime": 2.0
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shooter Ramp Down"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "M2O1"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Wait"
           }
         },
         {
@@ -62,6 +38,30 @@
           "type": "named",
           "data": {
             "name": "Shooter Ramp Down"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "M2Climb"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Climb Up"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Climb2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Climb Down"
           }
         }
       ]

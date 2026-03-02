@@ -111,7 +111,7 @@ public final class Constants {
     public static final double kDriveMaxVelocity = 5.0; // m/s
     public static final double kDrivePrecisionMultiplier = 0.25; // fractional
     
-    public static final double kTurnMaxVelocity = 4.5; // rad/s
+    public static final double kTurnMaxVelocity = 3; // rad/s
     public static final double kTurnPrecisionMultiplier = 0.5; // fractional
     
     public static final double kRobotOrientedVelocity = 1.0; // m/s
@@ -139,6 +139,7 @@ public final class Constants {
     /** Field oriented controller - use @see NerdDrivertrain#resetFieldOrientation() */
     public static final SwerveRequest.FieldCentric      kFieldOrientedSwerveRequest = 
       new SwerveRequest.FieldCentric()
+        .withDesaturateWheelSpeeds(true)
         .withDriveRequestType(DriveRequestType.OpenLoopVoltage)
         .withSteerRequestType(SteerRequestType.Position)
         .withForwardPerspective(ForwardPerspectiveValue.OperatorPerspective);
@@ -350,15 +351,16 @@ public final class Constants {
         // .withKP(0.05)
         .withKI(0.0)
         .withKD(0.0)
-        .withKV(0.13);
+        .withKV(0.122247)
+        .withKS(0.250255);
     
     private static final Slot0Configs kSlot0ConfigsRight = 
       new Slot0Configs()
         // .withKP(0.05)
         .withKI(0.0)
         .withKD(0.0)
-        .withKV(0.119621)
-        .withKS(0.19695);
+        .withKV(0.119647)
+        .withKS(0.208437);
     
     private static final CurrentLimitsConfigs kCurrentLimitsConfigs = 
       new CurrentLimitsConfigs()
@@ -418,7 +420,7 @@ public final class Constants {
       ;
     private static final CurrentLimitsConfigs kCurrentLimitConfigs =
       new CurrentLimitsConfigs()
-        .withStatorCurrentLimit(20)
+        .withStatorCurrentLimit(10)
         .withStatorCurrentLimitEnable(true)
       ;
 
@@ -443,7 +445,7 @@ public final class Constants {
    * Container class to hold all subsystem objects.
    */
   public static final class Subsystems {
-    public static final boolean useIntakeSlapdown = false;
+    public static final boolean useIntakeSlapdown = true;
     public static final TemplateSubsystem intakeSlapdown = (!USE_SUBSYSTEMS) ? null :
     new TemplateSubsystem(
         "Intake Slapdown", 
@@ -511,12 +513,12 @@ public final class Constants {
         useShooter)
       .configureMotors(ShooterConstants.kRightConfiguration);
 
-    public static final boolean useClimb = false;
+    public static final boolean useClimb = true;
     public static final TemplateSubsystem climb = (!USE_SUBSYSTEMS) ? null :
     new TemplateSubsystem(
         "Climb", 
         ClimbConstants.kMotor1ID, 
-        SubsystemMode.POSITION, 
+        SubsystemMode.VOLTAGE, 
         0.0,
         useClimb)
       .configureMotors(ClimbConstants.kSubsystemConfiguration);
