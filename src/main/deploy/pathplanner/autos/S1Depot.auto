@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "S5M2"
+            "pathName": "S1M1"
           }
         },
         {
@@ -19,7 +19,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 4.0
+            "waitTime": 2.0
           }
         },
         {
@@ -31,19 +31,38 @@
         {
           "type": "path",
           "data": {
-            "pathName": "M2O1"
+            "pathName": "M1D1"
           }
         },
         {
-          "type": "wait",
+          "type": "named",
           "data": {
-            "waitTime": 2.0
+            "name": "Intake Down Sequence"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "D1D2"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake Up Sequence"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "O1M2"
+            "pathName": "D2M1"
           }
         },
         {
@@ -68,6 +87,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Depot, Tower, Outpost",
+  "folder": "Alliance Zone",
   "choreoAuto": false
 }

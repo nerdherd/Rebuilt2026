@@ -38,6 +38,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Depot, Tower, Outpost",
+  "folder": "Alliance Zone",
   "choreoAuto": false
 }

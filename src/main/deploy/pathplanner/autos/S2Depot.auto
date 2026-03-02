@@ -31,7 +31,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "M1D3"
+            "pathName": "M1D1"
           }
         },
         {
@@ -47,7 +47,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "D3D4"
+                  "pathName": "D1D2"
                 }
               }
             ]
@@ -62,7 +62,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "D4M1"
+            "pathName": "D2M1"
           }
         },
         {
@@ -87,6 +87,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Depot, Tower, Outpost",
+  "folder": "Alliance Zone",
   "choreoAuto": false
 }

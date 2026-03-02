@@ -4,9 +4,9 @@
   "holonomicMode": true,
   "pathFolders": [],
   "autoFolders": [
-    "BottomNeutral",
-    "Depot, Tower, Outpost",
-    "TopNeutral"
+    "Neutral Bottom",
+    "Alliance Zone",
+    "Neutral Top"
   ],
   "defaultMaxVel": 1.5,
   "defaultMaxAccel": 1.5,
