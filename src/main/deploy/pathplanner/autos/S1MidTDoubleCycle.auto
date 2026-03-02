@@ -160,6 +160,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Top",
+  "folder": "TopNeutral",
   "choreoAuto": false
 }

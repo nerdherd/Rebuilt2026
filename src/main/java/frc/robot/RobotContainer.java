@@ -114,7 +114,7 @@ public class RobotContainer {
   public void configureDriverBindings_teleop() {
 
     driverController.controllerLeft() // Set Drive Heading
-      .onTrue(Commands.runOnce(() -> swerveDrive.setDriverHeadingForward()));
+      .onTrue(Commands.runOnce(() -> swerveDrive.setRobotHeadingForward()));
 
     driverController.controllerRight() // Set Pose Heading (pressed)
       .onTrue(Commands.runOnce(() -> swerveDrive.useMegaTag2 = false))

@@ -30,6 +30,8 @@ public final class Autos {
         autoChooser.addOption("S3-Tower", AutoBuilder.buildAuto("S3-Tower"));
         autoChooser.addOption("S5-MID", AutoBuilder.buildAuto("S5MidTDoubleCycle"));
         
+        autoChooser.addOption("S1-MIDDouble", AutoBuilder.buildAuto("S1MidTDoubleCycle"));
+        
         autoChooser.addOption("S4Bottom-Outpost", AutoBuilder.buildAuto("S4Bottom-Outpost"));
         autoChooser.addOption("S5Bottom-Outpost", AutoBuilder.buildAuto("S5Bottom-Outpost"));
         
