@@ -105,7 +105,7 @@ public class SwerveJoystickCommand extends Command {
 
         // 
         Translation2d adjustment = robotOrientedAdjustment.get();
-        if (!adjustment.equals(Translation2d.kZero)) swerveDrive.driveRobotOriented(adjustment.getX() * kRobotOrientedVelocity, adjustment.getY() * kRobotOrientedVelocity, 0.0);
+        if (!adjustment.equals(Translation2d.kZero)) swerveDrive.driveRobotOriented(adjustment.getX() * kRobotOrientedVelocity, adjustment.getY() * kRobotOrientedVelocity, turnSpeed);
         else if (useFieldOriented.get()) swerveDrive.driveFieldOriented(xSpeed, ySpeed, turnSpeed);
         else swerveDrive.driveRobotOriented(xSpeed, ySpeed, turnSpeed);
     }
