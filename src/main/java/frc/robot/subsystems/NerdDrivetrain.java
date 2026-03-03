@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import static edu.wpi.first.units.Units.Second;
+import static edu.wpi.first.units.Units.Volts;
 import static frc.robot.Constants.USE_VISION;
 import static frc.robot.Constants.LoggingConstants.kSwerveTab;
 import static frc.robot.Constants.PathPlannerConstants.kPPRotationPIDConstants;
@@ -15,10 +17,12 @@ import static frc.robot.Constants.SwerveDriveConstants.kTargetDriveController;
 import static frc.robot.Constants.SwerveDriveConstants.kTargetDriveMaxLateralVelocity;
 import static frc.robot.Constants.SwerveDriveConstants.kTowSwerveRequest;
 
+import com.ctre.phoenix6.SignalLogger;
 import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants;
+import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
@@ -30,9 +34,11 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.SwerveDriveConstants.FieldPositions;
@@ -46,6 +52,69 @@ import frc.robot.vision.LimelightHelpers.PoseEstimate;
 public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, Reportable {
     public final Field2d field;
     public boolean useMegaTag2 = false;
+    
+    private final SwerveRequest.SysIdSwerveTranslation m_translationCharacterization = new SwerveRequest.SysIdSwerveTranslation();
+    private final SwerveRequest.SysIdSwerveSteerGains m_steerCharacterization = new SwerveRequest.SysIdSwerveSteerGains();
+    private final SwerveRequest.SysIdSwerveRotation m_rotationCharacterization = new SwerveRequest.SysIdSwerveRotation();
+    public final SysIdRoutine m_sysIdRoutineTranslation = new SysIdRoutine(
+            new SysIdRoutine.Config(
+                    Volts.of(.2).per(Second),        // Use default ramp rate (1 V/s)
+                    Volts.of(2), // Reduce dynamic step voltage to 4 V to prevent brownout
+                    null,        // Use default timeout (10 s)
+                    // Log state with SignalLogger class
+                    state -> SmartDashboard.putString("SysIdTranslation_State", state.toString())
+            ),
+            new SysIdRoutine.Mechanism(
+                    output -> setControl(m_translationCharacterization.withVolts(output)),
+                    null,
+                    this
+            )
+    );
+
+    /* SysId routine for characterizing steer. This is used to find PID gains for the steer motors. */
+    public final SysIdRoutine m_sysIdRoutineSteer = new SysIdRoutine(
+            new SysIdRoutine.Config(
+                    null,        // Use default ramp rate (1 V/s)
+                    Volts.of(5), // Use dynamic voltage of 7 V
+                    null,        // Use default timeout (10 s)
+                    // Log state with SignalLogger class
+                    state -> SmartDashboard.putString("SysIdSteer_State", state.toString())
+            ),
+            new SysIdRoutine.Mechanism(
+                    volts -> setControl(m_steerCharacterization.withVolts(volts)),
+                    null,
+                    this
+            )
+    );
+
+    /*
+     * SysId routine for characterizing rotation.
+     * This is used to find PID gains for the FieldCentricFacingAngle HeadingController.
+     * See the documentation of SwerveRequest.SysIdSwerveRotation for info on importing the log to SysId.
+     */
+    public final SysIdRoutine m_sysIdRoutineRotation = new SysIdRoutine(
+            new SysIdRoutine.Config(
+                    /* This is in radians per second², but SysId only supports "volts per second" */
+                    Volts.of(Math.PI / 6).per(Second),
+                    /* This is in radians per second, but SysId only supports "volts" */
+                    Volts.of(Math.PI),
+                    null, // Use default timeout (10 s)
+                    // Log state with SignalLogger class
+                    state -> SmartDashboard.putString("SysIdRotation_State", state.toString())
+            ),
+            new SysIdRoutine.Mechanism(
+                    output -> {
+                        /* output is actually radians per second, but SysId only supports "volts" */
+                        setControl(m_rotationCharacterization.withRotationalRate(output.in(Volts)));
+                        /* also log the requested output for SysId */
+                        SmartDashboard.putNumber("Rotational_Rate", output.in(Volts));
+                    },
+                    null,
+                    this
+            )
+    );
+
+    public final SysIdRoutine m_routine = m_sysIdRoutineRotation;
 
     public NerdDrivetrain(SwerveDrivetrainConstants drivetrainConstants, SwerveModuleConstants<?, ?, ?>... modules) {
         super(drivetrainConstants, modules);

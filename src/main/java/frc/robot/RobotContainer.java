@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.Subsystems;
 import frc.robot.Constants.SwerveDriveConstants.FieldPositions;
@@ -33,7 +34,7 @@ public class RobotContainer {
 
   private final Controller driverController = new Controller(ControllerConstants.kDriverControllerPort, Type.PS4);
   private final Controller operatorController = new Controller(ControllerConstants.kOperatorControllerPort, Type.PS4);
-  private final Controller testController = new Controller(ControllerConstants.kTestControllerPort, Type.Xbox360);
+  private final Controller testController = new Controller(ControllerConstants.kTestControllerPort, Type.PS4);
   
   private static boolean isRedSide = false;
   
@@ -107,6 +108,11 @@ public class RobotContainer {
   public void configureBindings_teleop() {
     configureDriverBindings_teleop();
     configureOperatorBindings_teleop();
+
+    testController.dpadUp().whileTrue(swerveDrive.m_routine.quasistatic(Direction.kForward));
+    testController.dpadDown().whileTrue(swerveDrive.m_routine.quasistatic(Direction.kReverse));
+    testController.dpadRight().whileTrue(swerveDrive.m_routine.dynamic(Direction.kForward));
+    testController.dpadLeft().whileTrue(swerveDrive.m_routine.dynamic(Direction.kReverse));
   }
 
   ///////////////////////
