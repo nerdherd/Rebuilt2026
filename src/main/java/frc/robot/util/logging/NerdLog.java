@@ -11,12 +11,15 @@ import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.swerve.SwerveDrivetrain.SwerveDriveState;
 
 import dev.doglog.DogLog;
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.HttpCamera;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.util.struct.StructSerializable;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Alert.AlertType;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.Constants.LoggingConstants;
@@ -239,6 +242,15 @@ public class NerdLog {
 			DogLog.forceNt.log(path, supplier.get());
 		};
 		logSuppliers.get(loggingLevel).add(logger);
+	}
+	/**
+	 * Logs a stream of the Limelight on Shuffleboard
+	 * @param loggingLevel
+	 */
+	public static void logLimelightStream() {
+		HttpCamera limelightFeed = new HttpCamera(Constants.VisionConstants.Camera.Mason.name, Constants.VisionConstants.Camera.Mason.ip);
+		CameraServer.addCamera(limelightFeed);
+		Shuffleboard.getTab("Supersystem").add("LL Stream",limelightFeed);
 	}
 
 	/**

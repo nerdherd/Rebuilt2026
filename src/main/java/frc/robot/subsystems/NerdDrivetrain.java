@@ -315,6 +315,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
                 positionField.getObject(position.name() + "-red").setPose(position.red);
             }
             NerdLog.logData("NerdDrivetrain/Object Field", positionField, LOG_LEVEL.ALL);
+            NerdLog.logLimelightStream();
         }
 
         NerdLog.logStructSerializable(kSwerveTab + "/Field Chassis Speeds", () -> getFieldOrientedSpeeds(), LOG_LEVEL.ALL);
