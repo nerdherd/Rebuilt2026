@@ -10,7 +10,7 @@ import com.pathplanner.lib.config.PIDConstants;
 
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
-import edu.wpi.first.wpilibj.DriverStation;
+import frc.robot.util.logging.NerdLog;
 
 /**
  * i didn't like the current implementation of the PID controller
@@ -89,7 +89,7 @@ public class MultiProfiledPIDController {
 
     private boolean checkName(String name) {
         if (!controllers.containsKey(name)) {
-            DriverStation.reportError("MultiProfiledPIDController: " + name + " is not a valid entry!", true);
+            NerdLog.reportError("MultiProfiledPIDController: " + name + " is not a valid entry!");
             return false;
         }
         return true;

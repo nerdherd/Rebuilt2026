@@ -4,51 +4,66 @@
 
 package frc.robot;
 
-import com.pathplanner.lib.auto.NamedCommands;
-
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Constants.ControllerConstants;
+import frc.robot.Constants.Subsystems;
+import frc.robot.Constants.SwerveDriveConstants.FieldPositions;
 import frc.robot.commands.SwerveJoystickCommand;
-import frc.robot.generated.TunerConstants;
 import frc.robot.commands.autos.Autos;
+import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.NerdDrivetrain;
 import frc.robot.subsystems.SuperSystem;
 import frc.robot.util.Controller;
+import frc.robot.util.NerdyMath;
+import frc.robot.util.Controller.Type;
+import frc.robot.util.logging.NerdLog;
+import frc.robot.util.logging.Reportable.LOG_LEVEL;
 
 public class RobotContainer {
   public NerdDrivetrain swerveDrive;
-  public PowerDistribution pdp = new PowerDistribution(0, ModuleType.kCTRE);
+  public PowerDistribution pdp = new PowerDistribution(1, ModuleType.kRev);
   
   public SuperSystem superSystem;
 
-  private final Controller driverController = new Controller(ControllerConstants.kDriverControllerPort, false);
-  private final Controller operatorController = new Controller(ControllerConstants.kOperatorControllerPort,false); 
-  private SwerveJoystickCommand swerveJoystickCommand;
+  private final Controller driverController = new Controller(ControllerConstants.kDriverControllerPort, Type.PS4);
+  private final Controller operatorController = new Controller(ControllerConstants.kOperatorControllerPort, Type.PS4);
+  private final Controller testController = new Controller(ControllerConstants.kTestControllerPort, Type.Xbox360);
+  
+  private static boolean isRedSide = false;
   
   /**
-   * The container for the robot. Contain
-   * s subsystems, OI devices, and commands.
+   * The container for the robot. Contains
+   * subsystems, OI devices, and commands.
    */
   public RobotContainer() {
     swerveDrive = TunerConstants.createDrivetrain();
 
-    //Named Command Initialization
-
-    NamedCommands.registerCommand("Wait", Commands.waitSeconds(1));
-
-    if (Constants.USE_SUBSYSTEMS) {
+    if (Constants.USE_SUBSYSTEMS) { // add subsystems
       superSystem = new SuperSystem(swerveDrive);
+      Autos.initNamedCommands(superSystem);
     }
     
-    initShuffleboard();
-    Autos.initializeAutos();
+    Subsystems.init();
+    Autos.initAutoChooser();
+    initializeLogging();
 
-    DriverStation.reportWarning("Initalization complete", false);
+    NerdLog.reportInfo("Initialization Complete");
+  }
+
+  public static void refreshAlliance() {
+    var alliance = DriverStation.getAlliance();
+    if (alliance.isPresent())
+      isRedSide = (alliance.get() == DriverStation.Alliance.Red);
+  }
+
+  public static boolean IsRedSide() {
+    return isRedSide;
   }
 
   /**
@@ -56,35 +71,37 @@ public class RobotContainer {
    * used in teleop mode.
    */
   public void initDefaultCommands_teleop() {
-    swerveJoystickCommand = 
+    SwerveJoystickCommand swerveJoystickCommand =
     new SwerveJoystickCommand(
       swerveDrive,
-      () -> -driverController.getLeftY(), // Horizontal Translation
-      () -> driverController.getLeftX(), // Vertical Translation
-      () -> driverController.getRightX(), // Rotation
-      () -> true, // field oriented variable (true = field oriented)
-      () -> false, // tow supplier
-      () -> driverController.getTriggerLeft(), // Precision/"Sniper Button"
-      () -> false,
-      () -> swerveDrive.getAbsoluteHeadingDegrees(), // TODO i have no clue if this is right // Turn to angle direction 
-      () -> new Translation2d(  (driverController.getDpadUp()?1.0:0.0) - (driverController.getDpadDown()?1:0), 
-                                (driverController.getDpadLeft()?1.0:0.0) - (driverController.getDpadRight()?1:0)) // DPad vector
+      // Horizontal Translation
+      () -> -driverController.getLeftY(), 
+      // Vertical Translation
+      () -> -driverController.getLeftX(), 
+      // Turn
+      () -> -driverController.getRightX(), 
+      // use turn to angle
+      () -> driverController.getBumperRight(),
+      // turn to angle target direction, 0.0 to use manual
+      () -> NerdyMath.angleToPose(swerveDrive.getPose(), FieldPositions.HUB_CENTER.get()),
+      // robot oriented adjustment (dpad)
+      () -> new Translation2d(
+        (driverController.getDpadUp() ? 1 : 0) - (driverController.getDpadDown() ? 1 : 0), 
+        (driverController.getDpadLeft() ? 1 : 0) - (driverController.getDpadRight() ? 1 : 0)),
+      // joystick drive field oriented
+      () -> true, 
+      // tow supplier
+      () -> false, 
+      // precision/programmer mode :)
+      () -> driverController.getTriggerLeft()
     );
+    
     swerveDrive.setDefaultCommand(swerveJoystickCommand);
-
-    // driverController.triggerLeft().whileTrue(new RingDriveCommand(
-    //   swerveDrive,
-    //   () -> -driverController.getRightY(), // Horizontal Translation
-    //   () -> driverController.getLeftX() // Vertical Translation
-    //   ));
-
-    // driverController.bumperRight().whileTrue(Commands.run( // DriveToTarget test
-    //   () -> swerveDrive.driveToTarget(new Pose2d())
-    // ));
   }
 
   public void initDefaultCommands_test() {
-    initDefaultCommands_teleop();
+    swerveDrive.removeDefaultCommand();
+    // initDefaultCommands_teleop();
   }
 
   public void configureBindings_teleop() {
@@ -98,11 +115,17 @@ public class RobotContainer {
   public void configureDriverBindings_teleop() {
 
     driverController.controllerLeft() // Set Drive Heading
-      .onTrue(Commands.runOnce(() -> swerveDrive.zeroOperatorHeading()));
-    driverController.controllerRight()
-      .onTrue(swerveDrive.resetPoseWithAprilTags(0.1));
-      // .onTrue(Commands.runOnce(() -> swerveDrive.useMegaTag2 = false));
-    // driverController.controllerRight()
+      .onTrue(Commands.runOnce(() -> swerveDrive.setDriverHeadingForward()));
+
+    driverController.controllerRight() // Set Pose Heading (pressed)
+      .onTrue(Commands.runOnce(() -> swerveDrive.useMegaTag2 = false))
+      .onFalse(Commands.runOnce(() -> swerveDrive.useMegaTag2 = true));
+
+    // driverController.triggerLeft().whileTrue(new RingDriveCommand( // Ring Drive (held)
+    //   swerveDrive,
+    //   () -> -driverController.getRightY(), // Horizontal Translation
+    //   () -> driverController.getLeftX() // Vertical Translation
+    // ));
 
     if (Constants.USE_SUBSYSTEMS) {
       driverController.triggerRight()
@@ -117,30 +140,105 @@ public class RobotContainer {
   public void configureOperatorBindings_teleop() {
 
     if (Constants.USE_SUBSYSTEMS) {
-      operatorController.bumperRight()
+      operatorController.triggerLeft()
         .onTrue(superSystem.intake())
         .onFalse(superSystem.stopIntaking());
       operatorController.bumperLeft()
-        .onTrue(superSystem.shoot())
-        .onFalse(superSystem.stopShooting());
-      operatorController.triggerRight()
-        .onTrue(superSystem.spinUpFlywheel())
-        .onFalse(superSystem.stopFlywheel());
-      operatorController.triggerLeft()
         .onTrue(superSystem.intakeUp())
         .onFalse(superSystem.intakeDown());
+
+      operatorController.triggerRight()
+        .whileTrue(superSystem.shootWithDistance())
+        // .onTrue(superSystem.spinUpFlywheel())
+        .onFalse(superSystem.stopFlywheel());
+      operatorController.bumperRight()
+        .onTrue(superSystem.shoot())
+        .onFalse(superSystem.stopShooting());
+        
+      operatorController.buttonRight()
+        .onTrue(superSystem.reverseConveyor())
+        .onFalse(superSystem.stopConveyor());
+      operatorController.buttonDown()
+        .onTrue(superSystem.outtake())
+        .onFalse(superSystem.stopIntaking());
+      
+      operatorController.dpadUp()
+        .onTrue(superSystem.climbUp())
+        .onFalse(superSystem.stopClimb());
+        
+      operatorController.dpadDown()
+        .onTrue(superSystem.climbDown())
+        .onFalse(superSystem.stopClimb());
     }
   }
 
+  public void configureBindings_test() {
 
-  public void configureBindings_test() {}
+    testController.buttonRight()
+      .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Button Right Test", "hi")))
+      .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Button Right Test", "bye")));
+    testController.buttonDown()
+      .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Button Down Test", "hi")))
+      .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Button Down Test", "bye")));
+    testController.buttonUp()
+      .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Button Up Test", "hi")))
+      .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Button Up Test", "bye")));
+    testController.buttonLeft()
+      .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Button Left Test", "hi")))
+      .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Button Left Test", "bye")));
+
+    testController.bumperLeft()
+      .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Bumper L Test", "hi")))
+      .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Bumper L Test", "bye")));
+    testController.bumperRight()
+      .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Bumper R Test", "hi")))
+      .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Bumper R Test", "bye")));
+    
+    testController.triggerLeft()
+      .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Trigger L Test", "hi")))
+      .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Trigger L Test", "bye")));
+    testController.triggerRight()
+      .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Trigger R Test", "hi")))
+      .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Trigger R Test", "bye")));
+
+   testController.dpadUp()
+      .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Dpad Up Test", "hi")))
+      .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Dpad Up Test", "bye")));
+    testController.dpadRight()
+      .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Dpad Right Test", "hi")))
+      .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Dpad Right Test", "bye")));
+    testController.dpadDown()
+      .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Dpad Down Test", "hi")))
+      .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Dpad Down Test", "bye")));
+    testController.dpadLeft()
+      .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Dpad Left Test", "hi")))
+      .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Dpad Left Test", "bye")));
+
+    testController.controllerLeft()
+      .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Controller Left Test", "hi")))
+      .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Controller Left Test", "bye")));
+    testController.controllerRight()
+      .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Controller Right Test", "hi")))
+      .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Controller Right Test", "bye")));
+    
+    testController.joystickLeft()
+      .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Button Left Joy Test", "hi")))
+      .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Button Left Joy Test", "bye")));
+    testController.joystickRight()
+      .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Button Right Joy Test", "hi")))
+      .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Button Right Joy Test", "bye")));
+      
+  }
   
-  public void initShuffleboard() {
+  public void initializeLogging() {
+    NerdLog.logData("Robot/PDP", pdp, LOG_LEVEL.ALL);
+
     swerveDrive.initializeLogging();
-  
     if (Constants.USE_SUBSYSTEMS) { 
       superSystem.initializeLogging();
     }
+
+    NerdLog.reportLogCount();
   }
   
   /**
@@ -149,16 +247,10 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    if (Robot.getAlliance().equals(DriverStation.Alliance.Red)) {
-            return Autos.autonChooserRed.getSelected();
-        } else {
-            return Autos.autonChooserBlue.getSelected();
-        }
+    return Autos.autoChooser.getSelected();
   }
 
-  public void disableAllMotors_Test()
-  {
+  public void disableAllMotors_Test() {
     swerveDrive.setBrake(true);
   }
-
 }

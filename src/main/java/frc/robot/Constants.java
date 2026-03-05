@@ -4,12 +4,16 @@
 
 package frc.robot;
 
+import java.util.function.BiFunction;
+import java.util.function.Function;
+
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
+import com.ctre.phoenix6.configs.FeedbackConfigs;
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.signals.InvertedValue;
-import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveModule.SteerRequestType;
@@ -19,22 +23,17 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.util.FlippingUtil;
 
-import edu.wpi.first.math.MatBuilder;
-import edu.wpi.first.math.Matrix;
-import edu.wpi.first.math.Nat;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.math.numbers.N1;
-import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
-import frc.robot.subsystems.Reportable.LOG_LEVEL;
 import frc.robot.subsystems.template.TemplateSubsystem;
 import frc.robot.subsystems.template.TemplateSubsystem.SubsystemMode;
 import frc.robot.util.MultiProfiledPIDController;
+import frc.robot.util.NerdyMath;
+import frc.robot.util.Translation2dSlewRateLimiter;
+import frc.robot.util.logging.Reportable.LOG_LEVEL;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -50,106 +49,120 @@ import frc.robot.util.MultiProfiledPIDController;
 public final class Constants {
 
   /** current logging level of the robot's subsystems, @see Reportable.add... */
-  public static LOG_LEVEL ROBOT_LOG_LEVEL = LOG_LEVEL.MEDIUM;
+  public static final LOG_LEVEL ROBOT_LOG_LEVEL = LOG_LEVEL.MEDIUM;
+  
   /** 
    * (hopefully) controls whether subsystem objects are used, swerve and others not counted
    * @see {@link frc.robot.subsystems.template.TemplateSubsystem TemplateSubsystem} 
    * @see {@link frc.robot.subsystems.SuperSystem SuperSystem}
    */
-  public static boolean USE_SUBSYSTEMS = true;
+  public static final boolean USE_SUBSYSTEMS = true;
   /**
    * controls whether vision should be initialized
    */
-  public static boolean USE_VISION = true;
+  public static final boolean USE_VISION = true;
 
   public static class ControllerConstants {
-    public static final double kDeadband = 0.05;
-    public static final double kRotationDeadband = 0.1;
     public static final int kDriverControllerPort = 0;
     public static final int kOperatorControllerPort = 1;
+    public static final int kTestControllerPort = 2;
+
+    // deadbands
+    public static final double kTranslationDeadband = 0.1; // out of 1
+    public static final double kRotationDeadband = 0.1; // out of 1
+    public static final double kTurnToAngleDeadband = 0.5; // out of 1
+
+    public static final double kInputAcceleration = 5.0; // unit/s, on the scale of a unit circle/fractions
+    public static final double kEasePower = 3.0; // increase to further separate lower and higher values
+
+    public static final Translation2dSlewRateLimiter kTranslationInputRateLimiter = new Translation2dSlewRateLimiter(kInputAcceleration);
+    
+    // returns a vector within the unit circle
+    public static final BiFunction<Double, Double, Translation2d> kTranslationInputFilter = 
+    (x, y) -> {
+        x = NerdyMath.deadband(x, kTranslationDeadband);
+        y = NerdyMath.deadband(y, kTranslationDeadband);
+        if (x == 0.0 && y == 0.0) return kTranslationInputRateLimiter.calculate(Translation2d.kZero);
+        Translation2d dir = new Translation2d(x, y);
+        double length = dir.getNorm();
+        dir = dir.div(length);
+        length = Math.min(1.0, length);
+        length = Math.pow(length, kEasePower);
+        return kTranslationInputRateLimiter.calculate(dir.times(length));
+    };
+
+    public static final Function<Double, Double> kRotationInputFilter = 
+    (r) -> {
+      return NerdyMath.deadband(r, kRotationDeadband);
+    };
+
+    public static final BiFunction<Double, Double, Double> kTurnToAngleFilter =
+    (x, y) -> {
+      if (NerdyMath.isPoseInsideCircleZone(0.0, 0.0, kTurnToAngleDeadband, x, y)) return Double.NaN;
+      return Math.atan2(y, x);
+    };
   }
   
   public static final class SwerveDriveConstants {
-    public static final String kCANivoreName = "CANivore";//"CANivore";
-
-    public static final double kVisionSTDx = 0.7; //0.9
-    public static final double kVisionSTDy = 0.7; //0.9s
-    public static final double kVisionSTDtheta = 1000; //Old: 69696969
-    public static final Matrix<N3, N1> kBaseVisionPoseSTD = MatBuilder.fill(
-                                                              Nat.N3(), Nat.N1(), 
-                                                              kVisionSTDx,
-                                                              kVisionSTDy,
-                                                              kVisionSTDtheta);
-    // VecBuilder.fill(kVisionSTDx, kVisionSTDy, kVisionSTDtheta);
-    public static final double kPThetaAuto = 0.3;
-    public static final double kIThetaAuto = 0;
-    public static final double kDThetaAuto = 0.01;
-
-    // Distance between right and left wheels
-    public static final double kTrackWidth = Units.inchesToMeters(23.5); // 24.125
-    // Distance between front and back wheels
-    public static final double kWheelBase = Units.inchesToMeters(23.5); // 24.125
-
-    public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
-      new Translation2d(kWheelBase / 2, kTrackWidth / 2),
-      new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
-      new Translation2d(-kWheelBase / 2, kTrackWidth / 2),
-      new Translation2d(-kWheelBase / 2, -kTrackWidth / 2));
-
-    public static final double kPhysicalMaxSpeedMetersPerSecond = 5;    
-    public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 2 * 2 * Math.PI;
-
-    public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond;
-    public static final double kTeleMaxAcceleration = 2.5;
-    // THIS CONSTANT HAS TO BE NEGATIVE OTHERWISE THE ROBOT WILL CRASH
-    // TODO: Change deceleration with driver feedback, only in small increments (<= -2 is dangerous)
-    public static final double kTeleMaxDeceleration = -2.5; // Russell says he likes 2.5 from sims, but keep at 3 until tested on real robot 
-
-    public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = //
-      kPhysicalMaxAngularSpeedRadiansPerSecond * 0.75;
-    public static final double kTurnToAngleMaxAngularSpeedRadiansPerSecond 
-      = kPhysicalMaxAngularSpeedRadiansPerSecond;
-    public static final double kTurnToBigAngleMaxAngularSpeedRadiansPerSecond = 1.5 * Math.PI;
-    public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 3;
-    public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 3;
-
-    public static final double kMinimumMotorOutput = 0.05; // Minimum percent output on the falcons
+    //////////////////////////
+    /// -- Drive Speeds -- ///
+    //////////////////////////
     
-    public static final double kDriveAlpha = 0.11765;
-    public static final double kDriveOneMinusAlpha = 0.88235;
+    public static final double kDriveMaxVelocity = 5.0; // m/s
+    public static final double kDrivePrecisionMultiplier = 0.25; // fractional
+    
+    public static final double kTurnMaxVelocity = 3; // rad/s
+    public static final double kTurnPrecisionMultiplier = 0.5; // fractional
+    
+    public static final double kRobotOrientedVelocity = 1.0; // m/s
+    
+    ///////////////////////////
+    /// -- Turn to Angle -- ///
+    ///////////////////////////
+    
+    public static final double kTurnToAngleMaxVelocity = 4.5; // rad/s
+    public static final PIDConstants kTurnToAnglePIDConstants = new PIDConstants(5.0, 0.0, 0.01);
+    public static final Constraints kTurnToAngleTolerances = new Constraints(0.5, 1.0);
 
-    public static final SwerveModuleState[] towModuleStates = 
-    new SwerveModuleState[] {
-        new SwerveModuleState(0, Rotation2d.fromDegrees(-45)),
-        new SwerveModuleState(0, Rotation2d.fromDegrees(-135)),
-        new SwerveModuleState(0, Rotation2d.fromDegrees(45)),
-        new SwerveModuleState(0, Rotation2d.fromDegrees(135))
-    };
+    ////////////////////////////////////////////
+    /// -- NerdDrivetrain Swerve Requests -- ///
+    ////////////////////////////////////////////
 
     /** Used for AutoBuilder configuration */
     public static final SwerveRequest.ApplyRobotSpeeds  kApplyRobotSpeedsRequest = new SwerveRequest.ApplyRobotSpeeds();
     /** Robot oriented controller */
-    public static final SwerveRequest.RobotCentric      kRobotOrientedSwerveRequest = new SwerveRequest.RobotCentric()
-                                                                                        .withDriveRequestType(DriveRequestType.OpenLoopVoltage)
-                                                                                        .withSteerRequestType(SteerRequestType.Position);
-    /** Field oriented controller - use @see NerdDrivertrain#resetFieldOrientation() */
-    public static final SwerveRequest.FieldCentric      kFieldOrientedSwerveRequest = new SwerveRequest.FieldCentric()
-                                                                                        .withDriveRequestType(DriveRequestType.OpenLoopVoltage)
-                                                                                        .withSteerRequestType(SteerRequestType.Position)
-                                                                                        .withForwardPerspective(ForwardPerspectiveValue.OperatorPerspective);
-    /** Field oriented controller - use @see NerdDrivertrain#resetFieldOrientation() */
-    public static final SwerveRequest.SwerveDriveBrake  kTowSwerveRequest = new SwerveRequest.SwerveDriveBrake()
-                                                                                        .withDriveRequestType(DriveRequestType.OpenLoopVoltage)
-                                                                                        .withSteerRequestType(SteerRequestType.Position);
+    public static final SwerveRequest.RobotCentric      kRobotOrientedSwerveRequest = 
+      new SwerveRequest.RobotCentric()
+        .withDriveRequestType(DriveRequestType.OpenLoopVoltage)
+        .withSteerRequestType(SteerRequestType.Position);
 
+    /** Field oriented controller - use @see NerdDrivertrain#resetFieldOrientation() */
+    public static final SwerveRequest.FieldCentric      kFieldOrientedSwerveRequest = 
+      new SwerveRequest.FieldCentric()
+        .withDesaturateWheelSpeeds(true)
+        .withDriveRequestType(DriveRequestType.OpenLoopVoltage)
+        .withSteerRequestType(SteerRequestType.Position)
+        .withForwardPerspective(ForwardPerspectiveValue.OperatorPerspective);
+
+    /** Field oriented controller - use @see NerdDrivertrain#resetFieldOrientation() */
+    public static final SwerveRequest.SwerveDriveBrake  kTowSwerveRequest = 
+      new SwerveRequest.SwerveDriveBrake()
+        .withDriveRequestType(DriveRequestType.OpenLoopVoltage)
+        .withSteerRequestType(SteerRequestType.Position);
+
+    ////////////////////////////////////////////
+    /// -- Drive to Target Configurations -- ///
+    ////////////////////////////////////////////
 
     /** @see NerdDrivetrain.driveToTarget() */
     public static final double kTargetDriveMaxLateralVelocity = 5.0;
     public static final PIDConstants kTargetDriveLateralPID = new PIDConstants(5.0, 0.0, 0.5);
+
     /** m/s and m/s/s @see NerdDrivetrain.driveToTarget() */
     public static final Constraints kTargetDriveLateralConstraints = new Constraints(kTargetDriveMaxLateralVelocity, kTargetDriveMaxLateralVelocity);
     public static final double kTargetDriveMaxRotationalVelocity = 9.4;
     public static final PIDConstants kTargetDriveRotationalPID = new PIDConstants(4.0, 0.0, 0.2);
+
     /** rad/s and rad/s/s @see NerdDrivetrain.driveToTarget() */
     public static final Constraints kTargetDriveRotationalConstraints = new Constraints(kTargetDriveMaxRotationalVelocity, kTargetDriveMaxRotationalVelocity);
 
@@ -159,14 +172,9 @@ public final class Constants {
       .add("r", kTargetDriveRotationalPID, kTargetDriveRotationalConstraints, 0.05, 0.2)
       .withContinuousInput("r", -Math.PI, Math.PI);
 
-    public static final double kGravityMPS = 9.80665; 
-
-    public static final double kTurnToAnglePositionToleranceAngle = 0.5;
-    public static final double kTurnToAngleVelocityToleranceAnglesPerSec = 1;
-
     public static enum FieldPositions {
-      HUB_CENTER(4.626, 4.035, 0.0),
-      ;//TODO Add field positions
+      // Add field positions
+      HUB_CENTER(4.626, 4.035, 0.0);
       
       public Pose2d blue, red; // meters and degrees
       FieldPositions(double _blueX, double _blueY, double _blueHeadingDegrees) {
@@ -174,11 +182,15 @@ public final class Constants {
         red = FlippingUtil.flipFieldPose(blue);
       }
 
+      public Pose2d get() {
+        RobotContainer.refreshAlliance();
+        return RobotContainer.IsRedSide() ? this.red : this.blue;
+      }
     }
   }
 
   public static final class RingDriveConstants {
-    public static final double kInitialDistance = 0.5; // m
+    public static final double kInitialDistance = 0.2; // m
     public static final double kDriveVelocity = 1.0; // m/s
     public static final double kMaximumDistance = 1.0; // m
     public static final double kMinimumDistance = 0.2; // m
@@ -186,12 +198,6 @@ public final class Constants {
   }
 
   public static final class PathPlannerConstants {
-
-    public static final double kPPMaxVelocity = 2.0;
-    public static final double kPPMaxAcceleration = 2.0;
-    public static final double kPPMaxAngularVelocity = Math.PI * 2;
-    public static final double kPPMaxAngularAcceleration = Math.PI * 2;
-
     public static final double kPP_P = 5.0; //6
     public static final double kPP_I = 0.0;
     public static final double kPP_D = 0.0;
@@ -203,9 +209,15 @@ public final class Constants {
     public static final double kPP_ThetaD = 0.1;
 
     public static final PIDConstants kPPRotationPIDConstants = new PIDConstants(kPP_ThetaP, kPP_ThetaI, kPP_ThetaD);
+  }
 
-    public static final boolean kUseAllianceColor = true;
+  public static final class LoggingConstants {
+    public static final double LOGGING_INTERVAL = 0.02; // seconds
 
+    public static final String kSubsystemTab = "SuperSystem/"; // ends with a /
+    public static final String kSupersystemTab = "SuperSystem";
+    public static final String kSwerveTab = "SwerveDrive";
+    public static final String kAutosTab = "Autos";
   }
 
   public static final class VisionConstants {
@@ -214,7 +226,7 @@ public final class Constants {
 
     public static enum Camera {
       // Example("limelight-ex", "10.6.87.XX:5802"),
-      Front("limelight-front", "10.6.87.200:5802"); // Abruticus
+      Charlie("limelight-charlie", "10.6.87.15:5802");
 
       public final String name, ip;
       Camera(String name, String ip) {
@@ -224,57 +236,63 @@ public final class Constants {
     }
   }
 
-  public static final class IntakeSlapdownConstants{
+  public static final class IntakeSlapdownConstants {
     public static final int kMotor1ID = 16;
 
     private static final Slot0Configs kSlot0Configs = 
       new Slot0Configs()
-        .withKP(0.5)
+        .withKP(1.5)
         .withKI(0.0)
-        .withKD(0.0)
-      ;
+        .withKD(0.0);
+
     private static final MotorOutputConfigs kMotorOutputConfigs =
       new MotorOutputConfigs()
         .withNeutralMode(NeutralModeValue.Brake);
-      ;
 
     private static final MotionMagicConfigs kMotionMagicConfigs = 
       new MotionMagicConfigs()
-        .withMotionMagicAcceleration(1)
-        .withMotionMagicCruiseVelocity(1)
-      ;
+        .withMotionMagicAcceleration(36)
+        .withMotionMagicCruiseVelocity(18);
         
     public static final TalonFXConfiguration kSubsystemConfiguration = 
       new TalonFXConfiguration()
         .withSlot0(kSlot0Configs)
         .withMotorOutput(kMotorOutputConfigs)
-        .withMotionMagic(kMotionMagicConfigs)
-      ;
-
+        .withMotionMagic(kMotionMagicConfigs);
   }
 
-  public static final class IntakeRollerConstants{
-    public static final int kMotor1ID = 15; //TODO
+  public static final class IntakeRollerConstants {
+    public static final int kMotor1ID = 15;
 
     private static final Slot0Configs kSlot0Configs = 
-      new Slot0Configs() //TODO
+      new Slot0Configs()
         .withKP(0.5)
         .withKI(0.0)
-        .withKD(0.0)
+        .withKD(0.0);
+
+    private static final CurrentLimitsConfigs kCurrentLimitsConfigs = 
+      new CurrentLimitsConfigs()
+        .withStatorCurrentLimit(60)
+        .withStatorCurrentLimitEnable(true);
+
+    private static final FeedbackConfigs kFeedbackConfigs = 
+      new FeedbackConfigs()
+        .withRotorToSensorRatio(1.0)
       ;
 
     public static final TalonFXConfiguration kSubsystemConfiguration = 
       new TalonFXConfiguration()
         .withSlot0(kSlot0Configs)
-      ;
+        .withCurrentLimits(kCurrentLimitsConfigs)
+        .withFeedback(kFeedbackConfigs);
     
   }
   
-  public static final class IndexerConstants{
-    public static final int kMotor1ID = 25; //TODO
+  public static final class IndexerConstants {
+    public static final int kMotor1ID = 25;
 
     public static final Slot0Configs kSlot0Configs = 
-      new Slot0Configs() //TODO
+      new Slot0Configs()
         .withKP(0.5)
         .withKI(0.0)
         .withKD(0.0);
@@ -289,53 +307,138 @@ public final class Constants {
         .withMotorOutput(kMotorOutputConfigs);
   }
    
-  public static final class ConveyorConstants{
-    public static final int kMotor1ID = 26; //TODO
+  public static final class ConveyorConstants {
+    public static final int kMotor1ID = 26;
 
     private static final Slot0Configs kSlot0Configs = 
-      new Slot0Configs() //TODO
-        .withKP(0.5)
-        .withKI(0.0)
-        .withKD(0.0)
-      ;
-
-    public static final TalonFXConfiguration kSubsystemConfiguration = 
-      new TalonFXConfiguration()
-      .withSlot0(kSlot0Configs);
-  }
-  
-  public static final class CounterRollerConstants{
-    public static final int kMotor1ID = 37; //TODO
-
-    private static final Slot0Configs kSlot0Configs = 
-      new Slot0Configs() //TODO
+      new Slot0Configs()
         .withKP(0.5)
         .withKI(0.0)
         .withKD(0.0);
 
+    public static final MotorOutputConfigs kMotorOutputConfigs =
+      new MotorOutputConfigs()
+        .withInverted(InvertedValue.Clockwise_Positive);
+
+
     public static final TalonFXConfiguration kSubsystemConfiguration = 
       new TalonFXConfiguration()
-      .withSlot0(kSlot0Configs);
+        .withSlot0(kSlot0Configs)
+        .withMotorOutput(kMotorOutputConfigs);
+  }
+  
+  public static final class CounterRollerConstants {
+    public static final int kMotor1ID = 37;
+
+    private static final Slot0Configs kSlot0Configs = 
+      new Slot0Configs()
+        .withKP(0.5)
+        .withKI(0.0)
+        .withKD(0.0)
+        .withKV(0.125);
+
+    public static final TalonFXConfiguration kSubsystemConfiguration = 
+      new TalonFXConfiguration()
+        .withSlot0(kSlot0Configs);
   }
 
-  public static final class ShooterConstants{
+  public static final class ShooterConstants {
     public static final int kMotor1ID = 35;
     public static final int kMotor2ID = 36;
 
+    private static final Slot0Configs kSlot0ConfigsLeft = 
+      new Slot0Configs()
+        // .withKP(0.05)
+        .withKI(0.0)
+        .withKD(0.0)
+        .withKV(0.122247)
+        .withKS(0.250255);
+    
+    private static final Slot0Configs kSlot0ConfigsRight = 
+      new Slot0Configs()
+        // .withKP(0.05)
+        .withKI(0.0)
+        .withKD(0.0)
+        .withKV(0.119647)
+        .withKS(0.208437);
+    
+    private static final CurrentLimitsConfigs kCurrentLimitsConfigs = 
+      new CurrentLimitsConfigs()
+        .withStatorCurrentLimit(60)
+        .withStatorCurrentLimitEnable(false);
+
+    private static final MotionMagicConfigs kMotionMagicConfigs = 
+      new MotionMagicConfigs()
+        .withMotionMagicAcceleration(25);
+
+    private static final MotorOutputConfigs kLeftMotorOutputConfigs =
+      new MotorOutputConfigs()
+        .withInverted(InvertedValue.CounterClockwise_Positive);
+
+    private static final MotorOutputConfigs kRightMotorOutputConfigs =
+      new MotorOutputConfigs()
+        .withInverted(InvertedValue.Clockwise_Positive);
+
+    private static final TalonFXConfiguration kSubsystemConfiguration = 
+      new TalonFXConfiguration()
+        .withCurrentLimits(kCurrentLimitsConfigs)
+        .withMotionMagic(kMotionMagicConfigs);
+
+    public static final TalonFXConfiguration kLeftConfiguration = 
+      kSubsystemConfiguration.clone()
+        .withSlot0(kSlot0ConfigsLeft)
+        .withMotorOutput(kLeftMotorOutputConfigs);
+
+    public static final TalonFXConfiguration kRightConfiguration =
+      kSubsystemConfiguration.clone()
+        .withSlot0(kSlot0ConfigsRight)
+        .withMotorOutput(kRightMotorOutputConfigs);
+
+    // Regression of a*x^2 + b
+    // Update at CAMS on 2/28/2026
+    public static final double kShootWithDistanceA = 1.55069; // a
+    public static final double kShootWithDistanceB = 26.36085; // b
+
+  }
+
+  public static final class ClimbConstants {
+    public static final int kMotor1ID = 45;
+
     private static final Slot0Configs kSlot0Configs = 
-      new Slot0Configs() //TODO
-        .withKP(0.5)
+      new Slot0Configs()
+        .withKP(0.1)
         .withKI(0.0)
         .withKD(0.0)
       ;
     private static final MotorOutputConfigs kMotorOutputConfigs =
       new MotorOutputConfigs()
-        .withInverted(InvertedValue.Clockwise_Positive);
+        .withNeutralMode(NeutralModeValue.Brake)
+      ;
+    private static final FeedbackConfigs kFeedbackConfigs = 
+      new FeedbackConfigs()
+        .withRotorToSensorRatio(1.0)
+      ;
+    private static final CurrentLimitsConfigs kCurrentLimitConfigs =
+      new CurrentLimitsConfigs()
+        .withStatorCurrentLimit(10)
+        .withStatorCurrentLimitEnable(true)
+      ;
+
+    private static final MotionMagicConfigs kMotionMagicConfigs = 
+      new MotionMagicConfigs()
+        .withMotionMagicAcceleration(1)
+        .withMotionMagicCruiseVelocity(1)
+      ;
         
     public static final TalonFXConfiguration kSubsystemConfiguration = 
       new TalonFXConfiguration()
         .withSlot0(kSlot0Configs)
-        .withMotorOutput(kMotorOutputConfigs);
+        .withMotorOutput(kMotorOutputConfigs)
+        .withFeedback(kFeedbackConfigs)
+        .withCurrentLimits(kCurrentLimitConfigs)
+        .withMotionMagic(kMotionMagicConfigs)
+      ;
+
   }
 
   /** 
@@ -344,39 +447,92 @@ public final class Constants {
   public static final class Subsystems {
     public static final boolean useIntakeSlapdown = true;
     public static final TemplateSubsystem intakeSlapdown = (!USE_SUBSYSTEMS) ? null :
-    new TemplateSubsystem("Intake Slapdown", IntakeSlapdownConstants.kMotor1ID, SubsystemMode.POSITION, 0.0)
+    new TemplateSubsystem(
+        "Intake Slapdown", 
+        IntakeSlapdownConstants.kMotor1ID, 
+        SubsystemMode.POSITION, 
+        0.0,
+        useIntakeSlapdown)
       .configureMotors(IntakeSlapdownConstants.kSubsystemConfiguration);
     
     public static final boolean useIntakeRoller = true;
     public static final TemplateSubsystem intakeRoller = (!USE_SUBSYSTEMS) ? null :
-    new TemplateSubsystem("Intake Roller", IntakeRollerConstants.kMotor1ID, SubsystemMode.VELOCITY, 0.0)
+    new TemplateSubsystem(
+        "Intake Roller", 
+        IntakeRollerConstants.kMotor1ID, 
+        SubsystemMode.VOLTAGE, 
+        0.0,
+        useIntakeRoller)
       .configureMotors(IntakeRollerConstants.kSubsystemConfiguration);
     
     public static final boolean useConveyor = true;
     public static final TemplateSubsystem conveyor = (!USE_SUBSYSTEMS) ? null :
-    new TemplateSubsystem("Conveyor", IntakeRollerConstants.kMotor1ID, SubsystemMode.VELOCITY, 0.0)
+    new TemplateSubsystem(
+        "Conveyor", 
+        ConveyorConstants.kMotor1ID, 
+        SubsystemMode.VOLTAGE, 
+        0.0,
+        useConveyor)
       .configureMotors(ConveyorConstants.kSubsystemConfiguration);    
     
     public static final boolean useIndexer = true;
     public static final TemplateSubsystem indexer = (!USE_SUBSYSTEMS) ? null :
-    new TemplateSubsystem("Indexer", IndexerConstants.kMotor1ID, SubsystemMode.VELOCITY, 0.0)
+    new TemplateSubsystem(
+        "Indexer", 
+        IndexerConstants.kMotor1ID, 
+        SubsystemMode.VOLTAGE, 
+        0.0,
+        useIndexer)
       .configureMotors(IndexerConstants.kSubsystemConfiguration);
     
     public static final boolean useCounterRoller = true;
     public static final TemplateSubsystem counterRoller = (!USE_SUBSYSTEMS) ? null :
-    new TemplateSubsystem("Counter Roller", CounterRollerConstants.kMotor1ID, SubsystemMode.VELOCITY, 0.0)
+    new TemplateSubsystem(
+        "Counter Roller", 
+        CounterRollerConstants.kMotor1ID, 
+        SubsystemMode.VELOCITY, 
+        0.0,
+        useCounterRoller)
       .configureMotors(CounterRollerConstants.kSubsystemConfiguration);
     
     public static final boolean useShooter = true;
-    public static final TemplateSubsystem shooter = (!USE_SUBSYSTEMS) ? null :
-    new TemplateSubsystem("Shooter", ShooterConstants.kMotor1ID, ShooterConstants.kMotor2ID, MotorAlignmentValue.Opposed,  SubsystemMode.VELOCITY, 0.0)
-      .configureMotors(ShooterConstants.kSubsystemConfiguration);    
+    public static final TemplateSubsystem shooterLeft = (!USE_SUBSYSTEMS) ? null :
+    new TemplateSubsystem(
+        "Shooter Left", 
+        ShooterConstants.kMotor1ID,
+        SubsystemMode.PROFILED_VELOCITY, 
+        0.0,
+        useShooter)
+      .configureMotors(ShooterConstants.kLeftConfiguration);
+    public static final TemplateSubsystem shooterRight = (!USE_SUBSYSTEMS) ? null :
+    new TemplateSubsystem(
+        "Shooter Right", 
+        ShooterConstants.kMotor2ID, 
+        SubsystemMode.PROFILED_VELOCITY, 
+        0.0,
+        useShooter)
+      .configureMotors(ShooterConstants.kRightConfiguration);
 
+    public static final boolean useClimb = true;
+    public static final TemplateSubsystem climb = (!USE_SUBSYSTEMS) ? null :
+    new TemplateSubsystem(
+        "Climb", 
+        ClimbConstants.kMotor1ID, 
+        SubsystemMode.VOLTAGE, 
+        0.0,
+        useClimb)
+      .configureMotors(ClimbConstants.kSubsystemConfiguration);
+    
+    /**
+     * literally just so the class actually loads,
+     * thanks java lazy loading
+     */
+    public static void init() {} 
   }
 
   // public static class LEDConstants {
-  //   public static final int CANdleID = 0; // TODO change later
-  //   public static final int CANdleLength = 8; // TODO change later
+  //   public static final int CANdleID = 0;
+  //   public static final int CANdleLength = 8;
 
   //   public static class Colors {
   //     public static final Color BLACK         = new Color(0.0, 0.0, 0.0); // shows up as nothing
@@ -400,28 +556,4 @@ public final class Constants {
   //   }
 
   // }
-
-  // ************************************** SUBSYSTEM CONSTANTS *************************************** //
-
-  // Template Copy and Paste
-  // public static final class SubsystemConstants {
-  //   public static final int kMotor1ID = ;
-  //   public static final int kMotor2ID = ;
-
-  //   private static final Slot0Configs kSlot0Configs = 
-  //     new Slot0Configs()
-  //       .withKP(0.0)
-  //     ;
-
-  //   public static final TalonFXConfiguration kSubsystemConfiguration = 
-  //     new TalonFXConfiguration()
-  //     .withSlot0(kSlot0Configs)
-  //     ;
-  // }
-  
-  public static final class SuperSystemConstants {
-    //TODO DO
-
-  }
 }
-

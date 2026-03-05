@@ -116,13 +116,17 @@ public class NerdyMath {
         return true;
     }
     
-    public static boolean isPoseInsideCircleZone(double x0, double y0, double squaredR, double xn, double yn) {
+    public static boolean isPoseInsideCircleZone(double x0, double y0, double r, double xn, double yn) {
         double a = (xn - x0);
         double b = (yn - y0);
-        return (a*a + b*b) < squaredR;
+        return (a*a + b*b) < r*r;
     }
 
     public static double angleToPose(Pose2d from, Pose2d to) {
         return Math.atan2(to.getY() - from.getY(), to.getX() - from.getX());
+    }
+
+    public static double deadband(double x, double db) {
+        return (Math.abs(x) <= db) ? 0.0 : x;
     }
 }

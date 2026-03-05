@@ -1,0 +1,92 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "S1M1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shooter Ramp Up"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 2.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shooter Ramp Down"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "M1D1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake Down Sequence"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "D1D2"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake Up Sequence"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "D2M1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shooter Ramp Up"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 4.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shooter Ramp Down"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "Depot, Tower, Outpost",
+  "choreoAuto": false
+}
