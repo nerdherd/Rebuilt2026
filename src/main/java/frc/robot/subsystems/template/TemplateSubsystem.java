@@ -6,6 +6,9 @@ package frc.robot.subsystems.template;
 
 import static frc.robot.Constants.LoggingConstants.kSubsystemTab;
 
+import java.util.ArrayList;
+import java.util.function.BiConsumer;
+
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
@@ -28,23 +31,30 @@ import frc.robot.util.logging.NerdLog;
 import frc.robot.util.logging.Reportable;
 
 public class TemplateSubsystem extends SubsystemBase implements Reportable {
-	/** primary motor; required */
-	public final TalonFX motor1;
-	/** secondary motor; optional */
-	protected final TalonFX motor2;
-	/** holds the configuration for both {@link #motor1} and {@link #motor2} */
+	/** 
+	 * primary leading motor which the entire subsystem is based on
+	 */
+	public final TalonFX primaryMotor;
+
+	/** 
+	 * secondary motors that follow the primary<p></p>
+	 * use {@link #addMotor(int, MotorAlignmentValue)}<p></p>
+	 * <strong>if multiple motors need independent and responsive motion, make multiple subsystem objects</strong><p></p>
+	 */
+	public final ArrayList<TalonFX> secondaryMotors = new ArrayList<>();
+	public final ArrayList<Follower> followRequests = new ArrayList<>();
+
+	/** holds the configuration for both {@link #primaryMotor} and {@link #motor2} */
 	protected TalonFXConfiguration configuration;
 
 	/** position controller for {@link SubsystemMode#POSITION} */
-	private final MotionMagicVoltage positionController;
+	private MotionMagicVoltage positionController = null;
 	/** velocity controller for {@link SubsystemMode#VELOCITY} */
-	private final VelocityVoltage velocityController;
+	private VelocityVoltage velocityController = null;
 	/** voltage controller for {@link SubsystemMode#VOLTAGE} */
-	private final VoltageOut voltageController;
+	private VoltageOut voltageController = null;
 	/** velocity controller for {@link SubsystemMode#PROFILED_VELOCITY} */
-	private final MotionMagicVelocityVoltage profiledVelocityController;
-	/** follower controller for {@link #motor2} */
-	private final Follower followerController;
+	private MotionMagicVelocityVoltage profiledVelocityController = null;
 
 	/** brake/coast */
 	private final NeutralOut neutralRequest = new NeutralOut();
@@ -79,72 +89,57 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 	/**
 	 * 
 	 * @param name - used for {@link #shuffleboardTab}
-	 * @param motor1ID - used for {@link #motor1}
+	 * @param motor1ID - used for {@link #primaryMotor}
 	 * @param motor2ID - used for {@link #motor2}
-	 * @param reverseMotor2 - whether to have {@link #motor2} oppose {@link #motor1}
+	 * @param reverseMotor2 - whether to have {@link #motor2} oppose {@link #primaryMotor}
 	 * @param mode - the {@link SubsystemMode} for this subsystem
 	 * @param defaultValue - initial position or velocity depending on {@link SubsystemMode}
 	 */
-	public TemplateSubsystem(String name, int motor1ID, int motor2ID, MotorAlignmentValue reverseMotor2, SubsystemMode mode, double defaultValue, boolean useSubsystem) {
-		this.motor1 = getMotor(motor1ID);
+	public TemplateSubsystem(String name, int motorID, SubsystemMode mode, double defaultValue, boolean useSubsystem) {
+		this.primaryMotor = getMotor(motorID);
 		this.defaultValue = defaultValue;
-		this.useSubsystem = useSubsystem;
-		if (motor2ID != -1){
-			this.motor2 = getMotor(motor2ID);
-			followerController = new Follower(motor1ID, reverseMotor2);
-		} else {
-			this.motor2 = null;
-			followerController = null;
-		}
-		this.mode = mode;
 		this.desiredValue = defaultValue;
+		this.useSubsystem = useSubsystem;
+		this.mode = mode;
+		this.name = name;
 
 		switch (mode) {
 			case POSITION:
-				positionController 			= new MotionMagicVoltage(defaultValue);
-				velocityController 			= null;
-				voltageController  			= null;
-				profiledVelocityController  = null;
-				motor1.setPosition(defaultValue);
+				positionController = new MotionMagicVoltage(defaultValue);
+				primaryMotor.setPosition(defaultValue);
 				break;
-			case VELOCITY:
-				positionController 			= null;
-				velocityController 			= new VelocityVoltage(defaultValue);
-				voltageController  			= null;
-				profiledVelocityController  = null;
-				break;
-			case VOLTAGE:
-				positionController 			= null;
-				velocityController 			= null;
-				voltageController  			= new VoltageOut(defaultValue);
-				profiledVelocityController 	= null;
-				break;
-			case PROFILED_VELOCITY:
-				positionController 			= null;
-				velocityController 			= null;
-				voltageController  			= null;
-				profiledVelocityController 	= new MotionMagicVelocityVoltage(defaultValue);
-				break;
-			default:
-				positionController 			= null;
-				velocityController 			= null;
-				voltageController  			= null;
-				profiledVelocityController 	= null;
-				break;
+			case VELOCITY: velocityController = new VelocityVoltage(defaultValue); break;
+			case VOLTAGE: voltageController = new VoltageOut(defaultValue); break;
+			case PROFILED_VELOCITY: profiledVelocityController = new MotionMagicVelocityVoltage(defaultValue); break;
+			default: break;
 		}
-		this.name = name;
+		
 		SuperSystem.registerSubsystem(this);
 	}
-
-	public TemplateSubsystem(String name, int motor1ID, SubsystemMode mode, double defaultValue, boolean useSubsystem){
-		this(name, motor1ID, -1, MotorAlignmentValue.Aligned, mode, defaultValue, useSubsystem);
-	}
 	
+	/** add a secondary motor to this subsystem */
+	public TemplateSubsystem addMotor(int motorID, MotorAlignmentValue reverse) {
+		TalonFX motor = getMotor(motorID);
+		secondaryMotors.add(motor);
+		Follower followRequest = new Follower(primaryMotor.getDeviceID(), reverse);
+		followRequests.add(followRequest);
+		motor.setControl(followRequest);
+		return this;
+	}
+
 	/** applies configuration to motors; should be used on construction */
 	public TemplateSubsystem configureMotors(TalonFXConfiguration configuration){
 		this.configuration = configuration;
 		applyMotorConfigs();
 		return this;
+	}
+
+	/**
+	 * apply a consumer to all secondary motors
+	 * @param f - a function that takes the motor and its ID
+	 */
+	public void applySecondaryMotors(BiConsumer<TalonFX, Integer> f) {
+		for (int i = 0; i < secondaryMotors.size(); i++) f.accept(secondaryMotors.get(i), i);
 	}
 
 	@Override
@@ -154,30 +149,25 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 			return;
 		}
 
-		if(hasMotor2()) motor2.setControl(followerController);
-
+		follow();
+		
 		switch (mode) {
 			case POSITION:
-				motor1.setControl(positionController.withPosition(this.desiredValue));
+				primaryMotor.setControl(positionController.withPosition(this.desiredValue));
 				if (configuration.MotionMagic.MotionMagicCruiseVelocity == 0.0) NerdLog.reportWarning(name + ": MM Cruise Velocity is 0.0");
 				if (configuration.MotionMagic.MotionMagicAcceleration == 0.0) NerdLog.reportWarning(name + ": MM Acceleration is 0.0");
 				break;
 			case VELOCITY:
-				if (Math.abs(this.desiredValue) <= 0.1) {
-					motor1.setControl(neutralRequest);
-					if (hasMotor2()) motor2.setControl(neutralRequest);
-				} else motor1.setControl(velocityController.withVelocity(this.desiredValue));
+				if (Math.abs(this.desiredValue) <= 0.1) brake();
+				else primaryMotor.setControl(velocityController.withVelocity(this.desiredValue));
 				break;
 			case VOLTAGE:
-				if (Math.abs(this.desiredValue) > 12)
-					NerdLog.reportWarning(name + ": voltage > 12");
-				motor1.setControl(voltageController.withOutput(this.desiredValue));
+				if (Math.abs(this.desiredValue) > 12) NerdLog.reportWarning(name + ": voltage > 12");
+				primaryMotor.setControl(voltageController.withOutput(this.desiredValue));
 				break;
 			case PROFILED_VELOCITY:
-				if (Math.abs(this.desiredValue) <= 0.1) {
-					motor1.setControl(neutralRequest);
-					if (hasMotor2()) motor2.setControl(neutralRequest);
-				} else motor1.setControl(profiledVelocityController.withVelocity(this.desiredValue).withAcceleration(configuration.MotionMagic.MotionMagicAcceleration));
+				if (Math.abs(this.desiredValue) <= 0.1) brake();
+				else primaryMotor.setControl(profiledVelocityController.withVelocity(this.desiredValue).withAcceleration(configuration.MotionMagic.MotionMagicAcceleration));
 				if (configuration.MotionMagic.MotionMagicAcceleration == 0.0) NerdLog.reportWarning(name + ": MM Acceleration is 0.0");
 			default:
 				break;
@@ -199,61 +189,56 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 		return motor;
 	}
 
-	/**
-	 * @return whether the subsystem is configured to have a second motor
-	 */
-	public boolean hasMotor2() {
-		return motor2 != null;
-	}
-
 	/** used for logging, essentially returns the subsystem mode in string form */
 	public String getFlavorText() {
 		switch (mode) {
-			case POSITION:
-				return "Position";
+			case POSITION: return "Position";
 			case PROFILED_VELOCITY:
-			case VELOCITY:
-				return "Velocity";
-			case VOLTAGE:
-				return "Voltage";
-			default:
-				break;
+			case VELOCITY: return "Velocity";
+			case VOLTAGE: return "Voltage";
+			default: break;
 		}
 		return "";
 	}
 
 	public String getUnit() {
 		switch (mode) {
-			case POSITION:
-				return "rot";
+			case POSITION: return "rot";
 			case PROFILED_VELOCITY:
-			case VELOCITY:
-				return "rps";
-			case VOLTAGE:
-				return "V";
-			default:
-				break;
+			case VELOCITY: return "rps";
+			case VOLTAGE: return "V";
+			default: break;
 		}
 		return null;
 	}
 
 	/** applies motor configurations based on {@link #configuration} */
 	public void applyMotorConfigs(){
-		motor1.getConfigurator().apply(this.configuration);
-		if(hasMotor2()) motor2.getConfigurator().apply(this.configuration);
+		primaryMotor.getConfigurator().apply(this.configuration);
+		applySecondaryMotors((motor, id) -> motor.getConfigurator().apply(this.configuration));
 	}
-
+	
 	/** sets and applies a {@link NeutralModeValue} to motors */
 	public void setNeutralMode(NeutralModeValue mode){
-		motor1.setNeutralMode(mode);
-		if (hasMotor2()) motor2.setNeutralMode(mode);
+		primaryMotor.setNeutralMode(mode);
+		applySecondaryMotors((motor, id) -> motor.setNeutralMode(mode));
 	}
 	
 	/** brake or coast depending on current {@link NeutralModeValue} */
 	public void stop(){
 		this.enabled = false;
-		motor1.setControl(neutralRequest);
-		if (hasMotor2()) motor2.setControl(neutralRequest);
+		brake();
+	}
+	
+	/** sets all motors to neutral out */
+	public void brake() {
+		primaryMotor.setControl(neutralRequest);
+		applySecondaryMotors((motor, i) -> motor.setControl(neutralRequest));
+	}
+
+	/** set secondary motors to follower */
+	public void follow() {
+		applySecondaryMotors((motor, i) -> motor.setControl(followRequests.get(i)));
 	}
 
 	/** 
@@ -301,36 +286,11 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 	 */
 	public BaseStatusSignal getCurrentValue() {
 		switch (mode) {
-			case POSITION:
-				return motor1.getPosition(false);
+			case POSITION: return primaryMotor.getPosition(false);
 			case PROFILED_VELOCITY:
-			case VELOCITY:
-				return motor1.getVelocity(false);
-			case VOLTAGE:
-				return motor1.getMotorVoltage(false);
-			default:
-				break;
-		}
-
-		return null;
-	}
-
-	/**
-	 * {@link #desiredValue}
-	 * @return the position or velocity based on motor2
-	 */
-	public BaseStatusSignal getCurrentValue2() {
-		if (!hasMotor2()) return null;
-		switch (mode) {
-			case POSITION:
-				return motor2.getPosition(false);
-			case PROFILED_VELOCITY:
-			case VELOCITY:
-				return motor2.getVelocity(false);
-			case VOLTAGE:
-				return motor2.getMotorVoltage(false);
-			default:
-				break;
+			case VELOCITY: return primaryMotor.getVelocity(false);
+			case VOLTAGE: return primaryMotor.getMotorVoltage(false);
+			default: break;
 		}
 
 		return null;
@@ -338,25 +298,17 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 
 	/**
 	 * could be useful for atPoint checks
-	 * @return the current velocity of {@link #motor1} 
+	 * @return the current velocity of {@link #primaryMotor} 
 	 */
 	public double getCurrentVelocity() {
-		return motor1.getVelocity().getValueAsDouble();
+		return primaryMotor.getVelocity().getValueAsDouble();
 	}
 
 	/**
-	 * @return temperature of {@link #motor1}
+	 * @return temperature of {@link #primaryMotor}
 	 */
 	public double getCurrentTemp(){
-		return motor1.getDeviceTemp().getValueAsDouble();
-	}
-
-	/**
-	 * @return temperature of {@link #motor2}
-	 */
-	public double getCurrentTemp2(){
-		if (!hasMotor2()) return 0.0;
-		return motor2.getDeviceTemp().getValueAsDouble();
+		return primaryMotor.getDeviceTemp().getValueAsDouble();
 	}
 
 	public double getDefaultValue() {
@@ -412,23 +364,22 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
         NerdLog.logNumber(kSubsystemTab + name + "/Desired " + getFlavorText(), () -> getDesiredValue(), getUnit(), LOG_LEVEL.ALL);
 		NerdLog.logBoolean(kSubsystemTab + name + "/Has Error", () -> _hasError, LOG_LEVEL.ALL);
 
-		NerdLog.logSignal(kSubsystemTab + name + "/Torque Current 1", motor1.getTorqueCurrent(false), motor1.getNetwork().getName(), LOG_LEVEL.ALL);
-		if (hasMotor2()) NerdLog.logSignal(kSubsystemTab + name + "/Torque Current 2", motor2.getTorqueCurrent(false), motor1.getNetwork().getName(), LOG_LEVEL.ALL);
+		NerdLog.logSignal(kSubsystemTab + name + "/Torque Current", primaryMotor.getTorqueCurrent(false), primaryMotor.getNetwork().getName(), LOG_LEVEL.ALL);
 
-		NerdLog.logSignal(kSubsystemTab + name + "/Supply Current 1", motor1.getSupplyCurrent(false), motor1.getNetwork().getName(), LOG_LEVEL.ALL);
-		if (hasMotor2()) NerdLog.logSignal(kSubsystemTab + name + "/Supply Current 2", motor2.getSupplyCurrent(false), motor1.getNetwork().getName(), LOG_LEVEL.ALL);
+		NerdLog.logSignal(kSubsystemTab + name + "/Supply Current", primaryMotor.getSupplyCurrent(false), primaryMotor.getNetwork().getName(), LOG_LEVEL.ALL);
 
 		//////////////
 		/// MEDIUM ///
         //////////////
         NerdLog.logBoolean(kSubsystemTab + name + "/Enabled", () -> this.enabled, Reportable.LOG_LEVEL.MEDIUM);
-        NerdLog.logSignal(kSubsystemTab + name + "/Temperature 1", motor1.getDeviceTemp(false), motor1.getNetwork().getName(), LOG_LEVEL.MEDIUM);
-        if (hasMotor2()) NerdLog.logSignal(kSubsystemTab + name + "/Temperature 2", motor2.getDeviceTemp(false), motor1.getNetwork().getName(), LOG_LEVEL.MEDIUM);
+        NerdLog.logSignal(kSubsystemTab + name + "/Temperature/Primary Motor", primaryMotor.getDeviceTemp(false), primaryMotor.getNetwork().getName(), LOG_LEVEL.MEDIUM);
+		applySecondaryMotors((motor, i) -> 
+			NerdLog.logSignal(kSubsystemTab + name + "/Temperature/Secondary Motor " + i, motor.getDeviceTemp(false), motor.getNetwork().getName(), LOG_LEVEL.MEDIUM)
+		);
         
         //////////////
         /// MINIMAL //
         //////////////
-        NerdLog.logSignal(kSubsystemTab + name + "/" + getFlavorText() + " 1", getCurrentValue(), motor1.getNetwork().getName(), LOG_LEVEL.MINIMAL);
-        if (hasMotor2()) NerdLog.logSignal(kSubsystemTab + name + "/" + getFlavorText() + " 2", getCurrentValue2(), motor1.getNetwork().getName(), LOG_LEVEL.MINIMAL);
+        NerdLog.logSignal(kSubsystemTab + name + "/" + getFlavorText(), getCurrentValue(), primaryMotor.getNetwork().getName(), LOG_LEVEL.MINIMAL);
     }
 }

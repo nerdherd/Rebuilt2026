@@ -170,7 +170,7 @@ public class SuperSystem implements Reportable {
 
     public void resetSubsystemValues() {
         applySubsystems((s) -> s.setDesiredValue(s.getDefaultValue()));
-        intakeSlapdown.motor1.setPosition(0.0);
+        intakeSlapdown.primaryMotor.setPosition(0.0);
     }
 
     public double getHubDistance() {
