@@ -14,6 +14,7 @@ import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveModule.SteerRequestType;
@@ -346,21 +347,13 @@ public final class Constants {
     public static final int kMotor1ID = 35;
     public static final int kMotor2ID = 36;
 
-    private static final Slot0Configs kSlot0ConfigsLeft = 
+    private static final Slot0Configs kSlot0Configs = 
       new Slot0Configs()
         // .withKP(0.05)
         .withKI(0.0)
         .withKD(0.0)
         .withKV(0.122247)
         .withKS(0.250255);
-    
-    private static final Slot0Configs kSlot0ConfigsRight = 
-      new Slot0Configs()
-        // .withKP(0.05)
-        .withKI(0.0)
-        .withKD(0.0)
-        .withKV(0.119647)
-        .withKS(0.208437);
     
     private static final CurrentLimitsConfigs kCurrentLimitsConfigs = 
       new CurrentLimitsConfigs()
@@ -371,33 +364,21 @@ public final class Constants {
       new MotionMagicConfigs()
         .withMotionMagicAcceleration(25);
 
-    private static final MotorOutputConfigs kLeftMotorOutputConfigs =
+    private static final MotorOutputConfigs kMotorOutputConfigs =
       new MotorOutputConfigs()
         .withInverted(InvertedValue.CounterClockwise_Positive);
 
-    private static final MotorOutputConfigs kRightMotorOutputConfigs =
-      new MotorOutputConfigs()
-        .withInverted(InvertedValue.Clockwise_Positive);
-
     private static final TalonFXConfiguration kSubsystemConfiguration = 
       new TalonFXConfiguration()
+        .withSlot0(kSlot0Configs)
         .withCurrentLimits(kCurrentLimitsConfigs)
-        .withMotionMagic(kMotionMagicConfigs);
-
-    public static final TalonFXConfiguration kLeftConfiguration = 
-      kSubsystemConfiguration.clone()
-        .withSlot0(kSlot0ConfigsLeft)
-        .withMotorOutput(kLeftMotorOutputConfigs);
-
-    public static final TalonFXConfiguration kRightConfiguration =
-      kSubsystemConfiguration.clone()
-        .withSlot0(kSlot0ConfigsRight)
-        .withMotorOutput(kRightMotorOutputConfigs);
+        .withMotionMagic(kMotionMagicConfigs)
+        .withMotorOutput(kMotorOutputConfigs);
 
     // Regression of a*x^2 + b
-    // Update at CAMS on 2/28/2026
-    public static final double kShootWithDistanceA = 1.55069; // a
-    public static final double kShootWithDistanceB = 26.36085; // b
+    // Update at -- on -/-/2026
+    public static final double kShootWithDistanceA = 0.0; // a
+    public static final double kShootWithDistanceB = 0.0; // b
 
   }
 
@@ -496,22 +477,16 @@ public final class Constants {
       .configureMotors(CounterRollerConstants.kSubsystemConfiguration);
     
     public static final boolean useShooter = true;
-    public static final TemplateSubsystem shooterLeft = (!USE_SUBSYSTEMS) ? null :
+    public static final TemplateSubsystem shooter = (!USE_SUBSYSTEMS) ? null :
     new TemplateSubsystem(
-        "Shooter Left", 
+        "Shooter", 
         ShooterConstants.kMotor1ID,
+        ShooterConstants.kMotor2ID,
+        MotorAlignmentValue.Opposed,
         SubsystemMode.PROFILED_VELOCITY, 
         0.0,
         useShooter)
-      .configureMotors(ShooterConstants.kLeftConfiguration);
-    public static final TemplateSubsystem shooterRight = (!USE_SUBSYSTEMS) ? null :
-    new TemplateSubsystem(
-        "Shooter Right", 
-        ShooterConstants.kMotor2ID, 
-        SubsystemMode.PROFILED_VELOCITY, 
-        0.0,
-        useShooter)
-      .configureMotors(ShooterConstants.kRightConfiguration);
+      .configureMotors(ShooterConstants.kSubsystemConfiguration);
 
     public static final boolean useClimb = true;
     public static final TemplateSubsystem climb = (!USE_SUBSYSTEMS) ? null :
