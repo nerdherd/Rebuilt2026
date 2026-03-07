@@ -28,7 +28,10 @@ public final class Autos {
         autoChooser.addOption("S1Top-Depot", AutoBuilder.buildAuto("S1Top-Depot"));
         // autoChooser.addOption("S2Top-Depot", AutoBuilder.buildAuto("S2Top-Depot"));
         autoChooser.addOption("S3Preload", AutoBuilder.buildAuto("S3Preload"));
-        
+        autoChooser.addOption("S1Preload", AutoBuilder.buildAuto("S1Preload"));
+        autoChooser.addOption("S5Preload", AutoBuilder.buildAuto("S5Preload"));
+
+
         // autoChooser.addOption("S4Bottom-Outpost", AutoBuilder.buildAuto("S4Bottom-Outpost"));
         autoChooser.addOption("S5Bottom-Outpost", AutoBuilder.buildAuto("S5Bottom-Outpost"));
         autoChooser.addOption("S5Bottom-OutpostNeutral", AutoBuilder.buildAuto("S5Bottom-OutpostNeutral"));

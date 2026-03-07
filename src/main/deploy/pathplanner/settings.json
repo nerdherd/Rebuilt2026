@@ -6,6 +6,7 @@
   "autoFolders": [
     "BottomNeutral",
     "Depot, Tower, Outpost",
+    "Preload",
     "TopNeutral"
   ],
   "defaultMaxVel": 3.0,
