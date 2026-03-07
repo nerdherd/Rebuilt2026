@@ -319,7 +319,7 @@ public final class Constants {
 
     public static final MotorOutputConfigs kMotorOutputConfigs =
       new MotorOutputConfigs()
-        .withInverted(InvertedValue.Clockwise_Positive);
+        .withInverted(InvertedValue.CounterClockwise_Positive);
 
 
     public static final TalonFXConfiguration kSubsystemConfiguration = 
@@ -328,21 +328,6 @@ public final class Constants {
         .withMotorOutput(kMotorOutputConfigs);
   }
   
-  public static final class CounterRollerConstants {
-    public static final int kMotor1ID = 37;
-
-    private static final Slot0Configs kSlot0Configs = 
-      new Slot0Configs()
-        .withKP(0.5)
-        .withKI(0.0)
-        .withKD(0.0)
-        .withKV(0.125);
-
-    public static final TalonFXConfiguration kSubsystemConfiguration = 
-      new TalonFXConfiguration()
-        .withSlot0(kSlot0Configs);
-  }
-
   public static final class ShooterConstants {
     public static final int kMotor1ID = 35;
     public static final int kMotor2ID = 36;
@@ -352,8 +337,8 @@ public final class Constants {
         // .withKP(0.05)
         .withKI(0.0)
         .withKD(0.0)
-        .withKV(0.122247)
-        .withKS(0.250255);
+        .withKV(0.125372)
+        .withKS(0.62306);
     
     private static final CurrentLimitsConfigs kCurrentLimitsConfigs = 
       new CurrentLimitsConfigs()
@@ -426,7 +411,7 @@ public final class Constants {
    * Container class to hold all subsystem objects.
    */
   public static final class Subsystems {
-    public static final boolean useIntakeSlapdown = true;
+    public static final boolean useIntakeSlapdown = false;
     public static final TemplateSubsystem intakeSlapdown = (!USE_SUBSYSTEMS) ? null :
     new TemplateSubsystem(
         "Intake Slapdown", 
@@ -465,16 +450,6 @@ public final class Constants {
         0.0,
         useIndexer)
       .configureMotors(IndexerConstants.kSubsystemConfiguration);
-    
-    public static final boolean useCounterRoller = true;
-    public static final TemplateSubsystem counterRoller = (!USE_SUBSYSTEMS) ? null :
-    new TemplateSubsystem(
-        "Counter Roller", 
-        CounterRollerConstants.kMotor1ID, 
-        SubsystemMode.VELOCITY, 
-        0.0,
-        useCounterRoller)
-      .configureMotors(CounterRollerConstants.kSubsystemConfiguration);
     
     public static final boolean useShooter = true;
     public static final TemplateSubsystem shooter = (!USE_SUBSYSTEMS) ? null :

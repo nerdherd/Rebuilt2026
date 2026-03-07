@@ -73,14 +73,12 @@ public class SuperSystem implements Reportable {
 
     public Command spinUpFlywheel(){
         return Commands.parallel(
-            counterRoller.setDesiredValueCommand(30),
-            setShooterCommand(45)
+            setShooterCommand(30)
         );
     }
         
     public Command stopFlywheel(){
         return Commands.parallel(
-            counterRoller.setDesiredValueCommand(0),
             setShooterCommand(0.0)
         );
     }
@@ -141,7 +139,6 @@ public class SuperSystem implements Reportable {
                 // convert to rps
                 double rps = ShooterConstants.kShootWithDistanceA * distance * distance + ShooterConstants.kShootWithDistanceB;
                 // spin up flywheel
-                counterRoller.setDesiredValue(30);
                 shooter.setDesiredValue(rps);
             }
         );
