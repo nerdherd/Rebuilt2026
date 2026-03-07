@@ -362,8 +362,8 @@ public final class Constants {
 
     // Regression of a*x^2 + b
     // Update at -- on -/-/2026
-    public static final double kShootWithDistanceA = 0.0; // a
-    public static final double kShootWithDistanceB = 0.0; // b
+    public static final double kShootWithDistanceA = 3.81515; // a
+    public static final double kShootWithDistanceB = 34.25433; // b
 
   }
 
