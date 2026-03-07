@@ -27,12 +27,6 @@
           "data": {
             "name": "Shooter Ramp Down"
           }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "M3T1"
-          }
         }
       ]
     }

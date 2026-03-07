@@ -18,19 +18,21 @@ public final class Autos {
 
     public static void initAutoChooser() {
         autoChooser.setDefaultOption("Do Nothing", Commands.none());
-        autoChooser.addOption("S3Bottom-Neutral", AutoBuilder.buildAuto("S3Bottom-Neutral"));
-        autoChooser.addOption("S4Bottom-Neutral", AutoBuilder.buildAuto("S4Bottom-Neutral"));
-        autoChooser.addOption("S5Bottom-Neutral", AutoBuilder.buildAuto("S5Bottom-Neutral"));
+        // autoChooser.addOption("S3Bottom-Neutral", AutoBuilder.buildAuto("S3Bottom-Neutral"));
+        // autoChooser.addOption("S4Bottom-Neutral", AutoBuilder.buildAuto("S4Bottom-Neutral"));
+        // autoChooser.addOption("S5Bottom-Neutral", AutoBuilder.buildAuto("S5Bottom-Neutral"));
 
-        autoChooser.addOption("S1Top-Neutral", AutoBuilder.buildAuto("S1Top-Neutral"));
-        autoChooser.addOption("S2Top-Neutral", AutoBuilder.buildAuto("S2Top-Neutral"));
-        autoChooser.addOption("S3Top-Neutral", AutoBuilder.buildAuto("S3Top-Neutral"));
+        // autoChooser.addOption("S1Top-Neutral", AutoBuilder.buildAuto("S1Top-Neutral"));
+        // autoChooser.addOption("S2Top-Neutral", AutoBuilder.buildAuto("S2Top-Neutral"));
+        // autoChooser.addOption("S3Top-Neutral", AutoBuilder.buildAuto("S3Top-Neutral"));
         autoChooser.addOption("S1Top-Depot", AutoBuilder.buildAuto("S1Top-Depot"));
-        autoChooser.addOption("S2Top-Depot", AutoBuilder.buildAuto("S2Top-Depot"));
-        autoChooser.addOption("S3-Tower", AutoBuilder.buildAuto("S3-Tower"));
+        // autoChooser.addOption("S2Top-Depot", AutoBuilder.buildAuto("S2Top-Depot"));
+        autoChooser.addOption("S3Preload", AutoBuilder.buildAuto("S3Preload"));
         
-        autoChooser.addOption("S4Bottom-Outpost", AutoBuilder.buildAuto("S4Bottom-Outpost"));
+        // autoChooser.addOption("S4Bottom-Outpost", AutoBuilder.buildAuto("S4Bottom-Outpost"));
         autoChooser.addOption("S5Bottom-Outpost", AutoBuilder.buildAuto("S5Bottom-Outpost"));
+        autoChooser.addOption("S5Bottom-OutpostNeutral", AutoBuilder.buildAuto("S5Bottom-OutpostNeutral"));
+
         
         NerdLog.logData(kAutosTab + "/Selected Auto", autoChooser, LOG_LEVEL.MINIMAL);
     }

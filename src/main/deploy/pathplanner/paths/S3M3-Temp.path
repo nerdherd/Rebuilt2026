@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.9727496446013553,
-        "y": 4.094119144579799
+        "x": 3.8,
+        "y": 4.025
       },
       "isLocked": false,
       "linkedName": "S3"
@@ -20,8 +20,8 @@
         "y": 4.0
       },
       "prevControl": {
-        "x": 2.2800069385391852,
-        "y": 4.00186258461534
+        "x": 2.28,
+        "y": 4.0
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -0.17652095932968997
+    "rotation": 0.0
   },
   "reversed": false,
   "folder": null,

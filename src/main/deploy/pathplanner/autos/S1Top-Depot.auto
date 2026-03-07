@@ -7,7 +7,37 @@
         {
           "type": "path",
           "data": {
-            "pathName": "S1M1"
+            "pathName": "S1N1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake Down Sequence"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.75
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "N1F2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake Up Sequence"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "F2M1"
           }
         },
         {
@@ -19,7 +49,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 2.0
+            "waitTime": 4.0
           }
         },
         {
@@ -38,6 +68,12 @@
           "type": "named",
           "data": {
             "name": "Intake Down Sequence"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.75
           }
         },
         {
