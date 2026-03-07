@@ -73,7 +73,7 @@ public class SuperSystem implements Reportable {
 
     public Command spinUpFlywheel(){
         return Commands.parallel(
-            setShooterCommand(50)
+            setShooterCommand(40)
         );
     }
         
@@ -85,7 +85,7 @@ public class SuperSystem implements Reportable {
 
     public Command intakeDown(){
         return Commands.parallel(
-            intakeSlapdown.setDesiredValueCommand(-15.2)
+            intakeSlapdown.setDesiredValueCommand(-16)
         );
     }
 
