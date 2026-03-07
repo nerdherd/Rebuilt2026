@@ -18,79 +18,81 @@ public final class Autos {
 
     public static void initAutoChooser() {
         autoChooser.setDefaultOption("Do Nothing", Commands.none());
-        // autoChooser.addOption("S3Bottom-Neutral", AutoBuilder.buildAuto("S3Bottom-Neutral"));
-        // autoChooser.addOption("S4Bottom-Neutral", AutoBuilder.buildAuto("S4Bottom-Neutral"));
-        // autoChooser.addOption("S5Bottom-Neutral", AutoBuilder.buildAuto("S5Bottom-Neutral"));
 
-        // autoChooser.addOption("S1Top-Neutral", AutoBuilder.buildAuto("S1Top-Neutral"));
-        // autoChooser.addOption("S2Top-Neutral", AutoBuilder.buildAuto("S2Top-Neutral"));
-        // autoChooser.addOption("S3Top-Neutral", AutoBuilder.buildAuto("S3Top-Neutral"));
-        autoChooser.addOption("S1Top-Depot", AutoBuilder.buildAuto("S1Top-Depot"));
-        // autoChooser.addOption("S2Top-Depot", AutoBuilder.buildAuto("S2Top-Depot"));
-        autoChooser.addOption("S3Preload", AutoBuilder.buildAuto("S3Preload"));
-        autoChooser.addOption("S1Preload", AutoBuilder.buildAuto("S1Preload"));
-        autoChooser.addOption("S5Preload", AutoBuilder.buildAuto("S5Preload"));
+        // EXAMPLE
+        // autoChooser.addOption("Auto Name", AutoBuilder.buildAuto("PathPlanner Auto Name"));
 
+        // TOP
+        autoChooser.addOption("Top-S1MidT", AutoBuilder.buildAuto("Top-S1MidT"));
+        autoChooser.addOption("Top-S2MidB", AutoBuilder.buildAuto("Top-S2MidB"));
+        autoChooser.addOption("Top-S2Depot", AutoBuilder.buildAuto("Top-S2Depot"));
+        autoChooser.addOption("Top-S1MidTBDepot", AutoBuilder.buildAuto("Top-S1MidTBDepot"));
 
-        // autoChooser.addOption("S4Bottom-Outpost", AutoBuilder.buildAuto("S4Bottom-Outpost"));
-        autoChooser.addOption("S5Bottom-Outpost", AutoBuilder.buildAuto("S5Bottom-Outpost"));
-        autoChooser.addOption("S5Bottom-OutpostNeutral", AutoBuilder.buildAuto("S5Bottom-OutpostNeutral"));
+        // MID
+        autoChooser.addOption("Mid-S3PreloadClimb", AutoBuilder.buildAuto("Mid-S3PreloadClimb"));
+        autoChooser.addOption("Mid-S3OutpostClimb", AutoBuilder.buildAuto("Mid-S3OutpostClimb"));
+        autoChooser.addOption("Mid-S3DepotClimb", AutoBuilder.buildAuto("Mid-S3DepotClimb"));
 
+        // BOT
+        autoChooser.addOption("Bot-S5MidT", AutoBuilder.buildAuto("Bot-S5MidT"));
+        autoChooser.addOption("Bot-S4MidB", AutoBuilder.buildAuto("Bot-S4MidB"));
+        autoChooser.addOption("Bot-S5Outpost", AutoBuilder.buildAuto("Bot-S5Outpost"));
+        autoChooser.addOption("Bot-S5MidTBOutpost", AutoBuilder.buildAuto("Bot-S5MidTBOutpost"));
         
         NerdLog.logData(kAutosTab + "/Selected Auto", autoChooser, LOG_LEVEL.MINIMAL);
     }
 
     public static void initNamedCommands(SuperSystem superSystem) {
+        // INTAKE
+        NamedCommands.registerCommand("Intake Up", superSystem.intakeUp());
+        NamedCommands.registerCommand("Intake Down", superSystem.intakeDown());
+        NamedCommands.registerCommand("Intake Start", superSystem.intake());
+        NamedCommands.registerCommand("Intake Stop", superSystem.stopIntaking());
         NamedCommands.registerCommand("Intake Down Sequence", 
-        Commands.parallel(
-            superSystem.intakeDown(), 
-            superSystem.intake()
-        ));
+            Commands.sequence(
+                superSystem.intakeDown(),
+                superSystem.intake()
+            ));
 
         NamedCommands.registerCommand("Intake Up Sequence", 
-        Commands.parallel(
-            superSystem.stopIntaking(), 
-            superSystem.intakeUp()
-        ));
+            Commands.sequence(
+                superSystem.stopIntaking(), 
+                superSystem.intakeUp()
+            ));
 
-        NamedCommands.registerCommand("Shooter Ramp Up", 
-        Commands.sequence(
-            superSystem.spinUpFlywheel(), 
-            Commands.waitSeconds(2),
-            superSystem.shoot()
-        ));
-
-        NamedCommands.registerCommand("Shooter Ramp Down", 
-        Commands.sequence(
-            superSystem.stopFlywheel(),
-            Commands.waitSeconds(1),
-            superSystem.stopShooting()
-        ));
-
-        NamedCommands.registerCommand("Climb Up", 
-        Commands.sequence(
-            superSystem.climbUp(),
-            Commands.waitSeconds(11.0)
-        ));
-
-        NamedCommands.registerCommand("Climb Down", 
-        Commands.sequence(
-             superSystem.climbDown(),
-            Commands.waitSeconds(9.0),
-            superSystem.stopClimb()
-        ));
-
-        NamedCommands.registerCommand("Wait", Commands.waitSeconds(1));
-        NamedCommands.registerCommand("SpinUpFlywheel", superSystem.spinUpFlywheel());
-        NamedCommands.registerCommand("StopFlywheel", superSystem.stopFlywheel());
+        // SHOOT
+        NamedCommands.registerCommand("Flywheel Start", superSystem.spinUpFlywheel());
+        NamedCommands.registerCommand("Flywheel Stop", superSystem.stopFlywheel());
         NamedCommands.registerCommand("Shoot", superSystem.shoot());
-        NamedCommands.registerCommand("StopShooting", superSystem.stopShooting());
-        NamedCommands.registerCommand("IntakeUp", superSystem.intakeUp());
-        NamedCommands.registerCommand("IntakeDown", superSystem.intakeDown());
-        NamedCommands.registerCommand("Intake", superSystem.intake());
-        NamedCommands.registerCommand("StopIntaking", superSystem.stopIntaking());
+        NamedCommands.registerCommand("Shoot Stop", superSystem.stopShooting());
+        NamedCommands.registerCommand("Shoot Distance", superSystem.shootWithDistance());
+        NamedCommands.registerCommand("Shoot Ramp Up", 
+            Commands.sequence(
+                superSystem.spinUpFlywheel(), 
+                Commands.waitSeconds(2),
+                superSystem.shoot()
+            ));
 
-        
+        NamedCommands.registerCommand("Shoot Ramp Down", 
+            Commands.sequence(
+                superSystem.stopFlywheel(),
+                Commands.waitSeconds(1),
+                superSystem.stopShooting()
+            ));
+
+        // CLIMB
+        NamedCommands.registerCommand("Climb Up", 
+            Commands.sequence(
+                superSystem.climbUp(),
+                Commands.waitSeconds(11.0)
+            ));
+        NamedCommands.registerCommand("Climb Down", 
+            Commands.sequence(
+                superSystem.climbDown(),
+                Commands.waitSeconds(9.0),
+                superSystem.stopClimb()
+            ));
+
     }
 
 }

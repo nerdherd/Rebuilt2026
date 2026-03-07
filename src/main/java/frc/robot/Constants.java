@@ -61,7 +61,7 @@ public final class Constants {
   /**
    * controls whether vision should be initialized
    */
-  public static final boolean USE_VISION = true;
+  public static final boolean USE_VISION = false;
 
   public static class ControllerConstants {
     public static final int kDriverControllerPort = 0;
@@ -431,7 +431,7 @@ public final class Constants {
         useIntakeRoller)
       .configureMotors(IntakeRollerConstants.kSubsystemConfiguration);
     
-    public static final boolean useConveyor = true;
+    public static final boolean useConveyor = false;
     public static final TemplateSubsystem conveyor = (!USE_SUBSYSTEMS) ? null :
     new TemplateSubsystem(
         "Conveyor", 
