@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.56,
-        "y": 2.57
+        "x": 3.55,
+        "y": 4.04
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.1254713983050846,
-        "y": 2.2985592747427357
+        "x": 2.3649630444297456,
+        "y": 2.8091360308817745
       },
       "isLocked": false,
-      "linkedName": "S4Up"
+      "linkedName": "S3"
     },
     {
       "anchor": {
@@ -20,8 +20,8 @@
         "y": 0.67
       },
       "prevControl": {
-        "x": 1.085880230402542,
-        "y": 1.051657318780267
+        "x": 1.2730450161784401,
+        "y": 1.573757101330525
       },
       "nextControl": null,
       "isLocked": false,
@@ -45,10 +45,10 @@
     "rotation": 90.0
   },
   "reversed": false,
-  "folder": "To Outpost",
+  "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 90.0
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }

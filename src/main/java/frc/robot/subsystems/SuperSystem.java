@@ -36,8 +36,7 @@ public class SuperSystem implements Reportable {
     
     public Command setShooterCommand(double speed) {
         return Commands.parallel(
-            shooterLeft.setDesiredValueCommand(speed),
-            shooterRight.setDesiredValueCommand(speed)
+            shooter.setDesiredValueCommand(speed)
         );
     }
 
@@ -74,21 +73,19 @@ public class SuperSystem implements Reportable {
 
     public Command spinUpFlywheel(){
         return Commands.parallel(
-            counterRoller.setDesiredValueCommand(30),
-            setShooterCommand(45)
+            setShooterCommand(40)
         );
     }
         
     public Command stopFlywheel(){
         return Commands.parallel(
-            counterRoller.setDesiredValueCommand(0),
             setShooterCommand(0.0)
         );
     }
 
     public Command intakeDown(){
         return Commands.parallel(
-            intakeSlapdown.setDesiredValueCommand(-17.433)
+            intakeSlapdown.setDesiredValueCommand(-16)
         );
     }
 
@@ -106,15 +103,15 @@ public class SuperSystem implements Reportable {
 
     public Command intake() {
         return Commands.parallel(
-            intakeRoller.setDesiredValueCommand(7.5),
-            conveyor.setDesiredValueCommand(3)
+            intakeRoller.setDesiredValueCommand(7.5)
+            // conveyor.setDesiredValueCommand(3)
             );
         }
         
         public Command stopIntaking() {
             return Commands.parallel(
-                intakeRoller.setDesiredValueCommand(0),
-                conveyor.setDesiredValueCommand(0.0)
+                intakeRoller.setDesiredValueCommand(0)
+                // conveyor.setDesiredValueCommand(0.0)
         );
     }
 
@@ -142,9 +139,7 @@ public class SuperSystem implements Reportable {
                 // convert to rps
                 double rps = ShooterConstants.kShootWithDistanceA * distance * distance + ShooterConstants.kShootWithDistanceB;
                 // spin up flywheel
-                counterRoller.setDesiredValue(30);
-                shooterLeft.setDesiredValue(rps);
-                shooterRight.setDesiredValue(rps);
+                shooter.setDesiredValue(rps);
             }
         );
     }

@@ -3,32 +3,53 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.56,
-        "y": 2.57
+        "x": 0.45,
+        "y": 4.95
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.1254713983050846,
-        "y": 2.2985592747427357
+        "x": 1.907578923752711,
+        "y": 4.95
       },
       "isLocked": false,
-      "linkedName": "S4Up"
+      "linkedName": "D2Down"
     },
     {
       "anchor": {
-        "x": 0.5,
-        "y": 0.67
+        "x": 1.74,
+        "y": 4.95
       },
       "prevControl": {
-        "x": 1.085880230402542,
-        "y": 1.051657318780267
+        "x": 0.9678441539860846,
+        "y": 4.95
+      },
+      "nextControl": {
+        "x": 2.570425347564166,
+        "y": 4.95
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 3.0,
+        "y": 5.66
+      },
+      "prevControl": {
+        "x": 2.704318181818181,
+        "y": 5.158443181818182
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "O1Up"
+      "linkedName": "H45"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1.0,
+      "rotationDegrees": -90.0
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
@@ -42,13 +63,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 90.0
+    "rotation": -45.0
   },
   "reversed": false,
-  "folder": "To Outpost",
+  "folder": "To Hub Shooting",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 90.0
+    "rotation": -90.0
   },
   "useDefaultConstraints": true
 }

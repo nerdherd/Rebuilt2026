@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.56,
-        "y": 2.57
+        "x": 3.0,
+        "y": 5.66
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.1254713983050846,
-        "y": 2.2985592747427357
+        "x": 2.45275125944782,
+        "y": 5.35677327801552
       },
       "isLocked": false,
-      "linkedName": "S4Up"
+      "linkedName": "H45"
     },
     {
       "anchor": {
-        "x": 0.5,
-        "y": 0.67
+        "x": 1.3,
+        "y": 4.66
       },
       "prevControl": {
-        "x": 1.085880230402542,
-        "y": 1.051657318780267
+        "x": 1.5454662217998207,
+        "y": 4.810424576851034
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "O1Up"
+      "linkedName": "T1"
     }
   ],
   "rotationTargets": [],
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 90.0
+    "rotation": 0.0
   },
   "reversed": false,
-  "folder": "To Outpost",
+  "folder": "To Tower",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 90.0
+    "rotation": -45.0
   },
   "useDefaultConstraints": true
 }
