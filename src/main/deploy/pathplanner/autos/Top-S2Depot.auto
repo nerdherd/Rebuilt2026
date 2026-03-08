@@ -30,6 +30,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Intake Stop"
+          }
+        },
+        {
           "type": "parallel",
           "data": {
             "commands": [
@@ -46,6 +52,12 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
           }
         },
         {

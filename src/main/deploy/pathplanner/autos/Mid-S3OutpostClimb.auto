@@ -11,50 +11,19 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "S3H0"
+                  "pathName": "S3O1"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 1.0
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "Flywheel Start"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.0
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 3.0
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "H0O1"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Shoot Ramp Down"
+                  "name": "Intake Down"
                 }
               }
             ]
@@ -94,7 +63,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 3.0
+            "waitTime": 4.0
           }
         },
         {

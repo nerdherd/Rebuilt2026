@@ -29,6 +29,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Intake Stop"
+          }
+        },
+        {
           "type": "parallel",
           "data": {
             "commands": [
@@ -60,12 +66,6 @@
           }
         },
         {
-          "type": "wait",
-          "data": {
-            "waitTime": 3.0
-          }
-        },
-        {
           "type": "parallel",
           "data": {
             "commands": [
@@ -85,13 +85,19 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "wait",
+          "data": {
+            "waitTime": 3.0
+          }
+        },
+        {
+          "type": "sequential",
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "wait",
                 "data": {
-                  "pathName": "O1H60-"
+                  "waitTime": 2.0
                 }
               },
               {
@@ -99,8 +105,20 @@
                 "data": {
                   "name": "Flywheel Start"
                 }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 1.0
+                }
               }
             ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "O1H60-"
           }
         },
         {

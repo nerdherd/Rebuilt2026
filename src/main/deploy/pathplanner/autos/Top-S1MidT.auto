@@ -41,35 +41,16 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "N3S1"
+                  "pathName": "N3H60"
                 }
               },
               {
-                "type": "sequential",
+                "type": "named",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 1.0
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Flywheel Start"
-                      }
-                    }
-                  ]
+                  "name": "Flywheel Start"
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "S1H60"
           }
         },
         {
