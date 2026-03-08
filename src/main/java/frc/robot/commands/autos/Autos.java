@@ -23,9 +23,9 @@ public final class Autos {
         // autoChooser.addOption("Auto Name", AutoBuilder.buildAuto("PathPlanner Auto Name"));
 
         // TOP
+        autoChooser.addOption("Top-S1Depot", AutoBuilder.buildAuto("Top-S1Depot"));
         autoChooser.addOption("Top-S1MidT", AutoBuilder.buildAuto("Top-S1MidT"));
         autoChooser.addOption("Top-S2MidB", AutoBuilder.buildAuto("Top-S2MidB"));
-        autoChooser.addOption("Top-S2Depot", AutoBuilder.buildAuto("Top-S2Depot"));
         autoChooser.addOption("Top-S1MidTBDepot", AutoBuilder.buildAuto("Top-S1MidTBDepot"));
 
         // MID
