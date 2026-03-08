@@ -11,15 +11,22 @@
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "S1N1"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Intake Start"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "S1N1"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake Start"
+                }
+              }
+            ]
           }
         },
         {

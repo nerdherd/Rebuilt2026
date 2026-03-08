@@ -8,39 +8,23 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.158860398860397,
-        "y": 7.135854700854701
+        "x": 7.364293865905848,
+        "y": 7.7289871611982885
       },
       "isLocked": false,
       "linkedName": "N3Down"
     },
     {
       "anchor": {
-        "x": 5.43,
+        "x": 4.63,
         "y": 7.4
       },
       "prevControl": {
-        "x": 5.86014667079189,
+        "x": 5.823509251759806,
         "y": 7.4
       },
       "nextControl": {
-        "x": 4.414220058190217,
-        "y": 7.4
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 3.789893221682372,
-        "y": 7.4
-      },
-      "prevControl": {
-        "x": 4.1178337876826765,
-        "y": 7.4
-      },
-      "nextControl": {
-        "x": 3.461952655682068,
+        "x": 3.4364907482401783,
         "y": 7.4
       },
       "isLocked": false,
@@ -52,8 +36,8 @@
         "y": 6.86
       },
       "prevControl": {
-        "x": 2.8693447293447294,
-        "y": 7.433019943019944
+        "x": 2.4864194008559197,
+        "y": 7.431398002853067
       },
       "nextControl": null,
       "isLocked": false,
@@ -62,34 +46,20 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 1.1,
+      "waypointRelativePos": 0.9466950959488148,
       "rotationDegrees": 0.0
     },
     {
-      "waypointRelativePos": 2.5,
+      "waypointRelativePos": 1.4456289978678039,
       "rotationDegrees": 0.0
     }
   ],
-  "constraintZones": [
-    {
-      "name": "Constraints Zone",
-      "minWaypointRelativePos": 1.15,
-      "maxWaypointRelativePos": 1.85,
-      "constraints": {
-        "maxVelocity": 2.0,
-        "maxAcceleration": 2.0,
-        "maxAngularVelocity": 540.0,
-        "maxAngularAcceleration": 720.0,
-        "nominalVoltage": 12.0,
-        "unlimited": false
-      }
-    }
-  ],
+  "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 4.0,
+    "maxVelocity": 2.0,
+    "maxAcceleration": 2.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -100,7 +70,7 @@
     "rotation": -59.99999999999999
   },
   "reversed": false,
-  "folder": "To Hub Shooting",
+  "folder": "To Hub",
   "idealStartingState": {
     "velocity": 0,
     "rotation": -90.0
