@@ -68,7 +68,7 @@
     "rotation": 45.0
   },
   "reversed": false,
-  "folder": null,
+  "folder": "To Hub Shooting",
   "idealStartingState": {
     "velocity": 0,
     "rotation": -90.0

@@ -15,9 +15,22 @@
                 }
               },
               {
-                "type": "named",
+                "type": "sequential",
                 "data": {
-                  "name": "Intake Down Sequence"
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 1.0
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Intake Down Sequence"
+                      }
+                    }
+                  ]
                 }
               }
             ]
@@ -27,6 +40,12 @@
           "type": "path",
           "data": {
             "pathName": "D2D1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake Stop"
           }
         },
         {
@@ -61,15 +80,22 @@
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "Shoot Ramp Down"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "H0T1"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "H0T1"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Shoot Ramp Down"
+                }
+              }
+            ]
           }
         }
       ]

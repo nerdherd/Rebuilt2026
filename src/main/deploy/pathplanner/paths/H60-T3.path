@@ -59,7 +59,7 @@
     "rotation": 0.0
   },
   "reversed": false,
-  "folder": null,
+  "folder": "To Tower",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 59.99999999999999

@@ -5,28 +5,27 @@
     "data": {
       "commands": [
         {
-          "type": "parallel",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "S5N6"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake Down Sequence"
-                }
-              }
-            ]
+            "name": "Intake Down"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "N4OffN6"
+            "pathName": "S5N6"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake Start"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "N6N4"
           }
         },
         {
