@@ -1,0 +1,68 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "S4N4Off"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "N4OffN6"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake Stop"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "N6H45-"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Flywheel Start 45"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 4.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot Ramp Down"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "Bottom Autos",
+  "choreoAuto": false
+}

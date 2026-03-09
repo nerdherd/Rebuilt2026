@@ -74,6 +74,7 @@ public class Robot extends TimedRobot {
     }
 
     m_robotContainer.swerveDrive.setVision(false);
+    m_robotContainer.swerveDrive.stop();
   }
 
   @Override
@@ -87,6 +88,7 @@ public class Robot extends TimedRobot {
     if (Constants.USE_SUBSYSTEMS) {
       m_robotContainer.superSystem.initialize();
       m_robotContainer.superSystem.reConfigureMotors();
+      m_robotContainer.superSystem.resetSubsystemValues();
     }
     
     m_robotContainer.swerveDrive.setVision(USE_VISION);
