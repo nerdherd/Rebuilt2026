@@ -1,7 +1,12 @@
 package frc.robot.subsystems;
 
 import static frc.robot.Constants.LoggingConstants.kSupersystemTab;
-import static frc.robot.Constants.Subsystems.*;
+import static frc.robot.Constants.Subsystems.climb;
+import static frc.robot.Constants.Subsystems.conveyor;
+import static frc.robot.Constants.Subsystems.indexer;
+import static frc.robot.Constants.Subsystems.intakeRoller;
+import static frc.robot.Constants.Subsystems.intakeSlapdown;
+import static frc.robot.Constants.Subsystems.shooter;
 
 import java.util.ArrayList;
 import java.util.function.Consumer;
@@ -45,11 +50,24 @@ public class SuperSystem implements Reportable {
         applySubsystems((s) -> s.applyMotorConfigs());
     }
     
+    public void startShoot() {
+        indexer.setDesiredValue(5);
+        conveyor.setDesiredValue(4);
+    }
+
     public Command shoot() {
-        return Commands.parallel(
-            indexer.setDesiredValueCommand(5),
-            conveyor.setDesiredValueCommand(4)
-        );
+        return Commands.runOnce(this::startShoot, indexer, conveyor);
+    }
+
+    public Command shootWithCondition() {
+        return Commands.run(() -> {
+            if (shooter.getCurrentVelocity() > 20.0) {
+                startShoot();
+            } else {
+                indexer.setDesiredValue(0);
+                conveyor.setDesiredValue(0);
+            }
+        }, indexer, conveyor);
     }
 
     public Command reverseConveyor() {
@@ -73,7 +91,13 @@ public class SuperSystem implements Reportable {
 
     public Command spinUpFlywheel(){
         return Commands.parallel(
-            setShooterCommand(40)
+            setShooterCommand(30)
+        );
+    }
+
+    public Command spinUpFlywheel(double speed){
+        return Commands.parallel(
+            setShooterCommand(speed)
         );
     }
         
@@ -85,7 +109,7 @@ public class SuperSystem implements Reportable {
 
     public Command intakeDown(){
         return Commands.parallel(
-            intakeSlapdown.setDesiredValueCommand(-16)
+            intakeSlapdown.setDesiredValueCommand(-17.785)
         );
     }
 

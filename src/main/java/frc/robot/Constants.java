@@ -337,8 +337,8 @@ public final class Constants {
         // .withKP(0.05)
         .withKI(0.0)
         .withKD(0.0)
-        .withKV(0.125372)
-        .withKS(0.62306);
+        .withKV(0.127501)
+        .withKS(0.650788);
     
     private static final CurrentLimitsConfigs kCurrentLimitsConfigs = 
       new CurrentLimitsConfigs()
@@ -411,7 +411,7 @@ public final class Constants {
    * Container class to hold all subsystem objects.
    */
   public static final class Subsystems {
-    public static final boolean useIntakeSlapdown = true;
+    public static final boolean useIntakeSlapdown = false;
     public static final TemplateSubsystem intakeSlapdown = (!USE_SUBSYSTEMS) ? null :
     new TemplateSubsystem(
         "Intake Slapdown", 

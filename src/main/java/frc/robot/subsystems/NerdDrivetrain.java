@@ -28,6 +28,8 @@ import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.util.sendable.Sendable;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -43,7 +45,7 @@ import frc.robot.util.logging.Reportable;
 import frc.robot.vision.LimelightHelpers;
 import frc.robot.vision.LimelightHelpers.PoseEstimate;
 
-public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, Reportable {
+public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, Reportable, Sendable {
     public final Field2d field;
     public boolean useMegaTag2 = false;
 
@@ -158,8 +160,12 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
 
     // ----------------------------------------- Helper Functions ----------------------------------------- //
 
-    public void stop() {
+    public void tow() {
         setControl(kTowSwerveRequest);
+    }
+
+    public void stop() {
+        driveFieldOriented(0.0, 0.0, 0.0);
     }
 
     /** gets the Pose2d from odometry */
@@ -308,6 +314,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
         ///////////
         /// ALL ///
         ///////////
+        NerdLog.logData(kSwerveTab + "/Commands", this, LOG_LEVEL.ALL);
         if (Constants.ROBOT_LOG_LEVEL == LOG_LEVEL.ALL) {
             Field2d positionField = new Field2d();
             for (FieldPositions position : FieldPositions.values()) {
@@ -333,4 +340,19 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
         NerdLog.logNumber(kSwerveTab +"/Stator Current Sum", this::pollStatorCurrentSum, "A", LOG_LEVEL.MINIMAL);
     }
 
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        builder.setSmartDashboardType("Subsystem");
+
+        builder.addBooleanProperty(".hasDefault", () -> getDefaultCommand() != null, null);
+        builder.addStringProperty(
+            ".default",
+            () -> getDefaultCommand() != null ? getDefaultCommand().getName() : "none",
+            null);
+        builder.addBooleanProperty(".hasCommand", () -> getCurrentCommand() != null, null);
+        builder.addStringProperty(
+            ".command",
+            () -> getCurrentCommand() != null ? getCurrentCommand().getName() : "none",
+            null);
+  }
 }

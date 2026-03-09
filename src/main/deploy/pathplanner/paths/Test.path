@@ -4,28 +4,28 @@
     {
       "anchor": {
         "x": 3.0,
-        "y": 4.04
+        "y": 5.66
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.008754448403957,
-        "y": 5.24540925267442
+        "x": 2.925936979892944,
+        "y": 6.154274154271579
       },
       "isLocked": false,
-      "linkedName": "H0"
+      "linkedName": "H45"
     },
     {
       "anchor": {
-        "x": 0.45,
-        "y": 7.25
+        "x": 3.0,
+        "y": 6.86
       },
       "prevControl": {
-        "x": 1.461364175563464,
-        "y": 7.615812574139976
+        "x": 3.08148546915544,
+        "y": 6.235585416093786
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "D1Down"
+      "linkedName": "H60"
     }
   ],
   "rotationTargets": [],
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -90.0
+    "rotation": -59.99999999999999
   },
   "reversed": false,
-  "folder": "To Depot",
+  "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -45.0
   },
   "useDefaultConstraints": true
 }

@@ -23,9 +23,9 @@
           }
         },
         {
-          "type": "path",
+          "type": "wait",
           "data": {
-            "pathName": "N1N3"
+            "waitTime": 3.0
           }
         },
         {
@@ -41,13 +41,13 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "N3H60"
+                  "pathName": "N1H60"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "Flywheel Start"
+                  "name": "Flywheel Start 60"
                 }
               }
             ]
