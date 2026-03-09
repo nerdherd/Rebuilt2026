@@ -73,8 +73,8 @@
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 1.0776502363268108,
-      "maxWaypointRelativePos": 1.8230925050641458,
+      "minWaypointRelativePos": 0.7024242109634554,
+      "maxWaypointRelativePos": 1.3452034883720931,
       "constraints": {
         "maxVelocity": 1.0,
         "maxAcceleration": 1.0,
@@ -100,7 +100,7 @@
     "rotation": -59.99999999999999
   },
   "reversed": false,
-  "folder": "To Hub Shooting",
+  "folder": "To Hub",
   "idealStartingState": {
     "velocity": 0,
     "rotation": -90.0

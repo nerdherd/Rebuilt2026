@@ -30,9 +30,9 @@
           }
         },
         {
-          "type": "wait",
+          "type": "path",
           "data": {
-            "waitTime": 3.0
+            "pathName": "N1N3"
           }
         },
         {
@@ -48,7 +48,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "N1H60"
+                  "pathName": "N3H60"
                 }
               },
               {
@@ -82,6 +82,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Top Autos",
+  "folder": "safe autos",
   "choreoAuto": false
 }

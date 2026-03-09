@@ -93,6 +93,24 @@
           "data": {
             "name": "Climb Down"
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Flywheel Start 0"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Flywheel Start 45"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Flywheel Start 60"
+          }
         }
       ]
     }
