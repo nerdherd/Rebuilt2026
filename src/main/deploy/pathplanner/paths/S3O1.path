@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.55,
+        "x": 3.3,
         "y": 4.04
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.3649630444297456,
-        "y": 2.8091360308817745
+        "x": 2.2127010923955064,
+        "y": 2.719933416695051
       },
       "isLocked": false,
       "linkedName": "S3"
@@ -20,8 +20,8 @@
         "y": 0.67
       },
       "prevControl": {
-        "x": 1.2730450161784401,
-        "y": 1.573757101330525
+        "x": 1.129847057599362,
+        "y": 1.4349356463394207
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,8 +33,8 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 4.0,
+    "maxVelocity": 2.0,
+    "maxAcceleration": 2.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -45,7 +45,7 @@
     "rotation": 90.0
   },
   "reversed": false,
-  "folder": null,
+  "folder": "To Outpost",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 0.0

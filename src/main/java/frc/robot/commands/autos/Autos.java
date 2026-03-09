@@ -18,14 +18,15 @@ public final class Autos {
 
     public static void initAutoChooser() {
         autoChooser.setDefaultOption("Do Nothing", Commands.none());
+        autoChooser.addOption("Test", AutoBuilder.buildAuto("Test"));
 
         // EXAMPLE
         // autoChooser.addOption("Auto Name", AutoBuilder.buildAuto("PathPlanner Auto Name"));
 
         // TOP
+        autoChooser.addOption("Top-S1Depot", AutoBuilder.buildAuto("Top-S1Depot"));
         autoChooser.addOption("Top-S1MidT", AutoBuilder.buildAuto("Top-S1MidT"));
         autoChooser.addOption("Top-S2MidB", AutoBuilder.buildAuto("Top-S2MidB"));
-        autoChooser.addOption("Top-S2Depot", AutoBuilder.buildAuto("Top-S2Depot"));
         autoChooser.addOption("Top-S1MidTBDepot", AutoBuilder.buildAuto("Top-S1MidTBDepot"));
 
         // MID
@@ -62,6 +63,9 @@ public final class Autos {
 
         // SHOOT
         NamedCommands.registerCommand("Flywheel Start", superSystem.spinUpFlywheel());
+        NamedCommands.registerCommand("Flywheel Start 0", superSystem.spinUpFlywheel(34));
+        NamedCommands.registerCommand("Flywheel Start 45", superSystem.spinUpFlywheel(36));
+        NamedCommands.registerCommand("Flywheel Start 60", superSystem.spinUpFlywheel(39));
         NamedCommands.registerCommand("Flywheel Stop", superSystem.stopFlywheel());
         NamedCommands.registerCommand("Shoot", superSystem.shoot());
         NamedCommands.registerCommand("Shoot Stop", superSystem.stopShooting());

@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.Subsystems;
@@ -152,7 +153,7 @@ public class RobotContainer {
         .onTrue(superSystem.spinUpFlywheel())
         .onFalse(superSystem.stopFlywheel());
       operatorController.bumperRight()
-        .onTrue(superSystem.shoot())
+        .whileTrue(superSystem.shootWithCondition())
         .onFalse(superSystem.stopShooting());
         
       operatorController.buttonRight()
@@ -232,12 +233,13 @@ public class RobotContainer {
   
   public void initializeLogging() {
     NerdLog.logData("Robot/PDP", pdp, LOG_LEVEL.ALL);
-
+    
     swerveDrive.initializeLogging();
     if (Constants.USE_SUBSYSTEMS) { 
       superSystem.initializeLogging();
     }
-
+    
+    NerdLog.logData("Robot/Command Scheduler", CommandScheduler.getInstance(), LOG_LEVEL.ALL);
     NerdLog.reportLogCount();
   }
   

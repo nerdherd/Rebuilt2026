@@ -11,15 +11,15 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "Intake Down Sequence"
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "N3OffN1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake Stop"
           }
         },
         {
@@ -35,7 +35,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Flywheel Start"
+                  "name": "Flywheel Start 45"
                 }
               }
             ]

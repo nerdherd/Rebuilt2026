@@ -17,7 +17,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Flywheel Start"
+                  "name": "Flywheel Start 0"
                 }
               }
             ]
@@ -46,15 +46,15 @@
           "data": {
             "commands": [
               {
-                "type": "named",
-                "data": {
-                  "name": "Shoot Ramp Down"
-                }
-              },
-              {
                 "type": "path",
                 "data": {
                   "pathName": "H0T1"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Shoot Ramp Down"
                 }
               }
             ]

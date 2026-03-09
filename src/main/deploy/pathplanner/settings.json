@@ -3,9 +3,8 @@
   "robotLength": 0.864,
   "holonomicMode": true,
   "pathFolders": [
-    "To Start",
     "To Depot",
-    "To Hub Shooting",
+    "To Hub",
     "To Neutral",
     "To Outpost",
     "To Tower"
@@ -15,8 +14,8 @@
     "Middle Autos",
     "Top Autos"
   ],
-  "defaultMaxVel": 3.0,
-  "defaultMaxAccel": 4.0,
+  "defaultMaxVel": 2.0,
+  "defaultMaxAccel": 2.0,
   "defaultMaxAngVel": 540.0,
   "defaultMaxAngAccel": 720.0,
   "defaultNominalVoltage": 12.0,
