@@ -3,12 +3,12 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.55,
+        "x": 3.3,
         "y": 5.57
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.629506024096385,
+        "x": 6.3795060240963855,
         "y": 5.4993132530120485
       },
       "isLocked": false,
@@ -28,12 +28,7 @@
       "linkedName": "N3Off"
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.2896265560165942,
-      "rotationDegrees": 0.0
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [
     {
       "name": "Constraints Zone",
@@ -50,7 +45,14 @@
     }
   ],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Intake Down Sequence",
+      "waypointRelativePos": 0.38892640108034743,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 2.0,
     "maxAcceleration": 2.0,

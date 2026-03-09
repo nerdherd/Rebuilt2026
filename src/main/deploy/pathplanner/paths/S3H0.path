@@ -3,12 +3,12 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.55,
+        "x": 3.3,
         "y": 4.04
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.8135705087574125,
+        "x": 3.5635705087574125,
         "y": 4.025972274353028
       },
       "isLocked": false,
@@ -45,7 +45,7 @@
     "rotation": 0.0
   },
   "reversed": false,
-  "folder": "To Hub Shooting",
+  "folder": "To Hub",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 0.0

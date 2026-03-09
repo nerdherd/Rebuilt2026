@@ -46,15 +46,15 @@
           "data": {
             "commands": [
               {
-                "type": "named",
-                "data": {
-                  "name": "Shoot Ramp Down"
-                }
-              },
-              {
                 "type": "path",
                 "data": {
                   "pathName": "H0T1"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Shoot Ramp Down"
                 }
               }
             ]

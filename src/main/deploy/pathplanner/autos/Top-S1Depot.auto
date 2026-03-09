@@ -5,9 +5,34 @@
     "data": {
       "commands": [
         {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "S1D1"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake Down Sequence"
+                }
+              }
+            ]
+          }
+        },
+        {
           "type": "path",
           "data": {
-            "pathName": "S2D1"
+            "pathName": "D1D2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake Stop"
           }
         },
         {
@@ -17,22 +42,16 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "D1D2"
+                  "pathName": "D2H45"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "Intake Start"
+                  "name": "Flywheel Start 45"
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "D2H45"
           }
         },
         {
@@ -50,25 +69,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Shoot Stop"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "H45T1"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Climb Up"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "climb down"
+            "name": "Shoot Ramp Down"
           }
         }
       ]

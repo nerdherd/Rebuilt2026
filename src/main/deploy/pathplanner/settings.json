@@ -3,9 +3,8 @@
   "robotLength": 0.864,
   "holonomicMode": true,
   "pathFolders": [
-    "To Start",
     "To Depot",
-    "To Hub Shooting",
+    "To Hub",
     "To Neutral",
     "To Outpost",
     "To Tower"
