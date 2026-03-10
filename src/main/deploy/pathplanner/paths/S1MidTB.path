@@ -20,27 +20,27 @@
         "y": 7.1
       },
       "prevControl": {
-        "x": 7.786844039351852,
-        "y": 7.504616174768518
+        "x": 7.77,
+        "y": 7.504966628928846
       },
       "nextControl": {
-        "x": 7.759601588039238,
-        "y": 6.850216347555135
+        "x": 7.77,
+        "y": 4.596338925648736
       },
       "isLocked": false,
       "linkedName": "N1Down"
     },
     {
       "anchor": {
-        "x": 7.77,
+        "x": 7.34,
         "y": 4.73
       },
       "prevControl": {
-        "x": 8.02,
+        "x": 7.8547059767680505,
         "y": 4.73
       },
       "nextControl": {
-        "x": 7.52,
+        "x": 6.174121963185291,
         "y": 4.73
       },
       "isLocked": false,
@@ -52,8 +52,8 @@
         "y": 5.66
       },
       "prevControl": {
-        "x": 6.765091218171296,
-        "y": 5.606437861689815
+        "x": 6.1664133017214,
+        "y": 5.66
       },
       "nextControl": null,
       "isLocked": false,
@@ -67,14 +67,14 @@
     },
     {
       "waypointRelativePos": 1.0256990131578947,
-      "rotationDegrees": -90.0
+      "rotationDegrees": -88.16434690466775
     },
     {
       "waypointRelativePos": 1.9818256578947366,
       "rotationDegrees": -90.0
     },
     {
-      "waypointRelativePos": 2.7468441611842103,
+      "waypointRelativePos": 2.652878289473684,
       "rotationDegrees": 0.0
     },
     {
@@ -120,7 +120,7 @@
     },
     {
       "name": "Intake Stop",
-      "waypointRelativePos": 2.312214493355484,
+      "waypointRelativePos": 2.424262873754153,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",

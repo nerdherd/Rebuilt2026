@@ -13,9 +13,7 @@
   "autoFolders": [
     "Bottom Autos",
     "Middle Autos",
-    "unsafe autos",
-    "Top Autos",
-    "safe autos"
+    "Top Autos"
   ],
   "defaultMaxVel": 2.0,
   "defaultMaxAccel": 2.0,

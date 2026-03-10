@@ -4,12 +4,12 @@
     {
       "anchor": {
         "x": 0.54,
-        "y": 4.95
+        "y": 5.4
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.647473309608544,
-        "y": 5.051743772241994
+        "x": 3.6474733096085443,
+        "y": 5.501743772241994
       },
       "isLocked": false,
       "linkedName": "D2Down"
