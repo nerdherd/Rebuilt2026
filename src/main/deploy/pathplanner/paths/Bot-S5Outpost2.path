@@ -3,35 +3,48 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.57,
-        "y": 0.6
-      },
-      "prevControl": null,
-      "nextControl": {
-        "x": 3.198165854948426,
-        "y": 0.5995366579538645
-      },
-      "isLocked": false,
-      "linkedName": "S5Up"
-    },
-    {
-      "anchor": {
         "x": 0.5,
         "y": 0.67
       },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.5177039369125465,
+        "y": 0.8898674045693268
+      },
+      "isLocked": false,
+      "linkedName": "O1Up"
+    },
+    {
+      "anchor": {
+        "x": 2.5845193142361116,
+        "y": 1.3589432146990748
+      },
       "prevControl": {
-        "x": 0.907074705188728,
-        "y": 0.6500404535930209
+        "x": 1.6575954538414241,
+        "y": 1.1410069747270994
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "O1Up"
+      "linkedName": "H60-"
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Flywheel Start 60",
+      "waypointRelativePos": 0,
+      "endWaypointRelativePos": null,
+      "command": null
+    },
+    {
+      "name": "Shoot",
+      "waypointRelativePos": 1.0,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 2.0,
     "maxAcceleration": 2.0,
@@ -42,10 +55,10 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 90.0
+    "rotation": 59.99999999999999
   },
   "reversed": false,
-  "folder": "To Outpost",
+  "folder": "Combo Paths",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 90.0

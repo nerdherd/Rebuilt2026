@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 3.0,
-        "y": 6.86
+        "x": 7.77,
+        "y": 3.2
       },
       "prevControl": {
-        "x": 3.08148546915544,
-        "y": 6.235585416093786
+        "x": 7.85148546915544,
+        "y": 2.5755854160937854
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "H60"
+      "linkedName": "N4Up"
     }
   ],
   "rotationTargets": [],
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -59.99999999999999
+    "rotation": 90.0
   },
   "reversed": false,
   "folder": null,

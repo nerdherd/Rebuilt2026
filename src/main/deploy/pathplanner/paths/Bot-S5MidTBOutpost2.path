@@ -3,35 +3,42 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.5,
-        "y": 0.67
+        "x": 3.0,
+        "y": 2.42
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.5177039369125465,
-        "y": 0.8898674045693268
+        "x": 2.1364099089502657,
+        "y": 1.7853802849811307
       },
       "isLocked": false,
-      "linkedName": "O1Up"
+      "linkedName": "H45-"
     },
     {
       "anchor": {
-        "x": 3.0,
-        "y": 1.23
+        "x": 0.5,
+        "y": 0.67
       },
       "prevControl": {
-        "x": 2.0730761396053126,
-        "y": 1.0120637600280247
+        "x": 1.2467654353842923,
+        "y": 1.1883329119758004
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "H60-"
+      "linkedName": "O1Up"
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Shoot Ramp Down",
+      "waypointRelativePos": 0,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 2.0,
     "maxAcceleration": 2.0,
@@ -42,13 +49,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 59.99999999999999
+    "rotation": 90.0
   },
   "reversed": false,
-  "folder": "To Hub",
+  "folder": "Combo Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 90.0
+    "rotation": 45.0
   },
   "useDefaultConstraints": true
 }

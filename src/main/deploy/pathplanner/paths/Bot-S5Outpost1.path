@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.0,
-        "y": 2.42
+        "x": 3.57,
+        "y": 0.6
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.1364099089502657,
-        "y": 1.7853802849811307
+        "x": 3.198165854948426,
+        "y": 0.5995366579538645
       },
       "isLocked": false,
-      "linkedName": "H45-"
+      "linkedName": "S5Up"
     },
     {
       "anchor": {
@@ -20,8 +20,8 @@
         "y": 0.67
       },
       "prevControl": {
-        "x": 1.2467654353842923,
-        "y": 1.1883329119758004
+        "x": 0.907074705188728,
+        "y": 0.6500404535930209
       },
       "nextControl": null,
       "isLocked": false,
@@ -31,7 +31,14 @@
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Intake Down Sequence",
+      "waypointRelativePos": 0,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 2.0,
     "maxAcceleration": 2.0,
@@ -45,10 +52,10 @@
     "rotation": 90.0
   },
   "reversed": false,
-  "folder": "To Outpost",
+  "folder": "Combo Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 45.0
+    "rotation": 90.0
   },
   "useDefaultConstraints": true
 }

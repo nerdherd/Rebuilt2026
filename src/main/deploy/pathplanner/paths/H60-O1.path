@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.0,
-        "y": 1.23
+        "x": 2.5845193142361116,
+        "y": 1.3589432146990748
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.222480396412038,
-        "y": 0.8585548321759262
+        "x": 1.8069997106481495,
+        "y": 0.987498046875001
       },
       "isLocked": false,
       "linkedName": "H60-"
@@ -59,7 +59,7 @@
     "rotation": 90.0
   },
   "reversed": false,
-  "folder": "To Outpost",
+  "folder": "To Hub",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 59.99999999999999
