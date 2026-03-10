@@ -25,18 +25,18 @@
       },
       "nextControl": {
         "x": 0.45,
-        "y": 7.000000000000003
+        "y": 7.0
       },
       "isLocked": false,
       "linkedName": "D1Down"
     },
     {
       "anchor": {
-        "x": 0.45,
+        "x": 0.54,
         "y": 4.95
       },
       "prevControl": {
-        "x": 0.45210604612173366,
+        "x": 0.5421060461217337,
         "y": 4.700008871017924
       },
       "nextControl": null,

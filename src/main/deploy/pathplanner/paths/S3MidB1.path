@@ -1,0 +1,126 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 3.55,
+        "y": 4.04
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 3.3100118623962045,
+        "y": 7.02067615658363
+      },
+      "isLocked": false,
+      "linkedName": "S3"
+    },
+    {
+      "anchor": {
+        "x": 6.609999999999999,
+        "y": 4.5
+      },
+      "prevControl": {
+        "x": 5.945081908685092,
+        "y": 4.76438498911838
+      },
+      "nextControl": {
+        "x": 7.495338078291816,
+        "y": 4.1479715302491105
+      },
+      "isLocked": false,
+      "linkedName": "N3Off"
+    },
+    {
+      "anchor": {
+        "x": 7.77,
+        "y": 6.8
+      },
+      "prevControl": {
+        "x": 7.77,
+        "y": 4.20110058330145
+      },
+      "nextControl": {
+        "x": 7.77,
+        "y": 7.05
+      },
+      "isLocked": false,
+      "linkedName": "N1Up"
+    },
+    {
+      "anchor": {
+        "x": 3.0,
+        "y": 5.66
+      },
+      "prevControl": {
+        "x": 3.7941755634638206,
+        "y": 4.4169513641755636
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "H45"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.8,
+      "rotationDegrees": 0.0
+    },
+    {
+      "waypointRelativePos": 1.3872113676731797,
+      "rotationDegrees": 90.0
+    },
+    {
+      "waypointRelativePos": 2.035523978685603,
+      "rotationDegrees": 90.0
+    },
+    {
+      "waypointRelativePos": 2.525754884547074,
+      "rotationDegrees": 0.0
+    },
+    {
+      "waypointRelativePos": 2.738898756660754,
+      "rotationDegrees": 0.0
+    }
+  ],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [
+    {
+      "name": "Intake Down Sequence",
+      "waypointRelativePos": 0.6141732283464396,
+      "endWaypointRelativePos": null,
+      "command": null
+    },
+    {
+      "name": "Flywheel Start 45",
+      "waypointRelativePos": 2.173228346456699,
+      "endWaypointRelativePos": null,
+      "command": null
+    },
+    {
+      "name": "Shoot",
+      "waypointRelativePos": 3.0,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 2.0,
+    "maxAcceleration": 2.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -45.0
+  },
+  "reversed": false,
+  "folder": "Combo Paths",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 0.0
+  },
+  "useDefaultConstraints": true
+}

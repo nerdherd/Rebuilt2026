@@ -36,7 +36,7 @@
         "y": 4.73
       },
       "prevControl": {
-        "x": 8.019999999999994,
+        "x": 8.02,
         "y": 4.73
       },
       "nextControl": {
@@ -119,12 +119,6 @@
       "command": null
     },
     {
-      "name": "Shoot",
-      "waypointRelativePos": 0,
-      "endWaypointRelativePos": null,
-      "command": null
-    },
-    {
       "name": "Intake Stop",
       "waypointRelativePos": 2.312214493355484,
       "endWaypointRelativePos": null,
@@ -134,6 +128,12 @@
           "name": "Flywheel Start 45"
         }
       }
+    },
+    {
+      "name": "Shoot",
+      "waypointRelativePos": 3.0,
+      "endWaypointRelativePos": null,
+      "command": null
     }
   ],
   "globalConstraints": {

@@ -3,32 +3,48 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.54,
-        "y": 4.95
+        "x": 3.0,
+        "y": 5.66
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.997578923752711,
-        "y": 4.95
+        "x": 3.15228085941947,
+        "y": 5.288328620527143
       },
       "isLocked": false,
-      "linkedName": "D2Down"
+      "linkedName": "H45"
     },
     {
       "anchor": {
-        "x": 1.74,
+        "x": 0.45,
+        "y": 7.25
+      },
+      "prevControl": {
+        "x": 0.451819885375656,
+        "y": 8.002550515186357
+      },
+      "nextControl": {
+        "x": 0.44806642941874314,
+        "y": 6.450438908659549
+      },
+      "isLocked": false,
+      "linkedName": "D1Down"
+    },
+    {
+      "anchor": {
+        "x": 0.54,
         "y": 4.95
       },
       "prevControl": {
-        "x": 0.9678441539860846,
-        "y": 4.95
+        "x": 0.295154194329266,
+        "y": 4.899497213488273
       },
       "nextControl": {
-        "x": 2.570425347564166,
-        "y": 4.95
+        "x": 0.7848458056707341,
+        "y": 5.000502786511728
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "D2Down"
     },
     {
       "anchor": {
@@ -36,8 +52,8 @@
         "y": 5.66
       },
       "prevControl": {
-        "x": 2.704318181818181,
-        "y": 5.158443181818182
+        "x": 2.142102476333055,
+        "y": 5.44338541318207
       },
       "nextControl": null,
       "isLocked": false,
@@ -46,7 +62,11 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 1.0043791118421055,
+      "waypointRelativePos": 0.9378330373001708,
+      "rotationDegrees": -90.0
+    },
+    {
+      "waypointRelativePos": 1.8809946714031935,
       "rotationDegrees": -90.0
     }
   ],
@@ -55,13 +75,13 @@
   "eventMarkers": [
     {
       "name": "Flywheel Start 45",
-      "waypointRelativePos": 0,
+      "waypointRelativePos": 1.633295838020227,
       "endWaypointRelativePos": null,
       "command": null
     },
     {
       "name": "Shoot",
-      "waypointRelativePos": 0,
+      "waypointRelativePos": 3.0,
       "endWaypointRelativePos": null,
       "command": null
     }
@@ -82,7 +102,7 @@
   "folder": "Combo Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -90.0
+    "rotation": -45.0
   },
   "useDefaultConstraints": true
 }
