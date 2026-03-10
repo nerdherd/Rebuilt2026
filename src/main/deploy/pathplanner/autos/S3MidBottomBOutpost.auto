@@ -7,44 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": null
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "S4N4Right"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "N4RightH0"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Shoot Distance"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot"
+            "pathName": "S3MidB2"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 3.0
+            "waitTime": 4.0
           }
         },
         {
@@ -56,7 +25,31 @@
         {
           "type": "path",
           "data": {
-            "pathName": "H0T2"
+            "pathName": "H45-O1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Flywheel Start 45"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 3.0
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "O1H45-"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
           }
         }
       ]
