@@ -3,26 +3,7 @@
   "command": {
     "type": "sequential",
     "data": {
-      "commands": [
-        {
-          "type": "path",
-          "data": {
-            "pathName": "S1MidT"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 4.0
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot Ramp Down"
-          }
-        }
-      ]
+      "commands": []
     }
   },
   "resetOdom": true,

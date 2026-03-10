@@ -3,32 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.45999999999999996,
-        "y": 5.4
+        "x": 3.55,
+        "y": 5.57
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.917578923752711,
-        "y": 5.4
+        "x": 3.220833138976897,
+        "y": 5.633160167272639
       },
       "isLocked": false,
-      "linkedName": "D2Down"
-    },
-    {
-      "anchor": {
-        "x": 1.74,
-        "y": 4.95
-      },
-      "prevControl": {
-        "x": 0.9678441539860846,
-        "y": 4.95
-      },
-      "nextControl": {
-        "x": 2.570425347564166,
-        "y": 4.95
-      },
-      "isLocked": false,
-      "linkedName": null
+      "linkedName": "S2"
     },
     {
       "anchor": {
@@ -36,23 +20,31 @@
         "y": 5.66
       },
       "prevControl": {
-        "x": 2.704318181818181,
-        "y": 5.158443181818182
+        "x": 3.2266000891134468,
+        "y": 5.545233586689212
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": "H45"
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 1.0,
-      "rotationDegrees": -90.0
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Flywheel Start 45",
+      "waypointRelativePos": 0,
+      "endWaypointRelativePos": null,
+      "command": null
+    },
+    {
+      "name": "Intake Down",
+      "waypointRelativePos": 1.0,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 2.0,
     "maxAcceleration": 2.0,
@@ -66,10 +58,10 @@
     "rotation": -45.0
   },
   "reversed": false,
-  "folder": "To Hub",
+  "folder": "Combo Top",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -90.0
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }

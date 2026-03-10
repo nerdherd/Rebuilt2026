@@ -7,19 +7,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Bot-S5MidT"
+            "pathName": "S3MidB1"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 3.0
+            "waitTime": 4.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot Ramp Down"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "Bottom Autos",
+  "folder": "to be tested",
   "choreoAuto": false
 }

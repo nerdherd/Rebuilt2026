@@ -7,19 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Bot-S5MidTBOutpost1"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 3.0
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Bot-S5MidTBOutpost2"
+            "pathName": "S5Preload"
           }
         },
         {
@@ -29,15 +17,27 @@
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "Bot-S5Outpost2"
+            "name": "Shoot"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 4.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot Ramp Down"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "Bottom Autos",
+  "folder": "to be tested",
   "choreoAuto": false
 }

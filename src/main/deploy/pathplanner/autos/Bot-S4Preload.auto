@@ -7,25 +7,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "S3MidB1"
+            "pathName": "S4Preload"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 4.0
+            "waitTime": 2.0
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Shoot Ramp Down"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "H45Depot"
+            "name": "Shoot"
           }
         },
         {
@@ -44,6 +38,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Middle Autos",
+  "folder": "to be tested",
   "choreoAuto": false
 }

@@ -3,7 +3,9 @@
   "robotLength": 0.864,
   "holonomicMode": true,
   "pathFolders": [
-    "Combo Paths",
+    "Combo Bottom",
+    "Combo Top",
+    "Combo Middle",
     "To Depot",
     "To Hub",
     "To Neutral",
@@ -11,9 +13,13 @@
     "To Tower"
   ],
   "autoFolders": [
+    "0-Preload",
+    "1-Step",
     "Bottom Autos",
     "Middle Autos",
-    "Top Autos"
+    "2-Step",
+    "Top Autos",
+    "to be tested"
   ],
   "defaultMaxVel": 2.0,
   "defaultMaxAccel": 2.0,

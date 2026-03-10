@@ -7,13 +7,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": null
+            "pathName": "S1Depot"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 4.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot Ramp Down"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "Top Autos",
+  "folder": "to be tested",
   "choreoAuto": false
 }

@@ -32,15 +32,15 @@
     },
     {
       "anchor": {
-        "x": 0.54,
+        "x": 0.45999999999999996,
         "y": 5.4
       },
       "prevControl": {
-        "x": 0.54,
+        "x": 0.45999999999999996,
         "y": 5.65
       },
       "nextControl": {
-        "x": 0.54,
+        "x": 0.45999999999999996,
         "y": 5.15
       },
       "isLocked": false,
@@ -125,7 +125,7 @@
     "rotation": -45.0
   },
   "reversed": false,
-  "folder": "Combo Paths",
+  "folder": "Combo Top",
   "idealStartingState": {
     "velocity": 0,
     "rotation": -45.0
