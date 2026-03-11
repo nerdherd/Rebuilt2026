@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.77,
-        "y": 3.2
+        "x": 7.39,
+        "y": 3.3
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.755951487253576,
-        "y": 2.124695031796117
+        "x": 7.375951487253576,
+        "y": 2.2246950317961165
       },
       "isLocked": false,
       "linkedName": "N4Up"

@@ -1,0 +1,31 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "S5MidT"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 4.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot Ramp Down"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "to be tested",
+  "choreoAuto": false
+}
