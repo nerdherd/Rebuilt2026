@@ -3,46 +3,42 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.08422891566265,
-        "y": 6.111265060240965
+        "x": 6.609999999999999,
+        "y": 4.5
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.7557318947963525,
-        "y": 4.896145709469605
+        "x": 7.83289156626506,
+        "y": 4.3628313253012045
       },
       "isLocked": false,
-      "linkedName": "N1Up"
+      "linkedName": "N3Off"
     },
     {
       "anchor": {
-        "x": 3.0,
-        "y": 5.66
+        "x": 8.08422891566265,
+        "y": 6.111265060240965
       },
       "prevControl": {
-        "x": 5.410117867385285,
-        "y": 5.6261965981012665
+        "x": 8.092481927710843,
+        "y": 3.510180722891567
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "H45"
+      "linkedName": "N1Up"
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.6151375985360354,
-      "rotationDegrees": 0.0
-    },
-    {
-      "waypointRelativePos": 0.909065315315315,
-      "rotationDegrees": 0.0
+      "waypointRelativePos": 0.6315352697095429,
+      "rotationDegrees": 115.0
     }
   ],
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.5270471464019877,
-      "maxWaypointRelativePos": 0.6759305210918174,
+      "minWaypointRelativePos": 0.2550868486352296,
+      "maxWaypointRelativePos": 0.7354838709677379,
       "constraints": {
         "maxVelocity": 2.0,
         "maxAcceleration": 2.0,
@@ -56,13 +52,7 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "Intake Up Sequence",
-      "waypointRelativePos": 0,
-      "endWaypointRelativePos": null,
-      "command": null
-    },
-    {
-      "name": "Shoot",
+      "name": "Intake Start",
       "waypointRelativePos": 0,
       "endWaypointRelativePos": null,
       "command": null
@@ -78,13 +68,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -45.0
-  },
-  "reversed": false,
-  "folder": "To Hub",
-  "idealStartingState": {
-    "velocity": 0,
     "rotation": 115.0
   },
-  "useDefaultConstraints": false
+  "reversed": false,
+  "folder": "To Neutral",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 0.0
+  },
+  "useDefaultConstraints": true
 }
