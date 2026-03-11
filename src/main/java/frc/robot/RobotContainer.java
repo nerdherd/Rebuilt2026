@@ -150,7 +150,8 @@ public class RobotContainer {
 
       operatorController.triggerRight()
         // .whileTrue(superSystem.shootWithDistance())
-        .onTrue(superSystem.spinUpFlywheel())
+        .whileTrue(superSystem.shootWithTuning())
+        // .onTrue(superSystem.spinUpFlywheel())
         .onFalse(superSystem.stopFlywheel());
       operatorController.bumperRight()
         .whileTrue(superSystem.shootWithCondition())

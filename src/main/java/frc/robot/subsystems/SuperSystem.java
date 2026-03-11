@@ -13,7 +13,9 @@ import java.util.function.Consumer;
 
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
+import dev.doglog.DogLog;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.networktables.DoubleSubscriber;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -166,6 +168,20 @@ public class SuperSystem implements Reportable {
                 shooter.setDesiredValue(rps);
             }
         );
+    }
+
+    public double shootSpeed = 0;
+    public DoubleSubscriber shootSpeedSub = null;
+    /**
+     * change shootSpeed using elastic, always defaults to 0 when 
+     * the code is reloaded so save the value
+     * @return
+     */
+    public Command shootWithTuning() {
+        if (shootSpeedSub == null) shootSpeedSub = DogLog.tunable(kSupersystemTab + "/Shooter Speed", shootSpeed, (value) -> shootSpeed = value);
+        return Commands.run(() -> {
+            shooter.setDesiredValue(shootSpeed);
+        }, shooter);
     }
 
     public void setNeutralMode(NeutralModeValue neutralMode) {
