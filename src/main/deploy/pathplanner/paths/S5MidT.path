@@ -32,16 +32,16 @@
     },
     {
       "anchor": {
-        "x": 7.77,
-        "y": 3.2
+        "x": 7.35,
+        "y": 3.3
       },
       "prevControl": {
-        "x": 8.294660755934089,
-        "y": 3.2
+        "x": 7.874660755934094,
+        "y": 3.3
       },
       "nextControl": {
-        "x": 7.491459175031551,
-        "y": 3.2
+        "x": 7.071459175031551,
+        "y": 3.3
       },
       "isLocked": false,
       "linkedName": "N4Up"
@@ -86,7 +86,7 @@
       "rotationDegrees": 90.0
     },
     {
-      "waypointRelativePos": 1.7137746710526311,
+      "waypointRelativePos": 1.982360197368422,
       "rotationDegrees": 90.0
     },
     {
