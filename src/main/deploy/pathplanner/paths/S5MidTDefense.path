@@ -28,7 +28,7 @@
         "y": 3.5432530120481935
       },
       "isLocked": false,
-      "linkedName": "N6Up"
+      "linkedName": null
     },
     {
       "anchor": {
@@ -44,7 +44,7 @@
         "y": 3.3
       },
       "isLocked": false,
-      "linkedName": "N4Up"
+      "linkedName": null
     },
     {
       "anchor": {
