@@ -20,12 +20,12 @@
         "y": 1.018951807228916
       },
       "prevControl": {
-        "x": 8.040518072289156,
-        "y": 0.7689518072289161
+        "x": 8.030785196817966,
+        "y": 0.7691413368017096
       },
       "nextControl": {
-        "x": 8.040518072289156,
-        "y": 3.476366212577104
+        "x": 8.138867469879518,
+        "y": 3.5432530120481935
       },
       "isLocked": false,
       "linkedName": "N6Up"
@@ -36,11 +36,11 @@
         "y": 3.2
       },
       "prevControl": {
-        "x": 8.355738652624066,
+        "x": 8.294660755934089,
         "y": 3.2
       },
       "nextControl": {
-        "x": 7.52,
+        "x": 7.491459175031551,
         "y": 3.2
       },
       "isLocked": false,
@@ -48,37 +48,53 @@
     },
     {
       "anchor": {
-        "x": 3.0,
-        "y": 2.42
+        "x": 5.25,
+        "y": 0.6
       },
       "prevControl": {
-        "x": 7.374609291774304,
-        "y": 2.4199999999999995
+        "x": 6.597355775030866,
+        "y": 0.5999999999999999
+      },
+      "nextControl": {
+        "x": 3.6063283734999874,
+        "y": 0.6000000000000002
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.5845193142361116,
+        "y": 1.3589432146990748
+      },
+      "prevControl": {
+        "x": 2.5845193142361116,
+        "y": 0.6577509503829058
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "H45-"
+      "linkedName": "H60-"
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.3647615131578948,
+      "waypointRelativePos": 0.3450657894736839,
       "rotationDegrees": 0.0
     },
     {
-      "waypointRelativePos": 0.9807051809210527,
-      "rotationDegrees": 90.0
+      "waypointRelativePos": 0.9521792763157895,
+      "rotationDegrees": 115.0
     },
     {
-      "waypointRelativePos": 2.0191097861842104,
-      "rotationDegrees": 90.0
+      "waypointRelativePos": 1.7137746710526311,
+      "rotationDegrees": 115.0
     },
     {
-      "waypointRelativePos": 2.7738281250000014,
+      "waypointRelativePos": 3.2129111842105256,
       "rotationDegrees": 0.0
     },
     {
-      "waypointRelativePos": 2.9536800986842096,
+      "waypointRelativePos": 3.688199013157895,
       "rotationDegrees": 0.0
     }
   ],
@@ -86,7 +102,7 @@
     {
       "name": "Constraints Zone",
       "minWaypointRelativePos": 0,
-      "maxWaypointRelativePos": 0.2433295265780731,
+      "maxWaypointRelativePos": 0.2500519102990035,
       "constraints": {
         "maxVelocity": 1.0,
         "maxAcceleration": 1.0,
@@ -98,11 +114,11 @@
     },
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 2.782716465946844,
-      "maxWaypointRelativePos": 2.9214726951827257,
+      "minWaypointRelativePos": 2.9694767441860486,
+      "maxWaypointRelativePos": 3.1715116279069746,
       "constraints": {
-        "maxVelocity": 1.5,
-        "maxAcceleration": 1.5,
+        "maxVelocity": 1.0,
+        "maxAcceleration": 1.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
         "nominalVoltage": 12.0,
@@ -120,18 +136,18 @@
     },
     {
       "name": "Intake Stop",
-      "waypointRelativePos": 2.0027382682724255,
+      "waypointRelativePos": 2.182672342192693,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
         "data": {
-          "name": "Flywheel Start 45"
+          "name": "Flywheel Start 60"
         }
       }
     },
     {
       "name": "Shoot",
-      "waypointRelativePos": 3.0,
+      "waypointRelativePos": 4.0,
       "endWaypointRelativePos": null,
       "command": null
     }
@@ -146,7 +162,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 45.0
+    "rotation": 59.99999999999999
   },
   "reversed": false,
   "folder": "Combo Bottom",
