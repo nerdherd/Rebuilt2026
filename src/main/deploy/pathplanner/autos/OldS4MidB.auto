@@ -7,13 +7,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "S1MidTB"
+            "pathName": "S4N4Off"
           }
         },
         {
-          "type": "wait",
+          "type": "path",
           "data": {
-            "waitTime": 4.0
+            "pathName": "N4OffN6"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake Stop"
           }
         },
         {
@@ -21,18 +27,24 @@
           "data": {
             "commands": [
               {
-                "type": "named",
+                "type": "path",
                 "data": {
-                  "name": "Shoot Ramp Down"
+                  "pathName": "N6H45-"
                 }
               },
               {
-                "type": "path",
+                "type": "named",
                 "data": {
-                  "pathName": "H45Depot"
+                  "name": "Flywheel Start 45"
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
           }
         },
         {
@@ -51,6 +63,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Top Autos",
+  "folder": "Old Autos",
   "choreoAuto": false
 }

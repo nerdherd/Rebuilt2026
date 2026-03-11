@@ -5,28 +5,15 @@
     "data": {
       "commands": [
         {
-          "type": "parallel",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "S5O1"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake Down"
-                }
-              }
-            ]
+            "pathName": null
           }
         },
         {
-          "type": "wait",
+          "type": "path",
           "data": {
-            "waitTime": 3.0
+            "pathName": "S4N4Right"
           }
         },
         {
@@ -36,13 +23,13 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "O1H60-"
+                  "pathName": "N4RightH0"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "Flywheel Start 60"
+                  "name": "Shoot Distance"
                 }
               }
             ]
@@ -57,7 +44,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 4.0
+            "waitTime": 3.0
           }
         },
         {
@@ -65,11 +52,17 @@
           "data": {
             "name": "Shoot Ramp Down"
           }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "H0T2"
+          }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "Bottom Autos",
+  "folder": "Old Autos",
   "choreoAuto": false
 }

@@ -21,29 +21,11 @@
           "data": {
             "name": "Shoot Ramp Down"
           }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "H45Depot"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 4.0
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot Ramp Down"
-          }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "to be tested",
+  "folder": "Middle Autos",
   "choreoAuto": false
 }

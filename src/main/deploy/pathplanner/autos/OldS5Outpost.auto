@@ -11,13 +11,13 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "S3H0"
+                  "pathName": "S5O1"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "Flywheel Start 0"
+                  "name": "Intake Down"
                 }
               }
             ]
@@ -26,7 +26,26 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 2.0
+            "waitTime": 3.0
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "O1H60-"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Flywheel Start 60"
+                }
+              }
+            ]
           }
         },
         {
@@ -42,28 +61,15 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "H0T1"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Shoot Ramp Down"
-                }
-              }
-            ]
+            "name": "Shoot Ramp Down"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "Middle Autos",
+  "folder": "Old Autos",
   "choreoAuto": false
 }
