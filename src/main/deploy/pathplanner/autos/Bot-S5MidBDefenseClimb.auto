@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": null
+            "pathName": "S5MidTDefense"
           }
         },
         {
@@ -25,37 +25,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "H45-O1"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Flywheel Start 45"
+            "pathName": "H60-T3"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 3.0
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "O1H45-"
+            "waitTime": 2.0
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Shoot"
+            "name": "Climb Down"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "Old Autos",
+  "folder": "Bottom Autos",
   "choreoAuto": false
 }

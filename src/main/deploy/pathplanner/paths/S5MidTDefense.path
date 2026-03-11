@@ -20,12 +20,12 @@
         "y": 1.018951807228916
       },
       "prevControl": {
-        "x": 8.040518072289156,
-        "y": 0.7689518072289161
+        "x": 8.030785196817966,
+        "y": 0.7691413368017096
       },
       "nextControl": {
-        "x": 8.040518072289156,
-        "y": 3.459105476401781
+        "x": 8.138867469879518,
+        "y": 3.5432530120481935
       },
       "isLocked": false,
       "linkedName": "N6Up"
@@ -83,18 +83,18 @@
     },
     {
       "waypointRelativePos": 0.9521792763157895,
-      "rotationDegrees": 90.0
+      "rotationDegrees": 115.0
     },
     {
       "waypointRelativePos": 1.7137746710526311,
-      "rotationDegrees": 90.0
+      "rotationDegrees": 115.0
     },
     {
-      "waypointRelativePos": 3.1565378289473704,
+      "waypointRelativePos": 3.2129111842105256,
       "rotationDegrees": 0.0
     },
     {
-      "waypointRelativePos": 3.5201069078947365,
+      "waypointRelativePos": 3.688199013157895,
       "rotationDegrees": 0.0
     }
   ],
