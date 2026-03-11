@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "S5MidTB"
+            "pathName": "S3MidTopB"
           }
         },
         {
@@ -26,6 +26,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Bottom Autos",
+  "folder": "Middle Autos",
   "choreoAuto": false
 }

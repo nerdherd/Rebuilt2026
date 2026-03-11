@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.198165854948426,
-        "y": 0.5995366579538645
+        "x": 2.8452538088804116,
+        "y": 0.6279500764499513
       },
       "isLocked": false,
       "linkedName": "S5Up"
@@ -20,8 +20,8 @@
         "y": 0.67
       },
       "prevControl": {
-        "x": 0.907074705188728,
-        "y": 0.6500404535930209
+        "x": 1.0511925731868335,
+        "y": 0.657573389700115
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,7 +33,7 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "Intake Down Sequence",
+      "name": "Intake Down",
       "waypointRelativePos": 0,
       "endWaypointRelativePos": null,
       "command": null
@@ -52,7 +52,7 @@
     "rotation": 90.0
   },
   "reversed": false,
-  "folder": "Combo Paths",
+  "folder": "To Outpost",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 90.0

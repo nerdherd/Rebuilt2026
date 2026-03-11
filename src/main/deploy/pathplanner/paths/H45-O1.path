@@ -31,14 +31,7 @@
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [
-    {
-      "name": "Shoot Ramp Down",
-      "waypointRelativePos": 0,
-      "endWaypointRelativePos": null,
-      "command": null
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 2.0,
     "maxAcceleration": 2.0,
@@ -52,7 +45,7 @@
     "rotation": 90.0
   },
   "reversed": false,
-  "folder": "Combo Paths",
+  "folder": "To Outpost",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 45.0

@@ -18,15 +18,16 @@ public final class Autos {
 
     public static void initAutoChooser() {
         autoChooser.setDefaultOption("Do Nothing", Commands.none());
-        autoChooser.addOption("Test", AutoBuilder.buildAuto("Test"));
+        // autoChooser.addOption("Test", AutoBuilder.buildAuto("Test"));
 
         // EXAMPLE
         // autoChooser.addOption("Auto Name", AutoBuilder.buildAuto("PathPlanner Auto Name"));
 
         // TOP
+        autoChooser.addOption("Top-S1Preload", AutoBuilder.buildAuto("Top-S1Preload"));
+        autoChooser.addOption("Top-S2Preload", AutoBuilder.buildAuto("Top-S2Preload"));
         autoChooser.addOption("Top-S1Depot", AutoBuilder.buildAuto("Top-S1Depot"));
         autoChooser.addOption("Top-S1MidT", AutoBuilder.buildAuto("Top-S1MidT"));
-        autoChooser.addOption("Top-S2MidB", AutoBuilder.buildAuto("Top-S2MidB"));
         autoChooser.addOption("Top-S1MidTBDepot", AutoBuilder.buildAuto("Top-S1MidTBDepot"));
 
         // MID
@@ -35,9 +36,10 @@ public final class Autos {
         autoChooser.addOption("Mid-S3DepotClimb", AutoBuilder.buildAuto("Mid-S3DepotClimb"));
 
         // BOT
-        autoChooser.addOption("Bot-S5MidT", AutoBuilder.buildAuto("Bot-S5MidT"));
-        autoChooser.addOption("Bot-S4MidB", AutoBuilder.buildAuto("Bot-S4MidB"));
+        autoChooser.addOption("Bot-S4Preload", AutoBuilder.buildAuto("Bot-S4Preload"));
+        autoChooser.addOption("Bot-S5Preload", AutoBuilder.buildAuto("Bot-S5Preload"));
         autoChooser.addOption("Bot-S5Outpost", AutoBuilder.buildAuto("Bot-S5Outpost"));
+        autoChooser.addOption("Bot-S5MidT", AutoBuilder.buildAuto("Bot-S5MidT"));
         autoChooser.addOption("Bot-S5MidTBOutpost", AutoBuilder.buildAuto("Bot-S5MidTBOutpost"));
         
         NerdLog.logData(kAutosTab + "/Selected Auto", autoChooser, LOG_LEVEL.MINIMAL);
@@ -45,8 +47,8 @@ public final class Autos {
 
     public static void initNamedCommands(SuperSystem superSystem) {
         // INTAKE
-        NamedCommands.registerCommand("Intake Up", superSystem.intakeUp());
         NamedCommands.registerCommand("Intake Down", superSystem.intakeDown());
+        NamedCommands.registerCommand("Intake Up", superSystem.intakeUp());
         NamedCommands.registerCommand("Intake Start", superSystem.intake());
         NamedCommands.registerCommand("Intake Stop", superSystem.stopIntaking());
         NamedCommands.registerCommand("Intake Down Sequence", 
@@ -54,19 +56,19 @@ public final class Autos {
                 superSystem.intakeDown(),
                 superSystem.intake()
             ));
-
         NamedCommands.registerCommand("Intake Up Sequence", 
             Commands.sequence(
                 superSystem.stopIntaking(), 
                 superSystem.intakeUp()
             ));
 
-        // SHOOT
+        // SHOOTER
         NamedCommands.registerCommand("Flywheel Start", superSystem.spinUpFlywheel());
         NamedCommands.registerCommand("Flywheel Start 0", superSystem.spinUpFlywheel(34));
         NamedCommands.registerCommand("Flywheel Start 45", superSystem.spinUpFlywheel(36));
         NamedCommands.registerCommand("Flywheel Start 60", superSystem.spinUpFlywheel(39));
         NamedCommands.registerCommand("Flywheel Stop", superSystem.stopFlywheel());
+
         NamedCommands.registerCommand("Shoot", superSystem.shoot());
         NamedCommands.registerCommand("Shoot Stop", superSystem.stopShooting());
         NamedCommands.registerCommand("Shoot Distance", superSystem.shootWithDistance());
@@ -76,7 +78,6 @@ public final class Autos {
                 Commands.waitSeconds(2),
                 superSystem.shoot()
             ));
-
         NamedCommands.registerCommand("Shoot Ramp Down", 
             Commands.sequence(
                 superSystem.stopFlywheel(),
@@ -96,7 +97,6 @@ public final class Autos {
                 Commands.waitSeconds(9.0),
                 superSystem.stopClimb()
             ));
-
     }
 
 }

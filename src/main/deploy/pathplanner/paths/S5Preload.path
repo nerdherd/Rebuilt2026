@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 3.0,
-        "y": 1.23
+        "x": 2.5845193142361116,
+        "y": 1.3589432146990748
       },
       "prevControl": {
-        "x": 3.0,
-        "y": 0.98
+        "x": 2.5845193142361116,
+        "y": 1.1089432146990748
       },
       "nextControl": null,
       "isLocked": false,
@@ -58,7 +58,7 @@
     "rotation": 59.99999999999999
   },
   "reversed": false,
-  "folder": "Combo Top",
+  "folder": "Combo Bottom",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 0.0

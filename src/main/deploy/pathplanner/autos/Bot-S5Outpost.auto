@@ -5,27 +5,46 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "S3MidB1"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "S5O1"
+                }
+              }
+            ]
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 4.0
+            "waitTime": 2.0
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Shoot Ramp Down"
+            "name": "Flywheel Start 60"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "H45Depot"
+            "pathName": "O1H60-"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
           }
         },
         {
@@ -44,6 +63,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Middle Autos",
+  "folder": "Bottom Autos",
   "choreoAuto": false
 }
