@@ -16,8 +16,7 @@
     "Bottom Autos",
     "Middle Autos",
     "Old Autos",
-    "Top Autos",
-    "to be tested"
+    "Top Autos"
   ],
   "defaultMaxVel": 2.0,
   "defaultMaxAccel": 2.0,
