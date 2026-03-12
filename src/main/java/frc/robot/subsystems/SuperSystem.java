@@ -54,7 +54,7 @@ public class SuperSystem implements Reportable {
     
     public void startShoot() {
         indexer.setDesiredValue(5);
-        conveyor.setDesiredValue(4);
+        conveyor.setDesiredValue(6);
     }
 
     public Command shoot() {
