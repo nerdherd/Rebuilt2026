@@ -45,7 +45,10 @@ public final class Autos {
         NerdLog.logData(kAutosTab + "/Selected Auto", autoChooser, LOG_LEVEL.MINIMAL);
     }
 
-    public static void initNamedCommands(SuperSystem superSystem) {
+    public static void initNamedCommands(SuperSystem superSystem, NerdDrivetrain swerveDrive) {
+        // SWERVE
+        NamedCommands.registerCommand("Reset Pose", swerveDrive.resetPoseWithAprilTags(0.2));
+
         // INTAKE
         NamedCommands.registerCommand("Intake Down", superSystem.intakeDown());
         NamedCommands.registerCommand("Intake Up", superSystem.intakeUp());

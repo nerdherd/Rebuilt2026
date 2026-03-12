@@ -111,6 +111,12 @@
           "data": {
             "name": "Flywheel Start 60"
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Reset Pose"
+          }
         }
       ]
     }

@@ -129,12 +129,6 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "Intake Down Sequence",
-      "waypointRelativePos": 0.0,
-      "endWaypointRelativePos": null,
-      "command": null
-    },
-    {
       "name": "Intake Stop",
       "waypointRelativePos": 2.1312292358804013,
       "endWaypointRelativePos": null,
