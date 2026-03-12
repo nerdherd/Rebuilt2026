@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "S1MidTDefense"
+            "pathName": "S2MidBDef"
           }
         },
         {
@@ -20,30 +20,6 @@
           "type": "named",
           "data": {
             "name": "Shoot Ramp Down"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "H60T1"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Climb Up"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 2.0
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Climb Down"
           }
         }
       ]

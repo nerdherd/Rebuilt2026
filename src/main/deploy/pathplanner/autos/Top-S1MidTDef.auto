@@ -5,21 +5,27 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "S2N3Off"
+            "name": "Intake Down Sequence"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Reset Pose"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "N3OffN1"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "N1H45"
+            "pathName": "S1MidTDef"
           }
         },
         {
@@ -32,24 +38,6 @@
           "type": "named",
           "data": {
             "name": "Shoot Ramp Down"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "H45T1"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 2.0
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Climb Down"
           }
         }
       ]
