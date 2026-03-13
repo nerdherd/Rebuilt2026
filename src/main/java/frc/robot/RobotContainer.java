@@ -47,7 +47,7 @@ public class RobotContainer {
 
     if (Constants.USE_SUBSYSTEMS) { // add subsystems
       superSystem = new SuperSystem(swerveDrive);
-      Autos.initNamedCommands(superSystem);
+      Autos.initNamedCommands(superSystem, swerveDrive);
     }
     
     Subsystems.init();

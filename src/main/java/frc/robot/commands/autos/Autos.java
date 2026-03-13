@@ -3,6 +3,7 @@ package frc.robot.commands.autos;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.subsystems.NerdDrivetrain;
 import frc.robot.subsystems.SuperSystem;
 import frc.robot.util.logging.NerdLog;
 import frc.robot.util.logging.Reportable.LOG_LEVEL;
