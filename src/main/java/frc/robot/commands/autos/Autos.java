@@ -86,11 +86,12 @@ public final class Autos {
                 Commands.waitSeconds(2),
                 superSystem.shoot()
             ));
+            
         NamedCommands.registerCommand("Shoot Ramp Down", 
             Commands.sequence(
-                superSystem.stopFlywheel(),
+                superSystem.stopShooting(),
                 Commands.waitSeconds(1),
-                superSystem.stopShooting()
+                superSystem.stopFlywheel()
             ));
 
         // CLIMB

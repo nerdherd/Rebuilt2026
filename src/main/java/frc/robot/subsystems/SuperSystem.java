@@ -84,32 +84,32 @@ public class SuperSystem implements Reportable {
         return intakeRoller.setDesiredValueCommand(-5);
     }
     
-    public Command stopShooting(){
+    public Command stopShooting() {
         return Commands.parallel(
             indexer.setDesiredValueCommand(0),
             conveyor.setDesiredValueCommand(0)
         );
     }
 
-    public Command spinUpFlywheel(){
+    public Command spinUpFlywheel() {
         return Commands.parallel(
             setShooterCommand(30)
         );
     }
 
-    public Command spinUpFlywheel(double speed){
+    public Command spinUpFlywheel(double speed) {
         return Commands.parallel(
             setShooterCommand(speed)
         );
     }
         
-    public Command stopFlywheel(){
+    public Command stopFlywheel() {
         return Commands.parallel(
             setShooterCommand(0.0)
         );
     }
 
-    public Command intakeDown(){
+    public Command intakeDown() {
         return Commands.parallel(
             intakeSlapdown.setDesiredValueCommand(-17.785)
         );
@@ -213,8 +213,7 @@ public class SuperSystem implements Reportable {
         return swerveDrivetrain.getPose().getTranslation().getDistance(hub.getTranslation());
     }
 
-    
-
+    // ------------------------------------ logging ------------------------------------ //
     @Override
     public void initializeLogging() {
         applySubsystems((s) -> s.initializeLogging());
