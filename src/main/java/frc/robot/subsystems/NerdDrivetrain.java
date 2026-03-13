@@ -92,6 +92,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
         if (USE_VISION) {
             // visionUpdate(Camera.Example);
             visionUpdate(Camera.Front);
+            visionUpdate(Camera.Back);
         }
     }
 
@@ -243,6 +244,8 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
             PoseEstimate mt = LimelightHelpers.getBotPoseEstimate_wpiBlue(limelight.name);
             if (mt == null || Math.abs(getPigeon2().getAngularVelocityZWorld().getValueAsDouble()) > 720 || mt.tagCount == 0) return;
             resetRotation(mt.pose.getRotation());
+            useMegaTag2 = true;
+            setDriverHeadingForward();
         }
         else {
             // --------- MT2 --------- //
@@ -253,6 +256,11 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
             setVisionMeasurementStdDevs(VecBuilder.fill(0.7, 0.7, 9999999)); // TODO consider other stddevs
             addVisionMeasurement(mt.pose, Utils.getCurrentTimeSeconds());
         }
+    }
+
+    public void recalibrateGyroMT1() {
+        resetRotation(Rotation2d.kZero);
+        useMegaTag2 = false;
     }
 
     // ----------------------------------------- Gyro Functions ----------------------------------------- //
