@@ -30,6 +30,7 @@ public final class Autos {
         autoChooser.addOption("Top-S1Depot", AutoBuilder.buildAuto("Top-S1Depot"));
         autoChooser.addOption("Top-S1MidT", AutoBuilder.buildAuto("Top-S1MidT"));
         autoChooser.addOption("Top-S1MidTBDepot", AutoBuilder.buildAuto("Top-S1MidTBDepot"));
+        autoChooser.addOption("Top-S1Neutral", AutoBuilder.buildAuto("Top-S1Neutral"));
 
         // MID
         autoChooser.addOption("Mid-S3PreloadClimb", AutoBuilder.buildAuto("Mid-S3PreloadClimb"));
@@ -42,6 +43,8 @@ public final class Autos {
         autoChooser.addOption("Bot-S5Outpost", AutoBuilder.buildAuto("Bot-S5Outpost"));
         autoChooser.addOption("Bot-S5MidT", AutoBuilder.buildAuto("Bot-S5MidT"));
         autoChooser.addOption("Bot-S5MidTBOutpost", AutoBuilder.buildAuto("Bot-S5MidTBOutpost"));
+        autoChooser.addOption("Bot-S5Neutral", AutoBuilder.buildAuto("Bot-S5Neutral"));
+
         
         NerdLog.logData(kAutosTab + "/Selected Auto", autoChooser, LOG_LEVEL.MINIMAL);
     }
@@ -65,6 +68,7 @@ public final class Autos {
                 superSystem.stopIntaking(), 
                 superSystem.intakeUp()
             ));
+
 
         // SHOOTER
         NamedCommands.registerCommand("Flywheel Start", superSystem.spinUpFlywheel());
