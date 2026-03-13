@@ -73,7 +73,7 @@ public final class Constants {
     public static final double kRotationDeadband = 0.1; // out of 1
     public static final double kTurnToAngleDeadband = 0.5; // out of 1
 
-    public static final double kInputAcceleration = 1.0; // unit/s, on the scale of a unit circle/fractions
+    public static final double kInputAcceleration = 0.75; // unit/s, on the scale of a unit circle/fractions
     public static final double kEasePower = 3.0; // increase to further separate lower and higher values
 
     public static final Translation2dSlewRateLimiter kTranslationInputRateLimiter = new Translation2dSlewRateLimiter(kInputAcceleration);
@@ -230,7 +230,8 @@ public final class Constants {
 
     public static enum Camera {
       // Example("limelight-ex", "10.6.87.XX:5802"),
-      Front("limelight-fr", "10.6.87.17:5802");
+      Front("limelight-fr", "10.6.87.17:5802"),
+      Back("limelight-ba", "10.6.87.18:5802");
 
       public final String name, ip;
       Camera(String name, String ip) {
@@ -330,6 +331,10 @@ public final class Constants {
       new MotorOutputConfigs()
         .withInverted(InvertedValue.CounterClockwise_Positive);
 
+    public static final CurrentLimitsConfigs kCurrentLimitsConfigs = 
+      new CurrentLimitsConfigs()
+        .withStatorCurrentLimit(30)
+        .withStatorCurrentLimitEnable(true);
 
     public static final TalonFXConfiguration kSubsystemConfiguration = 
       new TalonFXConfiguration()
@@ -340,14 +345,16 @@ public final class Constants {
   public static final class ShooterConstants {
     public static final int kMotor1ID = 35;
     public static final int kMotor2ID = 36;
+    public static final int kMotor3ID = 37;
+    public static final int kMotor4ID = 38;
 
     private static final Slot0Configs kSlot0Configs = 
       new Slot0Configs()
         .withKP(0.15)
         .withKI(0.0)
         .withKD(0.0)
-        .withKV(0.125)
-        .withKS(0.3);
+        .withKV(0.126)
+        .withKS(0.4);
     
     private static final CurrentLimitsConfigs kCurrentLimitsConfigs = 
       new CurrentLimitsConfigs()
@@ -440,7 +447,7 @@ public final class Constants {
         useIntakeRoller)
       .configureMotors(IntakeRollerConstants.kSubsystemConfiguration);
     
-    public static final boolean useConveyor = false;
+    public static final boolean useConveyor = true;
     public static final TemplateSubsystem conveyor = (!USE_SUBSYSTEMS) ? null :
     new TemplateSubsystem(
         "Conveyor", 
@@ -465,11 +472,12 @@ public final class Constants {
     new TemplateSubsystem(
         "Shooter", 
         ShooterConstants.kMotor1ID,
-        ShooterConstants.kMotor2ID,
-        MotorAlignmentValue.Opposed,
         SubsystemMode.PROFILED_VELOCITY, 
         0.0,
         useShooter)
+      .addMotor(ShooterConstants.kMotor2ID, MotorAlignmentValue.Opposed)
+      .addMotor(ShooterConstants.kMotor3ID, MotorAlignmentValue.Aligned)
+      .addMotor(ShooterConstants.kMotor4ID, MotorAlignmentValue.Opposed)
       .configureMotors(ShooterConstants.kSubsystemConfiguration);
 
     public static final boolean useClimb = true;
