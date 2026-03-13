@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 4.181383737517831,
-        "y": 7.41845934379458
+        "x": 3.812026765046297,
+        "y": 7.418207103587963
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.425339198662632,
-        "y": 7.363817482757208
+        "x": 4.055982136570371,
+        "y": 7.363564842429121
       },
       "isLocked": false,
       "linkedName": "Top"
@@ -195,7 +195,7 @@
   "eventMarkers": [
     {
       "name": "Intake Down Sequence",
-      "waypointRelativePos": 0.9518610421836262,
+      "waypointRelativePos": 0.0,
       "endWaypointRelativePos": null,
       "command": null
     },
@@ -221,7 +221,7 @@
   "reversed": false,
   "folder": "To Neutral",
   "idealStartingState": {
-    "velocity": 0,
+    "velocity": 0.0,
     "rotation": 0.0
   },
   "useDefaultConstraints": true

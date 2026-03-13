@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.877289156626506,
-        "y": 0.25401204819277146
+        "x": 1.319351417824074,
+        "y": 0.0391217447916663
       },
       "isLocked": false,
       "linkedName": "H45-"
@@ -186,7 +186,7 @@
     "rotation": 45.0
   },
   "reversed": false,
-  "folder": null,
+  "folder": "To Neutral",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 45.0
