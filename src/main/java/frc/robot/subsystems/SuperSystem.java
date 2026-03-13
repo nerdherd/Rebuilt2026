@@ -143,7 +143,7 @@ public class SuperSystem implements Reportable {
 
     public Command climbUp() {
         return Commands.parallel(
-            climb.setDesiredValueCommand(3) // TODO
+            climb.setDesiredValueCommand(3)
         );
     }
 

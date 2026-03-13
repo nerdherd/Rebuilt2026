@@ -15,10 +15,10 @@ import com.ctre.phoenix6.controls.NeutralOut;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.signals.ConnectedMotorValue;
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
+import dev.doglog.DogLog;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -143,13 +143,14 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 	/** applies configuration to motors; should be used on construction */
 	public TemplateSubsystem configureMotors(TalonFXConfiguration configuration){
 		this.configuration = configuration;
+		DogLog.log(kSubsystemTab + name + "/motor configs", configuration.toString());
 		applyMotorConfigs();
 		return this;
 	}
 
 	@Override
 	public void periodic() {
-		if(!enabled) {
+		if(!enabled || !useSubsystem) {
 			stop();
 			return;
 		}
@@ -194,7 +195,7 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 	 */
 	private static TalonFX getMotor(int id) {
 		TalonFX motor = new TalonFX(id);
-		if (motor.getConnectedMotor().getValue().compareTo(ConnectedMotorValue.Unknown) == 0) 
+		if (!motor.isConnected()) 
 			motor = new TalonFX(id, TunerConstants.kCANBus);
 		return motor;
 	}
@@ -404,6 +405,7 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 	 * @see {@link Reportable#addString(ShuffleboardTab, String, java.util.function.Supplier, frc.robot.util.logging.Reportable.LOG_LEVEL)}
 	 */
     public void initializeLogging(){
+		if (!useSubsystem) return;
         ///////////
         /// ALL ///
         ///////////
@@ -422,6 +424,7 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 		/// MEDIUM ///
         //////////////
         NerdLog.logBoolean(kSubsystemTab + name + "/Enabled", () -> this.enabled, Reportable.LOG_LEVEL.MEDIUM);
+        NerdLog.logSignal(kSubsystemTab + name + "/Motor Voltage", motor1.getMotorVoltage(false), motor1.getNetwork().getName(), LOG_LEVEL.MEDIUM);
         NerdLog.logSignal(kSubsystemTab + name + "/Temperature 1", motor1.getDeviceTemp(false), motor1.getNetwork().getName(), LOG_LEVEL.MEDIUM);
         if (hasMotor2()) NerdLog.logSignal(kSubsystemTab + name + "/Temperature 2", motor2.getDeviceTemp(false), motor1.getNetwork().getName(), LOG_LEVEL.MEDIUM);
         

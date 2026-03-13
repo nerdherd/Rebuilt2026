@@ -330,6 +330,10 @@ public final class Constants {
       new MotorOutputConfigs()
         .withInverted(InvertedValue.CounterClockwise_Positive);
 
+    public static final CurrentLimitsConfigs kCurrentLimitsConfigs = 
+      new CurrentLimitsConfigs()
+        .withStatorCurrentLimit(30)
+        .withStatorCurrentLimitEnable(true);
 
     public static final TalonFXConfiguration kSubsystemConfiguration = 
       new TalonFXConfiguration()
@@ -346,8 +350,8 @@ public final class Constants {
         .withKP(0.15)
         .withKI(0.0)
         .withKD(0.0)
-        .withKV(0.125)
-        .withKS(0.3);
+        .withKV(0.126)
+        .withKS(0.4);
     
     private static final CurrentLimitsConfigs kCurrentLimitsConfigs = 
       new CurrentLimitsConfigs()
@@ -440,7 +444,7 @@ public final class Constants {
         useIntakeRoller)
       .configureMotors(IntakeRollerConstants.kSubsystemConfiguration);
     
-    public static final boolean useConveyor = false;
+    public static final boolean useConveyor = true;
     public static final TemplateSubsystem conveyor = (!USE_SUBSYSTEMS) ? null :
     new TemplateSubsystem(
         "Conveyor", 
