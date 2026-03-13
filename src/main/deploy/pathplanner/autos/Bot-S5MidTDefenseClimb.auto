@@ -7,19 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "S2N3Off"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "N3.5OffN1.5Off"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "N1H45"
+            "pathName": "S5MidTDefense"
           }
         },
         {
@@ -37,7 +25,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "H45T1"
+            "pathName": "H60-T3"
           }
         },
         {
@@ -56,6 +44,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Top Autos",
+  "folder": "Bottom Autos",
   "choreoAuto": false
 }

@@ -5,27 +5,9 @@
     "data": {
       "commands": [
         {
-          "type": "named",
-          "data": {
-            "name": "Intake Down Sequence"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.0
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Reset Pose"
-          }
-        },
-        {
           "type": "path",
           "data": {
-            "pathName": "S1MidT"
+            "pathName": "S3MidBotBDefense"
           }
         },
         {
@@ -39,11 +21,17 @@
           "data": {
             "name": "Shoot Ramp Down"
           }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "H45-T3"
+          }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "Top Autos",
+  "folder": "Middle Autos",
   "choreoAuto": false
 }

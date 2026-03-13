@@ -4,28 +4,28 @@
     {
       "anchor": {
         "x": 3.55,
-        "y": 5.5600000000000005
+        "y": 4.04
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.220833138976897,
-        "y": 5.623160167272639
+        "x": 3.573035714285715,
+        "y": 4.38052380952381
       },
       "isLocked": false,
-      "linkedName": "S2"
+      "linkedName": "S3"
     },
     {
       "anchor": {
         "x": 3.0,
-        "y": 5.66
+        "y": 2.42
       },
       "prevControl": {
-        "x": 3.2266000891134468,
-        "y": 5.545233586689212
+        "x": 2.969612205237574,
+        "y": 2.668146291387715
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "H45"
+      "linkedName": "H45-"
     }
   ],
   "rotationTargets": [],
@@ -39,7 +39,7 @@
       "command": null
     },
     {
-      "name": "Intake Down",
+      "name": "Shoot",
       "waypointRelativePos": 1.0,
       "endWaypointRelativePos": null,
       "command": null
@@ -55,10 +55,10 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -45.0
+    "rotation": 45.0
   },
   "reversed": false,
-  "folder": "Combo Top",
+  "folder": "To Hub",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 0.0

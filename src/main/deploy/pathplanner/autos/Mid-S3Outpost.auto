@@ -7,7 +7,31 @@
         {
           "type": "path",
           "data": {
-            "pathName": "S1MidTDefense"
+            "pathName": "S3O1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Flywheel Start 45"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 3.0
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "O1H45-"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
           }
         },
         {
@@ -15,41 +39,11 @@
           "data": {
             "waitTime": 4.0
           }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot Ramp Down"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "H60T1"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Climb Up"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 2.0
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Climb Down"
-          }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "Top Autos",
+  "folder": "Middle Autos",
   "choreoAuto": false
 }
