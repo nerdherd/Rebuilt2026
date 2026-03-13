@@ -16,59 +16,50 @@
     },
     {
       "anchor": {
-        "x": 8.01866265060241,
-        "y": 7.105686746987953
+        "x": 7.920313253012047,
+        "y": 7.040120481927711
       },
       "prevControl": {
-        "x": 8.01866265060241,
-        "y": 7.510653375916802
+        "x": 7.920313253012047,
+        "y": 7.445087110856563
       },
       "nextControl": {
-        "x": 8.01866265060241,
-        "y": 5.086705693438588
+        "x": 7.920313253012047,
+        "y": 4.49527140973017
       },
       "isLocked": false,
-<<<<<<< HEAD:src/main/deploy/pathplanner/paths/S1MidTDefense.path
-      "linkedName": "N1.5Off"
-=======
-      "linkedName": "N1.5Down"
->>>>>>> 260077b0b937b87f7b3d41dfc6863909f856675e:src/main/deploy/pathplanner/paths/S1MidTDef.path
+      "linkedName": "N1Down"
     },
     {
       "anchor": {
-        "x": 7.89,
-        "y": 4.76
+        "x": 7.756397590361445,
+        "y": 4.603240963855422
       },
       "prevControl": {
-        "x": 8.140000000000002,
-        "y": 4.76
+        "x": 8.333452608232596,
+        "y": 4.603240963855422
       },
       "nextControl": {
-        "x": 6.460142371578119,
-        "y": 4.76
+        "x": 6.326539961939562,
+        "y": 4.603240963855422
       },
-<<<<<<< HEAD:src/main/deploy/pathplanner/paths/S1MidTDefense.path
       "isLocked": false,
-      "linkedName": "N3.5Off"
-=======
-      "isLocked": true,
-      "linkedName": "N3.5Down"
->>>>>>> 260077b0b937b87f7b3d41dfc6863909f856675e:src/main/deploy/pathplanner/paths/S1MidTDef.path
+      "linkedName": "N3Down"
     },
     {
       "anchor": {
-        "x": 4.64,
+        "x": 5.25,
         "y": 7.4
       },
       "prevControl": {
-        "x": 7.562919270043207,
-        "y": 7.4
+        "x": 6.985017722800926,
+        "y": 7.3794312789351855
       },
       "nextControl": {
-        "x": 3.7143693822040804,
-        "y": 7.4
+        "x": 4.596577749511609,
+        "y": 7.407746353153179
       },
-      "isLocked": true,
+      "isLocked": false,
       "linkedName": null
     },
     {
@@ -77,11 +68,11 @@
         "y": 6.86
       },
       "prevControl": {
-        "x": 3.0,
-        "y": 7.593269027888986
+        "x": 2.515825086805556,
+        "y": 7.556645326967592
       },
       "nextControl": null,
-      "isLocked": true,
+      "isLocked": false,
       "linkedName": "H60"
     }
   ],
@@ -91,27 +82,19 @@
       "rotationDegrees": 0.0
     },
     {
-<<<<<<< HEAD:src/main/deploy/pathplanner/paths/S1MidTDefense.path
-      "waypointRelativePos": 0.5,
-      "rotationDegrees": 0.0
-    },
-    {
-      "waypointRelativePos": 1.05,
-=======
       "waypointRelativePos": 1.0256990131578947,
->>>>>>> 260077b0b937b87f7b3d41dfc6863909f856675e:src/main/deploy/pathplanner/paths/S1MidTDef.path
-      "rotationDegrees": -110.0
+      "rotationDegrees": -115.0
     },
     {
-      "waypointRelativePos": 2.0,
-      "rotationDegrees": -110.0
+      "waypointRelativePos": 1.9818256578947366,
+      "rotationDegrees": -115.0
     },
     {
-      "waypointRelativePos": 3.067310855263157,
+      "waypointRelativePos": 3.281291118421052,
       "rotationDegrees": 0.0
     },
     {
-      "waypointRelativePos": 3.671916118421053,
+      "waypointRelativePos": 3.648396381578949,
       "rotationDegrees": 0.0
     }
   ],
@@ -121,8 +104,8 @@
       "minWaypointRelativePos": 0,
       "maxWaypointRelativePos": 0.2651058970099666,
       "constraints": {
-        "maxVelocity": 1.5,
-        "maxAcceleration": 1.5,
+        "maxVelocity": 1.0,
+        "maxAcceleration": 1.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
         "nominalVoltage": 12.0,
@@ -131,11 +114,11 @@
     },
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 2.9041216777408656,
-      "maxWaypointRelativePos": 3.100550249169436,
+      "minWaypointRelativePos": 2.9024086378737555,
+      "maxWaypointRelativePos": 3.284727990033226,
       "constraints": {
-        "maxVelocity": 1.5,
-        "maxAcceleration": 1.5,
+        "maxVelocity": 1.0,
+        "maxAcceleration": 1.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
         "nominalVoltage": 12.0,
@@ -147,7 +130,7 @@
   "eventMarkers": [
     {
       "name": "Intake Stop",
-      "waypointRelativePos": 2.15,
+      "waypointRelativePos": 2.1312292358804013,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",

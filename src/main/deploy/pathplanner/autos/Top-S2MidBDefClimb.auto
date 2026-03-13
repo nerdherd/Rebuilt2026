@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "S5MidTDefense"
+            "pathName": "S2MidBDef"
           }
         },
         {
@@ -25,25 +25,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "H60-T3"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 2.0
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Climb Down"
+            "pathName": "H45T1"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "Bottom Autos",
+  "folder": "Top Autos",
   "choreoAuto": false
 }
