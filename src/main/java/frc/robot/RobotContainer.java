@@ -119,8 +119,7 @@ public class RobotContainer {
       .onTrue(Commands.runOnce(() -> swerveDrive.setRobotHeadingForward()));
 
     driverController.controllerRight() // Set Pose Heading (pressed)
-      .onTrue(Commands.runOnce(() -> swerveDrive.useMegaTag2 = false))
-      .onFalse(Commands.runOnce(() -> swerveDrive.useMegaTag2 = true));
+      .onTrue(Commands.runOnce(() -> swerveDrive.recalibrateGyroMT1()));
 
     // driverController.triggerLeft().whileTrue(new RingDriveCommand( // Ring Drive (held)
     //   swerveDrive,
