@@ -412,8 +412,8 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
         NerdLog.logNumber(kSubsystemTab + name + "/Desired " + getFlavorText(), () -> getDesiredValue(), getUnit(), LOG_LEVEL.ALL);
 		NerdLog.logBoolean(kSubsystemTab + name + "/Has Error", () -> _hasError, LOG_LEVEL.ALL);
 
-		NerdLog.logSignal(kSubsystemTab + name + "/Torque Current 1", motor1.getTorqueCurrent(false), motor1.getNetwork().getName(), LOG_LEVEL.ALL);
-		if (hasMotor2()) NerdLog.logSignal(kSubsystemTab + name + "/Torque Current 2", motor2.getTorqueCurrent(false), motor1.getNetwork().getName(), LOG_LEVEL.ALL);
+		NerdLog.logSignal(kSubsystemTab + name + "/Torque Current 1", motor1.getTorqueCurrent(false), motor1.getNetwork().getName(), LOG_LEVEL.MEDIUM);
+		if (hasMotor2()) NerdLog.logSignal(kSubsystemTab + name + "/Torque Current 2", motor2.getTorqueCurrent(false), motor1.getNetwork().getName(), LOG_LEVEL.MEDIUM);
 
 		NerdLog.logSignal(kSubsystemTab + name + "/Supply Current 1", motor1.getSupplyCurrent(false), motor1.getNetwork().getName(), LOG_LEVEL.ALL);
 		if (hasMotor2()) NerdLog.logSignal(kSubsystemTab + name + "/Supply Current 2", motor2.getSupplyCurrent(false), motor1.getNetwork().getName(), LOG_LEVEL.ALL);

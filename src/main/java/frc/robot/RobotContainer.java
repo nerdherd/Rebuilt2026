@@ -47,7 +47,7 @@ public class RobotContainer {
 
     if (Constants.USE_SUBSYSTEMS) { // add subsystems
       superSystem = new SuperSystem(swerveDrive);
-      Autos.initNamedCommands(superSystem);
+      Autos.initNamedCommands(superSystem, swerveDrive);
     }
     
     Subsystems.init();
@@ -150,7 +150,8 @@ public class RobotContainer {
 
       operatorController.triggerRight()
         // .whileTrue(superSystem.shootWithDistance())
-        .onTrue(superSystem.spinUpFlywheel())
+        .whileTrue(superSystem.shootWithTuning())
+        // .onTrue(superSystem.spinUpFlywheel())
         .onFalse(superSystem.stopFlywheel());
       operatorController.bumperRight()
         .whileTrue(superSystem.shootWithCondition())
@@ -232,7 +233,7 @@ public class RobotContainer {
   }
   
   public void initializeLogging() {
-    NerdLog.logData("Robot/PDP", pdp, LOG_LEVEL.ALL);
+    NerdLog.logData("Robot/PDP", pdp, LOG_LEVEL.MEDIUM);
     
     swerveDrive.initializeLogging();
     if (Constants.USE_SUBSYSTEMS) { 
