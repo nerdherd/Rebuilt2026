@@ -18,10 +18,10 @@ import com.ctre.phoenix6.controls.NeutralOut;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.signals.ConnectedMotorValue;
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
+import dev.doglog.DogLog;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -130,6 +130,7 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 	/** applies configuration to motors; should be used on construction */
 	public TemplateSubsystem configureMotors(TalonFXConfiguration configuration){
 		this.configuration = configuration;
+		DogLog.log(kSubsystemTab + name + "/motor configs", configuration.toString());
 		applyMotorConfigs();
 		return this;
 	}
@@ -144,7 +145,7 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 
 	@Override
 	public void periodic() {
-		if(!enabled) {
+		if(!enabled || !useSubsystem) {
 			stop();
 			return;
 		}
@@ -184,7 +185,7 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 	 */
 	private static TalonFX getMotor(int id) {
 		TalonFX motor = new TalonFX(id);
-		if (motor.getConnectedMotor().getValue().compareTo(ConnectedMotorValue.Unknown) == 0) 
+		if (!motor.isConnected()) 
 			motor = new TalonFX(id, TunerConstants.kCANBus);
 		return motor;
 	}
@@ -356,6 +357,7 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 	 * @see {@link Reportable#addString(ShuffleboardTab, String, java.util.function.Supplier, frc.robot.util.logging.Reportable.LOG_LEVEL)}
 	 */
     public void initializeLogging(){
+		if (!useSubsystem) return;
         ///////////
         /// ALL ///
         ///////////
@@ -364,7 +366,10 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
         NerdLog.logNumber(kSubsystemTab + name + "/Desired " + getFlavorText(), () -> getDesiredValue(), getUnit(), LOG_LEVEL.ALL);
 		NerdLog.logBoolean(kSubsystemTab + name + "/Has Error", () -> _hasError, LOG_LEVEL.ALL);
 
-		NerdLog.logSignal(kSubsystemTab + name + "/Torque Current", primaryMotor.getTorqueCurrent(false), primaryMotor.getNetwork().getName(), LOG_LEVEL.ALL);
+		NerdLog.logSignal(kSubsystemTab + name + "/Torque Current/Primary Motor", primaryMotor.getTorqueCurrent(false), primaryMotor.getNetwork().getName(), LOG_LEVEL.ALL);
+		applySecondaryMotors((motor, i) -> 
+			NerdLog.logSignal(kSubsystemTab + name + "/Torque Current/Secondary Motor " + i, primaryMotor.getTorqueCurrent(false), primaryMotor.getNetwork().getName(), LOG_LEVEL.ALL)
+		);
 
 		NerdLog.logSignal(kSubsystemTab + name + "/Supply Current", primaryMotor.getSupplyCurrent(false), primaryMotor.getNetwork().getName(), LOG_LEVEL.ALL);
 
@@ -372,14 +377,15 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 		/// MEDIUM ///
         //////////////
         NerdLog.logBoolean(kSubsystemTab + name + "/Enabled", () -> this.enabled, Reportable.LOG_LEVEL.MEDIUM);
+		NerdLog.logSignal(kSubsystemTab + name + "/Motor Voltage", primaryMotor.getMotorVoltage(false), primaryMotor.getNetwork().getName(), LOG_LEVEL.MEDIUM);
+        
+        //////////////
+		/// MINIMAL //
+        //////////////
+        NerdLog.logSignal(kSubsystemTab + name + "/" + getFlavorText(), getCurrentValue(), primaryMotor.getNetwork().getName(), LOG_LEVEL.MINIMAL);
         NerdLog.logSignal(kSubsystemTab + name + "/Temperature/Primary Motor", primaryMotor.getDeviceTemp(false), primaryMotor.getNetwork().getName(), LOG_LEVEL.MEDIUM);
 		applySecondaryMotors((motor, i) -> 
 			NerdLog.logSignal(kSubsystemTab + name + "/Temperature/Secondary Motor " + i, motor.getDeviceTemp(false), motor.getNetwork().getName(), LOG_LEVEL.MEDIUM)
 		);
-        
-        //////////////
-        /// MINIMAL //
-        //////////////
-        NerdLog.logSignal(kSubsystemTab + name + "/" + getFlavorText(), getCurrentValue(), primaryMotor.getNetwork().getName(), LOG_LEVEL.MINIMAL);
     }
 }

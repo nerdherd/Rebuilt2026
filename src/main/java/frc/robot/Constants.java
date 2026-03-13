@@ -73,7 +73,7 @@ public final class Constants {
     public static final double kRotationDeadband = 0.1; // out of 1
     public static final double kTurnToAngleDeadband = 0.5; // out of 1
 
-    public static final double kInputAcceleration = 5.0; // unit/s, on the scale of a unit circle/fractions
+    public static final double kInputAcceleration = 1.0; // unit/s, on the scale of a unit circle/fractions
     public static final double kEasePower = 3.0; // increase to further separate lower and higher values
 
     public static final Translation2dSlewRateLimiter kTranslationInputRateLimiter = new Translation2dSlewRateLimiter(kInputAcceleration);
@@ -83,7 +83,10 @@ public final class Constants {
     (x, y) -> {
         x = NerdyMath.deadband(x, kTranslationDeadband);
         y = NerdyMath.deadband(y, kTranslationDeadband);
-        if (x == 0.0 && y == 0.0) return kTranslationInputRateLimiter.calculate(Translation2d.kZero);
+        if (x == 0.0 && y == 0.0) {
+          kTranslationInputRateLimiter.reset();
+          return Translation2d.kZero;
+        }
         Translation2d dir = new Translation2d(x, y);
         double length = dir.getNorm();
         dir = dir.div(length);
@@ -273,7 +276,7 @@ public final class Constants {
 
     private static final CurrentLimitsConfigs kCurrentLimitsConfigs = 
       new CurrentLimitsConfigs()
-        .withStatorCurrentLimit(60)
+        .withStatorCurrentLimit(30)
         .withStatorCurrentLimitEnable(true);
 
     private static final FeedbackConfigs kFeedbackConfigs = 
@@ -301,11 +304,17 @@ public final class Constants {
     public static final MotorOutputConfigs kMotorOutputConfigs =
       new MotorOutputConfigs()
         .withInverted(InvertedValue.CounterClockwise_Positive);
+
+    public static final CurrentLimitsConfigs kCurrentLimitsConfigs = 
+      new CurrentLimitsConfigs()
+        .withStatorCurrentLimit(20)
+        .withStatorCurrentLimitEnable(true);
         
     public static final TalonFXConfiguration kSubsystemConfiguration = 
       new TalonFXConfiguration()
         .withSlot0(kSlot0Configs)
-        .withMotorOutput(kMotorOutputConfigs);
+        .withMotorOutput(kMotorOutputConfigs)
+        .withCurrentLimits(kCurrentLimitsConfigs);
   }
    
   public static final class ConveyorConstants {
@@ -321,6 +330,10 @@ public final class Constants {
       new MotorOutputConfigs()
         .withInverted(InvertedValue.CounterClockwise_Positive);
 
+    public static final CurrentLimitsConfigs kCurrentLimitsConfigs = 
+      new CurrentLimitsConfigs()
+        .withStatorCurrentLimit(30)
+        .withStatorCurrentLimitEnable(true);
 
     public static final TalonFXConfiguration kSubsystemConfiguration = 
       new TalonFXConfiguration()
@@ -334,11 +347,11 @@ public final class Constants {
 
     private static final Slot0Configs kSlot0Configs = 
       new Slot0Configs()
-        // .withKP(0.05)
+        .withKP(0.15)
         .withKI(0.0)
         .withKD(0.0)
-        .withKV(0.127501)
-        .withKS(0.650788);
+        .withKV(0.126)
+        .withKS(0.4);
     
     private static final CurrentLimitsConfigs kCurrentLimitsConfigs = 
       new CurrentLimitsConfigs()
