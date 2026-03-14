@@ -126,6 +126,18 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
+      "name": "Intake Start",
+      "waypointRelativePos": 0,
+      "endWaypointRelativePos": null,
+      "command": null
+    },
+    {
+      "name": "Intake Down",
+      "waypointRelativePos": 0.36461850101283244,
+      "endWaypointRelativePos": null,
+      "command": null
+    },
+    {
       "name": "Intake Stop",
       "waypointRelativePos": 2.281214848143996,
       "endWaypointRelativePos": null,
