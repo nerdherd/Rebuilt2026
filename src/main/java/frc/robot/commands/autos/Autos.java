@@ -39,7 +39,10 @@ public final class Autos {
         autoChooser.addOption("Mid-S3Preload", AutoBuilder.buildAuto("Mid-S3Preload"));
         autoChooser.addOption("Mid-S3Outpost", AutoBuilder.buildAuto("Mid-S3Outpost"));
         autoChooser.addOption("Mid-S3Depot", AutoBuilder.buildAuto("Mid-S3Depot"));
-
+        autoChooser.addOption("Mid-S3MidBotBDef", AutoBuilder.buildAuto("Mid-S3MidBotBDef"));
+        autoChooser.addOption("Mid-S3MidTopBDef", AutoBuilder.buildAuto("Mid-S3MidTopBDef"));
+        autoChooser.addOption("Mid-S3MidBotBClimb", AutoBuilder.buildAuto("Mid-S3MidBotBClimb"));
+        autoChooser.addOption("Mid-S3MidTopBDef", AutoBuilder.buildAuto("Mid-S3MidTopBDef"));
         // BOT
         autoChooser.addOption("Bot-S4Preload", AutoBuilder.buildAuto("Bot-S4Preload"));
         autoChooser.addOption("Bot-S5Preload", AutoBuilder.buildAuto("Bot-S5Preload"));
@@ -48,7 +51,7 @@ public final class Autos {
         autoChooser.addOption("Bot-S5MidTB", AutoBuilder.buildAuto("Bot-S5MidTB"));
         autoChooser.addOption("Bot-S5MidTBOutpost", AutoBuilder.buildAuto("Bot-S5MidTBOutpost"));
         autoChooser.addOption("Bot-S5Neutral", AutoBuilder.buildAuto("Bot-S5Neutral"));
-
+        autoChooser.addOption("Bot-S5MidTBDefClimb", AutoBuilder.buildAuto("Bot-S5MidTBDefClimb"));
         
         NerdLog.logData(kAutosTab + "/Selected Auto", autoChooser, LOG_LEVEL.MINIMAL);
     }

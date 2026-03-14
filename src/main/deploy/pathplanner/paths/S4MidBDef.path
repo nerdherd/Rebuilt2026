@@ -21,7 +21,7 @@
       },
       "prevControl": {
         "x": 6.642563724949988,
-        "y": 1.2628965926955165
+        "y": 1.2628965926955162
       },
       "nextControl": {
         "x": 8.288961443865741,
@@ -108,19 +108,26 @@
         "nominalVoltage": 12.0,
         "unlimited": false
       }
+    },
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0.6951631046119165,
+      "maxWaypointRelativePos": 1.2755905511811052,
+      "constraints": {
+        "maxVelocity": 2.0,
+        "maxAcceleration": 3.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
     }
   ],
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "Intake Down Sequence",
-      "waypointRelativePos": 0.26536544850498345,
-      "endWaypointRelativePos": null,
-      "command": null
-    },
-    {
       "name": "Intake Stop",
-      "waypointRelativePos": 2.05,
+      "waypointRelativePos": 2.281214848143996,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
@@ -131,7 +138,7 @@
     },
     {
       "name": "Shoot",
-      "waypointRelativePos": 2.5,
+      "waypointRelativePos": 3.0,
       "endWaypointRelativePos": null,
       "command": null
     }
