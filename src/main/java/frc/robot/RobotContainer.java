@@ -143,9 +143,8 @@ public class RobotContainer {
       operatorController.triggerLeft()
         .onTrue(superSystem.intake())
         .onFalse(superSystem.stopIntaking());
-      operatorController.bumperLeft()
-        .onTrue(superSystem.intakeUp())
-        .onFalse(superSystem.intakeDown());
+      operatorController.controllerLeft()
+        .onTrue(superSystem.intakeDown());
 
       operatorController.triggerRight()
         // .whileTrue(superSystem.shootWithDistance())

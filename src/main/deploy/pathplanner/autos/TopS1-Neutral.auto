@@ -5,6 +5,18 @@
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "Intake Down"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.3
+          }
+        },
+        {
           "type": "parallel",
           "data": {
             "commands": [
@@ -21,7 +33,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 4.25
+                        "waitTime": 5.1
                       }
                     },
                     {

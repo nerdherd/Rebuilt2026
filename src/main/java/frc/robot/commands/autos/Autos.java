@@ -29,7 +29,7 @@ public final class Autos {
         autoChooser.addOption("Top-S2Preload", AutoBuilder.buildAuto("Top-S2Preload"));
         autoChooser.addOption("Top-S1Depot", AutoBuilder.buildAuto("Top-S1Depot"));
         autoChooser.addOption("Top-S1MidT", AutoBuilder.buildAuto("Top-S1MidT"));
-        autoChooser.addOption("Top-S1MidTBDepot", AutoBuilder.buildAuto("Top-S1MidTBDepot"));
+        autoChooser.addOption("Top-S1MidTB", AutoBuilder.buildAuto("Top-S1MidTB"));
         autoChooser.addOption("Top-S1Neutral", AutoBuilder.buildAuto("Top-S1Neutral"));
 
         // MID
@@ -55,7 +55,7 @@ public final class Autos {
 
         // INTAKE
         NamedCommands.registerCommand("Intake Down", superSystem.intakeDown());
-        NamedCommands.registerCommand("Intake Up", superSystem.intakeUp());
+        // NamedCommands.registerCommand("Intake Up", superSystem.intakeUp());
         NamedCommands.registerCommand("Intake Start", superSystem.intake());
         NamedCommands.registerCommand("Intake Stop", superSystem.stopIntaking());
         NamedCommands.registerCommand("Intake Down Sequence", 
@@ -63,11 +63,11 @@ public final class Autos {
                 superSystem.intakeDown(),
                 superSystem.intake()
             ));
-        NamedCommands.registerCommand("Intake Up Sequence", 
-            Commands.sequence(
-                superSystem.stopIntaking(), 
-                superSystem.intakeUp()
-            ));
+        // NamedCommands.registerCommand("Intake Up Sequence", 
+        //     Commands.sequence(
+        //         superSystem.stopIntaking(), 
+        //         superSystem.intakeUp()
+        //     ));
 
 
         // SHOOTER

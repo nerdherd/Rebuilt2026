@@ -427,12 +427,12 @@ public final class Constants {
    * Container class to hold all subsystem objects.
    */
   public static final class Subsystems {
-    public static final boolean useIntakeSlapdown = false;
+    public static final boolean useIntakeSlapdown = true;
     public static final TemplateSubsystem intakeSlapdown = (!USE_SUBSYSTEMS) ? null :
     new TemplateSubsystem(
         "Intake Slapdown", 
         IntakeSlapdownConstants.kMotor1ID, 
-        SubsystemMode.POSITION, 
+        SubsystemMode.VOLTAGE, 
         0.0,
         useIntakeSlapdown)
       .configureMotors(IntakeSlapdownConstants.kSubsystemConfiguration);

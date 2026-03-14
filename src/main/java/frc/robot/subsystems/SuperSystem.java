@@ -110,20 +110,12 @@ public class SuperSystem implements Reportable {
     }
 
     public Command intakeDown() {
-        return Commands.parallel(
-            intakeSlapdown.setDesiredValueCommand(-17.785)
-        );
-    }
-
-    public Command intakeUp(){
-        return Commands.parallel(
-            intakeSlapdown.setDesiredValueCommand(-11.0)
-        );
-    }
-
-    public Command intakeSlapdownStop() {
-        return Commands.parallel(
-            intakeSlapdown.setDesiredValueCommand(0.0)
+        return Commands.sequence(
+            intakeSlapdown.setDesiredValueCommand(-8),
+            Commands.waitSeconds(0.2),
+            intakeSlapdown.setDesiredValueCommand(-2),
+            Commands.waitSeconds(0.2),
+            intakeSlapdown.setDesiredValueCommand(0)
         );
     }
 
