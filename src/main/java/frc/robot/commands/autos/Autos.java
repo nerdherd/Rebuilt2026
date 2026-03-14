@@ -30,6 +30,7 @@ public final class Autos {
         autoChooser.addOption("Top-S1Depot", AutoBuilder.buildAuto("Top-S1Depot"));
         autoChooser.addOption("Top-S1MidT", AutoBuilder.buildAuto("Top-S1MidT"));
         autoChooser.addOption("Top-S1MidTB", AutoBuilder.buildAuto("Top-S1MidTB"));
+        autoChooser.addOption("Top-S1MidTBDepot", AutoBuilder.buildAuto("Top-S1MidTBDepot"));
         autoChooser.addOption("Top-S1Neutral", AutoBuilder.buildAuto("Top-S1Neutral"));
 
         // MID
@@ -42,6 +43,7 @@ public final class Autos {
         autoChooser.addOption("Bot-S5Preload", AutoBuilder.buildAuto("Bot-S5Preload"));
         autoChooser.addOption("Bot-S5Outpost", AutoBuilder.buildAuto("Bot-S5Outpost"));
         autoChooser.addOption("Bot-S5MidT", AutoBuilder.buildAuto("Bot-S5MidT"));
+        autoChooser.addOption("Bot-S5MidTB", AutoBuilder.buildAuto("Bot-S5MidTB"));
         autoChooser.addOption("Bot-S5MidTBOutpost", AutoBuilder.buildAuto("Bot-S5MidTBOutpost"));
         autoChooser.addOption("Bot-S5Neutral", AutoBuilder.buildAuto("Bot-S5Neutral"));
 
