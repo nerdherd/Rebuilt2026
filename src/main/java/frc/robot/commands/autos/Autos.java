@@ -13,8 +13,6 @@ import static frc.robot.Constants.LoggingConstants.kAutosTab;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.events.EventTrigger;
-import com.pathplanner.lib.path.EventMarker;
-
 
 public final class Autos {
     public static SendableChooser<Command> autoChooser = new SendableChooser<>();
@@ -27,12 +25,7 @@ public final class Autos {
         // autoChooser.addOption("Auto Name", AutoBuilder.buildAuto("PathPlanner Auto Name"));
 
         // TOP
-        autoChooser.addOption("Top-S1Preload", AutoBuilder.buildAuto("Top-S1Preload"));
-        autoChooser.addOption("Top-S2Preload", AutoBuilder.buildAuto("Top-S2Preload"));
-        autoChooser.addOption("Top-S1Depot", AutoBuilder.buildAuto("Top-S1Depot"));
-        autoChooser.addOption("Top-S1MidT", AutoBuilder.buildAuto("Top-S1MidT"));
-        autoChooser.addOption("Top-S1MidTB", AutoBuilder.buildAuto("Top-S1MidTB"));
-        autoChooser.addOption("Top-S1MidTBDepot", AutoBuilder.buildAuto("Top-S1MidTBDepot"));
+        autoChooser.addOption("Top-S1MidTBDefClimb", AutoBuilder.buildAuto("Top-S1MidTBDepot"));
         autoChooser.addOption("Top-S1Neutral", AutoBuilder.buildAuto("Top-S1Neutral"));
 
         // MID
