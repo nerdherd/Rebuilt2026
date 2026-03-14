@@ -62,21 +62,20 @@ public class SuperSystem implements Reportable {
         return Commands.runOnce(this::startShoot, indexer, conveyor);
     }
 
-    // private double timeStartPivot = 0.0;
-    // private boolean pivotStarted = false;
+    private double timeStartPivot = 0.0;
+    private boolean pivotStarted = false;
     public Command shootWithCondition() {
         return Commands.run(() -> {
             if (shooter.getCurrentVelocity() > 20.0) {
                 startShoot();
-                // if (!pivotStarted) {pivotStarted = true; timeStartPivot = MathSharedStore.getTimestamp();}
-                // if (MathSharedStore.getTimestamp() - timeStartPivot > 7.0) intakeSlapdown.setDesiredValue(0);
-                // else if (MathSharedStore.getTimestamp() - timeStartPivot > 1.0) intakeSlapdown.setDesiredValue(1);
+                if (!pivotStarted) {pivotStarted = true; timeStartPivot = MathSharedStore.getTimestamp();}
+                if (MathSharedStore.getTimestamp() - timeStartPivot > 2.0) intakeSlapdown.setDesiredValue(0);
+                else if (MathSharedStore.getTimestamp() - timeStartPivot > 1.0) intakeSlapdown.setDesiredValue(1);
             } else {
                 indexer.setDesiredValue(0);
                 conveyor.setDesiredValue(0);
             }
-        }, indexer, conveyor);
-        // .finallyDo(() -> {pivotStarted = false; intakeSlapdown.setDesiredValue(-0.5);});
+        }, indexer, conveyor).finallyDo(() -> {pivotStarted = false; intakeSlapdown.setDesiredValue(-1);});
     }
 
     public Command reverseConveyor() {
@@ -122,19 +121,19 @@ public class SuperSystem implements Reportable {
             Commands.waitSeconds(0.3),
             intakeSlapdown.setDesiredValueCommand(-2),
             Commands.waitSeconds(0.2),
-            intakeSlapdown.setDesiredValueCommand(-0.5)
+            intakeSlapdown.setDesiredValueCommand(-1)
         );
     }
 
 
     public Command intake() {
         return Commands.parallel(
-            intakeRoller.setDesiredValueCommand(9)
+            intakeRoller.setDesiredValueCommand(7.5)
             // conveyor.setDesiredValueCommand(3)
             );
         }
         
-        public Command stopIntaking() {
+        public Command  stopIntaking() {
             return Commands.parallel(
                 intakeRoller.setDesiredValueCommand(0)
                 // conveyor.setDesiredValueCommand(0.0)
@@ -142,20 +141,15 @@ public class SuperSystem implements Reportable {
     }
 
     public Command climbUp() {
-        return Commands.sequence(
-            climb.setDesiredValueCommand(8),
-            Commands.waitSeconds(3.4)
-        ).until(() -> climb.getCurrentPosition() > 250.0)
-        .andThen(climb.setDesiredValueCommand(0));
+        return Commands.parallel(
+            climb.setDesiredValueCommand(3)
+        );
     }
 
     public Command climbDown() {
-        return Commands.sequence(
-            climb.setDesiredValueCommand(-8),
-            Commands.waitSeconds(3.4)
-        ).until(() -> climb.getCurrentPosition() < 1.0)
-        .andThen(climb.setDesiredValueCommand(0));
-
+        return Commands.parallel(
+            climb.setDesiredValueCommand(-3)
+        );
     }
 
     public Command stopClimb() {
