@@ -12,6 +12,8 @@ import static frc.robot.Constants.LoggingConstants.kAutosTab;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.events.EventTrigger;
+import com.pathplanner.lib.path.EventMarker;
 
 
 public final class Autos {
@@ -71,7 +73,6 @@ public final class Autos {
         //         superSystem.intakeUp()
         //     ));
 
-
         // SHOOTER
         NamedCommands.registerCommand("Flywheel Start", superSystem.spinUpFlywheel());
         NamedCommands.registerCommand("Flywheel Start 0", superSystem.spinUpFlywheel(34));
@@ -107,6 +108,42 @@ public final class Autos {
                 superSystem.climbDown(),
                 Commands.waitSeconds(9.0),
                 superSystem.stopClimb()
+            ));
+    }
+
+    public static void initEventMarkers(SuperSystem superSystem, NerdDrivetrain swerveDrive) {
+        // INTAKE
+        new EventTrigger("Intake Down")
+            .onTrue(superSystem.intakeDown());
+        new EventTrigger("Intake Down Sequence")
+            .onTrue(Commands.sequence(
+                superSystem.intakeDown(),
+                superSystem.intake()
+            ));
+
+        new EventTrigger("Intake Start")
+            .onTrue(superSystem.intake());   
+        new EventTrigger("Intake Stop")
+            .onTrue(superSystem.stopIntaking());
+
+        // FLYWHEEL
+        new EventTrigger("Flywheel Start 0")
+            .onTrue(superSystem.spinUpFlywheel(34));
+        new EventTrigger("Flywheel Start 45")
+            .onTrue(superSystem.spinUpFlywheel(33));
+        new EventTrigger("Flywheel Start 60")
+            .onTrue(superSystem.spinUpFlywheel(39));
+        new EventTrigger("Flywheel Stop")
+            .onTrue(superSystem.stopFlywheel());
+
+        // SHOOTER
+        new EventTrigger("Shoot")
+            .onTrue(superSystem.shoot());
+        new EventTrigger("Shoot Ramp Down")
+            .onTrue(Commands.sequence(
+                superSystem.stopShooting(),
+                Commands.waitSeconds(1),
+                superSystem.stopFlywheel()
             ));
     }
 

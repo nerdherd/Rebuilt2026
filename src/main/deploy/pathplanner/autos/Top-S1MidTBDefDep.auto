@@ -7,7 +7,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Intake Down Sequence"
+            "name": "Intake Down"
           }
         },
         {
@@ -17,47 +17,34 @@
           }
         },
         {
+          "type": "path",
+          "data": {
+            "pathName": "S1MidTBDef"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 3.0
+          }
+        },
+        {
           "type": "parallel",
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "named",
                 "data": {
-                  "pathName": "S1MidTBDef"
+                  "name": "Shoot Ramp Down"
                 }
               },
               {
-                "type": "sequential",
+                "type": "path",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 4.5
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Intake Stop"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Flywheel Start 45"
-                      }
-                    }
-                  ]
+                  "pathName": "H45Depot"
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot"
           }
         },
         {
