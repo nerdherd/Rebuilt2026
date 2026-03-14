@@ -21,11 +21,29 @@
           "data": {
             "name": "Shoot Ramp Down"
           }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "H45-T3"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 2.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Climb Down"
+          }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "Archive",
+  "folder": "Middle Autos",
   "choreoAuto": false
 }
