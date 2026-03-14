@@ -5,22 +5,9 @@
     "data": {
       "commands": [
         {
-          "type": "parallel",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake Down Sequence"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "S2MidBDef"
-                }
-              }
-            ]
+            "pathName": "S2MidBDef"
           }
         },
         {
