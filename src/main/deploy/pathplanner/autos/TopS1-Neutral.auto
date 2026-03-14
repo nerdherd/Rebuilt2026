@@ -13,7 +13,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.3
+            "waitTime": 0.2
           }
         },
         {
@@ -23,7 +23,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Top"
+                  "pathName": "Copy of Top"
                 }
               },
               {
@@ -33,7 +33,25 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 5.1
+                        "waitTime": 2.1
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Intake Start"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 3.1
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Intake Stop"
                       }
                     },
                     {
@@ -70,6 +88,12 @@
           "type": "named",
           "data": {
             "name": "Shoot Stop"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Flywheel Stop"
           }
         },
         {
@@ -89,7 +113,25 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 6.5
+                        "waitTime": 2.7
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Intake Start"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 4.2
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Intake Stop"
                       }
                     },
                     {
@@ -126,6 +168,12 @@
           "type": "named",
           "data": {
             "name": "Shoot Stop"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Flywheel Stop"
           }
         }
       ]
