@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.040518072289156,
-        "y": 1.018951807228916
+        "x": 7.98587951807229,
+        "y": 0.9643132530120488
       },
       "prevControl": null,
       "nextControl": {
-        "x": 8.040190649702671,
-        "y": 1.810541507959785
+        "x": 7.985552095485804,
+        "y": 1.7559029537429176
       },
       "isLocked": false,
       "linkedName": "N6Up"
     },
     {
       "anchor": {
-        "x": 7.35,
-        "y": 3.3
+        "x": 7.98587951807229,
+        "y": 3.4011927710843373
       },
       "prevControl": {
-        "x": 7.349714250802558,
-        "y": 2.6248367460822544
+        "x": 7.985593768874848,
+        "y": 2.726029517166592
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,8 +33,8 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 2.5,
-    "maxAcceleration": 2.5,
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,

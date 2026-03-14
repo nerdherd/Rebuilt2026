@@ -17,15 +17,21 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Reset Pose"
+          }
+        },
+        {
           "type": "path",
           "data": {
-            "pathName": "S3MidBotBDefense"
+            "pathName": "S5MidTDefense"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 3.0
+            "waitTime": 4.0
           }
         },
         {
@@ -38,6 +44,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Middle Autos",
+  "folder": "Bottom Autos",
   "choreoAuto": false
 }
