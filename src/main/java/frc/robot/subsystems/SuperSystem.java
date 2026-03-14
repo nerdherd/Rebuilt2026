@@ -119,6 +119,15 @@ public class SuperSystem implements Reportable {
         );
     }
 
+    public Command intakeAgitate() {
+        return Commands.sequence(
+            intakeSlapdown.setDesiredValueCommand(3),
+            Commands.waitSeconds(0.5),
+            intakeSlapdown.setDesiredValueCommand(-5),
+            Commands.waitSeconds(0.3)
+        );
+    }
+
     public Command intake() {
         return Commands.parallel(
             intakeRoller.setDesiredValueCommand(7.5)
