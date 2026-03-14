@@ -126,14 +126,8 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "Shoot",
-      "waypointRelativePos": 0,
-      "endWaypointRelativePos": null,
-      "command": null
-    },
-    {
-      "name": "Intake Down Sequence",
-      "waypointRelativePos": 0.4184476940382469,
+      "name": "Intake Start",
+      "waypointRelativePos": 0.4656917885264442,
       "endWaypointRelativePos": null,
       "command": null
     },
@@ -147,6 +141,12 @@
           "name": "Flywheel Start 45"
         }
       }
+    },
+    {
+      "name": "Shoot",
+      "waypointRelativePos": 3.0,
+      "endWaypointRelativePos": null,
+      "command": null
     }
   ],
   "globalConstraints": {
