@@ -14,6 +14,7 @@ import java.util.function.Consumer;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import dev.doglog.DogLog;
+import edu.wpi.first.math.MathSharedStore;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.networktables.DoubleSubscriber;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -61,15 +62,20 @@ public class SuperSystem implements Reportable {
         return Commands.runOnce(this::startShoot, indexer, conveyor);
     }
 
+    private double timeStartPivot = 0.0;
+    private boolean pivotStarted = false;
     public Command shootWithCondition() {
         return Commands.run(() -> {
             if (shooter.getCurrentVelocity() > 20.0) {
                 startShoot();
+                if (!pivotStarted) {pivotStarted = true; timeStartPivot = MathSharedStore.getTimestamp();}
+                if (MathSharedStore.getTimestamp() - timeStartPivot > 2.0) intakeSlapdown.setDesiredValue(0);
+                else if (MathSharedStore.getTimestamp() - timeStartPivot > 1.0) intakeSlapdown.setDesiredValue(1);
             } else {
                 indexer.setDesiredValue(0);
                 conveyor.setDesiredValue(0);
             }
-        }, indexer, conveyor);
+        }, indexer, conveyor).finallyDo(() -> {pivotStarted = false; intakeSlapdown.setDesiredValue(-1);});
     }
 
     public Command reverseConveyor() {
@@ -119,14 +125,6 @@ public class SuperSystem implements Reportable {
         );
     }
 
-    public Command intakeAgitate() {
-        return Commands.sequence(
-            intakeSlapdown.setDesiredValueCommand(3),
-            Commands.waitSeconds(0.5),
-            intakeSlapdown.setDesiredValueCommand(-5),
-            Commands.waitSeconds(0.3)
-        );
-    }
 
     public Command intake() {
         return Commands.parallel(
