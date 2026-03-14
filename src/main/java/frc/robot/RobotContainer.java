@@ -48,6 +48,7 @@ public class RobotContainer {
     if (Constants.USE_SUBSYSTEMS) { // add subsystems
       superSystem = new SuperSystem(swerveDrive);
       Autos.initNamedCommands(superSystem, swerveDrive);
+      Autos.initEventMarkers(superSystem, swerveDrive);
     }
     
     Subsystems.init();
@@ -163,11 +164,11 @@ public class RobotContainer {
         .onFalse(superSystem.stopIntaking());
       
       operatorController.dpadUp()
-        .onTrue(superSystem.climbUp())
+        .whileTrue(superSystem.climbUp())
         .onFalse(superSystem.stopClimb());
         
       operatorController.dpadDown()
-        .onTrue(superSystem.climbDown())
+        .whileTrue(superSystem.climbDown())
         .onFalse(superSystem.stopClimb());
     }
   }
