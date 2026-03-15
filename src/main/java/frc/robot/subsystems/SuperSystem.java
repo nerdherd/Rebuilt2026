@@ -14,7 +14,7 @@ import java.util.function.Consumer;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import dev.doglog.DogLog;
-import edu.wpi.first.math.MathSharedStore;
+// import edu.wpi.first.math.MathSharedStore;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.networktables.DoubleSubscriber;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -54,7 +54,7 @@ public class SuperSystem implements Reportable {
     }
     
     public void startShoot() {
-        indexer.setDesiredValue(5);
+        indexer.setDesiredValue(7);
         conveyor.setDesiredValue(6);
     }
 
@@ -62,20 +62,21 @@ public class SuperSystem implements Reportable {
         return Commands.runOnce(this::startShoot, indexer, conveyor);
     }
 
-    private double timeStartPivot = 0.0;
-    private boolean pivotStarted = false;
+    // private double timeStartPivot = 0.0;
+    // private boolean pivotStarted = false;
     public Command shootWithCondition() {
         return Commands.run(() -> {
             if (shooter.getCurrentVelocity() > 20.0) {
                 startShoot();
-                if (!pivotStarted) {pivotStarted = true; timeStartPivot = MathSharedStore.getTimestamp();}
-                if (MathSharedStore.getTimestamp() - timeStartPivot > 2.0) intakeSlapdown.setDesiredValue(0);
-                else if (MathSharedStore.getTimestamp() - timeStartPivot > 1.0) intakeSlapdown.setDesiredValue(1);
+                // if (!pivotStarted) {pivotStarted = true; timeStartPivot = MathSharedStore.getTimestamp();}
+                // if (MathSharedStore.getTimestamp() - timeStartPivot > 2.0) intakeSlapdown.setDesiredValue(0);
+                // else if (MathSharedStore.getTimestamp() - timeStartPivot > 1.0) intakeSlapdown.setDesiredValue(1);
             } else {
                 indexer.setDesiredValue(0);
                 conveyor.setDesiredValue(0);
             }
-        }, indexer, conveyor).finallyDo(() -> {pivotStarted = false; intakeSlapdown.setDesiredValue(-1);});
+        }, indexer, conveyor);
+        // .finallyDo(() -> {pivotStarted = false; intakeSlapdown.setDesiredValue(-1);});
     }
 
     public Command reverseConveyor() {
@@ -87,7 +88,7 @@ public class SuperSystem implements Reportable {
     }
     
     public Command outtake() {
-        return intakeRoller.setDesiredValueCommand(-5);
+        return intakeRoller.setDesiredValueCommand(-3);
     }
     
     public Command stopShooting() {
@@ -99,7 +100,7 @@ public class SuperSystem implements Reportable {
 
     public Command spinUpFlywheel() {
         return Commands.parallel(
-            setShooterCommand(30)
+            setShooterCommand(45)
         );
     }
 

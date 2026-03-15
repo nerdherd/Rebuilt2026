@@ -149,7 +149,7 @@ public class RobotContainer {
 
       operatorController.triggerRight()
         // .whileTrue(superSystem.shootWithDistance())
-        .whileTrue(superSystem.shootWithTuning())
+        .whileTrue(superSystem.shootWithTuning()) // USE ELASTIC
         // .onTrue(superSystem.spinUpFlywheel())
         .onFalse(superSystem.stopFlywheel());
       operatorController.bumperRight()
@@ -157,11 +157,11 @@ public class RobotContainer {
         .onFalse(superSystem.stopShooting());
         
       operatorController.buttonRight()
-        .onTrue(superSystem.reverseConveyor())
-        .onFalse(superSystem.stopConveyor());
-      operatorController.buttonDown()
         .onTrue(superSystem.outtake())
         .onFalse(superSystem.stopIntaking());
+      operatorController.buttonDown()
+        .onTrue(superSystem.reverseConveyor())
+        .onFalse(superSystem.stopConveyor());
       
       operatorController.dpadUp()
         .whileTrue(superSystem.climbUp())
