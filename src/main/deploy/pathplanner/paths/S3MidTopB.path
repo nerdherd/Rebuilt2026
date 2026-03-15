@@ -32,16 +32,16 @@
     },
     {
       "anchor": {
-        "x": 6.528958912037037,
-        "y": 4.57556517650463
+        "x": 6.828102564102566,
+        "y": 4.3489615384615385
       },
       "prevControl": {
-        "x": 6.278958912037037,
-        "y": 4.57556517650463
+        "x": 6.578102564102566,
+        "y": 4.3489615384615385
       },
       "nextControl": {
-        "x": 7.832325222618375,
-        "y": 4.57556517650463
+        "x": 8.131468874683904,
+        "y": 4.3489615384615385
       },
       "isLocked": false,
       "linkedName": "N3Off"
@@ -114,11 +114,11 @@
     },
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 3.60844061461794,
-      "maxWaypointRelativePos": 3.780627076411958,
+      "minWaypointRelativePos": 2.0764267990074585,
+      "maxWaypointRelativePos": 3.2913151364764266,
       "constraints": {
-        "maxVelocity": 3.0,
-        "maxAcceleration": 3.0,
+        "maxVelocity": 2.5,
+        "maxAcceleration": 2.5,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
         "nominalVoltage": 12.0,
