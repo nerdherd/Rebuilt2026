@@ -44,7 +44,8 @@ public final class Autos {
         autoChooser.addOption("Bot-S5MidTB", AutoBuilder.buildAuto("Bot-S5MidTB"));
         autoChooser.addOption("Bot-S5MidTBOutpost", AutoBuilder.buildAuto("Bot-S5MidTBOutpost"));
         autoChooser.addOption("Bot-S5Neutral", AutoBuilder.buildAuto("Bot-S5Neutral"));
-        autoChooser.addOption("Bot-S5MidTBDefClimb", AutoBuilder.buildAuto("Bot-S5MidTBDefClimb"));
+        autoChooser.addOption("BotS5-NeutralDef", AutoBuilder.buildAuto("BotS5-NeutralDef"));
+
         
         NerdLog.logData(kAutosTab + "/Selected Auto", autoChooser, LOG_LEVEL.MINIMAL);
     }
