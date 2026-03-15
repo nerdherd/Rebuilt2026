@@ -68,7 +68,7 @@ public class SuperSystem implements Reportable {
             if (shooter.getCurrentVelocity() > 20.0) {
                 startShoot();
                 double val = NerdyMath.posMod(MathSharedStore.getTimestamp(), 3.0);
-                if (val <= 0.2) intakeRoller.setDesiredValue(-1);
+                if (val <= 0.4) intakeRoller.setDesiredValue(-1);
                 else if (val <= 1.0) intakeRoller.setDesiredValue(9);
                 else intakeRoller.setDesiredValue(0.0);
             } else {
