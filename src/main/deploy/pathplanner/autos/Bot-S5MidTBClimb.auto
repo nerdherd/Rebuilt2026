@@ -23,6 +23,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Climb Up"
+          }
+        },
+        {
           "type": "wait",
           "data": {
             "waitTime": 3.0

@@ -23,9 +23,21 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Climb Up"
+          }
+        },
+        {
           "type": "wait",
           "data": {
             "waitTime": 3.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot Ramp Down"
           }
         },
         {
