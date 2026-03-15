@@ -1,0 +1,103 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 3.0,
+        "y": 2.42
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": -1.0463855421686752,
+        "y": 1.3467831325301212
+      },
+      "isLocked": false,
+      "linkedName": "H45-"
+    },
+    {
+      "anchor": {
+        "x": 6.652698795180723,
+        "y": 1.3139999999999998
+      },
+      "prevControl": {
+        "x": 6.243678191899782,
+        "y": -0.7216596180002506
+      },
+      "nextControl": {
+        "x": 6.935174418784681,
+        "y": 2.71985636867063
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 6.652698795180723,
+        "y": 2.756457831325301
+      },
+      "prevControl": {
+        "x": 6.90256002192551,
+        "y": 2.7647865388834614
+      },
+      "nextControl": {
+        "x": 5.997036144578313,
+        "y": 2.734602409638553
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 3.0,
+        "y": 2.42
+      },
+      "prevControl": {
+        "x": 5.406939759041467,
+        "y": 2.308421686743484
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "H45-"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.6448132780082956,
+      "rotationDegrees": 0.0
+    },
+    {
+      "waypointRelativePos": 0.9941908713692739,
+      "rotationDegrees": 115.0
+    },
+    {
+      "waypointRelativePos": 2.0,
+      "rotationDegrees": 115.0
+    },
+    {
+      "waypointRelativePos": 2.785892116182571,
+      "rotationDegrees": 0.0
+    }
+  ],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0.0,
+    "rotation": 45.0
+  },
+  "reversed": false,
+  "folder": "Combo Bottom",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 45.0
+  },
+  "useDefaultConstraints": true
+}
