@@ -14,7 +14,7 @@ import java.util.function.Consumer;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import dev.doglog.DogLog;
-// import edu.wpi.first.math.MathSharedStore;
+import edu.wpi.first.math.MathSharedStore;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.networktables.DoubleSubscriber;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.SwerveDriveConstants.FieldPositions;
 import frc.robot.subsystems.template.TemplateSubsystem;
+import frc.robot.util.NerdyMath;
 import frc.robot.util.logging.NerdLog;
 import frc.robot.util.logging.Reportable;
 
@@ -62,21 +63,20 @@ public class SuperSystem implements Reportable {
         return Commands.runOnce(this::startShoot, indexer, conveyor);
     }
 
-    // private double timeStartPivot = 0.0;
-    // private boolean pivotStarted = false;
     public Command shootWithCondition() {
         return Commands.run(() -> {
             if (shooter.getCurrentVelocity() > 20.0) {
                 startShoot();
-                // if (!pivotStarted) {pivotStarted = true; timeStartPivot = MathSharedStore.getTimestamp();}
-                // if (MathSharedStore.getTimestamp() - timeStartPivot > 2.0) intakeSlapdown.setDesiredValue(0);
-                // else if (MathSharedStore.getTimestamp() - timeStartPivot > 1.0) intakeSlapdown.setDesiredValue(1);
+                double val = NerdyMath.posMod(MathSharedStore.getTimestamp(), 3.0);
+                if (val <= 0.2) intakeRoller.setDesiredValue(-1);
+                else if (val <= 1.0) intakeRoller.setDesiredValue(9);
+                else intakeRoller.setDesiredValue(0.0);
             } else {
                 indexer.setDesiredValue(0);
                 conveyor.setDesiredValue(0);
             }
-        }, indexer, conveyor);
-        // .finallyDo(() -> {pivotStarted = false; intakeSlapdown.setDesiredValue(-1);});
+        }, indexer, conveyor)
+        .finallyDo(() -> intakeRoller.setDesiredValue(0.0));
     }
 
     public Command reverseConveyor() {
@@ -85,10 +85,6 @@ public class SuperSystem implements Reportable {
 
     public Command stopConveyor() {
         return conveyor.setDesiredValueCommand(0);
-    }
-    
-    public Command outtake() {
-        return intakeRoller.setDesiredValueCommand(-3);
     }
     
     public Command stopShooting() {
@@ -126,31 +122,36 @@ public class SuperSystem implements Reportable {
         );
     }
 
-
     public Command intake() {
         return Commands.parallel(
-            intakeRoller.setDesiredValueCommand(7.5)
-            // conveyor.setDesiredValueCommand(3)
+            intakeRoller.setDesiredValueCommand(9)
             );
-        }
+    }
+    
+    public Command outtake() {
+        return intakeRoller.setDesiredValueCommand(-3);
+    }
         
-        public Command  stopIntaking() {
-            return Commands.parallel(
-                intakeRoller.setDesiredValueCommand(0)
-                // conveyor.setDesiredValueCommand(0.0)
+    public Command stopIntaking() {
+        return Commands.parallel(
+            intakeRoller.setDesiredValueCommand(0)
         );
     }
 
     public Command climbUp() {
-        return Commands.parallel(
-            climb.setDesiredValueCommand(3)
-        );
+        return Commands.sequence(
+            climb.setDesiredValueCommand(8),
+            Commands.waitSeconds(3.5)
+        ).until(() -> climb.getCurrentPosition() > 250.0)
+        .andThen(climb.setDesiredValueCommand(0.0));
     }
 
     public Command climbDown() {
-        return Commands.parallel(
-            climb.setDesiredValueCommand(-3)
-        );
+        return Commands.sequence(
+            climb.setDesiredValueCommand(-8),
+            Commands.waitSeconds(3.5)
+        ).until(() -> climb.getCurrentPosition() > 250.0)
+        .andThen(climb.setDesiredValueCommand(0.0));
     }
 
     public Command stopClimb() {

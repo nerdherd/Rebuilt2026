@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import static frc.robot.Constants.ControllerConstants.kTurnToAngleFilter;
+
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
@@ -21,7 +23,6 @@ import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.NerdDrivetrain;
 import frc.robot.subsystems.SuperSystem;
 import frc.robot.util.Controller;
-import frc.robot.util.NerdyMath;
 import frc.robot.util.Controller.Type;
 import frc.robot.util.logging.NerdLog;
 import frc.robot.util.logging.Reportable.LOG_LEVEL;
@@ -73,6 +74,7 @@ public class RobotContainer {
    * used in teleop mode.
    */
   public void initDefaultCommands_teleop() {
+    boolean useTurnToAngle = false;
     SwerveJoystickCommand swerveJoystickCommand =
     new SwerveJoystickCommand(
       swerveDrive,
@@ -83,9 +85,13 @@ public class RobotContainer {
       // Turn
       () -> -driverController.getRightX(), 
       // use turn to angle
-      () -> driverController.getBumperRight(),
+      () -> driverController.getBumperRight() || useTurnToAngle,
       // turn to angle target direction, 0.0 to use manual
-      () -> NerdyMath.angleToPose(swerveDrive.getPose(), FieldPositions.HUB_CENTER.get()),
+      () -> ((useTurnToAngle) ? 
+                ((driverController.getBumperRight()) ? 
+                    swerveDrive.angleToPose(FieldPositions.HUB_CENTER) :
+                    kTurnToAngleFilter.apply(driverController.getRightX(), driverController.getRightY())) :
+                swerveDrive.angleToPose(FieldPositions.HUB_CENTER)),
       // robot oriented adjustment (dpad)
       () -> new Translation2d(
         (driverController.getDpadUp() ? 1 : 0) - (driverController.getDpadDown() ? 1 : 0), 
@@ -132,6 +138,20 @@ public class RobotContainer {
       driverController.triggerRight()
         .onTrue(superSystem.intake())
         .onFalse(superSystem.stopIntaking());
+
+      // driverController.buttonDown()
+      //   .onTrue(superSystem.shootWithDistance())
+      //   .onFalse(superSystem.stopFlywheel());
+      // driverController.buttonLeft()
+      //   .onTrue(superSystem.shootWithCondition())
+      //   .onFalse(superSystem.stopShooting());
+
+      // driverController.bumperLeft()
+      //   .whileTrue(superSystem.climbUp())
+      //   .onFalse(superSystem.stopClimb());
+      // driverController.buttonRight()
+      //   .whileTrue(superSystem.climbDown())
+      //   .onFalse(superSystem.stopClimb());
     }
   }
 
@@ -240,6 +260,7 @@ public class RobotContainer {
     }
     
     NerdLog.logData("Robot/Command Scheduler", CommandScheduler.getInstance(), LOG_LEVEL.ALL);
+    NerdLog.logNumber("Robot/RAM Usage", () -> (double)Runtime.getRuntime().freeMemory(), LOG_LEVEL.MEDIUM);
     NerdLog.reportLogCount();
   }
   

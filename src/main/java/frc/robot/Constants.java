@@ -277,7 +277,7 @@ public final class Constants {
 
     private static final CurrentLimitsConfigs kCurrentLimitsConfigs = 
       new CurrentLimitsConfigs()
-        .withStatorCurrentLimit(30)
+        .withStatorCurrentLimit(40)
         .withStatorCurrentLimitEnable(true);
 
     private static final FeedbackConfigs kFeedbackConfigs = 
