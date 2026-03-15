@@ -23,7 +23,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "S1MidTBDef"
+                  "pathName": "S5MidTBDef"
                 }
               },
               {
@@ -55,12 +55,6 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "Shoot"
-          }
-        },
-        {
           "type": "wait",
           "data": {
             "waitTime": 3.0
@@ -71,11 +65,17 @@
           "data": {
             "name": "Shoot Ramp Down"
           }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "H45-T3"
+          }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "Top Autos",
+  "folder": "Bottom Autos",
   "choreoAuto": false
 }

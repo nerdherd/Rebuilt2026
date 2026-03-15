@@ -7,25 +7,19 @@
         {
           "type": "named",
           "data": {
-            "name": "Intake Down Sequence"
+            "name": "Intake Down"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 1.0
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Reset Pose"
+            "waitTime": 0.3
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "S1MidTDef"
+            "pathName": "S1MidTBDef"
           }
         },
         {
@@ -35,15 +29,15 @@
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "Shoot Ramp Down"
+            "pathName": "H45T1"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "Archive",
+  "folder": "Top Autos",
   "choreoAuto": false
 }

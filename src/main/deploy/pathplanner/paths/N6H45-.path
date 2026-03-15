@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.77,
-        "y": 2.4
+        "x": 7.996807228915662,
+        "y": 1.6090481927710845
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.169165286293513,
-        "y": 3.6561763869659663
+        "x": 6.395972515209175,
+        "y": 2.8652245797370504
       },
       "isLocked": false,
       "linkedName": "N6Down"
@@ -71,7 +71,7 @@
   "folder": "To Hub",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -90.0
+    "rotation": 115.0
   },
   "useDefaultConstraints": true
 }
