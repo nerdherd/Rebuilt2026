@@ -7,63 +7,25 @@
         {
           "type": "named",
           "data": {
-            "name": "Intake Down"
+            "name": "Intake Down Sequence"
           }
         },
         {
-          "type": "parallel",
+          "type": "wait",
           "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "S5N6"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake Start"
-                }
-              }
-            ]
+            "waitTime": 1.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Reset Pose"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "N6N4"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Intake Stop"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "N4H60-"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Flywheel Start 60"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot"
+            "pathName": "S5MidT"
           }
         },
         {
@@ -82,6 +44,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Bottom Autos",
+  "folder": "Archive",
   "choreoAuto": false
 }

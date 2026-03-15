@@ -4,24 +4,24 @@
     {
       "anchor": {
         "x": 0.45,
-        "y": 7.25
+        "y": 7.21
       },
       "prevControl": null,
       "nextControl": {
-        "x": 0.4452452906154007,
-        "y": 6.1598269266296315
+        "x": 0.4570608815934186,
+        "y": 6.128339806428459
       },
       "isLocked": false,
       "linkedName": "D1Down"
     },
     {
       "anchor": {
-        "x": 0.45,
-        "y": 4.95
+        "x": 0.45999999999999996,
+        "y": 5.4
       },
       "prevControl": {
-        "x": 0.4438925493744785,
-        "y": 5.512086131609073
+        "x": 0.45215269054807317,
+        "y": 5.991045857841336
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,8 +33,8 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 2.0,
-    "maxAcceleration": 2.0,
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,

@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.5177039369125465,
-        "y": 0.8898674045693268
+        "x": 1.6659305459087634,
+        "y": 1.0507887381057235
       },
       "isLocked": false,
       "linkedName": "O1Up"
     },
     {
       "anchor": {
-        "x": 3.0,
-        "y": 1.23
+        "x": 2.5845193142361116,
+        "y": 1.3589432146990748
       },
       "prevControl": {
-        "x": 2.0730761396053126,
-        "y": 1.0120637600280247
+        "x": 1.5005194045830597,
+        "y": 0.9909042445885753
       },
       "nextControl": null,
       "isLocked": false,
@@ -31,10 +31,23 @@
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Flywheel Start 60",
+      "waypointRelativePos": 0,
+      "endWaypointRelativePos": null,
+      "command": null
+    },
+    {
+      "name": "Shoot",
+      "waypointRelativePos": 1.0,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
   "globalConstraints": {
-    "maxVelocity": 2.0,
-    "maxAcceleration": 2.0,
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,

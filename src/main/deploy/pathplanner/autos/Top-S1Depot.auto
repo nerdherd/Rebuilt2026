@@ -5,59 +5,9 @@
     "data": {
       "commands": [
         {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "S1D1"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake Down Sequence"
-                }
-              }
-            ]
-          }
-        },
-        {
           "type": "path",
           "data": {
-            "pathName": "D1D2"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Intake Stop"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "D2H45"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Flywheel Start 45"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot"
+            "pathName": "S1Depot"
           }
         },
         {
@@ -76,6 +26,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Top Autos",
+  "folder": "Archive",
   "choreoAuto": false
 }

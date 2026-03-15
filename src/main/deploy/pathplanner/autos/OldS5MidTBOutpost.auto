@@ -11,28 +11,21 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "S1N1"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake Start"
-                }
-              }
-            ]
+            "pathName": "S5N6"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake Start"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "N1N3"
+            "pathName": "N6N4"
           }
         },
         {
@@ -48,7 +41,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "N3H45"
+                  "pathName": "N4H45-"
                 }
               },
               {
@@ -69,7 +62,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 4.0
+            "waitTime": 3.0
           }
         },
         {
@@ -79,7 +72,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "H45D1"
+                  "pathName": "H45-O1"
                 }
               },
               {
@@ -87,11 +80,36 @@
                 "data": {
                   "name": "Shoot Ramp Down"
                 }
+              }
+            ]
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 3.0
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 2.0
+                }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "Intake Start"
+                  "name": "Flywheel Start 60"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 1.0
                 }
               }
             ]
@@ -100,19 +118,31 @@
         {
           "type": "path",
           "data": {
-            "pathName": "D1D2"
+            "pathName": null
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Intake Stop"
+            "name": "Shoot"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 3.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot Ramp Down"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "Top Autos",
+  "folder": "Old Autos",
   "choreoAuto": false
 }

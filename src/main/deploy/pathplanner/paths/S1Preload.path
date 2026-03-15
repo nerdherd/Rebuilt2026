@@ -4,37 +4,50 @@
     {
       "anchor": {
         "x": 3.55,
-        "y": 4.04
+        "y": 7.4
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.658474940600546,
-        "y": 3.8147597121700736
+        "x": 3.3,
+        "y": 7.4
       },
       "isLocked": false,
-      "linkedName": "S3"
+      "linkedName": "S1"
     },
     {
       "anchor": {
-        "x": 3.55,
-        "y": 5.57
+        "x": 3.0,
+        "y": 6.86
       },
       "prevControl": {
-        "x": 3.355587188612101,
-        "y": 5.374519572953736
+        "x": 3.0,
+        "y": 7.11
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "S2"
+      "linkedName": "H60"
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Flywheel Start 60",
+      "waypointRelativePos": 0,
+      "endWaypointRelativePos": null,
+      "command": null
+    },
+    {
+      "name": "Intake Down",
+      "waypointRelativePos": 1.0,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
   "globalConstraints": {
-    "maxVelocity": 2.0,
-    "maxAcceleration": 2.0,
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -42,10 +55,10 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -59.99999999999999
   },
   "reversed": false,
-  "folder": "To Start",
+  "folder": "Combo Top",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 0.0

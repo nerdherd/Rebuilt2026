@@ -5,15 +5,15 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": null
+            "name": "Intake Down Sequence"
           }
         },
         {
-          "type": "path",
+          "type": "wait",
           "data": {
-            "pathName": "S4N4Right"
+            "waitTime": 0.3
           }
         },
         {
@@ -23,22 +23,35 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "N4RightH0"
+                  "pathName": "S5MidTBDef"
                 }
               },
               {
-                "type": "named",
+                "type": "sequential",
                 "data": {
-                  "name": "Shoot Distance"
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 4.5
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Intake Stop"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Flywheel Start 45"
+                      }
+                    }
+                  ]
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot"
           }
         },
         {
@@ -56,13 +69,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "H0T2"
+            "pathName": "H45-T3"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "Middle Autos",
+  "folder": "Bottom Autos",
   "choreoAuto": false
 }

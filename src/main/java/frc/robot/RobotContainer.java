@@ -47,7 +47,8 @@ public class RobotContainer {
 
     if (Constants.USE_SUBSYSTEMS) { // add subsystems
       superSystem = new SuperSystem(swerveDrive);
-      Autos.initNamedCommands(superSystem);
+      Autos.initNamedCommands(superSystem, swerveDrive);
+      Autos.initEventMarkers(superSystem, swerveDrive);
     }
     
     Subsystems.init();
@@ -143,13 +144,12 @@ public class RobotContainer {
       operatorController.triggerLeft()
         .onTrue(superSystem.intake())
         .onFalse(superSystem.stopIntaking());
-      operatorController.bumperLeft()
-        .onTrue(superSystem.intakeUp())
-        .onFalse(superSystem.intakeDown());
+      operatorController.controllerLeft()
+        .onTrue(superSystem.intakeDown());
 
       operatorController.triggerRight()
         // .whileTrue(superSystem.shootWithDistance())
-        .whileTrue(superSystem.shootWithTuning())
+        .whileTrue(superSystem.shootWithTuning()) // USE ELASTIC
         // .onTrue(superSystem.spinUpFlywheel())
         .onFalse(superSystem.stopFlywheel());
       operatorController.bumperRight()
@@ -157,18 +157,18 @@ public class RobotContainer {
         .onFalse(superSystem.stopShooting());
         
       operatorController.buttonRight()
-        .onTrue(superSystem.reverseConveyor())
-        .onFalse(superSystem.stopConveyor());
-      operatorController.buttonDown()
         .onTrue(superSystem.outtake())
         .onFalse(superSystem.stopIntaking());
+      operatorController.buttonDown()
+        .onTrue(superSystem.reverseConveyor())
+        .onFalse(superSystem.stopConveyor());
       
       operatorController.dpadUp()
-        .onTrue(superSystem.climbUp())
+        .whileTrue(superSystem.climbUp())
         .onFalse(superSystem.stopClimb());
         
       operatorController.dpadDown()
-        .onTrue(superSystem.climbDown())
+        .whileTrue(superSystem.climbDown())
         .onFalse(superSystem.stopClimb());
     }
   }

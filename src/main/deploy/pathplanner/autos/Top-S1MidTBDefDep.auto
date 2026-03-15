@@ -5,21 +5,27 @@
     "data": {
       "commands": [
         {
-          "type": "path",
-          "data": {
-            "pathName": "S4N4Off"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "N4OffN6"
-          }
-        },
-        {
           "type": "named",
           "data": {
-            "name": "Intake Stop"
+            "name": "Intake Down"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.3
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "S1MidTBDef"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 3.0
           }
         },
         {
@@ -27,30 +33,24 @@
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "named",
                 "data": {
-                  "pathName": "N6H45-"
+                  "name": "Shoot Ramp Down"
                 }
               },
               {
-                "type": "named",
+                "type": "path",
                 "data": {
-                  "name": "Flywheel Start 45"
+                  "pathName": "H45Depot"
                 }
               }
             ]
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "Shoot"
-          }
-        },
-        {
           "type": "wait",
           "data": {
-            "waitTime": 4.0
+            "waitTime": 3.0
           }
         },
         {
@@ -63,6 +63,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Bottom Autos",
+  "folder": "Top Autos",
   "choreoAuto": false
 }
