@@ -7,7 +7,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Intake Down"
+            "name": "Intake Down Sequence"
           }
         },
         {
@@ -19,7 +19,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "S1MidTBDef"
+            "pathName": "S5MidTB"
           }
         },
         {
@@ -29,15 +29,21 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Shoot Ramp Down"
+          }
+        },
+        {
           "type": "path",
           "data": {
-            "pathName": "H45T1"
+            "pathName": "H45-T3"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "Top Autos",
+  "folder": "Bottom Autos",
   "choreoAuto": false
 }

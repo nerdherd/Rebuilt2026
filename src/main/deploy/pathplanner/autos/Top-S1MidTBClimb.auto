@@ -19,7 +19,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "S1MidTBDef"
+            "pathName": "S1MidTB"
           }
         },
         {
@@ -29,34 +29,9 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Shoot Ramp Down"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "H45Depot"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 3.0
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot Ramp Down"
+            "pathName": "H45T1"
           }
         }
       ]
