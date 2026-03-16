@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.4169988137603804,
-        "y": 2.37270462633452
+        "x": 0.8036331120483373,
+        "y": 2.4200000000000004
       },
       "isLocked": false,
       "linkedName": "H45-"
@@ -17,25 +17,30 @@
     {
       "anchor": {
         "x": 0.9,
-        "y": 2.89
+        "y": 2.92
       },
       "prevControl": {
-        "x": 0.6309727164887315,
-        "y": 2.1790391459074727
+        "x": 0.9,
+        "y": 2.2270085046733006
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": "T3"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.39735356675392663,
+      "rotationDegrees": 180.0
+    }
+  ],
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.4364454443194621,
+      "minWaypointRelativePos": 0.5954130569306936,
       "maxWaypointRelativePos": 1.0,
       "constraints": {
-        "maxVelocity": 1.0,
+        "maxVelocity": 0.5,
         "maxAcceleration": 1.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
@@ -62,8 +67,8 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 0,
-    "rotation": 0.0
+    "velocity": 0.0,
+    "rotation": 180.0
   },
   "reversed": false,
   "folder": "To Tower",

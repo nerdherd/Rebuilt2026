@@ -6,7 +6,9 @@ package frc.robot;
 
 import static frc.robot.Constants.ControllerConstants.kTurnToAngleFilter;
 
+import dev.doglog.DogLog;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.networktables.StringSubscriber;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
@@ -140,10 +142,10 @@ public class RobotContainer {
         .onFalse(superSystem.stopIntaking());
 
       // driverController.buttonDown()
-      //   .onTrue(superSystem.shootWithDistance())
+      //   .whileTrue(superSystem.shootWithTuning())
       //   .onFalse(superSystem.stopFlywheel());
       // driverController.buttonLeft()
-      //   .onTrue(superSystem.shootWithCondition())
+      //   .whileTrue(superSystem.shootWithCondition())
       //   .onFalse(superSystem.stopShooting());
 
       // driverController.bumperLeft()
@@ -161,16 +163,19 @@ public class RobotContainer {
   public void configureOperatorBindings_teleop() {
 
     if (Constants.USE_SUBSYSTEMS) {
-      operatorController.triggerLeft()
+      operatorController.bumperLeft()
         .onTrue(superSystem.intake())
         .onFalse(superSystem.stopIntaking());
       operatorController.controllerLeft()
         .onTrue(superSystem.intakeDown());
 
       operatorController.triggerRight()
-        // .whileTrue(superSystem.shootWithDistance())
-        .whileTrue(superSystem.shootWithTuning()) // USE ELASTIC
+        .whileTrue(superSystem.shootWithDistance())
+        // .whileTrue(superSystem.shootWithTuning()) // USE ELASTIC
         // .onTrue(superSystem.spinUpFlywheel())
+        .onFalse(superSystem.stopFlywheel());
+      operatorController.triggerLeft()
+        .whileTrue(superSystem.spinUpFlywheel())
         .onFalse(superSystem.stopFlywheel());
       operatorController.bumperRight()
         .whileTrue(superSystem.shootWithCondition())
@@ -251,7 +256,9 @@ public class RobotContainer {
       
   }
   
+  private StringSubscriber printLog = null;
   public void initializeLogging() {
+    if (printLog == null) printLog = DogLog.tunable("Robot/Print", "", (val) -> NerdLog.reportInfo(val));
     NerdLog.logData("Robot/PDP", pdp, LOG_LEVEL.MEDIUM);
     
     swerveDrive.initializeLogging();
