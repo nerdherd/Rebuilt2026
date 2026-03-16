@@ -40,6 +40,7 @@ import frc.robot.RobotContainer;
 import frc.robot.Constants.SwerveDriveConstants.FieldPositions;
 import frc.robot.Constants.VisionConstants.Camera;
 import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
+import frc.robot.util.NerdyMath;
 import frc.robot.util.logging.NerdLog;
 import frc.robot.util.logging.Reportable;
 import frc.robot.vision.LimelightHelpers;
@@ -187,6 +188,10 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
         configNeutralMode(brake ? NeutralModeValue.Brake : NeutralModeValue.Coast);
     }
 
+    public double angleToPose(FieldPositions pos) {
+        return NerdyMath.angleToPose(getPose(), pos.get());
+    }
+
     private final double deviceTempThreshold = 50;
     /** @return "it's chill" unless the temperature of any motor is above the threshold, reports id and type */
     private String pollTemperatures() {
@@ -329,8 +334,10 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
                 positionField.getObject(position.name() + "-blue").setPose(position.blue);
                 positionField.getObject(position.name() + "-red").setPose(position.red);
             }
-            NerdLog.logData("NerdDrivetrain/Object Field", positionField, LOG_LEVEL.ALL);
+            NerdLog.logData(kSwerveTab +"/Object Field", positionField, LOG_LEVEL.ALL);
         }
+        for (Camera camera : Camera.values())
+            NerdLog.logBoolean(kSwerveTab + "/" + camera.name + " detecting", () -> LimelightHelpers.getTV(camera.name), LOG_LEVEL.ALL);
 
         NerdLog.logStructSerializable(kSwerveTab + "/Field Chassis Speeds", () -> getFieldOrientedSpeeds(), LOG_LEVEL.ALL);
         NerdLog.logSwerveModules(kSwerveTab + "/Swerve Module States", this::getState, LOG_LEVEL.ALL);
