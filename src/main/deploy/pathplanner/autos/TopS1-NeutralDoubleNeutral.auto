@@ -7,37 +7,26 @@
         {
           "type": "named",
           "data": {
-            "name": "Intake Down Sequence"
+            "name": "Intake Down"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.3
+            "waitTime": 0.2
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "S5MidTB"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 3.0
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot Ramp Down"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "H45-O1"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "S1H45Combo"
+                }
+              }
+            ]
           }
         },
         {
@@ -49,25 +38,20 @@
         {
           "type": "named",
           "data": {
-            "name": "Flywheel Start 60"
+            "name": "Shoot Ramp Down"
           }
         },
         {
-          "type": "wait",
+          "type": "parallel",
           "data": {
-            "waitTime": 1.0
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "O1H60-"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Top2"
+                }
+              }
+            ]
           }
         },
         {
@@ -81,11 +65,17 @@
           "data": {
             "name": "Shoot Ramp Down"
           }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "H45N1"
+          }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "Bottom Autos",
+  "folder": "Top Autos",
   "choreoAuto": false
 }

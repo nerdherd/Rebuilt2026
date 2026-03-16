@@ -17,41 +17,9 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "S1MidTB"
-                }
-              },
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 4.5
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Intake Stop"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Flywheel Start 45"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
+            "pathName": "S1MidTB"
           }
         },
         {
@@ -61,22 +29,15 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Shoot Ramp Down"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "H45Depot"
-                }
-              }
-            ]
+            "name": "Shoot Ramp Down"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "H45Depot"
           }
         },
         {

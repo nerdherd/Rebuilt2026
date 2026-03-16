@@ -7,25 +7,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "S3MidBotB"
+            "pathName": "S3MidTopBDefense"
           }
         },
         {
-          "type": "wait",
+          "type": "path",
           "data": {
-            "waitTime": 3.0
+            "pathName": "H45MidTopBT"
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "Shoot Ramp Down"
+            "pathName": "S1H60"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "Archive",
+  "folder": "Middle Autos",
   "choreoAuto": false
 }

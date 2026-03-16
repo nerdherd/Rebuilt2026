@@ -5,27 +5,9 @@
     "data": {
       "commands": [
         {
-          "type": "named",
-          "data": {
-            "name": "Intake Down Sequence"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.0
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Reset Pose"
-          }
-        },
-        {
           "type": "path",
           "data": {
-            "pathName": "S1MidTDef"
+            "pathName": "S3MidTopB"
           }
         },
         {
@@ -39,11 +21,29 @@
           "data": {
             "name": "Shoot Ramp Down"
           }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "H45T1"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 2.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Climb Down"
+          }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "Archive",
+  "folder": "Middle Autos",
   "choreoAuto": false
 }

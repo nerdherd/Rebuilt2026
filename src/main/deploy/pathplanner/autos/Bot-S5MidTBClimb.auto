@@ -13,19 +13,19 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 1.0
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Reset Pose"
+            "waitTime": 0.3
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "S1MidTDef"
+            "pathName": "S5MidTB"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Climb Up"
           }
         },
         {
@@ -39,11 +39,17 @@
           "data": {
             "name": "Shoot Ramp Down"
           }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "H45-T3"
+          }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "Archive",
+  "folder": "Bottom Autos",
   "choreoAuto": false
 }
