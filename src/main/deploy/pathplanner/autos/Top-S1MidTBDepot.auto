@@ -7,7 +7,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Intake Down"
+            "name": "Intake Down Sequence"
           }
         },
         {
@@ -19,7 +19,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "S1MidTBDef"
+            "pathName": "S1MidTB"
           }
         },
         {
@@ -29,22 +29,15 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Shoot Ramp Down"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "H45Depot"
-                }
-              }
-            ]
+            "name": "Shoot Ramp Down"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "H45Depot"
           }
         },
         {

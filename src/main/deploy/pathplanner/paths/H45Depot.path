@@ -21,14 +21,14 @@
       },
       "prevControl": {
         "x": 0.45,
-        "y": 7.46
+        "y": 7.659407196615514
       },
       "nextControl": {
         "x": 0.45000000000000007,
-        "y": 6.410436570695782
+        "y": 6.410436570695784
       },
       "isLocked": false,
-      "linkedName": "D1Down"
+      "linkedName": null
     },
     {
       "anchor": {
@@ -37,14 +37,14 @@
       },
       "prevControl": {
         "x": 0.45999999999999996,
-        "y": 5.65
+        "y": 5.650000000000002
       },
       "nextControl": {
         "x": 0.45999999999999996,
-        "y": 5.15
+        "y": 4.9586756003520644
       },
       "isLocked": false,
-      "linkedName": "D2Down"
+      "linkedName": null
     },
     {
       "anchor": {
@@ -52,8 +52,8 @@
         "y": 5.66
       },
       "prevControl": {
-        "x": 2.142102476333055,
-        "y": 5.44338541318207
+        "x": 1.9980284629158969,
+        "y": 5.08033950439002
       },
       "nextControl": null,
       "isLocked": false,
@@ -67,17 +67,21 @@
     },
     {
       "waypointRelativePos": 1.8809946714031935,
+      "rotationDegrees": -92.66451416731094
+    },
+    {
+      "waypointRelativePos": 2.569566017670158,
       "rotationDegrees": -90.0
     }
   ],
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.9982350498338863,
+      "minWaypointRelativePos": 1.0,
       "maxWaypointRelativePos": 2.0,
       "constraints": {
         "maxVelocity": 2.0,
-        "maxAcceleration": 2.0,
+        "maxAcceleration": 3.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
         "nominalVoltage": 12.0,
@@ -89,19 +93,19 @@
   "eventMarkers": [
     {
       "name": "Intake Start",
-      "waypointRelativePos": 0.0,
+      "waypointRelativePos": 0.3250696163366338,
       "endWaypointRelativePos": null,
       "command": null
     },
     {
       "name": "Flywheel Start 45",
-      "waypointRelativePos": 1.5585158845514944,
+      "waypointRelativePos": 1.5224319306930694,
       "endWaypointRelativePos": null,
       "command": null
     },
     {
       "name": "Intake Stop",
-      "waypointRelativePos": 2.189498546511631,
+      "waypointRelativePos": 2.3911664603960396,
       "endWaypointRelativePos": null,
       "command": null
     },

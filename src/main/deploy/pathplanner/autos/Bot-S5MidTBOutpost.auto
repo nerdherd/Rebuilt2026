@@ -17,41 +17,9 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "S5MidTB"
-                }
-              },
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 4.5
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Intake Stop"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Flywheel Start 45"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
+            "pathName": "S5MidTB"
           }
         },
         {
@@ -61,22 +29,15 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Shoot Ramp Down"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "H45-O1"
-                }
-              }
-            ]
+            "name": "Shoot Ramp Down"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "H45-O1"
           }
         },
         {
@@ -125,6 +86,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Archive",
+  "folder": "Bottom Autos",
   "choreoAuto": false
 }

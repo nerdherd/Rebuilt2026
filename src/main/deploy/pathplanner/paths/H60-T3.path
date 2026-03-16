@@ -17,11 +17,11 @@
     {
       "anchor": {
         "x": 0.9,
-        "y": 2.89
+        "y": 2.92
       },
       "prevControl": {
         "x": 1.1423616174768523,
-        "y": 2.13154564525463
+        "y": 2.16154564525463
       },
       "nextControl": null,
       "isLocked": false,
@@ -63,7 +63,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 180.0
   },
   "reversed": false,
   "folder": "To Tower",
