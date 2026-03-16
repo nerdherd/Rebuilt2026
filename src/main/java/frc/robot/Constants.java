@@ -24,6 +24,7 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.util.FlippingUtil;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -224,10 +225,18 @@ public final class Constants {
   public static final class VisionConstants {
     /** how many frames to skip in disabled, to prevent overheating */
     public static final int kDisabledThrottle = 100;
+    
+    public static final PIDController PIDControllerArea = new PIDController(0.5, 0, 0.05);
+    public static final PIDController PIDControllerTX =  new PIDController(0.05, 0, 0.0025);
 
     public static enum Camera {
       // Example("limelight-ex", "10.6.87.XX:5802"),
-      Front("limelight-fr", "10.6.87.17:5802");
+      Front("limelight-fr", "10.6.87.17:5802"),
+      
+      Hailo("limelight-hailo", "10.6.87.200");
+      
+      
+
 
       public final String name, ip;
       Camera(String name, String ip) {

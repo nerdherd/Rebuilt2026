@@ -25,6 +25,7 @@ import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -37,7 +38,9 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
+import frc.robot.Constants.SwerveDriveConstants;
 import frc.robot.Constants.SwerveDriveConstants.FieldPositions;
+import frc.robot.Constants.VisionConstants;
 import frc.robot.Constants.VisionConstants.Camera;
 import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
 import frc.robot.util.logging.NerdLog;
@@ -49,8 +52,18 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
     public final Field2d field;
     public boolean useMegaTag2 = false;
 
+    
+    PIDController areaController;     // TODO: tune
+    PIDController txController;
+
     public NerdDrivetrain(SwerveDrivetrainConstants drivetrainConstants, SwerveModuleConstants<?, ?, ?>... modules) {
         super(drivetrainConstants, modules);
+        
+        areaController = VisionConstants.PIDControllerArea;
+        areaController.setTolerance(0.5);
+        txController = VisionConstants.PIDControllerTX;
+        txController.setTolerance(0.005);
+
 
         RobotConfig robotConfig = null;
         try {
@@ -186,6 +199,9 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
         configNeutralMode(brake ? NeutralModeValue.Brake : NeutralModeValue.Coast);
     }
 
+
+    
+
     private final double deviceTempThreshold = 50;
     /** @return "it's chill" unless the temperature of any motor is above the threshold, reports id and type */
     private String pollTemperatures() {
@@ -252,6 +268,23 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
             if (mt == null || Math.abs(getPigeon2().getAngularVelocityZWorld().getValueAsDouble()) > 720 || mt.tagCount == 0) return;
             setVisionMeasurementStdDevs(VecBuilder.fill(0.7, 0.7, 9999999)); // TODO consider other stddevs
             addVisionMeasurement(mt.pose, Utils.getCurrentTimeSeconds());
+        }
+    }
+    
+    public void driveToFuel(String limelightName, double targetArea){
+        // String[] labels = classLabels.getStringArray(new String[]{});
+        // if (labels.length > 1) System.out.println("too many labels: " + labels.length);
+        if (LimelightHelpers.getTV(limelightName)){// && labels.length == 1 && labels[0].equals("coral")){
+            double tx = LimelightHelpers.getTX(limelightName); 
+            double ty = LimelightHelpers.getTY(limelightName); 
+
+            double ta = LimelightHelpers.getTA(limelightName);  // Target area (0% to 100% of image)
+            
+            // PIDController rotationController = new PIDController(0.08, 0, 0.006);       // TODO: tune
+            double forwardSpeed = areaController.calculate(ta,targetArea);
+            double turnSpeed = -txController.calculate(tx,0);
+            if (areaController.atSetpoint()) forwardSpeed = 0.0;
+            //drive
         }
     }
 
