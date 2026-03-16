@@ -11,6 +11,18 @@
           }
         },
         {
+          "type": "wait",
+          "data": {
+            "waitTime": 3.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot Stop"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "H45MidTopBT"
@@ -20,6 +32,18 @@
           "type": "path",
           "data": {
             "pathName": "S1H60"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 3.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot Stop"
           }
         }
       ]

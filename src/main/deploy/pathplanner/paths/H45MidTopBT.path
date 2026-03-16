@@ -86,8 +86,26 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "",
-      "waypointRelativePos": 0,
+      "name": "Intake Start",
+      "waypointRelativePos": 0.9320099255582717,
+      "endWaypointRelativePos": null,
+      "command": null
+    },
+    {
+      "name": "Shoot Ramp Up",
+      "waypointRelativePos": 2.480397022332479,
+      "endWaypointRelativePos": null,
+      "command": null
+    },
+    {
+      "name": "Intake Stop",
+      "waypointRelativePos": 2.4923076923076746,
+      "endWaypointRelativePos": null,
+      "command": null
+    },
+    {
+      "name": "Intake Down Sequence",
+      "waypointRelativePos": 2.7424317617865994,
       "endWaypointRelativePos": null,
       "command": null
     }
