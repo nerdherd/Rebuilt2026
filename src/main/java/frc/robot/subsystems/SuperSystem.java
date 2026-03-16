@@ -16,6 +16,9 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import dev.doglog.DogLog;
 import edu.wpi.first.math.MathSharedStore;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.networktables.DoubleSubscriber;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -55,7 +58,7 @@ public class SuperSystem implements Reportable {
     }
     
     public void startShoot() {
-        indexer.setDesiredValue(7);
+        indexer.setDesiredValue(8);
         conveyor.setDesiredValue(6);
     }
 
@@ -67,8 +70,8 @@ public class SuperSystem implements Reportable {
         return Commands.run(() -> {
             if (shooter.getCurrentVelocity() > 20.0) {
                 startShoot();
-                double val = NerdyMath.posMod(MathSharedStore.getTimestamp(), 3.0);
-                if (val <= 0.4) intakeRoller.setDesiredValue(-1);
+                double val = NerdyMath.posMod(MathSharedStore.getTimestamp(), 1.1);
+                if (val <= 0.4) intakeRoller.setDesiredValue(-1.5);
                 else if (val <= 1.0) intakeRoller.setDesiredValue(9);
                 else intakeRoller.setDesiredValue(0.0);
             } else {
@@ -96,7 +99,7 @@ public class SuperSystem implements Reportable {
 
     public Command spinUpFlywheel() {
         return Commands.parallel(
-            setShooterCommand(45)
+            setShooterCommand(37)
         );
     }
 
@@ -115,8 +118,6 @@ public class SuperSystem implements Reportable {
     public Command intakeDown() {
         return Commands.sequence(
             intakeSlapdown.setDesiredValueCommand(-8),
-            Commands.waitSeconds(0.3),
-            intakeSlapdown.setDesiredValueCommand(-2),
             Commands.waitSeconds(0.2),
             intakeSlapdown.setDesiredValueCommand(-1)
         );
@@ -124,7 +125,7 @@ public class SuperSystem implements Reportable {
 
     public Command intake() {
         return Commands.parallel(
-            intakeRoller.setDesiredValueCommand(9)
+            intakeRoller.setDesiredValueCommand(10)
             );
     }
     
@@ -150,7 +151,7 @@ public class SuperSystem implements Reportable {
         return Commands.sequence(
             climb.setDesiredValueCommand(-8),
             Commands.waitSeconds(3.5)
-        ).until(() -> climb.getCurrentPosition() > 250.0)
+        ).until(() -> climb.getCurrentPosition() < 1.0)
         .andThen(climb.setDesiredValueCommand(0.0));
     }
 
@@ -210,7 +211,8 @@ public class SuperSystem implements Reportable {
     }
 
     public double getHubDistance() {
-        Pose2d hub = FieldPositions.HUB_CENTER.get();
+        ChassisSpeeds speeds = swerveDrivetrain.getFieldOrientedSpeeds();
+        Pose2d hub = FieldPositions.HUB_CENTER.get().plus(new Transform2d(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond, Rotation2d.kZero).times(ShooterConstants.kLookAheadFactor));
         return swerveDrivetrain.getPose().getTranslation().getDistance(hub.getTranslation());
     }
 

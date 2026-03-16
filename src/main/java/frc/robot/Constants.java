@@ -50,7 +50,7 @@ import frc.robot.util.logging.Reportable.LOG_LEVEL;
 public final class Constants {
 
   /** current logging level of the robot's subsystems, @see Reportable.add... */
-  public static final LOG_LEVEL ROBOT_LOG_LEVEL = LOG_LEVEL.ALL;
+  public static final LOG_LEVEL ROBOT_LOG_LEVEL = LOG_LEVEL.MEDIUM;
   
   /** 
    * (hopefully) controls whether subsystem objects are used, swerve and others not counted
@@ -118,7 +118,7 @@ public final class Constants {
     public static final double kTurnMaxVelocity = 3; // rad/s
     public static final double kTurnPrecisionMultiplier = 0.5; // fractional
     
-    public static final double kRobotOrientedVelocity = 1.0; // m/s
+    public static final double kRobotOrientedVelocity = 1.5; // m/s
     
     ///////////////////////////
     /// -- Turn to Angle -- ///
@@ -231,7 +231,7 @@ public final class Constants {
     public static enum Camera {
       // Example("limelight-ex", "10.6.87.XX:5802"),
       Front("limelight-fr", "10.6.87.17:5802"),
-      Back("limelight-ba", "10.6.87.18:5802");
+      Back("limelight-br", "10.6.87.15:5802");
 
       public final String name, ip;
       Camera(String name, String ip) {
@@ -308,7 +308,7 @@ public final class Constants {
 
     public static final CurrentLimitsConfigs kCurrentLimitsConfigs = 
       new CurrentLimitsConfigs()
-        .withStatorCurrentLimit(20)
+        .withStatorCurrentLimit(30)
         .withStatorCurrentLimitEnable(true);
         
     public static final TalonFXConfiguration kSubsystemConfiguration = 
@@ -378,9 +378,10 @@ public final class Constants {
 
     // Regression of a*x^2 + b
     // Update at -- on -/-/2026
-    public static final double kShootWithDistanceA = 3.81515; // a
-    public static final double kShootWithDistanceB = 34.25433; // b
+    public static final double kShootWithDistanceA = 0.796095; // a
+    public static final double kShootWithDistanceB = 30.40155; // b
 
+    public static final double kLookAheadFactor = 0.5;
   }
 
   public static final class ClimbConstants {
