@@ -305,6 +305,10 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 		return primaryMotor.getVelocity().getValueAsDouble();
 	}
 
+	public double getCurrentPosition() { 
+		return primaryMotor.getPosition().getValueAsDouble();
+	}
+
 	/**
 	 * @return temperature of {@link #primaryMotor}
 	 */

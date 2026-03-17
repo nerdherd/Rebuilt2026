@@ -4,7 +4,11 @@
 
 package frc.robot;
 
+import static frc.robot.Constants.ControllerConstants.kTurnToAngleFilter;
+
+import dev.doglog.DogLog;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.networktables.StringSubscriber;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
@@ -21,7 +25,6 @@ import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.NerdDrivetrain;
 import frc.robot.subsystems.SuperSystem;
 import frc.robot.util.Controller;
-import frc.robot.util.NerdyMath;
 import frc.robot.util.Controller.Type;
 import frc.robot.util.logging.NerdLog;
 import frc.robot.util.logging.Reportable.LOG_LEVEL;
@@ -48,6 +51,7 @@ public class RobotContainer {
     if (Constants.USE_SUBSYSTEMS) { // add subsystems
       superSystem = new SuperSystem(swerveDrive);
       Autos.initNamedCommands(superSystem, swerveDrive);
+      Autos.initEventMarkers(superSystem, swerveDrive);
     }
     
     Subsystems.init();
@@ -72,6 +76,7 @@ public class RobotContainer {
    * used in teleop mode.
    */
   public void initDefaultCommands_teleop() {
+    boolean useTurnToAngle = false;
     SwerveJoystickCommand swerveJoystickCommand =
     new SwerveJoystickCommand(
       swerveDrive,
@@ -82,9 +87,13 @@ public class RobotContainer {
       // Turn
       () -> -driverController.getRightX(), 
       // use turn to angle
-      () -> driverController.getBumperRight(),
+      () -> driverController.getBumperRight() || useTurnToAngle,
       // turn to angle target direction, 0.0 to use manual
-      () -> NerdyMath.angleToPose(swerveDrive.getPose(), FieldPositions.HUB_CENTER.get()),
+      () -> ((useTurnToAngle) ? 
+                ((driverController.getBumperRight()) ? 
+                    swerveDrive.angleToPose(FieldPositions.HUB_CENTER) :
+                    kTurnToAngleFilter.apply(driverController.getRightX(), driverController.getRightY())) :
+                swerveDrive.angleToPose(FieldPositions.HUB_CENTER)),
       // robot oriented adjustment (dpad)
       () -> new Translation2d(
         (driverController.getDpadUp() ? 1 : 0) - (driverController.getDpadDown() ? 1 : 0), 
@@ -131,6 +140,20 @@ public class RobotContainer {
       driverController.triggerRight()
         .onTrue(superSystem.intake())
         .onFalse(superSystem.stopIntaking());
+
+      // driverController.buttonDown()
+      //   .whileTrue(superSystem.shootWithTuning())
+      //   .onFalse(superSystem.stopFlywheel());
+      // driverController.buttonLeft()
+      //   .whileTrue(superSystem.shootWithCondition())
+      //   .onFalse(superSystem.stopShooting());
+
+      // driverController.bumperLeft()
+      //   .whileTrue(superSystem.climbUp())
+      //   .onFalse(superSystem.stopClimb());
+      // driverController.buttonRight()
+      //   .whileTrue(superSystem.climbDown())
+      //   .onFalse(superSystem.stopClimb());
     }
   }
 
@@ -140,34 +163,37 @@ public class RobotContainer {
   public void configureOperatorBindings_teleop() {
 
     if (Constants.USE_SUBSYSTEMS) {
-      operatorController.triggerLeft()
+      operatorController.bumperLeft()
         .onTrue(superSystem.intake())
         .onFalse(superSystem.stopIntaking());
       operatorController.controllerLeft()
         .onTrue(superSystem.intakeDown());
 
       operatorController.triggerRight()
-        // .whileTrue(superSystem.shootWithDistance())
-        .whileTrue(superSystem.shootWithTuning())
+        .whileTrue(superSystem.shootWithDistance())
+        // .whileTrue(superSystem.shootWithTuning()) // USE ELASTIC
         // .onTrue(superSystem.spinUpFlywheel())
+        .onFalse(superSystem.stopFlywheel());
+      operatorController.triggerLeft()
+        .whileTrue(superSystem.spinUpFlywheel())
         .onFalse(superSystem.stopFlywheel());
       operatorController.bumperRight()
         .whileTrue(superSystem.shootWithCondition())
         .onFalse(superSystem.stopShooting());
         
       operatorController.buttonRight()
-        .onTrue(superSystem.reverseConveyor())
-        .onFalse(superSystem.stopConveyor());
-      operatorController.buttonDown()
         .onTrue(superSystem.outtake())
         .onFalse(superSystem.stopIntaking());
+      operatorController.buttonDown()
+        .onTrue(superSystem.reverseConveyor())
+        .onFalse(superSystem.stopConveyor());
       
       operatorController.dpadUp()
-        .onTrue(superSystem.climbUp())
+        .whileTrue(superSystem.climbUp())
         .onFalse(superSystem.stopClimb());
         
       operatorController.dpadDown()
-        .onTrue(superSystem.climbDown())
+        .whileTrue(superSystem.climbDown())
         .onFalse(superSystem.stopClimb());
     }
   }
@@ -230,7 +256,9 @@ public class RobotContainer {
       
   }
   
+  private StringSubscriber printLog = null;
   public void initializeLogging() {
+    if (printLog == null) printLog = DogLog.tunable("Robot/Print", "", (val) -> NerdLog.reportInfo(val));
     NerdLog.logData("Robot/PDP", pdp, LOG_LEVEL.MEDIUM);
     
     swerveDrive.initializeLogging();
@@ -239,6 +267,7 @@ public class RobotContainer {
     }
     
     NerdLog.logData("Robot/Command Scheduler", CommandScheduler.getInstance(), LOG_LEVEL.ALL);
+    NerdLog.logNumber("Robot/RAM Usage", () -> (double)Runtime.getRuntime().freeMemory(), LOG_LEVEL.MEDIUM);
     NerdLog.reportLogCount();
   }
   
