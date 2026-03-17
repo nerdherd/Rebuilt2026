@@ -308,7 +308,7 @@ public final class Constants {
 
     public static final CurrentLimitsConfigs kCurrentLimitsConfigs = 
       new CurrentLimitsConfigs()
-        .withStatorCurrentLimit(30)
+        .withStatorCurrentLimit(50)
         .withStatorCurrentLimitEnable(true);
         
     public static final TalonFXConfiguration kSubsystemConfiguration = 
