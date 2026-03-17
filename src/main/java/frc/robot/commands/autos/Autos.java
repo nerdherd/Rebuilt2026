@@ -25,13 +25,13 @@ public final class Autos {
         // autoChooser.addOption("Auto Name", AutoBuilder.buildAuto("PathPlanner Auto Name"));
 
         // TOP
-        autoChooser.addOption("Top-S1MidTBDefClimb", AutoBuilder.buildAuto("Top-S1MidTBDefClimb"));
+        // autoChooser.addOption("Top-S1MidTBDefClimb", AutoBuilder.buildAuto("Top-S1MidTBDefClimb"));
         autoChooser.addOption("Top-S1Neutral", AutoBuilder.buildAuto("Top-S1Neutral"));
 
         // MID
         
         // BOT
-        autoChooser.addOption("Bot-S5MidTBDefClimb", AutoBuilder.buildAuto("Bot-S5MidTBDefClimb"));
+        // autoChooser.addOption("Bot-S5MidTBDefClimb", AutoBuilder.buildAuto("Bot-S5MidTBDefClimb"));
         autoChooser.addOption("Bot-S5Neutral", AutoBuilder.buildAuto("BotS5-Neutral"));
         
         NerdLog.logData(kAutosTab + "/Selected Auto", autoChooser, LOG_LEVEL.MINIMAL);

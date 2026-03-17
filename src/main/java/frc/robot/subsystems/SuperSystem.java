@@ -83,11 +83,17 @@ public class SuperSystem implements Reportable {
     }
 
     public Command reverseConveyor() {
-        return conveyor.setDesiredValueCommand(-4);
+        return Commands.parallel(
+            conveyor.setDesiredValueCommand(-4),
+            indexer.setDesiredValueCommand(-5)
+            );
     }
 
     public Command stopConveyor() {
-        return conveyor.setDesiredValueCommand(0);
+        return Commands.parallel(
+            conveyor.setDesiredValueCommand(0),
+            indexer.setDesiredValueCommand(0)
+            );
     }
     
     public Command stopShooting() {
@@ -119,8 +125,12 @@ public class SuperSystem implements Reportable {
         return Commands.sequence(
             intakeSlapdown.setDesiredValueCommand(-8),
             Commands.waitSeconds(0.2),
-            intakeSlapdown.setDesiredValueCommand(-1)
+            intakeSlapdown.setDesiredValueCommand(-0.5)
         );
+    }
+
+    public Command intakeHold() {
+        return intakeSlapdown.setDesiredValueCommand(-0.5);
     }
 
     public Command intake() {
