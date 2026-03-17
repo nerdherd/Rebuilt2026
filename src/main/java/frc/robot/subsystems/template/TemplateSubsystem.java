@@ -185,8 +185,10 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 	 */
 	private static TalonFX getMotor(int id) {
 		TalonFX motor = new TalonFX(id);
-		if (!motor.isConnected()) 
+		if (!motor.isConnected()) {
+			motor.close();
 			motor = new TalonFX(id, TunerConstants.kCANBus);
+		}
 		return motor;
 	}
 
