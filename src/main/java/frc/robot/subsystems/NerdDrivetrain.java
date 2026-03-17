@@ -194,7 +194,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
 
     private final double deviceTempThreshold = 50;
     /** @return "it's chill" unless the temperature of any motor is above the threshold, reports id and type */
-    private String pollTemperatures() {
+    public String pollTemperatures() {
         String output = "";
         for (int i = 0; i < 4; i++) {
             double driveTemp = getModule(i).getDriveMotor().getDeviceTemp().getValueAsDouble();
@@ -352,7 +352,10 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
         //////////////
         /// MINIMAL //
         //////////////
-        NerdLog.logString(kSwerveTab + "/Temperatures", this::pollTemperatures, LOG_LEVEL.MINIMAL); // maybe better on medium
+        for (int i = 0; i < 4; i++) {
+            NerdLog.logSignal(kSwerveTab + "/Temperatures/Drive " + i, getModule(i).getDriveMotor().getDeviceTemp(false), getModule(i).getDriveMotor().getNetwork().getName(), LOG_LEVEL.MINIMAL);
+            NerdLog.logSignal(kSwerveTab + "/Temperatures/Turn " + i, getModule(i).getSteerMotor().getDeviceTemp(false), getModule(i).getSteerMotor().getNetwork().getName(), LOG_LEVEL.MINIMAL);
+        }
         NerdLog.logNumber(kSwerveTab +"/Stator Current Sum", this::pollStatorCurrentSum, "A", LOG_LEVEL.MINIMAL);
     }
 
