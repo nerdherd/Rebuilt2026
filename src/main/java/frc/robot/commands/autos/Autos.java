@@ -27,7 +27,8 @@ public final class Autos {
         // TOP
         autoChooser.addOption("Top-S1MidTBDefClimb", AutoBuilder.buildAuto("Top-S1MidTBDefClimb"));
         autoChooser.addOption("Top-S1Neutral", AutoBuilder.buildAuto("Top-S1Neutral"));
-
+        autoChooser.addOption(" BotS5-NeutralDefBT", AutoBuilder.buildAuto("BotS5-NeutralDefBT"));
+        autoChooser.addOption("TopS1-NeutralDoubleNeutral", AutoBuilder.buildAuto("TopS1-NeutralDoubleNeutral"));
         // MID
         autoChooser.addOption("Mid-S3PreloadClimb", AutoBuilder.buildAuto("Mid-S3PreloadClimb"));
         autoChooser.addOption("Mid-S3OutpostClimb", AutoBuilder.buildAuto("Mid-S3OutpostClimb"));
