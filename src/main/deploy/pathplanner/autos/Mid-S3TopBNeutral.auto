@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "S3MidTopBDefense"
+            "pathName": "S3MidTopB"
           }
         },
         {
@@ -44,6 +44,12 @@
           "type": "named",
           "data": {
             "name": "Shoot Stop"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "H60N1"
           }
         }
       ]

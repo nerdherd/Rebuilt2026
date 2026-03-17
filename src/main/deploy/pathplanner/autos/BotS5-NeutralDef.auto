@@ -11,7 +11,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Bottom2Def"
+                  "pathName": null
                 }
               },
               {
@@ -71,7 +71,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "H45-BotTDef"
+                        "pathName": null
                       }
                     },
                     {
