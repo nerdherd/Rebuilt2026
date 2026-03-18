@@ -118,7 +118,7 @@ public final class Constants {
     public static final double kTurnMaxVelocity = 3; // rad/s
     public static final double kTurnPrecisionMultiplier = 0.5; // fractional
     
-    public static final double kRobotOrientedVelocity = 1.0; // m/s
+    public static final double kRobotOrientedVelocity = 1.5; // m/s
     
     ///////////////////////////
     /// -- Turn to Angle -- ///
@@ -231,7 +231,7 @@ public final class Constants {
     public static enum Camera {
       // Example("limelight-ex", "10.6.87.XX:5802"),
       Front("limelight-fr", "10.6.87.17:5802"),
-      Back("limelight-ba", "10.6.87.18:5802");
+      Back("limelight-br", "10.6.87.15:5802");
 
       public final String name, ip;
       Camera(String name, String ip) {
@@ -277,7 +277,7 @@ public final class Constants {
 
     private static final CurrentLimitsConfigs kCurrentLimitsConfigs = 
       new CurrentLimitsConfigs()
-        .withStatorCurrentLimit(30)
+        .withStatorCurrentLimit(40)
         .withStatorCurrentLimitEnable(true);
 
     private static final FeedbackConfigs kFeedbackConfigs = 
@@ -308,7 +308,7 @@ public final class Constants {
 
     public static final CurrentLimitsConfigs kCurrentLimitsConfigs = 
       new CurrentLimitsConfigs()
-        .withStatorCurrentLimit(20)
+        .withStatorCurrentLimit(50)
         .withStatorCurrentLimitEnable(true);
         
     public static final TalonFXConfiguration kSubsystemConfiguration = 
@@ -353,8 +353,8 @@ public final class Constants {
         .withKP(0.15)
         .withKI(0.0)
         .withKD(0.0)
-        .withKV(0.126)
-        .withKS(0.4);
+        .withKV(0.121)
+        .withKS(0.28);
     
     private static final CurrentLimitsConfigs kCurrentLimitsConfigs = 
       new CurrentLimitsConfigs()
@@ -378,9 +378,10 @@ public final class Constants {
 
     // Regression of a*x^2 + b
     // Update at -- on -/-/2026
-    public static final double kShootWithDistanceA = 3.81515; // a
-    public static final double kShootWithDistanceB = 34.25433; // b
+    public static final double kShootWithDistanceA = 0.796095; // a
+    public static final double kShootWithDistanceB = 30.40155; // b
 
+    public static final double kLookAheadFactor = 0.5;
   }
 
   public static final class ClimbConstants {
@@ -427,12 +428,12 @@ public final class Constants {
    * Container class to hold all subsystem objects.
    */
   public static final class Subsystems {
-    public static final boolean useIntakeSlapdown = false;
+    public static final boolean useIntakeSlapdown = true;
     public static final TemplateSubsystem intakeSlapdown = (!USE_SUBSYSTEMS) ? null :
     new TemplateSubsystem(
         "Intake Slapdown", 
         IntakeSlapdownConstants.kMotor1ID, 
-        SubsystemMode.POSITION, 
+        SubsystemMode.VOLTAGE, 
         0.0,
         useIntakeSlapdown)
       .configureMotors(IntakeSlapdownConstants.kSubsystemConfiguration);

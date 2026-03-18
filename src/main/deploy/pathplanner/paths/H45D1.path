@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.609437458009851,
-        "y": 6.919913081962189
+        "x": 2.150231236090641,
+        "y": 6.200832895298223
       },
       "isLocked": false,
       "linkedName": "H45"
@@ -17,11 +17,11 @@
     {
       "anchor": {
         "x": 0.45,
-        "y": 7.25
+        "y": 7.21
       },
       "prevControl": {
-        "x": 1.4620361445822354,
-        "y": 7.378879518069832
+        "x": 1.4809489916963232,
+        "y": 7.690782918149465
       },
       "nextControl": null,
       "isLocked": false,
@@ -38,8 +38,8 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 2.0,
-    "maxAcceleration": 2.0,
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,

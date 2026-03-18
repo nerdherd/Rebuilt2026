@@ -14,7 +14,11 @@ import java.util.function.Consumer;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import dev.doglog.DogLog;
+import edu.wpi.first.math.MathSharedStore;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.networktables.DoubleSubscriber;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -22,6 +26,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.SwerveDriveConstants.FieldPositions;
 import frc.robot.subsystems.template.TemplateSubsystem;
+import frc.robot.util.NerdyMath;
 import frc.robot.util.logging.NerdLog;
 import frc.robot.util.logging.Reportable;
 
@@ -53,7 +58,7 @@ public class SuperSystem implements Reportable {
     }
     
     public void startShoot() {
-        indexer.setDesiredValue(5);
+        indexer.setDesiredValue(8);
         conveyor.setDesiredValue(6);
     }
 
@@ -65,92 +70,99 @@ public class SuperSystem implements Reportable {
         return Commands.run(() -> {
             if (shooter.getCurrentVelocity() > 20.0) {
                 startShoot();
+                double val = NerdyMath.posMod(MathSharedStore.getTimestamp(), 1.1);
+                if (val <= 0.4) intakeRoller.setDesiredValue(-1.5);
+                else if (val <= 1.0) intakeRoller.setDesiredValue(9);
+                else intakeRoller.setDesiredValue(0.0);
             } else {
                 indexer.setDesiredValue(0);
                 conveyor.setDesiredValue(0);
             }
-        }, indexer, conveyor);
+        }, indexer, conveyor)
+        .finallyDo(() -> intakeRoller.setDesiredValue(0.0));
     }
 
     public Command reverseConveyor() {
-        return conveyor.setDesiredValueCommand(-4);
+        return Commands.parallel(
+            conveyor.setDesiredValueCommand(-4),
+            indexer.setDesiredValueCommand(-5)
+            );
     }
 
     public Command stopConveyor() {
-        return conveyor.setDesiredValueCommand(0);
+        return Commands.parallel(
+            conveyor.setDesiredValueCommand(0),
+            indexer.setDesiredValueCommand(0)
+            );
     }
     
-    public Command outtake() {
-        return intakeRoller.setDesiredValueCommand(-5);
-    }
-    
-    public Command stopShooting(){
+    public Command stopShooting() {
         return Commands.parallel(
             indexer.setDesiredValueCommand(0),
             conveyor.setDesiredValueCommand(0)
         );
     }
 
-    public Command spinUpFlywheel(){
+    public Command spinUpFlywheel() {
         return Commands.parallel(
-            setShooterCommand(30)
+            setShooterCommand(37)
         );
     }
 
-    public Command spinUpFlywheel(double speed){
+    public Command spinUpFlywheel(double speed) {
         return Commands.parallel(
             setShooterCommand(speed)
         );
     }
         
-    public Command stopFlywheel(){
+    public Command stopFlywheel() {
         return Commands.parallel(
             setShooterCommand(0.0)
         );
     }
 
-    public Command intakeDown(){
-        return Commands.parallel(
-            intakeSlapdown.setDesiredValueCommand(-17.785)
+    public Command intakeDown() {
+        return Commands.sequence(
+            intakeSlapdown.setDesiredValueCommand(-8),
+            Commands.waitSeconds(0.2),
+            intakeSlapdown.setDesiredValueCommand(-0.5)
         );
     }
 
-    public Command intakeUp(){
-        return Commands.parallel(
-            intakeSlapdown.setDesiredValueCommand(-11.0)
-        );
-    }
-
-    public Command intakeSlapdownStop() {
-        return Commands.parallel(
-            intakeSlapdown.setDesiredValueCommand(0.0)
-        );
+    public Command intakeHold() {
+        return intakeSlapdown.setDesiredValueCommand(-0.5);
     }
 
     public Command intake() {
         return Commands.parallel(
-            intakeRoller.setDesiredValueCommand(7.5)
-            // conveyor.setDesiredValueCommand(3)
+            intakeRoller.setDesiredValueCommand(10)
             );
-        }
+    }
+    
+    public Command outtake() {
+        return intakeRoller.setDesiredValueCommand(-3);
+    }
         
-        public Command stopIntaking() {
-            return Commands.parallel(
-                intakeRoller.setDesiredValueCommand(0)
-                // conveyor.setDesiredValueCommand(0.0)
+    public Command stopIntaking() {
+        return Commands.parallel(
+            intakeRoller.setDesiredValueCommand(0)
         );
     }
 
     public Command climbUp() {
-        return Commands.parallel(
-            climb.setDesiredValueCommand(3)
-        );
+        return Commands.sequence(
+            climb.setDesiredValueCommand(8),
+            Commands.waitSeconds(3.5)
+        ).until(() -> climb.getCurrentPosition() > 250.0)
+        .andThen(climb.setDesiredValueCommand(0.0));
     }
 
     public Command climbDown() {
-        return Commands.parallel(
-            climb.setDesiredValueCommand(-3)
-        );
+        return Commands.sequence(
+            climb.setDesiredValueCommand(-8),
+            Commands.waitSeconds(3.5)
+        ).until(() -> climb.getCurrentPosition() < 1.0)
+        .andThen(climb.setDesiredValueCommand(0.0));
     }
 
     public Command stopClimb() {
@@ -209,12 +221,12 @@ public class SuperSystem implements Reportable {
     }
 
     public double getHubDistance() {
-        Pose2d hub = FieldPositions.HUB_CENTER.get();
+        ChassisSpeeds speeds = swerveDrivetrain.getFieldOrientedSpeeds();
+        Pose2d hub = FieldPositions.HUB_CENTER.get().plus(new Transform2d(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond, Rotation2d.kZero).times(ShooterConstants.kLookAheadFactor));
         return swerveDrivetrain.getPose().getTranslation().getDistance(hub.getTranslation());
     }
 
-    
-
+    // ------------------------------------ logging ------------------------------------ //
     @Override
     public void initializeLogging() {
         applySubsystems((s) -> s.initializeLogging());

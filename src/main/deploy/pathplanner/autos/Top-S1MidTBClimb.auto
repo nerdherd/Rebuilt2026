@@ -5,40 +5,27 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": null
+            "name": "Intake Down"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.3
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "S2N3Right"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "N3RightH0"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Shoot Distance"
-                }
-              }
-            ]
+            "pathName": "S1MidTB"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Shoot"
+            "name": "Climb Up"
           }
         },
         {
@@ -56,13 +43,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "H0T2"
+            "pathName": "H45T1"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "Middle Autos",
+  "folder": "Top Autos",
   "choreoAuto": false
 }

@@ -7,44 +7,23 @@
         {
           "type": "path",
           "data": {
-            "pathName": "S4N4Off"
+<<<<<<< HEAD:src/main/deploy/pathplanner/autos/Top-S2MidBDefenseClimb.auto
+            "pathName": "S2N3Off"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "N4OffN6"
+            "pathName": "N3.5OffN1.5Off"
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "Intake Stop"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "N6H45-"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Flywheel Start 45"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot"
+            "pathName": "N1H45"
+=======
+            "pathName": "S4MidBDefense"
+>>>>>>> 260077b0b937b87f7b3d41dfc6863909f856675e:src/main/deploy/pathplanner/autos/Bot-S4MidBDefenseClimb.auto
           }
         },
         {
@@ -57,6 +36,24 @@
           "type": "named",
           "data": {
             "name": "Shoot Ramp Down"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "H45-T3"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 2.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Climb Down"
           }
         }
       ]

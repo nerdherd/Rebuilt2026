@@ -3,6 +3,9 @@
   "robotLength": 0.864,
   "holonomicMode": true,
   "pathFolders": [
+    "Combo Bottom",
+    "Combo Top",
+    "Combo Middle",
     "To Depot",
     "To Hub",
     "To Neutral",
@@ -12,10 +15,12 @@
   "autoFolders": [
     "Bottom Autos",
     "Middle Autos",
+    "Archive",
+    "Old Autos",
     "Top Autos"
   ],
-  "defaultMaxVel": 2.0,
-  "defaultMaxAccel": 2.0,
+  "defaultMaxVel": 3.0,
+  "defaultMaxAccel": 3.0,
   "defaultMaxAngVel": 540.0,
   "defaultMaxAngAccel": 720.0,
   "defaultNominalVoltage": 12.0,
@@ -39,6 +44,7 @@
   "bumperOffsetX": 0.0,
   "bumperOffsetY": 0.0,
   "robotFeatures": [
-    "{\"name\":\"Rectangle\",\"type\":\"rounded_rect\",\"data\":{\"center\":{\"x\":0.57,\"y\":0.0},\"size\":{\"width\":0.86,\"length\":0.25},\"borderRadius\":0.0,\"strokeWidth\":0.01,\"filled\":false}}"
+    "{\"name\":\"Rectangle\",\"type\":\"rounded_rect\",\"data\":{\"center\":{\"x\":0.57,\"y\":0.0},\"size\":{\"width\":0.86,\"length\":0.25},\"borderRadius\":0.0,\"strokeWidth\":0.01,\"filled\":false}}",
+    "{\"name\":\"Rectangle\",\"type\":\"rounded_rect\",\"data\":{\"center\":{\"x\":-0.16,\"y\":-0.3},\"size\":{\"width\":0.07,\"length\":0.05},\"borderRadius\":0.0,\"strokeWidth\":0.01,\"filled\":true}}"
   ]
 }

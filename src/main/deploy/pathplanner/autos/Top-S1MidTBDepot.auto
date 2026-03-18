@@ -7,106 +7,49 @@
         {
           "type": "named",
           "data": {
-            "name": "Intake Down"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "S1N1"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake Start"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "N1N3"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Intake Stop"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "N3H45"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Flywheel Start 45"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot"
+            "name": "Intake Down Sequence"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 4.0
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "H45D1"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Shoot Ramp Down"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake Start"
-                }
-              }
-            ]
+            "waitTime": 0.3
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "D1D2"
+            "pathName": "S1MidTB"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 3.0
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Intake Stop"
+            "name": "Shoot Ramp Down"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "H45Depot"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 3.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot Ramp Down"
           }
         }
       ]

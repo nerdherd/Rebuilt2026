@@ -185,8 +185,10 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 	 */
 	private static TalonFX getMotor(int id) {
 		TalonFX motor = new TalonFX(id);
-		if (!motor.isConnected()) 
+		if (!motor.isConnected()) {
+			motor.close();
 			motor = new TalonFX(id, TunerConstants.kCANBus);
+		}
 		return motor;
 	}
 
@@ -305,6 +307,10 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 		return primaryMotor.getVelocity().getValueAsDouble();
 	}
 
+	public double getCurrentPosition() { 
+		return primaryMotor.getPosition().getValueAsDouble();
+	}
+
 	/**
 	 * @return temperature of {@link #primaryMotor}
 	 */
@@ -386,6 +392,10 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
         NerdLog.logSignal(kSubsystemTab + name + "/Temperature/Primary Motor", primaryMotor.getDeviceTemp(false), primaryMotor.getNetwork().getName(), LOG_LEVEL.MEDIUM);
 		applySecondaryMotors((motor, i) -> 
 			NerdLog.logSignal(kSubsystemTab + name + "/Temperature/Secondary Motor " + i, motor.getDeviceTemp(false), motor.getNetwork().getName(), LOG_LEVEL.MEDIUM)
+		);
+		NerdLog.logBoolean(kSubsystemTab + name + "/Connected/Primary Motor", primaryMotor::isConnected, LOG_LEVEL.MINIMAL);
+		applySecondaryMotors((motor, i) -> 
+			NerdLog.logBoolean(kSubsystemTab + name + "/Connected/Secondary Motor " + i, motor::isConnected, LOG_LEVEL.MINIMAL)
 		);
     }
 }

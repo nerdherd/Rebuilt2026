@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.77,
-        "y": 3.3
+        "x": 7.98587951807229,
+        "y": 3.4011927710843373
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.225496934335443,
-        "y": 2.275960863330697
+        "x": 7.4413764524077335,
+        "y": 2.3771536344150346
       },
       "isLocked": false,
       "linkedName": "N4Up"
@@ -32,12 +32,12 @@
     },
     {
       "anchor": {
-        "x": 3.0,
-        "y": 1.23
+        "x": 2.5845193142361116,
+        "y": 1.3589432146990748
       },
       "prevControl": {
-        "x": 2.811662977430556,
-        "y": 0.4180225694444448
+        "x": 2.3961822916666677,
+        "y": 0.5469657841435196
       },
       "nextControl": null,
       "isLocked": false,
@@ -72,8 +72,8 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 2.0,
-    "maxAcceleration": 2.0,
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
