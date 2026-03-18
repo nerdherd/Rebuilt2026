@@ -11,7 +11,8 @@ import static frc.robot.Constants.ControllerConstants.kRotationInputFilter;
 
 import java.util.function.Supplier;
 
-import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController; // makes PID smoother
+import edu.wpi.first.math.trajectory.TrapezoidProfile; // shape of changes (necessary to make PPID constraints)
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.SwerveDriveConstants;
@@ -21,7 +22,7 @@ public class SwerveJoystickCommand extends Command {
     private final Supplier<Double> xTranslationInput, yTranslationInput, turnInput, desiredAngle;
     private final Supplier<Translation2d> robotOrientedAdjustment;
     private final Supplier<Boolean> useTurnToAngle, useFieldOriented, useTowMode, usePrecisionMode;
-    private final PIDController angleController;
+    private final ProfiledPIDController angleController;
 
     /**
      * Construct a new joystick command
@@ -61,11 +62,15 @@ public class SwerveJoystickCommand extends Command {
         this.useTowMode = useTowMode;
         this.usePrecisionMode = usePrecisionMode;
 
-        this.angleController = new PIDController(
+        this.angleController = new ProfiledPIDController(
             SwerveDriveConstants.kTurnToAnglePIDConstants.kP,
             SwerveDriveConstants.kTurnToAnglePIDConstants.kI,
-            SwerveDriveConstants.kTurnToAnglePIDConstants.kD
-            );
+            SwerveDriveConstants.kTurnToAnglePIDConstants.kD,
+            new TrapezoidProfile.Constraints(
+                SwerveDriveConstants.kTurnToAngleMaxVelocity, 
+                SwerveDriveConstants.kTurnToAngleTolerances.maxAcceleration
+            )
+        );
         this.angleController.setTolerance(
             SwerveDriveConstants.kTurnToAngleTolerances.maxVelocity, 
             SwerveDriveConstants.kTurnToAngleTolerances.maxAcceleration

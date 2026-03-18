@@ -73,12 +73,17 @@ public class Robot extends TimedRobot {
       m_robotContainer.superSystem.resetSubsystemValues();
     }
 
-    m_robotContainer.swerveDrive.setVision(false);
+    m_robotContainer.swerveDrive.setVision(true); // throttle to prevent overheatitng
     m_robotContainer.swerveDrive.stop();
   }
 
   @Override
-  public void disabledPeriodic() {}
+  public void disabledPeriodic() { // updates first shot distance calculation immediately to prevent overheating (used on need-based basis)
+    if (Constants.USE_VISION) {
+      m_robotContainer.swerveDrive.visionUpdate(Constants.VisionConstants.Camera.Front);
+      m_robotContainer.swerveDrive.visionUpdate(Constants.VisionConstants.Camera.Back);
+    }
+  }
 
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
@@ -117,6 +122,9 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
     
+    // clears button bindings before configuringBindings to minimize robot issues with connection errors
+    CommandScheduler.getInstance().getDefaultButtonLoop().clear();
+
     if (Constants.USE_SUBSYSTEMS) {
       m_robotContainer.superSystem.initialize();
       m_robotContainer.superSystem.reConfigureMotors();

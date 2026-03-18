@@ -164,10 +164,10 @@ public class RobotContainer {
         .onTrue(superSystem.intakeHold());
 
       operatorController.triggerRight()
-        .whileTrue(superSystem.shootWithDistance())
+        .whileTrue(superSystem.shootWithDistanceAndFeed());
         // .whileTrue(superSystem.shootWithTuning()) // USE ELASTIC
         // .onTrue(superSystem.spinUpFlywheel())
-        .onFalse(superSystem.stopFlywheel());
+        // .onFalse(superSystem.stopFlywheel());
       operatorController.triggerLeft()
         .whileTrue(superSystem.spinUpFlywheel())
         .onFalse(superSystem.stopFlywheel());

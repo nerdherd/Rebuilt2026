@@ -169,17 +169,33 @@ public class SuperSystem implements Reportable {
         return climb.setDesiredValueCommand(0);
     }
 
-    public Command shootWithDistance() {
-        return Commands.run(
-            () -> {
-                // calculate distance
-                double distance = getHubDistance();
-                // convert to rps
-                double rps = ShooterConstants.kShootWithDistanceA * distance * distance + ShooterConstants.kShootWithDistanceB;
-                // spin up flywheel
-                shooter.setDesiredValue(rps);
+    /*
+     * instead of spinning flywheel to fixed speed shootWithDistanceAndFeed automatically calculates the correct flywheel speed based on how far it is from the hub every perioic, and accounts for robot movement, so that Shiloh can just hold the trigger and it SHOULD work
+     */
+    public Command shootWithDistanceAndFeed() {
+        return Commands.run(() -> {
+            double distance = Math.max(1.0, Math.min(getHubDistance(), 2.0)); // TODO change placeholder values with min and max values for robot to shoot from
+            double targetRPS = ShooterConstants.kShootWithDistanceA * distance * distance + ShooterConstants.kShootWithDistanceB;
+
+            shooter.setDesiredValue(targetRPS);
+
+            DogLog.log("Hub Distance",  distance);
+            DogLog.log("Target RPS", targetRPS);
+            DogLog.log("Current RPS", shooter.getCurrentVelocity());
+            DogLog.log("At Speed", shooter.atDesiredVelocity(targetRPS * 0.1)); // Change with actual value to log accurate
+
+            if (shooter.atDesiredVelocity(targetRPS * 0.1)) { // TODO change value to like 0.05 or 0.15 if feeding tolerance isnt good
+                startShoot();
+            } else {
+                indexer.setDesiredValue(0);
+                conveyor.setDesiredValue(0);
             }
-        );
+        }, shooter, indexer, conveyor)
+        .finallyDo(() -> {
+            shooter.setDesiredValue(0);
+            indexer.setDesiredValue(0);
+            conveyor.setDesiredValue(0);
+        });
     }
 
     public double shootSpeed = 0;
@@ -205,11 +221,12 @@ public class SuperSystem implements Reportable {
      * subsystems do not reenable on their own
      * @return a command to stop
      */
+
     public Command stop() {
         return Commands.runOnce(() -> {
             applySubsystems((s) -> s.stop());
         });
-    }   
+    }
 
     public void initialize() {
         applySubsystems((s) -> s.setEnabled(s.useSubsystem));

@@ -307,6 +307,11 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 		return primaryMotor.getVelocity().getValueAsDouble();
 	}
 
+	// checks is flywheel is in range of desired values close to target speed
+	public boolean atDesiredVelocity(double tolerance){
+		return Math.abs(getCurrentVelocity() - desiredValue) <= tolerance;
+	}
+
 	public double getCurrentPosition() { 
 		return primaryMotor.getPosition().getValueAsDouble();
 	}

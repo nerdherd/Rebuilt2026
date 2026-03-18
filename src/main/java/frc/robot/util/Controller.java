@@ -43,20 +43,26 @@ public class Controller {
     public Controller(int port, Type type) {
         this.type = type;
 
+        // just added breaks to prevent any possible connection issues that could occur with enabling multiple types of controllers when unecessary
         switch (type) {
             case PS4:
             cmdPS4 = new CommandPS4Controller(port);
             ps4 = cmdPS4.getHID();
+            break;
             case PS5:
             cmdPS5 = new CommandPS5Controller(port);
             ps5 = cmdPS5.getHID();
+            break;
             case GuliKit:
             // Use the appropriate contructor for GuliKit.
+            break;
             case Xbox:
             cmdXbox = new CommandXboxController(port);
             xbox = cmdXbox.getHID();
+            break;
             case Xbox360:
             xbox360 = new Xbox360Controller(port);
+            break;
         }
     }
 

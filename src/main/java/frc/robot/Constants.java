@@ -278,7 +278,9 @@ public final class Constants {
     private static final CurrentLimitsConfigs kCurrentLimitsConfigs = 
       new CurrentLimitsConfigs()
         .withStatorCurrentLimit(40)
-        .withStatorCurrentLimitEnable(true);
+        .withStatorCurrentLimitEnable(true)
+        .withSupplyCurrentLimit(35) // estimate value
+        .withSupplyCurrentLimitEnable(true);
 
     private static final FeedbackConfigs kFeedbackConfigs = 
       new FeedbackConfigs()
@@ -309,7 +311,9 @@ public final class Constants {
     public static final CurrentLimitsConfigs kCurrentLimitsConfigs = 
       new CurrentLimitsConfigs()
         .withStatorCurrentLimit(50)
-        .withStatorCurrentLimitEnable(true);
+        .withStatorCurrentLimitEnable(true)
+        .withSupplyCurrentLimit(40) // estimate value
+        .withSupplyCurrentLimitEnable(true);
         
     public static final TalonFXConfiguration kSubsystemConfiguration = 
       new TalonFXConfiguration()
@@ -334,12 +338,15 @@ public final class Constants {
     public static final CurrentLimitsConfigs kCurrentLimitsConfigs = 
       new CurrentLimitsConfigs()
         .withStatorCurrentLimit(30)
-        .withStatorCurrentLimitEnable(true);
+        .withStatorCurrentLimitEnable(true)
+        .withSupplyCurrentLimit(25) // estimate value
+        .withSupplyCurrentLimitEnable(true);
 
     public static final TalonFXConfiguration kSubsystemConfiguration = 
       new TalonFXConfiguration()
         .withSlot0(kSlot0Configs)
-        .withMotorOutput(kMotorOutputConfigs);
+        .withMotorOutput(kMotorOutputConfigs)
+        .withCurrentLimits(kCurrentLimitsConfigs); // adding kCurrentLimitsConfigs to ConveyorConstants
   }
   
   public static final class ShooterConstants {
@@ -359,7 +366,9 @@ public final class Constants {
     private static final CurrentLimitsConfigs kCurrentLimitsConfigs = 
       new CurrentLimitsConfigs()
         .withStatorCurrentLimit(60)
-        .withStatorCurrentLimitEnable(false);
+        .withStatorCurrentLimitEnable(true)
+        .withSupplyCurrentLimit(40) // estimate value
+        .withSupplyCurrentLimitEnable(true);
 
     private static final MotionMagicConfigs kMotionMagicConfigs = 
       new MotionMagicConfigs()

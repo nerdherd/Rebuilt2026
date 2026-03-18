@@ -66,7 +66,7 @@ public final class Autos {
 
         NamedCommands.registerCommand("Shoot", superSystem.shoot());
         NamedCommands.registerCommand("Shoot Stop", superSystem.stopShooting());
-        NamedCommands.registerCommand("Shoot Distance", superSystem.shootWithDistance());
+        NamedCommands.registerCommand("Shoot Distance", superSystem.shootWithDistanceAndFeed());
         NamedCommands.registerCommand("Shoot Ramp Up", 
             Commands.sequence(
                 superSystem.spinUpFlywheel(), 
