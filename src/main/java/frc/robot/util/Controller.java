@@ -45,18 +45,23 @@ public class Controller {
 
         switch (type) {
             case PS4:
-            cmdPS4 = new CommandPS4Controller(port);
-            ps4 = cmdPS4.getHID();
+                cmdPS4 = new CommandPS4Controller(port);
+                ps4 = cmdPS4.getHID();
+                break;
             case PS5:
-            cmdPS5 = new CommandPS5Controller(port);
-            ps5 = cmdPS5.getHID();
+                cmdPS5 = new CommandPS5Controller(port);
+                ps5 = cmdPS5.getHID();
+                break;
             case GuliKit:
             // Use the appropriate contructor for GuliKit.
+                break;
             case Xbox:
-            cmdXbox = new CommandXboxController(port);
-            xbox = cmdXbox.getHID();
+                cmdXbox = new CommandXboxController(port);
+                xbox = cmdXbox.getHID();
+                break;
             case Xbox360:
-            xbox360 = new Xbox360Controller(port);
+                xbox360 = new Xbox360Controller(port);
+                break;
         }
     }
 

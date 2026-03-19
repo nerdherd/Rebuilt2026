@@ -353,8 +353,8 @@ public final class Constants {
         .withKP(0.15)
         .withKI(0.0)
         .withKD(0.0)
-        .withKV(0.118346)
-        .withKS(0.214589);
+        .withKV(0.118491)
+        .withKS(0.261609);
     
     private static final CurrentLimitsConfigs kCurrentLimitsConfigs = 
       new CurrentLimitsConfigs()
@@ -377,9 +377,9 @@ public final class Constants {
         .withMotorOutput(kMotorOutputConfigs);
 
     // Regression of a*x^2 + b
-    // Update at -- on -/-/2026
-    public static final double kShootWithDistanceA = 0.796095; // a
-    public static final double kShootWithDistanceB = 30.40155; // b
+    // Update at CAMS on 3/19/2026
+    public static final double kShootWithDistanceA = 1.1324; // a
+    public static final double kShootWithDistanceB = 29.08814; // b
 
     public static final double kLookAheadFactor = 0.5;
   }
