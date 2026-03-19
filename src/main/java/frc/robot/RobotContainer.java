@@ -135,12 +135,15 @@ public class RobotContainer {
         .onTrue(superSystem.intake())
         .onFalse(superSystem.stopIntaking());
 
-      // driverController.buttonDown()
-      //   .whileTrue(superSystem.shootWithTuning())
-      //   .onFalse(superSystem.stopFlywheel());
-      // driverController.buttonLeft()
-      //   .whileTrue(superSystem.shootWithCondition())
-      //   .onFalse(superSystem.stopShooting());
+      driverController.buttonDown()
+        .whileTrue(superSystem.shootWithTuning())
+        .onFalse(superSystem.stopFlywheel());
+      driverController.buttonUp()
+        .whileTrue(superSystem.shootWithDistance())
+        .onFalse(superSystem.stopFlywheel());
+      driverController.buttonLeft()
+        .whileTrue(superSystem.shootWithCondition())
+        .onFalse(superSystem.stopShooting());
 
       // driverController.bumperLeft()
       //   .whileTrue(superSystem.climbUp())
@@ -250,16 +253,16 @@ public class RobotContainer {
       
   }
   
-  private StringSubscriber printLog = null;
+  public StringSubscriber printLog = null;
   public void initializeLogging() {
-    if (printLog == null) printLog = DogLog.tunable("Robot/Print", "", (val) -> NerdLog.reportInfo(val));
+    if (printLog == null) printLog = DogLog.tunable("Print", "", (value) -> NerdLog.reportInfo("" + value));
     NerdLog.logData("Robot/PDP", pdp, LOG_LEVEL.ALL);
     
     swerveDrive.initializeLogging();
     if (Constants.USE_SUBSYSTEMS) { 
       superSystem.initializeLogging();
     }
-    
+
     NerdLog.logData("Robot/Command Scheduler", CommandScheduler.getInstance(), LOG_LEVEL.ALL);
     NerdLog.logNumber("Robot/RAM Usage", () -> (double)Runtime.getRuntime().freeMemory(), LOG_LEVEL.MEDIUM);
     NerdLog.reportLogCount();
