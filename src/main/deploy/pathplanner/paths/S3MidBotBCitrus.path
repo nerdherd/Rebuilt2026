@@ -36,12 +36,12 @@
         "y": 4.165896010937024
       },
       "prevControl": {
-        "x": 5.880888479398549,
-        "y": 4.165896010937024
+        "x": 5.881157834811755,
+        "y": 4.1774979570782165
       },
       "nextControl": {
-        "x": 7.434254789979887,
-        "y": 4.165896010937024
+        "x": 7.157081250482887,
+        "y": 4.118221312141842
       },
       "isLocked": false,
       "linkedName": "N4Off"
@@ -52,12 +52,12 @@
         "y": 2.751276182522288
       },
       "prevControl": {
-        "x": 7.049875083259216,
-        "y": 4.184917548218882
+        "x": 6.339573878439938,
+        "y": 4.9258906403536145
       },
       "nextControl": {
-        "x": 7.049875083259216,
-        "y": 2.501276182522288
+        "x": 7.127497551462279,
+        "y": 2.5136320106390633
       },
       "isLocked": false,
       "linkedName": "N6Down"
@@ -83,11 +83,11 @@
     },
     {
       "waypointRelativePos": 2.7048930921052623,
-      "rotationDegrees": -90.0
+      "rotationDegrees": -115.0
     },
     {
       "waypointRelativePos": 3.035523978685603,
-      "rotationDegrees": -90.0
+      "rotationDegrees": -115.0
     },
     {
       "waypointRelativePos": 3.523848684210526,
@@ -101,11 +101,11 @@
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 2.1478908188585977,
-      "maxWaypointRelativePos": 3.4580645161289882,
+      "minWaypointRelativePos": 0.6851121262458472,
+      "maxWaypointRelativePos": 0.9494912790697674,
       "constraints": {
-        "maxVelocity": 2.5,
-        "maxAcceleration": 2.5,
+        "maxVelocity": 3.0,
+        "maxAcceleration": 3.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
         "nominalVoltage": 12.0,
@@ -130,7 +130,7 @@
   "eventMarkers": [
     {
       "name": "Intake Down Sequence",
-      "waypointRelativePos": 1.214848143982001,
+      "waypointRelativePos": 1.25,
       "endWaypointRelativePos": null,
       "command": null
     },
@@ -144,12 +144,6 @@
           "name": "Flywheel Start 45"
         }
       }
-    },
-    {
-      "name": "Flywheel Start 45",
-      "waypointRelativePos": 3.3565804274466036,
-      "endWaypointRelativePos": null,
-      "command": null
     },
     {
       "name": "Shoot",
