@@ -36,7 +36,6 @@ public final class Autos {
         autoChooser.addOption("Mid-S3DepotClimb", AutoBuilder.buildAuto("Mid-S3DepotClimb"));
         autoChooser.addOption("Mid-S3MidTopBDef", AutoBuilder.buildAuto("Mid-S3MidTopBDef"));
         autoChooser.addOption("Mid-S3MidBotBDef", AutoBuilder.buildAuto("Mid-S3MidBotBDef"));
-        
 
         // BOT
         autoChooser.addOption("Bot-S5MidTBDefClimb", AutoBuilder.buildAuto("Bot-S5MidTBDefClimb"));
