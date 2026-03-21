@@ -198,7 +198,7 @@
     "rotation": -45.0
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Combo Top",
   "idealStartingState": {
     "velocity": 0.0,
     "rotation": 0.0
