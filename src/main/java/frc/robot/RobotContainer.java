@@ -6,6 +6,7 @@ package frc.robot;
 
 
 import dev.doglog.DogLog;
+import edu.wpi.first.math.Pair;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.networktables.StringSubscriber;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -280,4 +281,39 @@ public class RobotContainer {
   public void disableAllMotors_Test() {
     swerveDrive.setBrake(true);
   }
+
+  /**
+   * Displays a countdown for alliance shifts. NOT 100% ACCURATE
+   * @return the number of seconds in the current phase, and the phase name
+   */
+  public Pair<Double, String> allianceShiftTime() {
+    double time = DriverStation.getMatchTime();
+
+    if (DriverStation.isFMSAttached()) {
+      if (DriverStation.isAutonomous()) {
+        return new Pair<>(20 - time, "Auto");
+
+      } else if (DriverStation.isTeleop()) {
+        if (time >= 130) return new Pair<>(140 - time, "Transition"); // transition
+        else if (time >= 30) return new Pair<>(130 - (time - 10) % 25, "Shift " + (25 - (time - 10) / 25 + 1)); // shifts 1-4
+        else return new Pair<>(140 - time, "Endgame"); // endgame
+      } else return new Pair<>(0.0, "Inactive");
+
+    } else return new Pair<>(0.0, "Inactive");
+    
+    // Practice Mode
+    // else {
+    //   if (DriverStation.isAutonomous()) {
+    //     return new Object[] {time <= 20 ? 20 - time : 0, "Auto"};
+
+    //   } else if (DriverStation.isTeleop()) {
+    //     if (time <= 10) return new Object[] {10 - time, "Transition"}; // transition
+    //     else if (time <= 110) return new Object[] {25 - (time - 10) % 25, "Shift " + (25 - (time - 10) / 25 + 1)}; // shifts 1-4
+    //     else if (time <= 140) return new Object[] {140 - time, "Endgame"}; // endgame
+    //     else return new Object[] {0, "End Match"};
+    //   } else return new Object[] {0, "Inactive"};
+
+    // }
+  }
+
 }

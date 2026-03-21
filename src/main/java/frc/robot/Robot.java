@@ -102,6 +102,9 @@ public class Robot extends TimedRobot {
       CommandScheduler.getInstance().schedule(m_autonomousCommand);
     }
 
+    DogLog.log("Match Info/Shift Time", m_robotContainer.allianceShiftTime().getFirst());
+    DogLog.log("Match Info/Shift Name", m_robotContainer.allianceShiftTime().getSecond());
+
     // fix for elastic field pose not updating
     m_robotContainer.swerveDrive.setDefaultCommand(Commands.runOnce(Commands::none, m_robotContainer.swerveDrive));
   }
@@ -135,7 +138,10 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    DogLog.log("Match Info/Shift Time", m_robotContainer.allianceShiftTime().getFirst());
+    DogLog.log("Match Info/Shift Name", m_robotContainer.allianceShiftTime().getSecond());
+  }
 
   @Override
   public void testInit() {
