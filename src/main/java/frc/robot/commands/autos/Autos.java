@@ -26,6 +26,7 @@ public final class Autos {
 
         // TOP
         autoChooser.addOption("Top-S1NeutralDorito", AutoBuilder.buildAuto("Top-S1Neutral"));
+        autoChooser.addOption("Top-S1NeutralDoritoSafe", AutoBuilder.buildAuto("Top-S1NeutralSafe"));
         autoChooser.addOption("Top-S1NeutralDouble", AutoBuilder.buildAuto("Top-S1NeutralDouble"));
         autoChooser.addOption("Top-S1NeutralCitrus", AutoBuilder.buildAuto("Top-S1NeutralCitrus"));
         autoChooser.addOption("Top-S1MidTBDepot", AutoBuilder.buildAuto("Top-S1MidTBDepot"));
@@ -36,6 +37,7 @@ public final class Autos {
         
         // BOT
         autoChooser.addOption("Bot-S5Neutral", AutoBuilder.buildAuto("Bot-S5Neutral"));
+        autoChooser.addOption("Bot-S5NeutralSafe", AutoBuilder.buildAuto("Bot-S5NeutralSafe"));
         autoChooser.addOption("Bot-S5MidTBOutpost", AutoBuilder.buildAuto("Bot-S5MidTBOutpost"));
         
         NerdLog.logData(kAutosTab + "/Selected Auto", autoChooser, LOG_LEVEL.MINIMAL);
