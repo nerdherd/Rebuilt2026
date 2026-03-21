@@ -58,23 +58,10 @@
             }
           },
           {
-            "title": "RAM Usage",
-            "x": 1152.0,
-            "y": 384.0,
-            "width": 128.0,
-            "height": 128.0,
-            "type": "Large Text Display",
-            "properties": {
-              "topic": "/Robot/Robot/RAM Usage",
-              "period": 0.06,
-              "data_type": "double"
-            }
-          },
-          {
             "title": "Connected",
-            "x": 256.0,
-            "y": 512.0,
-            "width": 128.0,
+            "x": 1152.0,
+            "y": 128.0,
+            "width": 256.0,
             "height": 128.0,
             "type": "Boolean Box",
             "properties": {
@@ -89,10 +76,10 @@
           },
           {
             "title": "Alerts",
-            "x": 896.0,
-            "y": 384.0,
+            "x": 1152.0,
+            "y": 256.0,
             "width": 256.0,
-            "height": 256.0,
+            "height": 384.0,
             "type": "Alerts",
             "properties": {
               "topic": "/SmartDashboard/Alerts",
@@ -121,38 +108,36 @@
             }
           },
           {
-            "title": "pipeline",
-            "x": 1408.0,
-            "y": 384.0,
+            "title": "FR Pipeline",
+            "x": 256.0,
+            "y": 512.0,
             "width": 128.0,
             "height": 128.0,
-            "type": "Text Display",
+            "type": "Large Text Display",
             "properties": {
               "topic": "/limelight-fr/pipeline",
               "period": 0.06,
-              "data_type": "double",
-              "show_submit_button": true
+              "data_type": "double"
             }
           },
           {
-            "title": "pipeline",
-            "x": 1280.0,
-            "y": 384.0,
+            "title": "BR Pipeline",
+            "x": 384.0,
+            "y": 512.0,
             "width": 128.0,
             "height": 128.0,
-            "type": "Text Display",
+            "type": "Large Text Display",
             "properties": {
               "topic": "/limelight-br/pipeline",
               "period": 0.06,
-              "data_type": "double",
-              "show_submit_button": true
+              "data_type": "double"
             }
           },
           {
             "title": "Print",
-            "x": 896.0,
-            "y": 256.0,
-            "width": 768.0,
+            "x": 768.0,
+            "y": 0.0,
+            "width": 640.0,
             "height": 128.0,
             "type": "Text Display",
             "properties": {
@@ -163,61 +148,44 @@
             }
           },
           {
-            "title": "Hub Distance",
-            "x": 384.0,
-            "y": 512.0,
-            "width": 128.0,
-            "height": 128.0,
-            "type": "Text Display",
-            "properties": {
-              "topic": "/Robot/SuperSystem/Hub Distance",
-              "period": 0.06,
-              "data_type": "double",
-              "show_submit_button": true
-            }
-          },
-          {
-            "title": "Desired Velocity",
-            "x": 256.0,
-            "y": 640.0,
-            "width": 128.0,
-            "height": 128.0,
-            "type": "Text Display",
-            "properties": {
-              "topic": "/Robot/SuperSystem/Shooter/Desired Velocity",
-              "period": 0.06,
-              "data_type": "double",
-              "show_submit_button": true
-            }
-          },
-          {
-            "title": "Shooter Speed",
-            "x": 384.0,
-            "y": 640.0,
-            "width": 128.0,
-            "height": 128.0,
-            "type": "Text Display",
-            "properties": {
-              "topic": "/Tunable/Shooter Speed",
-              "period": 0.06,
-              "data_type": "double",
-              "show_submit_button": true
-            }
-          },
-          {
-            "title": "Velocity",
-            "x": 896.0,
-            "y": 0.0,
-            "width": 640.0,
+            "title": "Shift Time",
+            "x": 768.0,
+            "y": 256.0,
+            "width": 384.0,
             "height": 256.0,
-            "type": "Graph",
+            "type": "Match Time",
             "properties": {
-              "topic": "/Robot/SuperSystem/Shooter/Velocity",
-              "period": 0.033,
+              "topic": "/Robot/Match Info/Shift Time",
+              "period": 0.06,
               "data_type": "double",
-              "time_displayed": 5.0,
-              "color": 4278238420,
-              "line_width": 2.0
+              "time_display_mode": "Seconds Only",
+              "red_start_time": 10,
+              "yellow_start_time": 30
+            }
+          },
+          {
+            "title": "Shift Name",
+            "x": 768.0,
+            "y": 128.0,
+            "width": 384.0,
+            "height": 128.0,
+            "type": "Large Text Display",
+            "properties": {
+              "topic": "/Robot/Match Info/Shift Name",
+              "period": 0.06,
+              "data_type": "string"
+            }
+          },
+          {
+            "title": "FMSInfo",
+            "x": 768.0,
+            "y": 512.0,
+            "width": 384.0,
+            "height": 128.0,
+            "type": "FMSInfo",
+            "properties": {
+              "topic": "/FMSInfo",
+              "period": 0.06
             }
           }
         ]

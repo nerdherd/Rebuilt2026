@@ -6,7 +6,6 @@ package frc.robot;
 
 
 import dev.doglog.DogLog;
-import edu.wpi.first.math.Pair;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.networktables.StringSubscriber;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -266,6 +265,7 @@ public class RobotContainer {
 
     NerdLog.logData("Robot/Command Scheduler", CommandScheduler.getInstance(), LOG_LEVEL.ALL);
     NerdLog.logNumber("Robot/RAM Usage", () -> (double)Runtime.getRuntime().freeMemory(), LOG_LEVEL.MEDIUM);
+    NerdLog.logNumber("Match Info/Shift Time", this::allianceShiftTime, LOG_LEVEL.MINIMAL);
     NerdLog.reportLogCount();
   }
   
@@ -282,24 +282,26 @@ public class RobotContainer {
     swerveDrive.setBrake(true);
   }
 
+  private boolean gameEnded = false;
   /**
    * Displays a countdown for alliance shifts. NOT 100% ACCURATE
    * @return the number of seconds in the current phase, and the phase name
    */
-  public Pair<Double, String> allianceShiftTime() {
+  public double allianceShiftTime() {
+    // if (!DriverStation.isFMSAttached()) { DogLog.log("Match Info/Shift Name", "DriverStation not attached"); return 0.0; };
     double time = DriverStation.getMatchTime();
-
-    if (DriverStation.isFMSAttached()) {
-      if (DriverStation.isAutonomous()) {
-        return new Pair<>(20 - time, "Auto");
-
-      } else if (DriverStation.isTeleop()) {
-        if (time >= 130) return new Pair<>(140 - time, "Transition"); // transition
-        else if (time >= 30) return new Pair<>(130 - (time - 10) % 25, "Shift " + (25 - (time - 10) / 25 + 1)); // shifts 1-4
-        else return new Pair<>(140 - time, "Endgame"); // endgame
-      } else return new Pair<>(0.0, "Inactive");
-
-    } else return new Pair<>(0.0, "Inactive");
+    DogLog.log("Match Info/time", time);
+    if (DriverStation.isAutonomous()) {
+      if (time < 0.0) { DogLog.log("Match Info/Shift Name", (gameEnded) ? "Good Job Team!" : "Get Ready..."); return 0.0; }
+      DogLog.log("Match Info/Shift Name", "Auto");
+      gameEnded = false;
+      return time;
+    } else if (DriverStation.isTeleop()) {
+      if (time < 0.0) { DogLog.log("Match Info/Shift Name", (gameEnded) ? "Good Job Team!" : "Good Luck! -nerdherd"); return 0.0; }
+      else if (time >= 130.0) { DogLog.log("Match Info/Shift Name", "Transition"); return time - 130; } // transition
+      else if (time >= 30.0) { DogLog.log("Match Info/Shift Name", "Shift " + (int)((130 - time) / 25 + 1)); return (time - 30) % 25; } // shifts 1-4
+      else { DogLog.log("Match Info/Shift Name", "Endgame"); if (time <= 1.0) gameEnded = true; return time; } // endgame
+    } else { DogLog.log("Match Info/Shift Name", "Inactive"); return 0.0; }
     
     // Practice Mode
     // else {
