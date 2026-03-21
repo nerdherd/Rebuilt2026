@@ -32,32 +32,32 @@
     },
     {
       "anchor": {
-        "x": 7.581679904513889,
-        "y": 3.4157021846064812
+        "x": 7.590595368030025,
+        "y": 3.6426724781709563
       },
       "prevControl": {
-        "x": 8.681902922453704,
-        "y": 3.369249927662037
+        "x": 8.69081838596984,
+        "y": 3.596220221226512
       },
       "nextControl": {
-        "x": 7.111054527662099,
-        "y": 3.435572347813057
+        "x": 7.119969991178235,
+        "y": 3.662542641377532
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 5.610149016203704,
-        "y": 2.5328468605324077
+        "x": 5.562793160232843,
+        "y": 2.6926059378829654
       },
       "prevControl": {
-        "x": 6.170591449775649,
-        "y": 2.7230795250045383
+        "x": 6.123235593804788,
+        "y": 2.882838602355096
       },
       "nextControl": {
-        "x": 4.918154730902778,
-        "y": 2.297961154513889
+        "x": 4.870798874931917,
+        "y": 2.457720231864447
       },
       "isLocked": false,
       "linkedName": null
@@ -90,7 +90,7 @@
       "rotationDegrees": 110.0
     },
     {
-      "waypointRelativePos": 3.1218913612565435,
+      "waypointRelativePos": 2.716821332737032,
       "rotationDegrees": 0.0
     },
     {
@@ -140,31 +140,7 @@
     }
   ],
   "pointTowardsZones": [],
-  "eventMarkers": [
-    {
-      "name": "Intake Start",
-      "waypointRelativePos": 0.6479190101237348,
-      "endWaypointRelativePos": null,
-      "command": null
-    },
-    {
-      "name": "Intake Stop",
-      "waypointRelativePos": 2.8,
-      "endWaypointRelativePos": null,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "Flywheel Start 45"
-        }
-      }
-    },
-    {
-      "name": "Shoot",
-      "waypointRelativePos": 4.0,
-      "endWaypointRelativePos": null,
-      "command": null
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
