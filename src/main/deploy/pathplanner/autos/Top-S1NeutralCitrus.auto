@@ -11,22 +11,22 @@
           }
         },
         {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.2
+          }
+        },
+        {
           "type": "parallel",
           "data": {
             "commands": [
               {
                 "type": "path",
                 "data": {
-                  "pathName": "S1MidTScoop"
+                  "pathName": "S1MidTCitrus"
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.0
           }
         },
         {
@@ -38,13 +38,13 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 2.0
+            "waitTime": 3.0
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Shoot Stop"
+            "name": "Shoot Ramp Down"
           }
         },
         {
@@ -54,16 +54,10 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "H45MidTDorito"
+                  "pathName": "H45HubScoop"
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.75
           }
         },
         {
@@ -75,19 +69,13 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 2.0
+            "waitTime": 3.0
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Shoot Stop"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Flywheel Stop"
+            "name": "Shoot Ramp Down"
           }
         }
       ]

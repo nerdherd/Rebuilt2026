@@ -70,9 +70,9 @@ public class SuperSystem implements Reportable {
         return Commands.run(() -> {
             if (shooter.getCurrentVelocity() > 20.0) {
                 startShoot();
-                double val = NerdyMath.posMod(MathSharedStore.getTimestamp(), 1.1);
-                if (val <= 0.4) intakeRoller.setDesiredValue(-1.5);
-                else if (val <= 1.0) intakeRoller.setDesiredValue(9);
+                double val = NerdyMath.posMod(MathSharedStore.getTimestamp(), 0.7);
+                if (val <= 0.5) intakeRoller.setDesiredValue(-1.5);
+                else if (val <= 0.7) intakeRoller.setDesiredValue(9);
                 else intakeRoller.setDesiredValue(0.0);
             } else {
                 indexer.setDesiredValue(0);
@@ -83,11 +83,17 @@ public class SuperSystem implements Reportable {
     }
 
     public Command reverseConveyor() {
-        return conveyor.setDesiredValueCommand(-4);
+        return Commands.parallel(
+            conveyor.setDesiredValueCommand(-4),
+            indexer.setDesiredValueCommand(-5)
+            );
     }
 
     public Command stopConveyor() {
-        return conveyor.setDesiredValueCommand(0);
+        return Commands.parallel(
+            conveyor.setDesiredValueCommand(0),
+            indexer.setDesiredValueCommand(0)
+            );
     }
     
     public Command stopShooting() {
@@ -119,8 +125,12 @@ public class SuperSystem implements Reportable {
         return Commands.sequence(
             intakeSlapdown.setDesiredValueCommand(-8),
             Commands.waitSeconds(0.2),
-            intakeSlapdown.setDesiredValueCommand(-1)
+            intakeSlapdown.setDesiredValueCommand(-0.5)
         );
+    }
+
+    public Command intakeHold() {
+        return intakeSlapdown.setDesiredValueCommand(-0.5);
     }
 
     public Command intake() {
@@ -180,7 +190,7 @@ public class SuperSystem implements Reportable {
      * @return
      */
     public Command shootWithTuning() {
-        if (shootSpeedSub == null) shootSpeedSub = DogLog.tunable(kSupersystemTab + "/Shooter Speed", shootSpeed, (value) -> shootSpeed = value);
+        if (shootSpeedSub == null) shootSpeedSub = DogLog.tunable("Shooter Speed", shootSpeed, (value) -> shootSpeed = value);
         return Commands.run(() -> {
             shooter.setDesiredValue(shootSpeed);
         }, shooter);

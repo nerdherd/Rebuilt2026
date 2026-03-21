@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-import static frc.robot.Constants.ControllerConstants.kTurnToAngleFilter;
 
 import dev.doglog.DogLog;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -76,7 +75,6 @@ public class RobotContainer {
    * used in teleop mode.
    */
   public void initDefaultCommands_teleop() {
-    boolean useTurnToAngle = false;
     SwerveJoystickCommand swerveJoystickCommand =
     new SwerveJoystickCommand(
       swerveDrive,
@@ -87,13 +85,9 @@ public class RobotContainer {
       // Turn
       () -> -driverController.getRightX(), 
       // use turn to angle
-      () -> driverController.getBumperRight() || useTurnToAngle,
+      () -> driverController.getBumperRight() || driverController.getBumperLeft(),
       // turn to angle target direction, 0.0 to use manual
-      () -> ((useTurnToAngle) ? 
-                ((driverController.getBumperRight()) ? 
-                    swerveDrive.angleToPose(FieldPositions.HUB_CENTER) :
-                    kTurnToAngleFilter.apply(driverController.getRightX(), driverController.getRightY())) :
-                swerveDrive.angleToPose(FieldPositions.HUB_CENTER)),
+      () -> (driverController.getBumperRight()) ? swerveDrive.angleToPose(FieldPositions.HUB_CENTER) : 0.0,
       // robot oriented adjustment (dpad)
       () -> new Translation2d(
         (driverController.getDpadUp() ? 1 : 0) - (driverController.getDpadDown() ? 1 : 0), 
@@ -141,12 +135,15 @@ public class RobotContainer {
         .onTrue(superSystem.intake())
         .onFalse(superSystem.stopIntaking());
 
-      // driverController.buttonDown()
-      //   .whileTrue(superSystem.shootWithTuning())
-      //   .onFalse(superSystem.stopFlywheel());
-      // driverController.buttonLeft()
-      //   .whileTrue(superSystem.shootWithCondition())
-      //   .onFalse(superSystem.stopShooting());
+      driverController.buttonDown()
+        .whileTrue(superSystem.shootWithTuning())
+        .onFalse(superSystem.stopFlywheel());
+      driverController.buttonUp()
+        .whileTrue(superSystem.shootWithDistance())
+        .onFalse(superSystem.stopFlywheel());
+      driverController.buttonLeft()
+        .whileTrue(superSystem.shootWithCondition())
+        .onFalse(superSystem.stopShooting());
 
       // driverController.bumperLeft()
       //   .whileTrue(superSystem.climbUp())
@@ -167,7 +164,7 @@ public class RobotContainer {
         .onTrue(superSystem.intake())
         .onFalse(superSystem.stopIntaking());
       operatorController.controllerLeft()
-        .onTrue(superSystem.intakeDown());
+        .onTrue(superSystem.intakeHold());
 
       operatorController.triggerRight()
         .whileTrue(superSystem.shootWithDistance())
@@ -256,16 +253,16 @@ public class RobotContainer {
       
   }
   
-  private StringSubscriber printLog = null;
+  public StringSubscriber printLog = null;
   public void initializeLogging() {
-    if (printLog == null) printLog = DogLog.tunable("Robot/Print", "", (val) -> NerdLog.reportInfo(val));
-    NerdLog.logData("Robot/PDP", pdp, LOG_LEVEL.MEDIUM);
+    if (printLog == null) printLog = DogLog.tunable("Print", "", (value) -> NerdLog.reportInfo("" + value));
+    NerdLog.logData("Robot/PDP", pdp, LOG_LEVEL.ALL);
     
     swerveDrive.initializeLogging();
     if (Constants.USE_SUBSYSTEMS) { 
       superSystem.initializeLogging();
     }
-    
+
     NerdLog.logData("Robot/Command Scheduler", CommandScheduler.getInstance(), LOG_LEVEL.ALL);
     NerdLog.logNumber("Robot/RAM Usage", () -> (double)Runtime.getRuntime().freeMemory(), LOG_LEVEL.MEDIUM);
     NerdLog.reportLogCount();
