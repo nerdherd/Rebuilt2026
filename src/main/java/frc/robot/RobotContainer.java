@@ -135,15 +135,15 @@ public class RobotContainer {
         .onTrue(superSystem.intake())
         .onFalse(superSystem.stopIntaking());
 
-      driverController.buttonDown()
-        .whileTrue(superSystem.shootWithTuning())
-        .onFalse(superSystem.stopFlywheel());
-      driverController.buttonUp()
-        .whileTrue(superSystem.shootWithDistance())
-        .onFalse(superSystem.stopFlywheel());
-      driverController.buttonLeft()
-        .whileTrue(superSystem.shootWithCondition())
-        .onFalse(superSystem.stopShooting());
+      // driverController.buttonDown()
+      //   .whileTrue(superSystem.shootWithTuning())
+      //   .onFalse(superSystem.stopFlywheel());
+      // driverController.buttonUp()
+      //   .whileTrue(superSystem.shootWithDistance())
+      //   .onFalse(superSystem.stopFlywheel());
+      // driverController.buttonLeft()
+      //   .whileTrue(superSystem.shootWithCondition())
+      //   .onFalse(superSystem.stopShooting());
 
       // driverController.bumperLeft()
       //   .whileTrue(superSystem.climbUp())
