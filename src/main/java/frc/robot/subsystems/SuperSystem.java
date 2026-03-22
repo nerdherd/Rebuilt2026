@@ -125,7 +125,7 @@ public class SuperSystem implements Reportable {
         return Commands.sequence(
             intakeSlapdown.setDesiredValueCommand(-8),
             Commands.waitSeconds(0.2),
-            intakeSlapdown.setDesiredValueCommand(-1.0)
+            intakeSlapdown.setDesiredValueCommand(-1.5)
         );
     }
 

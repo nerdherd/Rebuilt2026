@@ -225,8 +225,8 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
      */
     public void setVision(boolean activate) {
         for (Camera camera : Camera.values()) {
-            LimelightHelpers.setPipelineIndex(camera.name, (activate) ? 0 : 1);
-            LimelightHelpers.SetThrottle(camera.name, (activate) ? 0 : Constants.VisionConstants.kDisabledThrottle);
+            LimelightHelpers.setPipelineIndex(camera.name, (activate) ? 0 : 0);
+            LimelightHelpers.SetThrottle(camera.name, (activate) ? 0 : 0);
         }
     }
     
@@ -264,7 +264,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
     }
 
     public void recalibrateGyroMT1() {
-        resetRotation(Rotation2d.kZero);
+        resetRotation((RobotContainer.IsRedSide()) ? Rotation2d.k180deg : Rotation2d.kZero);
         useMegaTag2 = false;
     }
 
