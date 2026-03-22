@@ -63,7 +63,10 @@ public class SuperSystem implements Reportable {
     }
 
     public Command shoot() {
-        return Commands.runOnce(this::startShoot, indexer, conveyor);
+        return Commands.parallel(
+            indexer.setDesiredValueCommand(10),
+            conveyor.setDesiredValueCommand(8)
+        );
     }
 
     public Command shootWithCondition() {

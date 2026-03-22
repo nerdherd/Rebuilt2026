@@ -73,6 +73,24 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Intake Start"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake Stop"
+          }
+        },
+        {
           "type": "wait",
           "data": {
             "waitTime": 2.0
@@ -81,13 +99,13 @@
         {
           "type": "named",
           "data": {
-            "name": "Shoot Stop"
+            "name": "Flywheel Stop"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Flywheel Stop"
+            "name": "Shoot Stop"
           }
         },
         {
@@ -150,6 +168,24 @@
           "type": "named",
           "data": {
             "name": "Shoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake Start"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake Stop"
           }
         },
         {
