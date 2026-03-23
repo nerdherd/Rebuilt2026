@@ -23,16 +23,22 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "S1MidTScoop"
+                  "pathName": "S1MidTCitrus"
                 }
               }
             ]
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
+          }
+        },
+        {
           "type": "wait",
           "data": {
-            "waitTime": 2.0
+            "waitTime": 3.0
           }
         },
         {
@@ -48,10 +54,16 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Top2"
+                  "pathName": "H45HubScoop"
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
           }
         },
         {

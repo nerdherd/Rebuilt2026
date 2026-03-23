@@ -58,12 +58,15 @@ public class SuperSystem implements Reportable {
     }
     
     public void startShoot() {
-        indexer.setDesiredValue(8);
-        conveyor.setDesiredValue(6);
+        indexer.setDesiredValue(9);
+        conveyor.setDesiredValue(7);
     }
 
     public Command shoot() {
-        return Commands.runOnce(this::startShoot, indexer, conveyor);
+        return Commands.parallel(
+            indexer.setDesiredValueCommand(10),
+            conveyor.setDesiredValueCommand(8)
+        );
     }
 
     public Command shootWithCondition() {
@@ -125,17 +128,17 @@ public class SuperSystem implements Reportable {
         return Commands.sequence(
             intakeSlapdown.setDesiredValueCommand(-8),
             Commands.waitSeconds(0.2),
-            intakeSlapdown.setDesiredValueCommand(-0.5)
+            intakeSlapdown.setDesiredValueCommand(-1.5)
         );
     }
 
     public Command intakeHold() {
-        return intakeSlapdown.setDesiredValueCommand(-0.5);
+        return intakeSlapdown.setDesiredValueCommand(-1.0);
     }
 
     public Command intake() {
         return Commands.parallel(
-            intakeRoller.setDesiredValueCommand(10)
+            intakeRoller.setDesiredValueCommand(11)
             );
     }
     

@@ -7,7 +7,6 @@ package frc.robot;
 import static frc.robot.Constants.USE_VISION;
 
 import com.ctre.phoenix6.signals.NeutralModeValue;
-
 import dev.doglog.DogLog;
 import dev.doglog.DogLogOptions;
 import edu.wpi.first.wpilibj.TimedRobot;

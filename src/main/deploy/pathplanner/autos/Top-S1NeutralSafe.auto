@@ -17,7 +17,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "S1MidTScoop"
+                  "pathName": "S1MidTSafeScoop"
                 }
               },
               {
@@ -27,7 +27,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 2.1
+                        "waitTime": 1.0
                       }
                     },
                     {
@@ -39,7 +39,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 3.1
+                        "waitTime": 3.0
                       }
                     },
                     {
@@ -63,7 +63,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.5
+            "waitTime": 1.0
           }
         },
         {
@@ -85,19 +85,13 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "Flywheel Stop"
-          }
-        },
-        {
           "type": "parallel",
           "data": {
             "commands": [
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Copy of Top2"
+                  "pathName": "H45MidTDorito"
                 }
               },
               {
@@ -107,7 +101,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 2.1
+                        "waitTime": 1.75
                       }
                     },
                     {
@@ -119,7 +113,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 3.1
+                        "waitTime": 5.5
                       }
                     },
                     {
@@ -143,7 +137,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.2
+            "waitTime": 0.75
           }
         },
         {

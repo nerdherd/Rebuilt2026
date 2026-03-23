@@ -17,7 +17,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "S1MidTScoop"
+                  "pathName": "S5MidTCitrus"
                 }
               },
               {
@@ -27,7 +27,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 1.0
+                        "waitTime": 1.2
                       }
                     },
                     {
@@ -39,7 +39,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 3.0
+                        "waitTime": 3.5
                       }
                     },
                     {
@@ -75,7 +75,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 2.0
+            "waitTime": 2.5
           }
         },
         {
@@ -85,13 +85,19 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Flywheel Stop"
+          }
+        },
+        {
           "type": "parallel",
           "data": {
             "commands": [
               {
                 "type": "path",
                 "data": {
-                  "pathName": "H45MidTDorito"
+                  "pathName": "H45MidTHub"
                 }
               },
               {
@@ -101,7 +107,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 1.75
+                        "waitTime": 2.0
                       }
                     },
                     {
@@ -113,7 +119,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 5.5
+                        "waitTime": 4.5
                       }
                     },
                     {
@@ -137,7 +143,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.75
+            "waitTime": 1.0
           }
         },
         {
@@ -168,6 +174,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Top Autos",
+  "folder": "Bottom Autos",
   "choreoAuto": false
 }
