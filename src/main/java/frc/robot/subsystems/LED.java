@@ -1,255 +1,230 @@
-// package frc.robot.subsystems;
+package frc.robot.subsystems;
 
-// import com.ctre.phoenix6.configs.CANdleConfiguration;
-// import com.ctre.phoenix6.hardware.CANdle;
+import com.ctre.phoenix6.configs.CANdleConfiguration;
+import com.ctre.phoenix6.hardware.CANdle;
 
-// import edu.wpi.first.wpilibj.RobotState;
-// import edu.wpi.first.wpilibj.util.Color;
-// import edu.wpi.first.wpilibj2.command.Command;
-// import edu.wpi.first.wpilibj2.command.Commands;
-// import edu.wpi.first.wpilibj2.command.SubsystemBase;
-// import frc.robot.Constants.LEDConstants;
-// import frc.robot.Constants.LEDConstants.Colors;
-// import frc.robot.Constants.LEDConstants.LEDStrips;
+import edu.wpi.first.wpilibj.RobotState;
+import edu.wpi.first.wpilibj.util.Color;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import static edu.wpi.first.units.Units.*;
 
-// public class LED extends SubsystemBase {
-//     private final CANdle candle;
-//     private double brightness = 1.0; // multiplier on brightness
-//     private boolean paused = false;
+import com.ctre.phoenix.led.Animation;
+import com.ctre.phoenix6.CANBus;
+import com.ctre.phoenix6.controls.*;
+import com.ctre.phoenix6.signals.AnimationDirectionValue;
+import com.ctre.phoenix6.signals.RGBWColor;
+import com.ctre.phoenix6.signals.StatusLedWhenActiveValue;
+import com.ctre.phoenix6.signals.StripTypeValue;
 
-//     private Color[] stripColors = new Color[LEDConstants.CANdleLength];
+import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.Timer; 
+import frc.robot.subsystems.template.TemplateSubsystem;
 
-//     private State state = State.DISABLED;
-//     public enum State {
-//         DISABLED, // when the robot is disabled (nerdherd blue to white fade)
-//         TELEOP, // alliance color + white scrol (RED WHITE BLUE 🦅🦅)
-//         AUTO, // fire 🔥🔥🔥🔥
-//         DISCONNECTED,
-//         HAS_NOTE, // note is in indexer (blue)
-//         LOCKED_ON, // sees april tag (yellow)
-//         SHOOTING // fill green
-//     }
 
-//     public LED(int CANdleID) {
-//         candle = new CANdle(CANdleID);
-//         candle.setControl(new ColorFlowAnimation(CANdleID, CANdleID))
-//         candle.(0);
-//         CANdleConfiguration
-//         CANdleConfiguration configAll = new CANdleConfiguration();
-//         configAll.statusLedOffWhenActive = false;
-//         configAll.disableWhenLOS = false;
-//         configAll.stripType = LEDStripType.RGB;
-//         configAll.brightnessScalar = 1;
-//         configAll.vBatOutputMode = VBatOutputMode.Modulated;
-//         candle.configAllSettings(configAll, 100); 
+public class LED extends SubsystemBase {
+    private Animation animation = null;
+    private AnimationType currentAnimation = AnimationType.Rainbow;
+    private AnimationType lastAnimation = AnimationType.Rainbow;
+    /* color can be constructed from RGBW, a WPILib Color/Color8Bit, HSV, or hex */
+    private static final RGBWColor kGreen = new RGBWColor(0, 217, 0, 0);
+    private static final RGBWColor kWhite = new RGBWColor(Color.kWhite).scaleBrightness(0.5);
+    private static final RGBWColor kViolet = RGBWColor.fromHSV(Degrees.of(270), 0.9, 0.8);
+    private static final RGBWColor kRed = RGBWColor.fromHex("#D9000000").orElseThrow();
+    private static final RGBWColor kYellow = RGBWColor.fromHex("#D9000000").orElseThrow();
+
+    /*
+     * Start and end index for LED animations.
+     * 0-7 are onboard, 8-399 are an external strip.
+     * CANdle supports 8 animation slots (0-7).
+     */
+    private static final int kSlot0StartIdx = 8;
+    private static final int kSlot0EndIdx = 37;
+
+    private static final int kSlot1StartIdx = 38;
+    private static final int kSlot1EndIdx = 67;
+
+    private final CANdle m_candle = new CANdle(1, CANBus.roboRIO());
+
+    private enum AnimationType {
+        None,
+        ColorFlow,
+        Fire,
+        Larson,
+        Rainbow,
+        RgbFade,
+        SingleFade,
+        Strobe,
+        Twinkle,
+        TwinkleOff,
+    }
+
+    private AnimationType m_anim0State = AnimationType.None;
+    private AnimationType m_anim1State = AnimationType.None;
+
+    private final SendableChooser<AnimationType> m_anim0Chooser = new SendableChooser<AnimationType>();
+    private final SendableChooser<AnimationType> m_anim1Chooser = new SendableChooser<AnimationType>();
+
+    /**
+     * This function is run when the robot is first started up and should be used for any
+     * initialization code.
+     */
+    
+    }
+
+    public LED(int CANdleID) {
+        public void CANdle() {
+        /* Configure CANdle */
+        var cfg = new CANdleConfiguration();
+        /* set the LED strip type and brightness */
+        cfg.LED.StripType = StripTypeValue.GRB;
+        cfg.LED.BrightnessScalar = 0.5;
+        /* disable status LED when being controlled */
+        cfg.CANdleFeatures.StatusLedWhenActive = StatusLedWhenActiveValue.Disabled;
+
+        m_candle.getConfigurator().apply(cfg);
+
+        /* clear all previous animations */
+        for (int i = 0; i < 8; ++i) {
+            m_candle.setControl(new EmptyAnimation(i));
+        }
+        /* set the onboard LEDs to a solid color */
+        m_candle.setControl(new SolidColor(0, 3).withColor(kGreen));
+        m_candle.setControl(new SolidColor(4, 7).withColor(kWhite));
+
+        /* add animations to chooser for slot 0 */
+        m_anim0Chooser.setDefaultOption("Color Flow", AnimationType.ColorFlow);
+        m_anim0Chooser.addOption("Rainbow", AnimationType.Rainbow);
+        m_anim0Chooser.addOption("Twinkle", AnimationType.Twinkle);
+        m_anim0Chooser.addOption("Twinkle Off", AnimationType.TwinkleOff);
+        m_anim0Chooser.addOption("Fire", AnimationType.Fire);
+
+        /* add animations to chooser for slot 1 */
+        m_anim1Chooser.setDefaultOption("Larson", AnimationType.Larson);
+        m_anim1Chooser.addOption("RGB Fade", AnimationType.RgbFade);
+        m_anim1Chooser.addOption("Single Fade", AnimationType.SingleFade);
+        m_anim1Chooser.addOption("Strobe", AnimationType.Strobe);
+        m_anim1Chooser.addOption("Fire", AnimationType.Fire);
+
+        SmartDashboard.putData("Animation 0", m_anim0Chooser);
+        SmartDashboard.putData("Animation 1", m_anim1Chooser);
+    }
+    public enum Status {
+        DISABLED,
+        TELEOP,
+        AUTO,
+        DISCONNECTED,
+        SHOOTER_READY,
+        FEEDINGREADY, // Ready to shoot
+    }
+    @Override
+  
+    public void periodic() {
+        /* if the selection for slot 0 changes, change animations */
+        final var anim0Selection = m_anim0Chooser.getSelected();
+        if (m_anim0State != anim0Selection) {
+            m_anim0State = anim0Selection;
+
+            switch (m_anim0State) {
+                default:
+                case ColorFlow:
+                    m_candle.setControl(
+                        new ColorFlowAnimation(kSlot0StartIdx, kSlot0EndIdx).withSlot(0)
+                            .withColor(kViolet)
+                    );
+                    break;
+                case Rainbow:
+                    m_candle.setControl(
+                        new RainbowAnimation(kSlot0StartIdx, kSlot0EndIdx).withSlot(0)
+                    );
+                    break;
+                case Twinkle:
+                    m_candle.setControl(
+                        new TwinkleAnimation(kSlot0StartIdx, kSlot0EndIdx).withSlot(0)
+                            .withColor(kViolet)
+                    );
+                    break;
+                case TwinkleOff:
+                    m_candle.setControl(
+                        new TwinkleOffAnimation(kSlot0StartIdx, kSlot0EndIdx).withSlot(0)
+                            .withColor(kViolet)
+                    );
+                    break;
+                case Fire:
+                    m_candle.setControl(
+                        new FireAnimation(kSlot0StartIdx, kSlot0EndIdx).withSlot(0)
+                    );
+                    break;
+            }
+        }
+public void changeAnimation(AnimationType newAnimation) {
+        lastAnimation = currentAnimation;
+        currentAnimation = newAnimation;
         
-//         setStrip(toPattern(Colors.BLACK), LEDStrips.ALL);
-//     }
+        final var anim1Selection = m_anim1Chooser.getSelected();
+        if (m_anim1State != anim1Selection) {
+            m_anim1State = anim1Selection;
 
-//     private void setLED(int r, int g, int b, int index) {
-//         candle.setLEDs((int)(r * brightness), (int)(g * brightness), (int)(b * brightness), 0, index, 0);
-//     }
-//     private void setLED(Color color, int index) {
-//         candle.setLEDs((int)(color.red * 255 * brightness), (int)(color.green * 255 * brightness), (int)(color.blue * 255 * brightness), 0, index, 0);
-//     }
-
-//     private void setLEDs(int r, int g, int b, int index, int count) {
-//         candle.setLEDs((int)(r * brightness), (int)(g * brightness), (int)(b * brightness), 0, index, count);
-//     }
-//     private void setLEDs(int r, int g, int b, LEDStrips section) {
-//         setLEDs((int)(r * brightness), (int)(g * brightness), (int)(b * brightness), section.index, section.count);
-//     }
-//     private void setLEDs(Color color, int index, int count) {
-//         candle.setLEDs((int)(color.red * 255 * brightness), (int)(color.green * 255 * brightness), (int)(color.blue * 255 * brightness), 0, index, count);
-//     }
-//     private void setLEDs(Color color, LEDStrips section) {
-//         setLEDs((int)(color.red * 255 * brightness), (int)(color.green * 255 * brightness), (int)(color.blue * 255 * brightness), section.index, section.count);
-//     }
-//     private void setLEDs(int r, int g, int b) {
-//         setLEDs((int)(r * brightness), (int)(g * brightness), (int)(b * brightness));
-//     }
-//     private void setLEDs(Color color) {
-//         setLEDs((int)(color.red * 255 * brightness), (int)(color.green * 255 * brightness), (int)(color.blue * 255 * brightness));
-//     }
-
-//     public void setState(State _state){
-//         state = _state;
-//     }
-//     public Command setStateCommand(State _state){
-//         return Commands.runOnce(()->setState(_state));
-//     }
-//     public Command setStateDisabledCommand(){
-//         return Commands.runOnce(()->setState(State.DISABLED));
-//     }
-//     public Command setStateTeleopCommand(){
-//         return Commands.runOnce(()->setState(State.TELEOP));
-//     }
-//     public Command setStateAutoCommand(){
-//         return Commands.runOnce(()->setState(State.AUTO));
-//     }
-//     public Command setStateDisconnectedCommand(){
-//         return Commands.runOnce(()->setState(State.DISCONNECTED));
-//     }
-//     public Command setStateHasNoteCommand(){
-//         return Commands.runOnce(()->setState(State.HAS_NOTE));
-//     }
-//     public Command setStateShooterReadyCommand(){
-//         return Commands.runOnce(()->setState(State.SHOOTING));
-//     }
-    
-//     /**
-//      * pauses the LEDs
-//      */
-//     public void pause() {
-//         paused = true;
-//     }
-//     /**
-//      * pauses the LEDs
-//      */
-//     public Command pauseCommand() {
-//         return Commands.runOnce(()->pause());
-//     }
-//     /**
-//      * unpauses the LEDs
-//      */
-//     public void start() {
-//         paused = false;
-//     }
-//     /**
-//      * unpauses the LEDs
-//      */
-//     public Command startCommand() {
-//         return Commands.runOnce(()->start());
-//     }
-//     /**
-//      * pauses and clears the LEDs (effectively turns them off)
-//      */
-//     public void disable() {
-//         paused = false;
-//         setLEDs(Colors.BLACK);
-//     }
-//     /**
-//      * pauses and clears the LEDs (effectively turns them off)
-//      */
-//     public Command disableCommand() {
-//         return Commands.runOnce(()->disable());
-//     }
-
-//     /**
-//      * sets section to pattern
-//      * @param colors pattern to set
-//      * @param index index of section
-//      * @param count count of section
-//      * @param rotation how much to rotate the colors in the strip
-//      */
-//     private void setStrip(Color[] colors, int index, int count, int rotation) {
-//         for (int i = 0; i < count; i++) {
-//             stripColors[index + i] = colors[Math.abs(Math.floorMod(i + rotation, colors.length))];
-//         }
-//     }
-//     /**
-//      * sets section to pattern
-//      * @param colors pattern to set
-//      * @param index index of section
-//      * @param count count of section
-//      */
-//     private void setStrip(Color[] colors, int index, int count) {
-//         setStrip(colors, index, count, 0);
-//     }
-//     /**
-//      * setStrip based on section
-//      * @param colors pattern to set
-//      * @param section section to set
-//      * @param rotation rotation of pattern
-//      */
-//     private void setStrip(Color[] colors, LEDStrips section, int rotation){
-//         setStrip(colors, section.index, section.count, rotation);
-//     }
-//     /**
-//      * setStrip based on section
-//      * @param colors
-//      * @param section
-//      */
-//     private void setStrip(Color[] colors, LEDStrips section){
-//         setStrip(colors, section.index, section.count);
-//     }
-
-//     /**
-//      * used for easier array creation due to annoying syntax
-//      * @param color
-//      * @return an array with the single color
-//      */
-//     private Color[] toPattern(Color color) { return new Color[]{color}; }
-//     /**
-//      * creates new color object (feels better than writing new every time)
-//      * @return unique color object
-//      */
-//     private static Color Color(double r, double g, double b) { return new Color(r, g, b); }
-
-//     /* Wrappers so we can access the CANdle from the subsystem */
-//     public double getVbat() { return candle.getBusVoltage(); }
-//     public double get5V() { return candle.get5VRailVoltage(); }
-//     public double getCurrent() { return candle.getCurrent(); }
-//     public double getTemperature() { return candle.getTemperature(); }
-//     public void configBrightness(double percent) { candle.configBrightnessScalar(percent, 0); }
-//     public void configLos(boolean disableWhenLos) { candle.configLOSBehavior(disableWhenLos, 0); }
-//     public void configLedType(LEDStripType type) { candle.configLEDType(type, 0); }
-//     public void configStatusLedBehavior(boolean offWhenActive) { candle.configStatusLedState(offWhenActive, 0); }
-    
-//     /**
-//      * linear interpolate between two colors
-//      * @param a first color
-//      * @param b second color
-//      * @param t [0,1] lerp coefficient
-//      * @return
-//      */
-//     private Color lerpColor(Color a, Color b, double t) {
-//         return Color(a.red * (1.0 - t) + b.red * t,
-//                     a.green * (1.0 - t) + b.green * t,
-//                     a.blue * (1.0 - t) + b.blue * t);
-//     }
-
-//     /**
-//      * applies strip colors
-//      */
-//     private void updateCANdle() {
-//         for (int i = 0; i < stripColors.length; i++) {
-//             setLED(stripColors[i], i);
-//         }
-//     }
-
-//     private void updateState() {
-//         if (RobotState.isDisabled()) setState(State.DISABLED);
-//         // else if (something) setState(State.SHOOTING)
-//         // else if (other) setState(State.LOCKED_ON)
-//         // else if (idk) setState(State.HAS_NOTE);
-//         else if (RobotState.isTeleop()) setState(State.TELEOP);
-//         else if (RobotState.isAutonomous()) setState(State.AUTO);
-//     }
-
-//     private int delay = 0;
-//     private int time = 0; // time value
-//     @Override
-//     public void periodic() {
-//         if (!paused) delay++;
-//         if (delay >= 10 && !paused) { delay = 0;
-//             time++;
-//             updateState();
-//             setStrip(toPattern(Colors.BLACK), LEDStrips.ALL); // clear strip
-//             // draws go here
-//             switch (state) {
-//                 case TELEOP:
-                    
-//                     break;
-//                 default:
-//                     double t = (Math.sin(time / 10.0) + 1.0) / 2.0;
-//                     setStrip(toPattern(lerpColor(Colors.WHITE, Colors.NERDHERD_BLUE, t)), LEDStrips.ALL);
-//                     break;
-//             }
-            
-//             updateCANdle(); // push draws
-//         }
-//     }
-
-    
-// }
+            switch (m_anim1State) {
+                default:
+                case Larson:
+                    m_candle.setControl(
+                        new LarsonAnimation(kSlot1StartIdx, kSlot1EndIdx).withSlot(1)
+                            .withColor(kRed)
+                    );
+                    break;
+                case RgbFade:
+                    m_candle.setControl(
+                        new RgbFadeAnimation(kSlot1StartIdx, kSlot1EndIdx).withSlot(1)
+                    );
+                    break;
+                case SingleFade:
+                    m_candle.setControl(
+                        new SingleFadeAnimation(kSlot1StartIdx, kSlot1EndIdx).withSlot(1)
+                            .withColor(kGreen)
+                    );
+                    break;
+                case Strobe:
+                    m_candle.setControl(
+                        new StrobeAnimation(kSlot1StartIdx, kSlot1EndIdx).withSlot(1)
+                            .withColor(kYellow)
+                    );
+                    break;
+                case Fire:
+                    /* direction can be reversed by either the Direction parameter or switching start and end */
+                    m_candle.setControl(
+                        new FireAnimation(kSlot1StartIdx, kSlot1EndIdx).withSlot(1)
+                            .withDirection(AnimationDirectionValue.Backward)
+                            .withCooling(0.4)
+                            .withSparking(0.5)
+                    );
+                    break;
+            }
+    public void setStatus(Status status){
+        switch(status)
+        {
+            case DISABLED:
+                changeAnimation(AnimationType.None);
+                break;
+            case TELEOP:
+                changeAnimation(AnimationType.None);
+                break;
+            case AUTO:
+                changeAnimation(AnimationType.None);
+                break;
+            case DISCONNECTED:
+                changeAnimation(AnimationType.None);
+                break;
+            case SHOOTER_READY:
+                changeAnimation(AnimationType.SingleFade);
+                break;
+            case FEEDINGREADY:
+                changeAnimation(AnimationType.Strobe);
+                break;
+        
+        }
+    } 
+}
