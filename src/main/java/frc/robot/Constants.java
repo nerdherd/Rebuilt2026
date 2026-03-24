@@ -497,6 +497,9 @@ public final class Constants {
      */
     public static void init() {} 
   }
+   public static final class CANdleConstants {
+    public static final int CANdleID = 0; //TODO: Find the constant
+  }
 
   // public static class LEDConstants {
   //   public static final int CANdleID = 0;
