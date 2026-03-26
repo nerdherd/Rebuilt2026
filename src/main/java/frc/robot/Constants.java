@@ -7,15 +7,20 @@ package frc.robot;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
+import com.ctre.phoenix6.configs.CANdleConfiguration;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.FeedbackConfigs;
+import com.ctre.phoenix6.configs.LEDConfigs;
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.LossOfSignalBehaviorValue;
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.ctre.phoenix6.signals.RGBWColor;
+import com.ctre.phoenix6.signals.StripTypeValue;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveModule.SteerRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest.ForwardPerspectiveValue;
@@ -498,30 +503,43 @@ public final class Constants {
     public static void init() {} 
   }
 
-  // public static class LEDConstants {
-  //   public static final int CANdleID = 0;
-  //   public static final int CANdleLength = 8;
+  public static class LEDConstants {
+    public static final int CANdleID = 0;
 
-  //   public static class Colors {
-  //     public static final Color BLACK         = new Color(0.0, 0.0, 0.0); // shows up as nothing
-  //     public static final Color WHITE         = new Color(1.0,1.0,1.0); 
-  //     public static final Color RED           = new Color(1.0, 0.0, 0.0); 
-  //     public static final Color GREEN         = new Color(0.0, 1.0, 0.0); 
-  //     public static final Color BLUE          = new Color(0.0, 0.0, 1.0); 
-  //     public static final Color NERDHERD_BLUE = new Color(0.132, 0.415, 1.0); // #071635 as base, brightened fully
-  //   }
+    public static final CANdleConfiguration configuration = 
+      new CANdleConfiguration()
+        .withLED(
+          new LEDConfigs()
+            .withStripType(StripTypeValue.GRB)
+            .withBrightnessScalar(0.5)
+            .withLossOfSignalBehavior(LossOfSignalBehaviorValue.DisableLEDs)
+        )
+      ;
+
+    public static class Colors {
+      public static final RGBWColor RED           = new RGBWColor(255, 0, 0); 
+      public static final RGBWColor ORANGE        = new RGBWColor(255, 127, 0); 
+      public static final RGBWColor YELLOW        = new RGBWColor(255, 255, 0); 
+      public static final RGBWColor GREEN         = new RGBWColor(0, 255, 0); 
+      public static final RGBWColor CYAN          = new RGBWColor(0, 255, 255); 
+      public static final RGBWColor BLUE          = new RGBWColor(0, 0, 255); 
+      public static final RGBWColor PURPLE        = new RGBWColor(255, 0, 255); 
+      public static final RGBWColor NERDHERD_BLUE = new RGBWColor(34, 105, 255); // #071635 as base, brightened fully
+      public static final RGBWColor BLACK         = new RGBWColor(0, 0, 0); // shows up as nothing
+      public static final RGBWColor WHITE         = new RGBWColor(255, 255,255); 
+    }
     
-  //   public enum LEDStrips {
-  //     ALL(0, CANdleLength),
-  //     CANDLE(0,8),
-  //     ;
+    public enum LEDSegments {
+      CANDLE(0,8),
+      ;
 
-  //     public int index, count;
-  //     LEDStrips(int _index, int _count) {
-  //       this.index = _index;
-  //       this.count = _count;
-  //     }
-  //   }
+      // from bottom up/left to right
+      public int startIndex, endIndex;
+      LEDSegments(int startIndex, int endIndex) {
+        this.startIndex = startIndex;
+        this.endIndex = endIndex;
+      }
+    }
 
-  // }
+  }
 }
