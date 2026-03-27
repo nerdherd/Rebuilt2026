@@ -39,6 +39,10 @@ public final class Autos {
         autoChooser.addOption("Bot-S5Neutral", AutoBuilder.buildAuto("Bot-S5Neutral"));
         autoChooser.addOption("Bot-S5NeutralSafe", AutoBuilder.buildAuto("Bot-S5NeutralSafe"));
         autoChooser.addOption("Bot-S5MidTBOutpost", AutoBuilder.buildAuto("Bot-S5MidTBOutpost"));
+
+        // Test 
+
+        autoChooser.addOption("Test Pivot Auto", AutoBuilder.buildAuto("Test Pivot Auto"));
         
         NerdLog.logData(kAutosTab + "/Selected Auto", autoChooser, LOG_LEVEL.MINIMAL);
     }
@@ -49,6 +53,8 @@ public final class Autos {
 
         // INTAKE
         NamedCommands.registerCommand("Intake Down", superSystem.intakeDown());
+        NamedCommands.registerCommand("Intake Down Only", superSystem.intakeDownOnly());
+        NamedCommands.registerCommand("Intake Hold", superSystem.intakeHold());
         // NamedCommands.registerCommand("Intake Up", superSystem.intakeUp());
         NamedCommands.registerCommand("Intake Start", superSystem.intake());
         NamedCommands.registerCommand("Intake Stop", superSystem.stopIntaking());
@@ -57,6 +63,8 @@ public final class Autos {
                 superSystem.intakeDown(),
                 superSystem.intake()
             ));
+        NamedCommands.registerCommand("Auto Shoot Start", superSystem.startShootWithCondition());
+        NamedCommands.registerCommand("Auto Shoot Stop", superSystem.stopShootWithCondition());
         // NamedCommands.registerCommand("Intake Up Sequence", 
         //     Commands.sequence(
         //         superSystem.stopIntaking(), 
