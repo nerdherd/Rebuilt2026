@@ -235,7 +235,7 @@ public class SuperSystem implements Reportable {
     public void initializeLEDs() {
         RebuiltLEDCommand ledCommand = new RebuiltLEDCommand(leds);
         ledCommand.registerIntakeSupplier(() -> intakeRoller.getDesiredValue() > 0.1);
-        ledCommand.registerShooterSupplier(() -> (shooter.getCurrentVelocity() / shooter.getDesiredValue()));
+        ledCommand.registerShooterSupplier(() -> (shooter.getDesiredValue() > 0.1) ? (shooter.getCurrentVelocity() / shooter.getDesiredValue()) : 0.0);
         ledCommand.registerCountdownSupplier(() -> Math.min(1.0, RobotContainer.shiftTime / 10.0));
         leds.setDefaultCommand(ledCommand);
     }
