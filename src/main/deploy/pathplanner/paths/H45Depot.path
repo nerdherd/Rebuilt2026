@@ -94,25 +94,19 @@
     {
       "name": "Intake Start",
       "waypointRelativePos": 0.3250696163366338,
-      "endWaypointRelativePos": null,
+      "endWaypointRelativePos": 0.3250696163366338,
       "command": null
     },
     {
       "name": "Flywheel Start 45",
       "waypointRelativePos": 1.5224319306930694,
-      "endWaypointRelativePos": null,
+      "endWaypointRelativePos": 1.5224319306930694,
       "command": null
     },
     {
       "name": "Intake Stop",
       "waypointRelativePos": 2.3911664603960396,
-      "endWaypointRelativePos": null,
-      "command": null
-    },
-    {
-      "name": "Shoot",
-      "waypointRelativePos": 3.0,
-      "endWaypointRelativePos": null,
+      "endWaypointRelativePos": 2.3911664603960396,
       "command": null
     }
   ],
