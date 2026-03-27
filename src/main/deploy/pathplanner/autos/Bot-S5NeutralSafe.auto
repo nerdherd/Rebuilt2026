@@ -7,7 +7,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Intake Down"
+            "name": "Intake Down Only"
           }
         },
         {
@@ -18,6 +18,25 @@
                 "type": "path",
                 "data": {
                   "pathName": "S5MidTSafeCitrus"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.2
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Intake Hold"
+                      }
+                    }
+                  ]
                 }
               },
               {
@@ -39,19 +58,25 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 3.25
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Intake Stop"
+                        "waitTime": 2.4
                       }
                     },
                     {
                       "type": "named",
                       "data": {
                         "name": "Flywheel Start 45"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 1.0
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Intake Stop"
                       }
                     }
                   ]
@@ -63,31 +88,13 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.75
+            "waitTime": 0.25
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Shoot"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Intake Start"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.5
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Intake Stop"
+            "name": "Auto Shoot Start"
           }
         },
         {
@@ -105,7 +112,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Shoot Stop"
+            "name": "Auto Shoot Stop"
           }
         },
         {
@@ -125,7 +132,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 2.0
+                        "waitTime": 1.8
                       }
                     },
                     {
@@ -137,19 +144,25 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 4.5
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Intake Stop"
+                        "waitTime": 3.95
                       }
                     },
                     {
                       "type": "named",
                       "data": {
                         "name": "Flywheel Start 45"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.75
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Intake Stop"
                       }
                     }
                   ]
@@ -161,49 +174,63 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.75
+            "waitTime": 0.25
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Shoot"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Intake Start"
+            "name": "Auto Shoot Start"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 1.0
+            "waitTime": 2.0
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Intake Stop"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 5.0
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot Stop"
+            "name": "Auto Shoot Stop"
           }
         },
         {
           "type": "named",
           "data": {
             "name": "Flywheel Stop"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "BottomH45Leave"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 2.0
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Intake Start"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
           }
         }
       ]
