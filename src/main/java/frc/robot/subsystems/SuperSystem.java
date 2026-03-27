@@ -6,6 +6,7 @@ import static frc.robot.Constants.Subsystems.conveyor;
 import static frc.robot.Constants.Subsystems.indexer;
 import static frc.robot.Constants.Subsystems.intakeRoller;
 import static frc.robot.Constants.Subsystems.intakeSlapdown;
+import static frc.robot.Constants.Subsystems.leds;
 import static frc.robot.Constants.Subsystems.shooter;
 
 import java.util.ArrayList;
@@ -23,6 +24,8 @@ import edu.wpi.first.networktables.DoubleSubscriber;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.RebuiltLEDCommand;
+import frc.robot.RobotContainer;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.SwerveDriveConstants.FieldPositions;
 import frc.robot.subsystems.template.TemplateSubsystem;
@@ -227,6 +230,14 @@ public class SuperSystem implements Reportable {
         ChassisSpeeds speeds = swerveDrivetrain.getFieldOrientedSpeeds();
         Pose2d hub = FieldPositions.HUB_CENTER.get().plus(new Transform2d(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond, Rotation2d.kZero).times(ShooterConstants.kLookAheadFactor));
         return swerveDrivetrain.getPose().getTranslation().getDistance(hub.getTranslation());
+    }
+
+    public void initializeLEDs() {
+        RebuiltLEDCommand ledCommand = new RebuiltLEDCommand(leds);
+        ledCommand.registerIntakeSupplier(() -> intakeRoller.getDesiredValue() > 0.1);
+        ledCommand.registerShooterSupplier(() -> (shooter.getCurrentVelocity() / shooter.getDesiredValue()));
+        ledCommand.registerCountdownSupplier(() -> Math.min(1.0, RobotContainer.shiftTime / 10.0));
+        leds.setDefaultCommand(ledCommand);
     }
 
     // ------------------------------------ logging ------------------------------------ //

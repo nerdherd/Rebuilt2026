@@ -39,33 +39,51 @@ public class RebuiltLEDCommand extends Command {
     if (throttleTracker < 10) return;
     throttleTracker = 0;
     led.reset();
-    if (DriverStation.isDSAttached()) {
+    if (!DriverStation.isDSAttached()) { // when not conected
       led.setControl(Animations.kDisconnectedVertical);
       led.setControl(Animations.kDisconnectedHorizontal);
-    } else if (DriverStation.isDisabled()) {
+    } else if (DriverStation.isDisabled()) { // when connected and not enabled
       led.setControl(Animations.kDisconnectedVertical);
       led.setControl(Animations.kDisabled);
     } else {
+      // horizontal during match
+      double cVal = countdownSupplier.get();
+      int cMid = (int)((LEDSegments.HORIZONTAL.end - LEDSegments.VERTICAL.start) * cVal) + LEDSegments.HORIZONTAL.start;
       led.setControl(Animations.kDefaultHorizontal
         .withColor((intakeSupplier.get() ? Colors.kCYAN : Colors.kNERDHERD_BLUE)
-            .scaleBrightness(getPulseBrightness())));
-      if (DriverStation.isAutonomousEnabled()) {
+            .scaleBrightness(getPulseBrightness()))
+        .withLEDStartIndex(cMid)
+        .withLEDEndIndex(LEDSegments.HORIZONTAL.end)
+        );
+      if (cMid != LEDSegments.VERTICAL.start)
+        led.setControl(Animations.kCountdown
+          .withLEDStartIndex(LEDSegments.HORIZONTAL.start)
+          .withLEDEndIndex(cMid - 1)
+          );
+      
+      // vertical during match
+      if (DriverStation.isAutonomousEnabled()) { // autonomous fire
         led.setControl(Animations.kAutonomousVertical);
       } else {
         double val = shooterSupplier.get();
-        if (val > 0.999) 
+        if (val > 0.999) // full bar
           led.setControl(Animations.kTeleopVertical
             .withColor(Colors.kGREEN.scaleBrightness(getPulseBrightness()))
-            .withLEDStartIndex(LEDSegments.VERTICAL.startIndex)
-            .withLEDEndIndex(LEDSegments.VERTICAL.endIndex)
+            .withLEDStartIndex(LEDSegments.VERTICAL.start)
+            .withLEDEndIndex(LEDSegments.VERTICAL.end)
             );
-        else {
+        else { // not so full bar
+          int mid = (int)((LEDSegments.VERTICAL.end - LEDSegments.VERTICAL.start) * val) + LEDSegments.VERTICAL.start;
           led.setControl(Animations.kTeleopVertical
             .withColor(Colors.kNERDHERD_BLUE.scaleBrightness(getPulseBrightness()))
-            .withLEDStartIndex()
-            .withLEDEndIndex(LEDSegments.VERTICAL.endIndex)
+            .withLEDStartIndex(mid)
+            .withLEDEndIndex(LEDSegments.VERTICAL.end)
             );
-
+          if (mid != LEDSegments.VERTICAL.start) 
+            led.setControl(Animations.kShooterRamp
+              .withLEDStartIndex(LEDSegments.VERTICAL.start)
+              .withLEDEndIndex(mid - 1)
+            );
         }
       }
     }

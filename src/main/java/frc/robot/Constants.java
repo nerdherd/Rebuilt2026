@@ -447,16 +447,17 @@ public final class Constants {
       ;
 
     public static class Colors {
-      public static final RGBWColor kRED           = new RGBWColor(255, 0, 0); 
-      public static final RGBWColor kORANGE        = new RGBWColor(255, 127, 0); 
-      public static final RGBWColor kYELLOW        = new RGBWColor(255, 255, 0); 
-      public static final RGBWColor kGREEN         = new RGBWColor(0, 255, 0); 
-      public static final RGBWColor kCYAN          = new RGBWColor(0, 255, 255); 
-      public static final RGBWColor kBLUE          = new RGBWColor(0, 0, 255); 
-      public static final RGBWColor kPURPLE        = new RGBWColor(255, 0, 255); 
-      public static final RGBWColor kNERDHERD_BLUE = new RGBWColor(34, 105, 255); // #071635 as base, brightened fully
-      public static final RGBWColor kBLACK         = new RGBWColor(0, 0, 0); // shows up as nothing
-      public static final RGBWColor kWHITE         = new RGBWColor(255, 255,255).scaleBrightness(0.5); 
+      public static final double brightness = 1.0;
+      public static final RGBWColor kRED           = new RGBWColor(255, 0, 0).scaleBrightness(brightness); 
+      public static final RGBWColor kORANGE        = new RGBWColor(255, 127, 0).scaleBrightness(brightness); 
+      public static final RGBWColor kYELLOW        = new RGBWColor(255, 255, 0).scaleBrightness(brightness); 
+      public static final RGBWColor kGREEN         = new RGBWColor(0, 255, 0).scaleBrightness(brightness); 
+      public static final RGBWColor kCYAN          = new RGBWColor(0, 255, 255).scaleBrightness(brightness); 
+      public static final RGBWColor kBLUE          = new RGBWColor(0, 0, 255).scaleBrightness(brightness); 
+      public static final RGBWColor kPURPLE        = new RGBWColor(255, 0, 255).scaleBrightness(brightness); 
+      public static final RGBWColor kNERDHERD_BLUE = new RGBWColor(34, 105, 255).scaleBrightness(brightness); // #071635 as base, brightened fully
+      public static final RGBWColor kBLACK         = new RGBWColor(0, 0, 0).scaleBrightness(brightness); // shows up as nothing
+      public static final RGBWColor kWHITE         = new RGBWColor(255, 255,255).scaleBrightness(0.5).scaleBrightness(brightness); 
     }
     
     public enum LEDSegments {
@@ -467,16 +468,16 @@ public final class Constants {
       ;
       
       // from bottom up/left to right
-      public int startIndex, endIndex;
+      public int start, end;
       LEDSegments(int startIndex, int endIndex) {
-        this.startIndex = startIndex;
-        this.endIndex = endIndex;
+        this.start = startIndex;
+        this.end = endIndex;
       }
     }
 
     public static class Animations {
       public static final LarsonAnimation kDisconnectedVertical = 
-        new LarsonAnimation(LEDSegments.VERTICAL.startIndex, LEDSegments.VERTICAL.endIndex)
+        new LarsonAnimation(LEDSegments.VERTICAL.start, LEDSegments.VERTICAL.end)
           .withSlot(0)
           .withColor(Colors.kNERDHERD_BLUE)
           .withSize(10)
@@ -484,27 +485,35 @@ public final class Constants {
       public static final LarsonAnimation kDisconnectedHorizontal =
         kDisconnectedVertical.clone()
           .withSlot(1)
-          .withLEDStartIndex(LEDSegments.HORIZONTAL.startIndex)
-          .withLEDEndIndex(LEDSegments.HORIZONTAL.endIndex)
+          .withLEDStartIndex(LEDSegments.HORIZONTAL.start)
+          .withLEDEndIndex(LEDSegments.HORIZONTAL.end)
         ;
       public static final LarsonAnimation kDisabled = 
         kDisconnectedHorizontal.clone()
           .withColor(Colors.kGREEN)
         ;
       public static final FireAnimation kAutonomousVertical = 
-        new FireAnimation(LEDSegments.VERTICAL.startIndex, LEDSegments.VERTICAL.endIndex)
+        new FireAnimation(LEDSegments.VERTICAL.start, LEDSegments.VERTICAL.end)
           .withSlot(0)
           .withCooling(0.2)
+          .withFrameRate(20)
         ;
       public static final SolidColor kDefaultHorizontal = 
-        new SolidColor(LEDSegments.HORIZONTAL.startIndex, LEDSegments.HORIZONTAL.endIndex)
+        new SolidColor(LEDSegments.HORIZONTAL.start, LEDSegments.HORIZONTAL.end)
           .withColor(Colors.kNERDHERD_BLUE)
         ;
       public static final SolidColor kTeleopVertical =
-        new SolidColor(LEDSegments.VERTICAL.startIndex, LEDSegments.VERTICAL.endIndex)
+        new SolidColor(LEDSegments.VERTICAL.start, LEDSegments.VERTICAL.end)
           .withColor(Colors.kNERDHERD_BLUE)  
         ;
-      public static final SolidColor k
+      public static final SolidColor kCountdown = 
+        new SolidColor(LEDSegments.HORIZONTAL.start, LEDSegments.HORIZONTAL.end)
+          .withColor(Colors.kRED)
+        ;
+      public static final SolidColor kShooterRamp = 
+        new SolidColor(LEDSegments.VERTICAL.start, LEDSegments.VERTICAL.end)
+          .withColor(Colors.kORANGE)
+        ;
     }
   }
 
@@ -575,7 +584,7 @@ public final class Constants {
           useClimb)
         .configureMotors(ClimbConstants.kSubsystemConfiguration);
     
-    public static final boolean useLEDs = true;
+    public static final boolean useLEDs = false;
     public static final LED leds = (!useLEDs) ? null : 
       new LED(
         LEDConstants.kCANdleID, 

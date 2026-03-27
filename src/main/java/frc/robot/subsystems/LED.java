@@ -42,6 +42,7 @@ public class LED extends SubsystemBase implements Reportable {
     }
 
     public StatusCode setControl(ControlRequest request) {
+        
         return this.candle.setControl(request);
     }
 
@@ -50,7 +51,7 @@ public class LED extends SubsystemBase implements Reportable {
      */
     public void clear() {
         reset();
-        setControl(new SolidColor(LEDSegments.ALL.startIndex, LEDSegments.ALL.endIndex));
+        setControl(new SolidColor(LEDSegments.ALL.start, LEDSegments.ALL.end));
     }
     
     /** 

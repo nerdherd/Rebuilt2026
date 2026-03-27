@@ -265,7 +265,7 @@ public class RobotContainer {
 
     NerdLog.logData("Robot/Command Scheduler", CommandScheduler.getInstance(), LOG_LEVEL.ALL);
     NerdLog.logNumber("Robot/RAM Usage", () -> (double)Runtime.getRuntime().freeMemory(), LOG_LEVEL.MEDIUM);
-    NerdLog.logNumber("Match Info/Shift Time", this::allianceShiftTime, LOG_LEVEL.MINIMAL);
+    NerdLog.logNumber("Match Info/Shift Time", () -> {shiftTime = allianceShiftTime(); return shiftTime;}, LOG_LEVEL.MINIMAL);
     NerdLog.reportLogCount();
   }
   
@@ -282,12 +282,13 @@ public class RobotContainer {
     swerveDrive.setBrake(true);
   }
 
-  private boolean gameEnded = false;
+  private static boolean gameEnded = false;
+  public static double shiftTime = 0.0;
   /**
    * Displays a countdown for alliance shifts. NOT 100% ACCURATE
    * @return the number of seconds in the current phase, and the phase name
    */
-  public double allianceShiftTime() {
+  public static double allianceShiftTime() {
     // if (!DriverStation.isFMSAttached()) { DogLog.log("Match Info/Shift Name", "DriverStation not attached"); return 0.0; };
     double time = DriverStation.getMatchTime();
     DogLog.log("Match Info/time", time);
@@ -317,5 +318,4 @@ public class RobotContainer {
 
     // }
   }
-
 }
