@@ -15,6 +15,9 @@ import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.FireAnimation;
+import com.ctre.phoenix6.controls.LarsonAnimation;
+import com.ctre.phoenix6.controls.SolidColor;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.LossOfSignalBehaviorValue;
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
@@ -34,6 +37,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
+import frc.robot.subsystems.LED;
 import frc.robot.subsystems.template.TemplateSubsystem;
 import frc.robot.subsystems.template.TemplateSubsystem.SubsystemMode;
 import frc.robot.util.MultiProfiledPIDController;
@@ -429,6 +433,81 @@ public final class Constants {
 
   }
 
+  public static class LEDConstants {
+    public static final int kCANdleID = 2;
+
+    public static final CANdleConfiguration configuration = 
+      new CANdleConfiguration()
+        .withLED(
+          new LEDConfigs()
+            .withStripType(StripTypeValue.GRB)
+            .withBrightnessScalar(0.5)
+            .withLossOfSignalBehavior(LossOfSignalBehaviorValue.DisableLEDs)
+        )
+      ;
+
+    public static class Colors {
+      public static final RGBWColor kRED           = new RGBWColor(255, 0, 0); 
+      public static final RGBWColor kORANGE        = new RGBWColor(255, 127, 0); 
+      public static final RGBWColor kYELLOW        = new RGBWColor(255, 255, 0); 
+      public static final RGBWColor kGREEN         = new RGBWColor(0, 255, 0); 
+      public static final RGBWColor kCYAN          = new RGBWColor(0, 255, 255); 
+      public static final RGBWColor kBLUE          = new RGBWColor(0, 0, 255); 
+      public static final RGBWColor kPURPLE        = new RGBWColor(255, 0, 255); 
+      public static final RGBWColor kNERDHERD_BLUE = new RGBWColor(34, 105, 255); // #071635 as base, brightened fully
+      public static final RGBWColor kBLACK         = new RGBWColor(0, 0, 0); // shows up as nothing
+      public static final RGBWColor kWHITE         = new RGBWColor(255, 255,255).scaleBrightness(0.5); 
+    }
+    
+    public enum LEDSegments {
+      ALL(0, 7),
+      CANDLE(0, 7),
+      VERTICAL(8, 8),
+      HORIZONTAL(9,9)
+      ;
+      
+      // from bottom up/left to right
+      public int startIndex, endIndex;
+      LEDSegments(int startIndex, int endIndex) {
+        this.startIndex = startIndex;
+        this.endIndex = endIndex;
+      }
+    }
+
+    public static class Animations {
+      public static final LarsonAnimation kDisconnectedVertical = 
+        new LarsonAnimation(LEDSegments.VERTICAL.startIndex, LEDSegments.VERTICAL.endIndex)
+          .withSlot(0)
+          .withColor(Colors.kNERDHERD_BLUE)
+          .withSize(10)
+        ;
+      public static final LarsonAnimation kDisconnectedHorizontal =
+        kDisconnectedVertical.clone()
+          .withSlot(1)
+          .withLEDStartIndex(LEDSegments.HORIZONTAL.startIndex)
+          .withLEDEndIndex(LEDSegments.HORIZONTAL.endIndex)
+        ;
+      public static final LarsonAnimation kDisabled = 
+        kDisconnectedHorizontal.clone()
+          .withColor(Colors.kGREEN)
+        ;
+      public static final FireAnimation kAutonomousVertical = 
+        new FireAnimation(LEDSegments.VERTICAL.startIndex, LEDSegments.VERTICAL.endIndex)
+          .withSlot(0)
+          .withCooling(0.2)
+        ;
+      public static final SolidColor kDefaultHorizontal = 
+        new SolidColor(LEDSegments.HORIZONTAL.startIndex, LEDSegments.HORIZONTAL.endIndex)
+          .withColor(Colors.kNERDHERD_BLUE)
+        ;
+      public static final SolidColor kTeleopVertical =
+        new SolidColor(LEDSegments.VERTICAL.startIndex, LEDSegments.VERTICAL.endIndex)
+          .withColor(Colors.kNERDHERD_BLUE)  
+        ;
+      public static final SolidColor k
+    }
+  }
+
   /** 
    * Container class to hold all subsystem objects.
    */
@@ -488,58 +567,24 @@ public final class Constants {
 
     public static final boolean useClimb = true;
     public static final TemplateSubsystem climb = (!USE_SUBSYSTEMS) ? null :
-    new TemplateSubsystem(
-        "Climb", 
-        ClimbConstants.kMotor1ID, 
-        SubsystemMode.VOLTAGE, 
-        0.0,
-        useClimb)
-      .configureMotors(ClimbConstants.kSubsystemConfiguration);
+      new TemplateSubsystem(
+          "Climb", 
+          ClimbConstants.kMotor1ID, 
+          SubsystemMode.VOLTAGE, 
+          0.0,
+          useClimb)
+        .configureMotors(ClimbConstants.kSubsystemConfiguration);
     
+    public static final boolean useLEDs = true;
+    public static final LED leds = (!useLEDs) ? null : 
+      new LED(
+        LEDConstants.kCANdleID, 
+        LEDConstants.configuration
+      );
     /**
      * literally just so the class actually loads,
      * thanks java lazy loading
      */
     public static void init() {} 
-  }
-
-  public static class LEDConstants {
-    public static final int CANdleID = 0;
-
-    public static final CANdleConfiguration configuration = 
-      new CANdleConfiguration()
-        .withLED(
-          new LEDConfigs()
-            .withStripType(StripTypeValue.GRB)
-            .withBrightnessScalar(0.5)
-            .withLossOfSignalBehavior(LossOfSignalBehaviorValue.DisableLEDs)
-        )
-      ;
-
-    public static class Colors {
-      public static final RGBWColor RED           = new RGBWColor(255, 0, 0); 
-      public static final RGBWColor ORANGE        = new RGBWColor(255, 127, 0); 
-      public static final RGBWColor YELLOW        = new RGBWColor(255, 255, 0); 
-      public static final RGBWColor GREEN         = new RGBWColor(0, 255, 0); 
-      public static final RGBWColor CYAN          = new RGBWColor(0, 255, 255); 
-      public static final RGBWColor BLUE          = new RGBWColor(0, 0, 255); 
-      public static final RGBWColor PURPLE        = new RGBWColor(255, 0, 255); 
-      public static final RGBWColor NERDHERD_BLUE = new RGBWColor(34, 105, 255); // #071635 as base, brightened fully
-      public static final RGBWColor BLACK         = new RGBWColor(0, 0, 0); // shows up as nothing
-      public static final RGBWColor WHITE         = new RGBWColor(255, 255,255); 
-    }
-    
-    public enum LEDSegments {
-      CANDLE(0,8),
-      ;
-
-      // from bottom up/left to right
-      public int startIndex, endIndex;
-      LEDSegments(int startIndex, int endIndex) {
-        this.startIndex = startIndex;
-        this.endIndex = endIndex;
-      }
-    }
-
   }
 }
