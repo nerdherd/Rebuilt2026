@@ -85,6 +85,14 @@ public class SuperSystem implements Reportable {
         .finallyDo(() -> intakeRoller.setDesiredValue(0.0));
     }
 
+    public Command autoShoot = shootWithCondition();
+    public Command startShootWithCondition() {
+        return Commands.runOnce(() -> CommandScheduler.getInstance().schedule(autoShoot), indexer, conveyor);
+    }
+    public Command stopShootWithCondition() {
+        return Commands.runOnce(() -> CommandScheduler.getInstance().cancel(autoShoot), indexer, conveyor);
+    }
+
     public Command reverseConveyor() {
         return Commands.parallel(
             conveyor.setDesiredValueCommand(-4),
