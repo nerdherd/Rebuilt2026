@@ -91,6 +91,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
     @Override
     public void periodic() {
         field.setRobotPose(getPose());
+        field.getObject("Look Ahead").setPose(getLookAheadPose());
 
         if (USE_VISION) {
             // visionUpdate(Camera.Example);
@@ -189,7 +190,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
     }
 
     public ChassisSpeeds getFieldOrientedSpeeds() {
-        return ChassisSpeeds.fromRobotRelativeSpeeds(getChassisSpeeds(), Rotation2d.fromDegrees(getSwerveHeadingDegrees()));
+        return getChassisSpeeds();
     }
 
     public void setBrake(boolean brake) {

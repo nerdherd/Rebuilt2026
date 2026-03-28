@@ -23,8 +23,8 @@ import frc.robot.commands.autos.Autos;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.NerdDrivetrain;
 import frc.robot.subsystems.SuperSystem;
-import frc.robot.util.Controller;
-import frc.robot.util.Controller.Type;
+import frc.robot.util.controller.Controller;
+import frc.robot.util.controller.Controller.Type;
 import frc.robot.util.logging.NerdLog;
 import frc.robot.util.logging.Reportable.LOG_LEVEL;
 
