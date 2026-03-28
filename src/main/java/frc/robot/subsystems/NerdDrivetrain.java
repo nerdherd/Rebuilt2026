@@ -27,6 +27,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
@@ -37,6 +38,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.SwerveDriveConstants.FieldPositions;
 import frc.robot.Constants.VisionConstants.Camera;
 import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
@@ -175,6 +177,12 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
         return getState().Pose;
     }
 
+    /** the position we will be one step in time */
+    public Pose2d getLookAheadPose() {
+        ChassisSpeeds speeds = getFieldOrientedSpeeds();
+        return getPose().plus(new Transform2d(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond, Rotation2d.kZero).times(ShooterConstants.kLookAheadFactor));
+    }
+
     /** gets the ChassisSpeeds from odometry */
     public ChassisSpeeds getChassisSpeeds() {
         return getState().Speeds;
@@ -190,6 +198,10 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
 
     public double angleToPose(FieldPositions pos) {
         return NerdyMath.angleToPose(getPose(), pos.get());
+    }
+
+    public double angleToLookAheadPose(FieldPositions pos) {
+        return NerdyMath.angleToPose(getLookAheadPose(), pos.get());
     }
 
     private final double deviceTempThreshold = 50;

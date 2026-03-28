@@ -103,7 +103,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "H45MidTHub"
+                  "pathName": "H45-MidTHub"
                 }
               },
               {
@@ -189,7 +189,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "BottomH45Leave"
+                  "pathName": "H45-Leave"
                 }
               },
               {
@@ -218,6 +218,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Bottom Autos",
+  "folder": "Use These",
   "choreoAuto": false
 }

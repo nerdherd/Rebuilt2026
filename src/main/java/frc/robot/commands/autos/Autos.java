@@ -48,7 +48,7 @@ public final class Autos {
     }
 
     public static void initNamedCommands(SuperSystem superSystem, NerdDrivetrain swerveDrive) {
-        // SWERVE
+        // SWERVE2
         NamedCommands.registerCommand("Reset Pose", swerveDrive.resetPoseWithAprilTags(0.2));
 
         // INTAKE

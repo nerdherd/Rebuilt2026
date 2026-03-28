@@ -277,7 +277,7 @@ public final class Constants {
 
     private static final CurrentLimitsConfigs kCurrentLimitsConfigs = 
       new CurrentLimitsConfigs()
-        .withStatorCurrentLimit(40)
+        .withStatorCurrentLimit(80)
         .withStatorCurrentLimitEnable(true);
 
     private static final FeedbackConfigs kFeedbackConfigs = 
@@ -295,6 +295,7 @@ public final class Constants {
   
   public static final class IndexerConstants {
     public static final int kMotor1ID = 25;
+    public static final int kMotor2ID = 24;
 
     public static final Slot0Configs kSlot0Configs = 
       new Slot0Configs()
@@ -353,8 +354,8 @@ public final class Constants {
         .withKP(0.15)
         .withKI(0.0)
         .withKD(0.0)
-        .withKV(0.118491)
-        .withKS(0.261609);
+        .withKV(0.123125)
+        .withKS(0.332808);
     
     private static final CurrentLimitsConfigs kCurrentLimitsConfigs = 
       new CurrentLimitsConfigs()
@@ -466,6 +467,7 @@ public final class Constants {
         SubsystemMode.VOLTAGE, 
         0.0,
         useIndexer)
+      .addMotor(IndexerConstants.kMotor2ID, MotorAlignmentValue.Opposed)
       .configureMotors(IndexerConstants.kSubsystemConfiguration);
     
     public static final boolean useShooter = true;
@@ -477,8 +479,8 @@ public final class Constants {
         0.0,
         useShooter)
       .addMotor(ShooterConstants.kMotor2ID, MotorAlignmentValue.Opposed)
-      .addMotor(ShooterConstants.kMotor3ID, MotorAlignmentValue.Aligned)
-      .addMotor(ShooterConstants.kMotor4ID, MotorAlignmentValue.Opposed)
+      .addMotor(ShooterConstants.kMotor3ID, MotorAlignmentValue.Opposed)
+      .addMotor(ShooterConstants.kMotor4ID, MotorAlignmentValue.Aligned)
       .configureMotors(ShooterConstants.kSubsystemConfiguration);
 
     public static final boolean useClimb = true;

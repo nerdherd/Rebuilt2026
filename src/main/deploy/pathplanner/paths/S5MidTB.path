@@ -128,19 +128,13 @@
     {
       "name": "Intake Stop",
       "waypointRelativePos": 2.1258435423588025,
-      "endWaypointRelativePos": null,
+      "endWaypointRelativePos": 2.14,
       "command": {
         "type": "named",
         "data": {
           "name": "Flywheel Start 45"
         }
       }
-    },
-    {
-      "name": "Shoot",
-      "waypointRelativePos": 3.0,
-      "endWaypointRelativePos": null,
-      "command": null
     }
   ],
   "globalConstraints": {

@@ -87,7 +87,7 @@ public class RobotContainer {
       // use turn to angle
       () -> driverController.getBumperRight() || driverController.getBumperLeft(),
       // turn to angle target direction, 0.0 to use manual
-      () -> (driverController.getBumperRight()) ? swerveDrive.angleToPose(FieldPositions.HUB_CENTER) : 0.0,
+      () -> (driverController.getBumperRight()) ? swerveDrive.angleToLookAheadPose(FieldPositions.HUB_CENTER) : 0.0,
       // robot oriented adjustment (dpad)
       () -> new Translation2d(
         (driverController.getDpadUp() ? 1 : 0) - (driverController.getDpadDown() ? 1 : 0), 
@@ -263,7 +263,7 @@ public class RobotContainer {
       superSystem.initializeLogging();
     }
 
-    NerdLog.logData("Robot/Command Scheduler", CommandScheduler.getInstance(), LOG_LEVEL.ALL);
+    NerdLog.logData("Robot/Command Scheduler", CommandScheduler.getInstance(), LOG_LEVEL.MEDIUM);
     NerdLog.logNumber("Robot/RAM Usage", () -> (double)Runtime.getRuntime().freeMemory(), LOG_LEVEL.MEDIUM);
     NerdLog.logNumber("Match Info/Shift Time", this::allianceShiftTime, LOG_LEVEL.MINIMAL);
     NerdLog.reportLogCount();
