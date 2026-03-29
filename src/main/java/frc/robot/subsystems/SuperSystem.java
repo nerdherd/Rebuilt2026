@@ -151,6 +151,8 @@ public class SuperSystem implements Reportable {
         return intakeSlapdown.setDesiredValueCommand(-3);
     }
 
+    }
+
     public Command intake() {
         return Commands.parallel(
             intakeRoller.setDesiredValueCommand(11)
