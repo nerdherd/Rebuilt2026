@@ -23,8 +23,8 @@ import frc.robot.commands.autos.Autos;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.NerdDrivetrain;
 import frc.robot.subsystems.SuperSystem;
-import frc.robot.util.Controller;
-import frc.robot.util.Controller.Type;
+import frc.robot.util.controller.Controller;
+import frc.robot.util.controller.Controller.Type;
 import frc.robot.util.logging.NerdLog;
 import frc.robot.util.logging.Reportable.LOG_LEVEL;
 
@@ -85,9 +85,9 @@ public class RobotContainer {
       // Turn
       () -> -driverController.getRightX(), 
       // use turn to angle
-      () -> driverController.getBumperRight() || driverController.getBumperLeft(),
+      () -> driverController.getBumperRight(),// || driverController.getBumperLeft(),
       // turn to angle target direction, 0.0 to use manual
-      () -> (driverController.getBumperRight()) ? swerveDrive.angleToPose(FieldPositions.HUB_CENTER) : 0.0,
+      () -> (driverController.getBumperRight()) ? swerveDrive.angleToLookAheadPose(FieldPositions.HUB_CENTER) : 0.0,
       // robot oriented adjustment (dpad)
       () -> new Translation2d(
         (driverController.getDpadUp() ? 1 : 0) - (driverController.getDpadDown() ? 1 : 0), 
@@ -164,7 +164,7 @@ public class RobotContainer {
         .onTrue(superSystem.intake())
         .onFalse(superSystem.stopIntaking());
       operatorController.controllerLeft()
-        .onTrue(superSystem.intakeHold());
+        .onTrue(superSystem.intakeHoldTeleop());
 
       operatorController.triggerRight()
         .whileTrue(superSystem.shootWithDistance())
@@ -178,20 +178,15 @@ public class RobotContainer {
         .whileTrue(superSystem.shootWithCondition())
         .onFalse(superSystem.stopShooting());
         
+      operatorController.buttonUp()
+        .onTrue(superSystem.spinUpFlywheelFeeding())
+        .onFalse(superSystem.stopFlywheel());
       operatorController.buttonRight()
         .onTrue(superSystem.outtake())
         .onFalse(superSystem.stopIntaking());
       operatorController.buttonDown()
         .onTrue(superSystem.reverseConveyor())
         .onFalse(superSystem.stopConveyor());
-      
-      operatorController.dpadUp()
-        .whileTrue(superSystem.climbUp())
-        .onFalse(superSystem.stopClimb());
-        
-      operatorController.dpadDown()
-        .whileTrue(superSystem.climbDown())
-        .onFalse(superSystem.stopClimb());
     }
   }
 
@@ -263,7 +258,7 @@ public class RobotContainer {
       superSystem.initializeLogging();
     }
 
-    NerdLog.logData("Robot/Command Scheduler", CommandScheduler.getInstance(), LOG_LEVEL.ALL);
+    NerdLog.logData("Robot/Command Scheduler", CommandScheduler.getInstance(), LOG_LEVEL.MEDIUM);
     NerdLog.logNumber("Robot/RAM Usage", () -> (double)Runtime.getRuntime().freeMemory(), LOG_LEVEL.MEDIUM);
     NerdLog.logNumber("Match Info/Shift Time", () -> {shiftTime = allianceShiftTime(); return shiftTime;}, LOG_LEVEL.MINIMAL);
     NerdLog.reportLogCount();

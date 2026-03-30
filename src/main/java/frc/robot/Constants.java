@@ -124,7 +124,7 @@ public final class Constants {
     public static final double kDriveMaxVelocity = 5.0; // m/s
     public static final double kDrivePrecisionMultiplier = 0.25; // fractional
     
-    public static final double kTurnMaxVelocity = 3; // rad/s
+    public static final double kTurnMaxVelocity = 4; // rad/s
     public static final double kTurnPrecisionMultiplier = 0.5; // fractional
     
     public static final double kRobotOrientedVelocity = 1.5; // m/s
@@ -286,7 +286,7 @@ public final class Constants {
 
     private static final CurrentLimitsConfigs kCurrentLimitsConfigs = 
       new CurrentLimitsConfigs()
-        .withStatorCurrentLimit(40)
+        .withStatorCurrentLimit(80)
         .withStatorCurrentLimitEnable(true);
 
     private static final FeedbackConfigs kFeedbackConfigs = 
@@ -304,6 +304,7 @@ public final class Constants {
   
   public static final class IndexerConstants {
     public static final int kMotor1ID = 25;
+    public static final int kMotor2ID = 24;
 
     public static final Slot0Configs kSlot0Configs = 
       new Slot0Configs()
@@ -362,8 +363,8 @@ public final class Constants {
         .withKP(0.15)
         .withKI(0.0)
         .withKD(0.0)
-        .withKV(0.118491)
-        .withKS(0.261609);
+        .withKV(0.12194)
+        .withKS(0.299158);
     
     private static final CurrentLimitsConfigs kCurrentLimitsConfigs = 
       new CurrentLimitsConfigs()
@@ -386,11 +387,11 @@ public final class Constants {
         .withMotorOutput(kMotorOutputConfigs);
 
     // Regression of a*x^2 + b
-    // Update at CAMS on 3/19/2026
-    public static final double kShootWithDistanceA = 1.1324; // a
-    public static final double kShootWithDistanceB = 29.08814; // b
+    // Update at -- on -/--/2026
+    public static final double kShootWithDistanceA = 0.917415; // a
+    public static final double kShootWithDistanceB = 31.60409; // b
 
-    public static final double kLookAheadFactor = 0.5;
+    public static final double kLookAheadFactor = 0.3;
   }
 
   public static final class ClimbConstants {
@@ -559,6 +560,7 @@ public final class Constants {
         SubsystemMode.VOLTAGE, 
         0.0,
         useIndexer)
+      .addMotor(IndexerConstants.kMotor2ID, MotorAlignmentValue.Opposed)
       .configureMotors(IndexerConstants.kSubsystemConfiguration);
     
     public static final boolean useShooter = true;
@@ -570,11 +572,11 @@ public final class Constants {
         0.0,
         useShooter)
       .addMotor(ShooterConstants.kMotor2ID, MotorAlignmentValue.Opposed)
-      .addMotor(ShooterConstants.kMotor3ID, MotorAlignmentValue.Aligned)
-      .addMotor(ShooterConstants.kMotor4ID, MotorAlignmentValue.Opposed)
+      .addMotor(ShooterConstants.kMotor3ID, MotorAlignmentValue.Opposed)
+      .addMotor(ShooterConstants.kMotor4ID, MotorAlignmentValue.Aligned)
       .configureMotors(ShooterConstants.kSubsystemConfiguration);
 
-    public static final boolean useClimb = true;
+    public static final boolean useClimb = false;
     public static final TemplateSubsystem climb = (!USE_SUBSYSTEMS) ? null :
       new TemplateSubsystem(
           "Climb", 

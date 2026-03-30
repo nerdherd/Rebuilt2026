@@ -17,7 +17,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "S1MidTSafeScoop"
+                  "pathName": "S1MidTSafe"
                 }
               },
               {
@@ -91,7 +91,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "H45MidTDorito"
+                  "pathName": "H45MidTHub"
                 }
               },
               {
@@ -168,6 +168,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Top Autos",
+  "folder": "Use These",
   "choreoAuto": false
 }
