@@ -125,6 +125,10 @@ public class SuperSystem implements Reportable {
 
     public Command spinUpFlywheelFeeding() {
         return Commands.parallel(
+            setShooterCommand(41)
+        );
+    }
+
     public Command spinUpFlywheel(double speed) {
         return Commands.parallel(
             setShooterCommand(speed)
@@ -153,6 +157,8 @@ public class SuperSystem implements Reportable {
         return intakeSlapdown.setDesiredValueCommand(-3);
     }
 
+    public Command intakeHoldTeleop() {
+        return intakeSlapdown.setDesiredValueCommand(-1.5);
     }
 
     public Command intake() {
