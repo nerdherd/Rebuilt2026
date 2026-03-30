@@ -27,6 +27,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
@@ -37,6 +38,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.SwerveDriveConstants.FieldPositions;
 import frc.robot.Constants.VisionConstants.Camera;
 import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
@@ -89,6 +91,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
     @Override
     public void periodic() {
         field.setRobotPose(getPose());
+        field.getObject("Look Ahead").setPose(getLookAheadPose());
 
         if (USE_VISION) {
             // visionUpdate(Camera.Example);
@@ -175,13 +178,19 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
         return getState().Pose;
     }
 
+    /** the position we will be one step in time */
+    public Pose2d getLookAheadPose() {
+        ChassisSpeeds speeds = getFieldOrientedSpeeds();
+        return getPose().plus(new Transform2d(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond, Rotation2d.kZero).times(ShooterConstants.kLookAheadFactor));
+    }
+
     /** gets the ChassisSpeeds from odometry */
     public ChassisSpeeds getChassisSpeeds() {
         return getState().Speeds;
     }
 
     public ChassisSpeeds getFieldOrientedSpeeds() {
-        return ChassisSpeeds.fromRobotRelativeSpeeds(getChassisSpeeds(), Rotation2d.fromDegrees(getSwerveHeadingDegrees()));
+        return getChassisSpeeds();
     }
 
     public void setBrake(boolean brake) {
@@ -190,6 +199,10 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
 
     public double angleToPose(FieldPositions pos) {
         return NerdyMath.angleToPose(getPose(), pos.get());
+    }
+
+    public double angleToLookAheadPose(FieldPositions pos) {
+        return NerdyMath.angleToPose(getLookAheadPose(), pos.get());
     }
 
     private final double deviceTempThreshold = 50;
@@ -257,11 +270,15 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
             double yaw = getSwerveHeadingDegrees();
             LimelightHelpers.SetRobotOrientation(limelight.name, yaw, 0, 0, 0, 0, 0);
             PoseEstimate mt = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(limelight.name);
+            field.getObject(limelight.name).setPose(nullPose);
             if (mt == null || Math.abs(getPigeon2().getAngularVelocityZWorld().getValueAsDouble()) > 720 || mt.tagCount == 0) return;
-            setVisionMeasurementStdDevs(VecBuilder.fill(0.7, 0.7, 9999999)); // TODO consider other stddevs
+            field.getObject(limelight.name).setPose(mt.pose);
+            double stddev = (mt.avgTagDist > 3) ? 1.0 : 0.7;
+            setVisionMeasurementStdDevs(VecBuilder.fill(stddev, stddev, 9999999)); // TODO consider other stddevs
             addVisionMeasurement(mt.pose, Utils.getCurrentTimeSeconds());
         }
     }
+    private Pose2d nullPose = new Pose2d(-100,-100, Rotation2d.kZero);
 
     public void recalibrateGyroMT1() {
         resetRotation((RobotContainer.IsRedSide()) ? Rotation2d.k180deg : Rotation2d.kZero);

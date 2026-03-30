@@ -2,7 +2,7 @@
 // Includes GuliKit.java v2.0
 // Includes Xbox360Controller.java v1.0
 
-package frc.robot.util;
+package frc.robot.util.controller;
 
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.PS5Controller;

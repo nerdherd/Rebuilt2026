@@ -7,7 +7,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Intake Down Sequence"
+            "name": "Intake Down"
           }
         },
         {
@@ -20,6 +20,12 @@
           "type": "path",
           "data": {
             "pathName": "S1MidTB"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
           }
         },
         {
@@ -41,6 +47,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
+          }
+        },
+        {
           "type": "wait",
           "data": {
             "waitTime": 3.0
@@ -56,6 +68,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Top Autos",
+  "folder": "Use These",
   "choreoAuto": false
 }

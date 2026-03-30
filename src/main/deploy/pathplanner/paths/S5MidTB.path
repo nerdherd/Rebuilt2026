@@ -48,12 +48,12 @@
     },
     {
       "anchor": {
-        "x": 3.0,
-        "y": 2.42
+        "x": 3.080067354090074,
+        "y": 2.5144317267922793
       },
       "prevControl": {
-        "x": 6.339213252314815,
-        "y": 2.408383680555555
+        "x": 6.4192806064048895,
+        "y": 2.5028154073478346
       },
       "nextControl": null,
       "isLocked": false,
@@ -128,19 +128,13 @@
     {
       "name": "Intake Stop",
       "waypointRelativePos": 2.1258435423588025,
-      "endWaypointRelativePos": null,
+      "endWaypointRelativePos": 2.14,
       "command": {
         "type": "named",
         "data": {
           "name": "Flywheel Start 45"
         }
       }
-    },
-    {
-      "name": "Shoot",
-      "waypointRelativePos": 3.0,
-      "endWaypointRelativePos": null,
-      "command": null
     }
   ],
   "globalConstraints": {

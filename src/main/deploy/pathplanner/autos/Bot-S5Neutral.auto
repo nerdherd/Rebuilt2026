@@ -39,19 +39,25 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 3.5
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Intake Stop"
+                        "waitTime": 2.7
                       }
                     },
                     {
                       "type": "named",
                       "data": {
                         "name": "Flywheel Start 45"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 1.0
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Intake Stop"
                       }
                     }
                   ]
@@ -63,25 +69,25 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 1.0
+            "waitTime": 0.25
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Shoot"
+            "name": "Auto Shoot Start"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 2.5
+            "waitTime": 2.0
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Shoot Stop"
+            "name": "Auto Shoot Stop"
           }
         },
         {
@@ -97,7 +103,93 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "H45MidTHub"
+                  "pathName": "H45-MidTHub"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 1.8
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Intake Start"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 3.9
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Flywheel Start 45"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.8
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Intake Stop"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.25
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Auto Shoot Start"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 2.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Auto Shoot Stop"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Flywheel Stop"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "H45-Leave"
                 }
               },
               {
@@ -115,65 +207,17 @@
                       "data": {
                         "name": "Intake Start"
                       }
-                    },
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 4.5
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Intake Stop"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Flywheel Start 45"
-                      }
                     }
                   ]
                 }
               }
             ]
           }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.0
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 5.0
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot Stop"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Flywheel Stop"
-          }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "Bottom Autos",
+  "folder": "Use These",
   "choreoAuto": false
 }

@@ -16,9 +16,6 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import dev.doglog.DogLog;
 import edu.wpi.first.math.MathSharedStore;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Transform2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.networktables.DoubleSubscriber;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -58,8 +55,8 @@ public class SuperSystem implements Reportable {
     }
     
     public void startShoot() {
-        indexer.setDesiredValue(9);
-        conveyor.setDesiredValue(7);
+        indexer.setDesiredValue(10);
+        conveyor.setDesiredValue(8.5);
     }
 
     public Command shoot() {
@@ -74,7 +71,7 @@ public class SuperSystem implements Reportable {
             if (shooter.getCurrentVelocity() > 20.0) {
                 startShoot();
                 double val = NerdyMath.posMod(MathSharedStore.getTimestamp(), 0.7);
-                if (val <= 0.5) intakeRoller.setDesiredValue(-1.5);
+                if (val <= 0.5) intakeRoller.setDesiredValue(-2.0);
                 else if (val <= 0.7) intakeRoller.setDesiredValue(9);
                 else intakeRoller.setDesiredValue(0.0);
             } else {
@@ -82,7 +79,21 @@ public class SuperSystem implements Reportable {
                 conveyor.setDesiredValue(0);
             }
         }, indexer, conveyor)
-        .finallyDo(() -> intakeRoller.setDesiredValue(0.0));
+        .finallyDo(
+            () -> {
+                intakeRoller.setDesiredValue(0.0);
+                indexer.setDesiredValue(0);
+                conveyor.setDesiredValue(0);
+            }
+            );
+    }
+
+    public Command autoShoot = shootWithCondition();
+    public Command startShootWithCondition() {
+        return Commands.runOnce(() -> CommandScheduler.getInstance().schedule(autoShoot));
+    }
+    public Command stopShootWithCondition() {
+        return Commands.runOnce(() -> CommandScheduler.getInstance().cancel(autoShoot));
     }
 
     public Command reverseConveyor() {
@@ -112,6 +123,12 @@ public class SuperSystem implements Reportable {
         );
     }
 
+    public Command spinUpFlywheelFeeding() {
+        return Commands.parallel(
+            setShooterCommand(41)
+        );
+    }
+
     public Command spinUpFlywheel(double speed) {
         return Commands.parallel(
             setShooterCommand(speed)
@@ -132,8 +149,16 @@ public class SuperSystem implements Reportable {
         );
     }
 
+    public Command intakeDownOnly() {
+        return intakeSlapdown.setDesiredValueCommand(-8);
+    }
+
     public Command intakeHold() {
-        return intakeSlapdown.setDesiredValueCommand(-1.0);
+        return intakeSlapdown.setDesiredValueCommand(-3);
+    }
+
+    public Command intakeHoldTeleop() {
+        return intakeSlapdown.setDesiredValueCommand(-1.5);
     }
 
     public Command intake() {
@@ -224,9 +249,8 @@ public class SuperSystem implements Reportable {
     }
 
     public double getHubDistance() {
-        ChassisSpeeds speeds = swerveDrivetrain.getFieldOrientedSpeeds();
-        Pose2d hub = FieldPositions.HUB_CENTER.get().plus(new Transform2d(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond, Rotation2d.kZero).times(ShooterConstants.kLookAheadFactor));
-        return swerveDrivetrain.getPose().getTranslation().getDistance(hub.getTranslation());
+        Pose2d hub = FieldPositions.HUB_CENTER.get();
+        return swerveDrivetrain.getLookAheadPose().getTranslation().getDistance(hub.getTranslation());
     }
 
     // ------------------------------------ logging ------------------------------------ //
