@@ -164,7 +164,7 @@ public class RobotContainer {
         .onTrue(superSystem.intake())
         .onFalse(superSystem.stopIntaking());
       operatorController.controllerLeft()
-        .onTrue(superSystem.intakeHold());
+        .onTrue(superSystem.intakeHoldTeleop());
 
       operatorController.triggerRight()
         .whileTrue(superSystem.shootWithDistance())
@@ -178,20 +178,15 @@ public class RobotContainer {
         .whileTrue(superSystem.shootWithCondition())
         .onFalse(superSystem.stopShooting());
         
+      operatorController.buttonUp()
+        .onTrue(superSystem.spinUpFlywheelFeeding())
+        .onFalse(superSystem.stopFlywheel());
       operatorController.buttonRight()
         .onTrue(superSystem.outtake())
         .onFalse(superSystem.stopIntaking());
       operatorController.buttonDown()
         .onTrue(superSystem.reverseConveyor())
         .onFalse(superSystem.stopConveyor());
-      
-      operatorController.dpadUp()
-        .whileTrue(superSystem.climbUp())
-        .onFalse(superSystem.stopClimb());
-        
-      operatorController.dpadDown()
-        .whileTrue(superSystem.climbDown())
-        .onFalse(superSystem.stopClimb());
     }
   }
 

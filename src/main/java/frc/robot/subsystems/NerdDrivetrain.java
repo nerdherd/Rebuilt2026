@@ -270,12 +270,15 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
             double yaw = getSwerveHeadingDegrees();
             LimelightHelpers.SetRobotOrientation(limelight.name, yaw, 0, 0, 0, 0, 0);
             PoseEstimate mt = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(limelight.name);
-            field.getObject(limelight.name).setPose(mt.pose);
+            field.getObject(limelight.name).setPose(nullPose);
             if (mt == null || Math.abs(getPigeon2().getAngularVelocityZWorld().getValueAsDouble()) > 720 || mt.tagCount == 0) return;
-            setVisionMeasurementStdDevs(VecBuilder.fill(0.7, 0.7, 9999999)); // TODO consider other stddevs
+            field.getObject(limelight.name).setPose(mt.pose);
+            double stddev = (mt.avgTagDist > 3) ? 1.0 : 0.7;
+            setVisionMeasurementStdDevs(VecBuilder.fill(stddev, stddev, 9999999)); // TODO consider other stddevs
             addVisionMeasurement(mt.pose, Utils.getCurrentTimeSeconds());
         }
     }
+    private Pose2d nullPose = new Pose2d(-100,-100, Rotation2d.kZero);
 
     public void recalibrateGyroMT1() {
         resetRotation((RobotContainer.IsRedSide()) ? Rotation2d.k180deg : Rotation2d.kZero);

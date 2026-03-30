@@ -123,6 +123,8 @@ public class SuperSystem implements Reportable {
         );
     }
 
+    public Command spinUpFlywheelFeeding() {
+        return Commands.parallel(
     public Command spinUpFlywheel(double speed) {
         return Commands.parallel(
             setShooterCommand(speed)

@@ -115,7 +115,7 @@ public final class Constants {
     public static final double kDriveMaxVelocity = 5.0; // m/s
     public static final double kDrivePrecisionMultiplier = 0.25; // fractional
     
-    public static final double kTurnMaxVelocity = 3; // rad/s
+    public static final double kTurnMaxVelocity = 4; // rad/s
     public static final double kTurnPrecisionMultiplier = 0.5; // fractional
     
     public static final double kRobotOrientedVelocity = 1.5; // m/s
@@ -382,7 +382,7 @@ public final class Constants {
     public static final double kShootWithDistanceA = 0.917415; // a
     public static final double kShootWithDistanceB = 31.60409; // b
 
-    public static final double kLookAheadFactor = 0.5;
+    public static final double kLookAheadFactor = 0.3;
   }
 
   public static final class ClimbConstants {
@@ -483,7 +483,7 @@ public final class Constants {
       .addMotor(ShooterConstants.kMotor4ID, MotorAlignmentValue.Aligned)
       .configureMotors(ShooterConstants.kSubsystemConfiguration);
 
-    public static final boolean useClimb = true;
+    public static final boolean useClimb = false;
     public static final TemplateSubsystem climb = (!USE_SUBSYSTEMS) ? null :
     new TemplateSubsystem(
         "Climb", 

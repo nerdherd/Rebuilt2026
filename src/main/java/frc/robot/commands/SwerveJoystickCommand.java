@@ -88,8 +88,9 @@ public class SwerveJoystickCommand extends Command {
         boolean precision = usePrecisionMode.get();
         /** m/s */
         Translation2d filteredInput = kTranslationInputFilter.apply(xTranslationInput.get(), yTranslationInput.get());
-        double xSpeed = filteredInput.getX() * kDriveMaxVelocity * (precision ? kDrivePrecisionMultiplier : 1.0);
-        double ySpeed = filteredInput.getY() * kDriveMaxVelocity * (precision ? kDrivePrecisionMultiplier : 1.0);
+        double driveMult = (precision ? kDrivePrecisionMultiplier : 1.0);
+        double xSpeed = filteredInput.getX() * kDriveMaxVelocity * driveMult;
+        double ySpeed = filteredInput.getY() * kDriveMaxVelocity * driveMult;
 
         /** rad/s */
         double turnSpeed;
@@ -105,7 +106,7 @@ public class SwerveJoystickCommand extends Command {
 
         // 
         Translation2d adjustment = robotOrientedAdjustment.get();
-        if (!adjustment.equals(Translation2d.kZero)) swerveDrive.driveRobotOriented(adjustment.getX() * kRobotOrientedVelocity, adjustment.getY() * kRobotOrientedVelocity, turnSpeed);
+        if (!adjustment.equals(Translation2d.kZero)) swerveDrive.driveRobotOriented(adjustment.getX() * kRobotOrientedVelocity * driveMult, adjustment.getY() * kRobotOrientedVelocity * driveMult, turnSpeed);
         else if (useFieldOriented.get()) swerveDrive.driveFieldOriented(xSpeed, ySpeed, turnSpeed);
         else swerveDrive.driveRobotOriented(xSpeed, ySpeed, turnSpeed);
     }
