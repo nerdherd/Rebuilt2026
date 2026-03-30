@@ -85,7 +85,7 @@ public class RobotContainer {
       // Turn
       () -> -driverController.getRightX(), 
       // use turn to angle
-      () -> driverController.getBumperRight() || driverController.getBumperLeft(),
+      () -> driverController.getBumperRight(),// || driverController.getBumperLeft(),
       // turn to angle target direction, 0.0 to use manual
       () -> (driverController.getBumperRight()) ? swerveDrive.angleToLookAheadPose(FieldPositions.HUB_CENTER) : 0.0,
       // robot oriented adjustment (dpad)
