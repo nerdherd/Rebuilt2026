@@ -382,7 +382,8 @@ public final class Constants {
     public static final double kShootWithDistanceA = 0.917415; // a
     public static final double kShootWithDistanceB = 31.60409; // b
 
-    public static final double kLookAheadFactor = 0.3;
+    public static final double kLookAheadRingDriveFactor = 0.3; // use to tune the ring drive
+    public static final double kLookAheadFactor = 0.5; // use to tune shoot on the move left and right
   }
 
   public static final class ClimbConstants {

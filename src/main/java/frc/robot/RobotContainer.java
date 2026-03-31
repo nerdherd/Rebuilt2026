@@ -6,6 +6,7 @@ package frc.robot;
 
 
 import dev.doglog.DogLog;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.networktables.StringSubscriber;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -16,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Constants.ControllerConstants;
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.Subsystems;
 import frc.robot.Constants.SwerveDriveConstants.FieldPositions;
 import frc.robot.commands.SwerveJoystickCommand;
@@ -85,13 +87,15 @@ public class RobotContainer {
       // Turn
       () -> -driverController.getRightX(), 
       // use turn to angle
-      () -> driverController.getBumperRight(),// || driverController.getBumperLeft(),
+      () -> driverController.getBumperRight(),
       // turn to angle target direction, 0.0 to use manual
-      () -> (driverController.getBumperRight()) ? swerveDrive.angleToLookAheadPose(FieldPositions.HUB_CENTER) : 0.0,
+      () -> swerveDrive.angleToLookAheadPose(FieldPositions.HUB_CENTER, ShooterConstants.kLookAheadFactor),
       // robot oriented adjustment (dpad)
       () -> new Translation2d(
         (driverController.getDpadUp() ? 1 : 0) - (driverController.getDpadDown() ? 1 : 0), 
-        (driverController.getDpadLeft() ? 1 : 0) - (driverController.getDpadRight() ? 1 : 0)),
+        (driverController.getDpadLeft() ? 1 : 0) - (driverController.getDpadRight() ? 1 : 0))
+        .rotateBy((driverController.getBumperRight()) ? Rotation2d.kZero : 
+            Rotation2d.fromRadians(swerveDrive.angleToLookAheadPose(FieldPositions.HUB_CENTER, ShooterConstants.kLookAheadRingDriveFactor) - swerveDrive.angleToLookAheadPose(FieldPositions.HUB_CENTER, ShooterConstants.kLookAheadFactor))),
       // joystick drive field oriented
       () -> true, 
       // tow supplier
@@ -284,43 +288,35 @@ public class RobotContainer {
    */
   public double allianceShiftTime() {
     // if (!DriverStation.isFMSAttached()) { DogLog.log("Match Info/Shift Name", "DriverStation not attached"); return 0.0; };
-    String data = DriverStation.getGameSpecificMessage();
-    String winAuto = "N/A";
-    if (!data.isEmpty()) switch (data.charAt(0)) {
-      case 'B': winAuto = !isRedSide ? "Yes" : "No"; break;
-      case 'R': winAuto = isRedSide ? "Yes" : "No"; break;
-      default:
-    } DogLog.log("Match Info/Won Auto?", winAuto);
+    boolean wonAuto = true;
+    if (Constants.ROBOT_LOG_LEVEL == LOG_LEVEL.ALL) {
+      String data = DriverStation.getGameSpecificMessage();
+      String winAuto = "N/A";
+      if (!data.isEmpty()) switch (data.charAt(0)) {
+        case 'B': winAuto = !isRedSide ? "Yes" : "No"; break;
+        case 'R': winAuto = isRedSide ? "Yes" : "No"; break;
+        default: break;
+      } 
+      DogLog.log("Match Info/Won Auto?", winAuto);
+    }
 
     double time = DriverStation.getMatchTime();
     DogLog.log("Match Info/time", time);
 
     if (DriverStation.isAutonomous()) {
-      DogLog.log("Match Info/Shift Name", "Auto");
       if (time < 0.0) { DogLog.log("Match Info/Shift Name", (gameEnded) ? "Good Job Team!" : "Get Ready..."); return 0.0; }
+      DogLog.log("Match Info/Shift Name", "Auto");
       gameEnded = false;
       return time;
-
     } else if (DriverStation.isTeleop()) {
       if (time < 0.0) { DogLog.log("Match Info/Shift Name", (gameEnded) ? "Good Job Team!" : "Good Luck! -nerdherd"); return 0.0; }
       else if (time >= 130.0) { DogLog.log("Match Info/Shift Name", "Transition"); return time - 130; } // transition
-      else if (time >= 30.0) { DogLog.log("Match Info/Shift Name", "Shift " + (int)((130 - time) / 25 + 1)); return (time - 30) % 25; } // shifts 1-4
+      else if (time >= 30.0) { 
+        int shift = (int)((130 - time) / 25 + 1); 
+        DogLog.log("Match Info/Shift Name", "Shift " + shift + " " + (((shift % 2 == 1) == wonAuto) ? "Feeding" : "Scoring")); return (time - 30) % 25; 
+      } // shifts 1-4
       else { DogLog.log("Match Info/Shift Name", "Endgame"); if (time <= 1.0) gameEnded = true; return time; } // endgame
     } else { DogLog.log("Match Info/Shift Name", "Inactive"); return 0.0; }
-    
-    // Practice Mode
-    // else {
-    //   if (DriverStation.isAutonomous()) {
-    //     return new Object[] {time <= 20 ? 20 - time : 0, "Auto"};
-
-    //   } else if (DriverStation.isTeleop()) {
-    //     if (time <= 10) return new Object[] {10 - time, "Transition"}; // transition
-    //     else if (time <= 110) return new Object[] {25 - (time - 10) % 25, "Shift " + (25 - (time - 10) / 25 + 1)}; // shifts 1-4
-    //     else if (time <= 140) return new Object[] {140 - time, "Endgame"}; // endgame
-    //     else return new Object[] {0, "End Match"};
-    //   } else return new Object[] {0, "Inactive"};
-
-    // }
   }
 
 }
