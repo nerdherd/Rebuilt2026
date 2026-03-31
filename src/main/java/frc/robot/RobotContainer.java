@@ -284,13 +284,23 @@ public class RobotContainer {
    */
   public double allianceShiftTime() {
     // if (!DriverStation.isFMSAttached()) { DogLog.log("Match Info/Shift Name", "DriverStation not attached"); return 0.0; };
+    String data = DriverStation.getGameSpecificMessage();
+    String winAuto = "N/A";
+    if (!data.isEmpty()) switch (data.charAt(0)) {
+      case 'B': winAuto = !isRedSide ? "Yes" : "No"; break;
+      case 'R': winAuto = isRedSide ? "Yes" : "No"; break;
+      default:
+    } DogLog.log("Match Info/Won Auto?", winAuto);
+
     double time = DriverStation.getMatchTime();
     DogLog.log("Match Info/time", time);
+
     if (DriverStation.isAutonomous()) {
-      if (time < 0.0) { DogLog.log("Match Info/Shift Name", (gameEnded) ? "Good Job Team!" : "Get Ready..."); return 0.0; }
       DogLog.log("Match Info/Shift Name", "Auto");
+      if (time < 0.0) { DogLog.log("Match Info/Shift Name", (gameEnded) ? "Good Job Team!" : "Get Ready..."); return 0.0; }
       gameEnded = false;
       return time;
+
     } else if (DriverStation.isTeleop()) {
       if (time < 0.0) { DogLog.log("Match Info/Shift Name", (gameEnded) ? "Good Job Team!" : "Good Luck! -nerdherd"); return 0.0; }
       else if (time >= 130.0) { DogLog.log("Match Info/Shift Name", "Transition"); return time - 130; } // transition
