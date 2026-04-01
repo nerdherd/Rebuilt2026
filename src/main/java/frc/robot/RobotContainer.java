@@ -51,6 +51,7 @@ public class RobotContainer {
 
     if (Constants.USE_SUBSYSTEMS) { // add subsystems
       superSystem = new SuperSystem(swerveDrive);
+      superSystem.initializeLEDs();
       Autos.initNamedCommands(superSystem, swerveDrive);
       Autos.initEventMarkers(superSystem, swerveDrive);
     }
@@ -264,7 +265,7 @@ public class RobotContainer {
 
     NerdLog.logData("Robot/Command Scheduler", CommandScheduler.getInstance(), LOG_LEVEL.MEDIUM);
     NerdLog.logNumber("Robot/RAM Usage", () -> (double)Runtime.getRuntime().freeMemory(), LOG_LEVEL.MEDIUM);
-    NerdLog.logNumber("Match Info/Shift Time", this::allianceShiftTime, LOG_LEVEL.MINIMAL);
+    NerdLog.logNumber("Match Info/Shift Time", () -> {shiftTime = allianceShiftTime(); return shiftTime;}, LOG_LEVEL.MINIMAL);
     NerdLog.reportLogCount();
   }
   
@@ -281,12 +282,13 @@ public class RobotContainer {
     swerveDrive.setBrake(true);
   }
 
-  private boolean gameEnded = false;
+  private static boolean gameEnded = false;
+  public static double shiftTime = 0.0;
   /**
    * Displays a countdown for alliance shifts. NOT 100% ACCURATE
    * @return the number of seconds in the current phase, and the phase name
    */
-  public double allianceShiftTime() {
+  public static double allianceShiftTime() {
     // if (!DriverStation.isFMSAttached()) { DogLog.log("Match Info/Shift Name", "DriverStation not attached"); return 0.0; };
     boolean wonAuto = true;
     if (Constants.ROBOT_LOG_LEVEL == LOG_LEVEL.ALL) {
@@ -318,5 +320,4 @@ public class RobotContainer {
       else { DogLog.log("Match Info/Shift Name", "Endgame"); if (time <= 1.0) gameEnded = true; return time; } // endgame
     } else { DogLog.log("Match Info/Shift Name", "Inactive"); return 0.0; }
   }
-
 }

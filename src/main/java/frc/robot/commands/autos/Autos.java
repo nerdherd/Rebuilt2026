@@ -96,17 +96,8 @@ public final class Autos {
             ));
 
         // CLIMB
-        NamedCommands.registerCommand("Climb Up", 
-            Commands.sequence(
-                superSystem.climbUp(),
-                Commands.waitSeconds(11.0)
-            ));
-        NamedCommands.registerCommand("Climb Down", 
-            Commands.sequence(
-                superSystem.climbDown(),
-                Commands.waitSeconds(9.0),
-                superSystem.stopClimb()
-            ));
+        NamedCommands.registerCommand("Climb Up", Commands.none());
+        NamedCommands.registerCommand("Climb Down", Commands.none());
     }
 
     public static void initEventMarkers(SuperSystem superSystem, NerdDrivetrain swerveDrive) {

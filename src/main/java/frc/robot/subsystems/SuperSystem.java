@@ -1,11 +1,11 @@
 package frc.robot.subsystems;
 
 import static frc.robot.Constants.LoggingConstants.kSupersystemTab;
-import static frc.robot.Constants.Subsystems.climb;
 import static frc.robot.Constants.Subsystems.conveyor;
 import static frc.robot.Constants.Subsystems.indexer;
 import static frc.robot.Constants.Subsystems.intakeRoller;
 import static frc.robot.Constants.Subsystems.intakeSlapdown;
+import static frc.robot.Constants.Subsystems.leds;
 import static frc.robot.Constants.Subsystems.shooter;
 
 import java.util.ArrayList;
@@ -17,11 +17,15 @@ import dev.doglog.DogLog;
 import edu.wpi.first.math.MathSharedStore;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.networktables.DoubleSubscriber;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.MatchType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.RobotContainer;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.SwerveDriveConstants.FieldPositions;
+import frc.robot.commands.RebuiltLEDCommand;
 import frc.robot.subsystems.template.TemplateSubsystem;
 import frc.robot.util.NerdyMath;
 import frc.robot.util.logging.NerdLog;
@@ -177,26 +181,6 @@ public class SuperSystem implements Reportable {
         );
     }
 
-    public Command climbUp() {
-        return Commands.sequence(
-            climb.setDesiredValueCommand(8),
-            Commands.waitSeconds(3.5)
-        ).until(() -> climb.getCurrentPosition() > 250.0)
-        .andThen(climb.setDesiredValueCommand(0.0));
-    }
-
-    public Command climbDown() {
-        return Commands.sequence(
-            climb.setDesiredValueCommand(-8),
-            Commands.waitSeconds(3.5)
-        ).until(() -> climb.getCurrentPosition() < 1.0)
-        .andThen(climb.setDesiredValueCommand(0.0));
-    }
-
-    public Command stopClimb() {
-        return climb.setDesiredValueCommand(0);
-    }
-
     public Command shootWithDistance() {
         return Commands.run(
             () -> {
@@ -251,6 +235,14 @@ public class SuperSystem implements Reportable {
     public double getHubDistance() {
         Pose2d hub = FieldPositions.HUB_CENTER.get();
         return swerveDrivetrain.getLookAheadPose(ShooterConstants.kLookAheadFactor).getTranslation().getDistance(hub.getTranslation());
+    }
+
+    public void initializeLEDs() {
+        RebuiltLEDCommand ledCommand = new RebuiltLEDCommand(leds);
+        ledCommand.registerIntakeSupplier(() -> intakeRoller.getDesiredValue() > 0.1);
+        ledCommand.registerShooterSupplier(() -> (shooter.getDesiredValue() > 0.1) ? NerdyMath.clamp(shooter.getCurrentVelocity() / shooter.getDesiredValue(), 0.0, 1.0) : 0.0);
+        ledCommand.registerCountdownSupplier(() -> (DriverStation.getMatchType() != MatchType.None) ? (1.0 - NerdyMath.clamp(RobotContainer.shiftTime / 10.0, 0.0, 1.0)) : 0.0);
+        leds.setDefaultCommand(ledCommand);
     }
 
     // ------------------------------------ logging ------------------------------------ //
