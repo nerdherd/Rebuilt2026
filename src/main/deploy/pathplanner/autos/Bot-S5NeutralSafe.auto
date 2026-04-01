@@ -58,7 +58,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 2.4
+                        "waitTime": 2.9
                       }
                     },
                     {
@@ -78,17 +78,17 @@
                       "data": {
                         "name": "Intake Stop"
                       }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Reset Pose"
+                      }
                     }
                   ]
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.25
           }
         },
         {
@@ -164,17 +164,17 @@
                       "data": {
                         "name": "Intake Stop"
                       }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Reset Pose"
+                      }
                     }
                   ]
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.25
           }
         },
         {
