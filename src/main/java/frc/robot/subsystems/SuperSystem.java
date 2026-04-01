@@ -7,6 +7,7 @@ import static frc.robot.Constants.Subsystems.intakeRoller;
 import static frc.robot.Constants.Subsystems.intakeSlapdown;
 import static frc.robot.Constants.Subsystems.leds;
 import static frc.robot.Constants.Subsystems.shooter;
+import static frc.robot.Constants.Subsystems.useLEDs;
 
 import java.util.ArrayList;
 import java.util.function.Consumer;
@@ -172,7 +173,7 @@ public class SuperSystem implements Reportable {
     }
     
     public Command outtake() {
-        return intakeRoller.setDesiredValueCommand(-3);
+        return intakeRoller.setDesiredValueCommand(-8);
     }
         
     public Command stopIntaking() {
@@ -238,6 +239,7 @@ public class SuperSystem implements Reportable {
     }
 
     public void initializeLEDs() {
+        if (!useLEDs) return;
         RebuiltLEDCommand ledCommand = new RebuiltLEDCommand(leds);
         ledCommand.registerIntakeSupplier(() -> intakeRoller.getDesiredValue() > 0.1);
         ledCommand.registerShooterSupplier(() -> (shooter.getDesiredValue() > 0.1) ? NerdyMath.clamp(shooter.getCurrentVelocity() / shooter.getDesiredValue(), 0.0, 1.0) : 0.0);

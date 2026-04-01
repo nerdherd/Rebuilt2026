@@ -393,7 +393,7 @@ public final class Constants {
     public static final double kShootWithDistanceB = 31.60409; // b
 
     public static final double kLookAheadRingDriveFactor = 0.3; // use to tune the ring drive
-    public static final double kLookAheadFactor = 0.5; // use to tune shoot on the move left and right
+    public static final double kLookAheadFactor = 1.35; // use to tune shoot on the move left and right
   }
 
   public static class LEDConstants {
@@ -453,14 +453,20 @@ public final class Constants {
           .withSize(25)
           .withFrameRate(15)
         ;
-      public static final RainbowAnimation kDisabled = 
-        new RainbowAnimation(LEDSegments.HORIZONTAL.start, LEDSegments.HORIZONTAL.end)
+      // public static final RainbowAnimation kDisabled = 
+      //   new RainbowAnimation(LEDSegments.HORIZONTAL.start, LEDSegments.HORIZONTAL.end)
+      //     .withSlot(1)
+      //     // .withColor(Colors.kGREEN)
+      //     // .withSize(25)
+      //     .withFrameRate(15)
+      //     .withBrightness(Colors.brightness)
+      //   ;
+      public static final LarsonAnimation kDisabled = 
+        new LarsonAnimation(LEDSegments.HORIZONTAL.start, LEDSegments.HORIZONTAL.end)
           .withSlot(1)
-          // .withColor(Colors.kGREEN)
-          // .withSize(25)
+          .withColor(Colors.kGREEN)
+          .withSize(25)
           .withFrameRate(15)
-          .withBrightness(Colors.brightness)
-          .withFrameRate(30)
         ;
       public static final FireAnimation kAutonomousVertical = 
         new FireAnimation(LEDSegments.VERTICAL.start, LEDSegments.VERTICAL.end)
@@ -545,7 +551,7 @@ public final class Constants {
       .addMotor(ShooterConstants.kMotor4ID, MotorAlignmentValue.Aligned)
       .configureMotors(ShooterConstants.kSubsystemConfiguration);
     
-    public static final boolean useLEDs = true;
+    public static final boolean useLEDs = false;
     public static final LED leds = (!useLEDs) ? null : 
       new LED(
         LEDConstants.kCANdleID, 
