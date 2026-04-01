@@ -168,6 +168,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Use These",
+  "folder": null,
   "choreoAuto": false
 }
