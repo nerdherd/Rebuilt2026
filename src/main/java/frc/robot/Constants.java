@@ -136,7 +136,7 @@ public final class Constants {
     
     public static final double kTurnToAngleMaxVelocity = 4.5; // rad/s
     public static final PIDConstants kTurnToAnglePIDConstants = new PIDConstants(5.0, 0.0, 0.01);
-    public static final Constraints kTurnToAngleTolerances = new Constraints(0.05, 0.5);
+    public static final Constraints kTurnToAngleTolerances = new Constraints(0.017, 0.5); 
 
     ////////////////////////////////////////////
     /// -- NerdDrivetrain Swerve Requests -- ///
