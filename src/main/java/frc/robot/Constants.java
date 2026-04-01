@@ -363,8 +363,8 @@ public final class Constants {
         .withKP(0.15)
         .withKI(0.0)
         .withKD(0.0)
-        .withKV(0.12194)
-        .withKS(0.299158);
+        .withKV(0.119368)
+        .withKS(0.39903);
     
     private static final CurrentLimitsConfigs kCurrentLimitsConfigs = 
       new CurrentLimitsConfigs()
@@ -448,9 +448,9 @@ public final class Constants {
       ;
 
     public static class Colors {
-      public static final double brightness = 1.0;
+      public static final double brightness = 0.2;
       public static final RGBWColor kRED           = new RGBWColor(255, 0, 0).scaleBrightness(brightness); 
-      public static final RGBWColor kORANGE        = new RGBWColor(255, 127, 0).scaleBrightness(brightness); 
+      public static final RGBWColor kORANGE        = new RGBWColor(255, 80, 0).scaleBrightness(brightness); 
       public static final RGBWColor kYELLOW        = new RGBWColor(255, 255, 0).scaleBrightness(brightness); 
       public static final RGBWColor kGREEN         = new RGBWColor(0, 255, 0).scaleBrightness(brightness); 
       public static final RGBWColor kCYAN          = new RGBWColor(0, 255, 255).scaleBrightness(brightness); 
@@ -462,10 +462,10 @@ public final class Constants {
     }
     
     public enum LEDSegments {
-      ALL(0, 7),
+      ALL(0, 66),
       CANDLE(0, 7),
-      VERTICAL(8, 8),
-      HORIZONTAL(9,9)
+      VERTICAL(8, 29),
+      HORIZONTAL(30,69)
       ;
       
       // from bottom up/left to right
@@ -482,16 +482,19 @@ public final class Constants {
           .withSlot(0)
           .withColor(Colors.kNERDHERD_BLUE)
           .withSize(10)
+          .withFrameRate(20)
         ;
       public static final LarsonAnimation kDisconnectedHorizontal =
         kDisconnectedVertical.clone()
           .withSlot(1)
           .withLEDStartIndex(LEDSegments.HORIZONTAL.start)
           .withLEDEndIndex(LEDSegments.HORIZONTAL.end)
+          .withSize(20)
         ;
       public static final LarsonAnimation kDisabled = 
         kDisconnectedHorizontal.clone()
           .withColor(Colors.kGREEN)
+          .withSize(30)
         ;
       public static final FireAnimation kAutonomousVertical = 
         new FireAnimation(LEDSegments.VERTICAL.start, LEDSegments.VERTICAL.end)
@@ -586,7 +589,7 @@ public final class Constants {
           useClimb)
         .configureMotors(ClimbConstants.kSubsystemConfiguration);
     
-    public static final boolean useLEDs = false;
+    public static final boolean useLEDs = true;
     public static final LED leds = (!useLEDs) ? null : 
       new LED(
         LEDConstants.kCANdleID, 

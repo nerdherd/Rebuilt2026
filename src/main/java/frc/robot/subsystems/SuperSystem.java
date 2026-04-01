@@ -18,13 +18,14 @@ import dev.doglog.DogLog;
 import edu.wpi.first.math.MathSharedStore;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.networktables.DoubleSubscriber;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
-import frc.robot.RebuiltLEDCommand;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.SwerveDriveConstants.FieldPositions;
+import frc.robot.commands.RebuiltLEDCommand;
 import frc.robot.subsystems.template.TemplateSubsystem;
 import frc.robot.util.NerdyMath;
 import frc.robot.util.logging.NerdLog;
@@ -259,8 +260,8 @@ public class SuperSystem implements Reportable {
     public void initializeLEDs() {
         RebuiltLEDCommand ledCommand = new RebuiltLEDCommand(leds);
         ledCommand.registerIntakeSupplier(() -> intakeRoller.getDesiredValue() > 0.1);
-        ledCommand.registerShooterSupplier(() -> (shooter.getDesiredValue() > 0.1) ? (shooter.getCurrentVelocity() / shooter.getDesiredValue()) : 0.0);
-        ledCommand.registerCountdownSupplier(() -> Math.min(1.0, RobotContainer.shiftTime / 10.0));
+        ledCommand.registerShooterSupplier(() -> (shooter.getDesiredValue() > 0.1) ? NerdyMath.clamp(shooter.getCurrentVelocity() / shooter.getDesiredValue(), 0.0, 1.0) : 0.0);
+        ledCommand.registerCountdownSupplier(() -> (!DriverStation.getEventName().equals("")) ? (1.0 - NerdyMath.clamp(RobotContainer.shiftTime / 10.0, 0.0, 1.0)) : 0.0);
         leds.setDefaultCommand(ledCommand);
     }
 

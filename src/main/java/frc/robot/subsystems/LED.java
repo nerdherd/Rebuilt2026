@@ -42,7 +42,6 @@ public class LED extends SubsystemBase implements Reportable {
     }
 
     public StatusCode setControl(ControlRequest request) {
-        
         return this.candle.setControl(request);
     }
 
@@ -58,7 +57,8 @@ public class LED extends SubsystemBase implements Reportable {
      * resets all slots
      */
     public void reset() {
-        for (int i = 1; i < 8; i++) disable(i);
+        // for (int i = 1; i < 8; i++) disable(i);
+        candle.clearAllAnimations();
     }
 
     /**
