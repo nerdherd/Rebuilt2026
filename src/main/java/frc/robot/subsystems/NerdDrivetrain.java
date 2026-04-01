@@ -91,6 +91,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
     @Override
     public void periodic() {
         field.setRobotPose(getPose());
+        field.getObject("Look Ahead Ring Drive").setPose(getLookAheadPose(ShooterConstants.kLookAheadRingDriveFactor));
         field.getObject("Look Ahead").setPose(getLookAheadPose(ShooterConstants.kLookAheadFactor));
 
         if (USE_VISION) {

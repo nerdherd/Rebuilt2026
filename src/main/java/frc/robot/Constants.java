@@ -17,6 +17,7 @@ import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.FireAnimation;
 import com.ctre.phoenix6.controls.LarsonAnimation;
+import com.ctre.phoenix6.controls.RainbowAnimation;
 import com.ctre.phoenix6.controls.SolidColor;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.LossOfSignalBehaviorValue;
@@ -395,46 +396,6 @@ public final class Constants {
     public static final double kLookAheadFactor = 0.5; // use to tune shoot on the move left and right
   }
 
-  public static final class ClimbConstants {
-    public static final int kMotor1ID = 45;
-
-    private static final Slot0Configs kSlot0Configs = 
-      new Slot0Configs()
-        .withKP(0.1)
-        .withKI(0.0)
-        .withKD(0.0)
-      ;
-    private static final MotorOutputConfigs kMotorOutputConfigs =
-      new MotorOutputConfigs()
-        .withNeutralMode(NeutralModeValue.Brake)
-      ;
-    private static final FeedbackConfigs kFeedbackConfigs = 
-      new FeedbackConfigs()
-        .withRotorToSensorRatio(1.0)
-      ;
-    private static final CurrentLimitsConfigs kCurrentLimitConfigs =
-      new CurrentLimitsConfigs()
-        .withStatorCurrentLimit(10)
-        .withStatorCurrentLimitEnable(true)
-      ;
-
-    private static final MotionMagicConfigs kMotionMagicConfigs = 
-      new MotionMagicConfigs()
-        .withMotionMagicAcceleration(1)
-        .withMotionMagicCruiseVelocity(1)
-      ;
-        
-    public static final TalonFXConfiguration kSubsystemConfiguration = 
-      new TalonFXConfiguration()
-        .withSlot0(kSlot0Configs)
-        .withMotorOutput(kMotorOutputConfigs)
-        .withFeedback(kFeedbackConfigs)
-        .withCurrentLimits(kCurrentLimitConfigs)
-        .withMotionMagic(kMotionMagicConfigs)
-      ;
-
-  }
-
   public static class LEDConstants {
     public static final int kCANdleID = 2;
 
@@ -463,7 +424,7 @@ public final class Constants {
     }
     
     public enum LEDSegments {
-      ALL(0, 66),
+      ALL(0, 69),
       CANDLE(0, 7),
       VERTICAL(8, 29),
       HORIZONTAL(30,69)
@@ -486,16 +447,20 @@ public final class Constants {
           .withFrameRate(20)
         ;
       public static final LarsonAnimation kDisconnectedHorizontal =
-        kDisconnectedVertical.clone()
+        new LarsonAnimation(LEDSegments.HORIZONTAL.start, LEDSegments.HORIZONTAL.end)
           .withSlot(1)
-          .withLEDStartIndex(LEDSegments.HORIZONTAL.start)
-          .withLEDEndIndex(LEDSegments.HORIZONTAL.end)
-          .withSize(20)
+          .withColor(Colors.kNERDHERD_BLUE)
+          .withSize(25)
+          .withFrameRate(15)
         ;
-      public static final LarsonAnimation kDisabled = 
-        kDisconnectedHorizontal.clone()
-          .withColor(Colors.kGREEN)
-          .withSize(30)
+      public static final RainbowAnimation kDisabled = 
+        new RainbowAnimation(LEDSegments.HORIZONTAL.start, LEDSegments.HORIZONTAL.end)
+          .withSlot(1)
+          // .withColor(Colors.kGREEN)
+          // .withSize(25)
+          .withFrameRate(15)
+          .withBrightness(Colors.brightness)
+          .withFrameRate(30)
         ;
       public static final FireAnimation kAutonomousVertical = 
         new FireAnimation(LEDSegments.VERTICAL.start, LEDSegments.VERTICAL.end)
@@ -579,16 +544,6 @@ public final class Constants {
       .addMotor(ShooterConstants.kMotor3ID, MotorAlignmentValue.Opposed)
       .addMotor(ShooterConstants.kMotor4ID, MotorAlignmentValue.Aligned)
       .configureMotors(ShooterConstants.kSubsystemConfiguration);
-
-    public static final boolean useClimb = false;
-    public static final TemplateSubsystem climb = (!USE_SUBSYSTEMS) ? null :
-      new TemplateSubsystem(
-          "Climb", 
-          ClimbConstants.kMotor1ID, 
-          SubsystemMode.VOLTAGE, 
-          0.0,
-          useClimb)
-        .configureMotors(ClimbConstants.kSubsystemConfiguration);
     
     public static final boolean useLEDs = true;
     public static final LED leds = (!useLEDs) ? null : 
