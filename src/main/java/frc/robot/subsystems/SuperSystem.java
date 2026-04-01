@@ -254,7 +254,7 @@ public class SuperSystem implements Reportable {
 
     public double getHubDistance() {
         Pose2d hub = FieldPositions.HUB_CENTER.get();
-        return swerveDrivetrain.getLookAheadPose().getTranslation().getDistance(hub.getTranslation());
+        return swerveDrivetrain.getLookAheadPose(ShooterConstants.kLookAheadFactor).getTranslation().getDistance(hub.getTranslation());
     }
 
     public void initializeLEDs() {
