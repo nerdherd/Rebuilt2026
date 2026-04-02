@@ -6,6 +6,7 @@ package frc.robot;
 
 
 import dev.doglog.DogLog;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.networktables.StringSubscriber;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -16,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Constants.ControllerConstants;
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.Subsystems;
 import frc.robot.Constants.SwerveDriveConstants.FieldPositions;
 import frc.robot.commands.SwerveJoystickCommand;
@@ -49,6 +51,7 @@ public class RobotContainer {
 
     if (Constants.USE_SUBSYSTEMS) { // add subsystems
       superSystem = new SuperSystem(swerveDrive);
+      superSystem.initializeLEDs();
       Autos.initNamedCommands(superSystem, swerveDrive);
       Autos.initEventMarkers(superSystem, swerveDrive);
     }
@@ -85,13 +88,15 @@ public class RobotContainer {
       // Turn
       () -> -driverController.getRightX(), 
       // use turn to angle
-      () -> driverController.getBumperRight(),// || driverController.getBumperLeft(),
+      () -> driverController.getBumperRight() || driverController.getBumperLeft(),
       // turn to angle target direction, 0.0 to use manual
-      () -> (driverController.getBumperRight()) ? swerveDrive.angleToLookAheadPose(FieldPositions.HUB_CENTER) : 0.0,
+      () -> (driverController.getBumperRight()) ? swerveDrive.angleToLookAheadPose(FieldPositions.HUB_CENTER, ShooterConstants.kLookAheadFactor) : Math.PI,
       // robot oriented adjustment (dpad)
       () -> new Translation2d(
         (driverController.getDpadUp() ? 1 : 0) - (driverController.getDpadDown() ? 1 : 0), 
-        (driverController.getDpadLeft() ? 1 : 0) - (driverController.getDpadRight() ? 1 : 0)),
+        (driverController.getDpadLeft() ? 1 : 0) - (driverController.getDpadRight() ? 1 : 0))
+        .rotateBy((!driverController.getBumperRight()) ? Rotation2d.kZero : 
+            Rotation2d.fromRadians(swerveDrive.angleToLookAheadPose(FieldPositions.HUB_CENTER, ShooterConstants.kLookAheadRingDriveFactor) - swerveDrive.angleToLookAheadPose(FieldPositions.HUB_CENTER, ShooterConstants.kLookAheadFactor))),
       // joystick drive field oriented
       () -> true, 
       // tow supplier
@@ -260,7 +265,7 @@ public class RobotContainer {
 
     NerdLog.logData("Robot/Command Scheduler", CommandScheduler.getInstance(), LOG_LEVEL.MEDIUM);
     NerdLog.logNumber("Robot/RAM Usage", () -> (double)Runtime.getRuntime().freeMemory(), LOG_LEVEL.MEDIUM);
-    NerdLog.logNumber("Match Info/Shift Time", this::allianceShiftTime, LOG_LEVEL.MINIMAL);
+    NerdLog.logNumber("Match Info/Shift Time", () -> {shiftTime = allianceShiftTime(); return shiftTime;}, LOG_LEVEL.MINIMAL);
     NerdLog.reportLogCount();
   }
   
@@ -277,40 +282,41 @@ public class RobotContainer {
     swerveDrive.setBrake(true);
   }
 
-  private boolean gameEnded = false;
+  private static boolean gameEnded = false;
+  public static double shiftTime = 0.0;
   /**
    * Displays a countdown for alliance shifts. NOT 100% ACCURATE
    * @return the number of seconds in the current phase, and the phase name
    */
-  public double allianceShiftTime() {
+  public static double allianceShiftTime() {
     // if (!DriverStation.isFMSAttached()) { DogLog.log("Match Info/Shift Name", "DriverStation not attached"); return 0.0; };
+    boolean wonAuto = true;
+    if (Constants.ROBOT_LOG_LEVEL == LOG_LEVEL.MEDIUM) {
+      String data = DriverStation.getGameSpecificMessage();
+      if (!data.isEmpty()) switch (data.charAt(0)) {
+        case 'B': wonAuto = !isRedSide; break;
+        case 'R': wonAuto = isRedSide; break;
+        default: break;
+      } 
+      DogLog.log("Match Info/Won Auto?", wonAuto);
+    }
+
     double time = DriverStation.getMatchTime();
     DogLog.log("Match Info/time", time);
+
     if (DriverStation.isAutonomous()) {
       if (time < 0.0) { DogLog.log("Match Info/Shift Name", (gameEnded) ? "Good Job Team!" : "Get Ready..."); return 0.0; }
       DogLog.log("Match Info/Shift Name", "Auto");
       gameEnded = false;
-      return time;
+      return time + 1;
     } else if (DriverStation.isTeleop()) {
       if (time < 0.0) { DogLog.log("Match Info/Shift Name", (gameEnded) ? "Good Job Team!" : "Good Luck! -nerdherd"); return 0.0; }
-      else if (time >= 130.0) { DogLog.log("Match Info/Shift Name", "Transition"); return time - 130; } // transition
-      else if (time >= 30.0) { DogLog.log("Match Info/Shift Name", "Shift " + (int)((130 - time) / 25 + 1)); return (time - 30) % 25; } // shifts 1-4
+      else if (time >= 130.0) { DogLog.log("Match Info/Shift Name", "Transition"); return time - 130 + 1; } // transition
+      else if (time >= 30.0) { 
+        int shift = (int)((130 - time) / 25 + 1); 
+        DogLog.log("Match Info/Shift Name", "Shift " + shift + " " + (((shift % 2 == 1) == wonAuto) ? "Feeding" : "Scoring")); return (time - 30) % 25 + 1; 
+      } // shifts 1-4
       else { DogLog.log("Match Info/Shift Name", "Endgame"); if (time <= 1.0) gameEnded = true; return time; } // endgame
     } else { DogLog.log("Match Info/Shift Name", "Inactive"); return 0.0; }
-    
-    // Practice Mode
-    // else {
-    //   if (DriverStation.isAutonomous()) {
-    //     return new Object[] {time <= 20 ? 20 - time : 0, "Auto"};
-
-    //   } else if (DriverStation.isTeleop()) {
-    //     if (time <= 10) return new Object[] {10 - time, "Transition"}; // transition
-    //     else if (time <= 110) return new Object[] {25 - (time - 10) % 25, "Shift " + (25 - (time - 10) / 25 + 1)}; // shifts 1-4
-    //     else if (time <= 140) return new Object[] {140 - time, "Endgame"}; // endgame
-    //     else return new Object[] {0, "End Match"};
-    //   } else return new Object[] {0, "Inactive"};
-
-    // }
   }
-
 }

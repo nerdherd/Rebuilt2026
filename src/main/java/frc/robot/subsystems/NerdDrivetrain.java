@@ -91,7 +91,8 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
     @Override
     public void periodic() {
         field.setRobotPose(getPose());
-        field.getObject("Look Ahead").setPose(getLookAheadPose());
+        field.getObject("Look Ahead Ring Drive").setPose(getLookAheadPose(ShooterConstants.kLookAheadRingDriveFactor));
+        field.getObject("Look Ahead").setPose(getLookAheadPose(ShooterConstants.kLookAheadFactor));
 
         if (USE_VISION) {
             // visionUpdate(Camera.Example);
@@ -179,9 +180,9 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
     }
 
     /** the position we will be one step in time */
-    public Pose2d getLookAheadPose() {
+    public Pose2d getLookAheadPose(double factor) {
         ChassisSpeeds speeds = getFieldOrientedSpeeds();
-        return getPose().plus(new Transform2d(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond, Rotation2d.kZero).times(ShooterConstants.kLookAheadFactor));
+        return getPose().plus(new Transform2d(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond, Rotation2d.kZero).times(factor));
     }
 
     /** gets the ChassisSpeeds from odometry */
@@ -201,8 +202,8 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
         return NerdyMath.angleToPose(getPose(), pos.get());
     }
 
-    public double angleToLookAheadPose(FieldPositions pos) {
-        return NerdyMath.angleToPose(getLookAheadPose(), pos.get());
+    public double angleToLookAheadPose(FieldPositions pos, double factor) {
+        return NerdyMath.angleToPose(getLookAheadPose(factor), pos.get());
     }
 
     private final double deviceTempThreshold = 50;
@@ -273,7 +274,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
             field.getObject(limelight.name).setPose(nullPose);
             if (mt == null || Math.abs(getPigeon2().getAngularVelocityZWorld().getValueAsDouble()) > 720 || mt.tagCount == 0) return;
             field.getObject(limelight.name).setPose(mt.pose);
-            double stddev = (mt.avgTagDist > 3) ? 1.0 : 0.7;
+            double stddev = (mt.avgTagDist > 3) ? 2.0 : 0.7;
             setVisionMeasurementStdDevs(VecBuilder.fill(stddev, stddev, 9999999)); // TODO consider other stddevs
             addVisionMeasurement(mt.pose, Utils.getCurrentTimeSeconds());
         }

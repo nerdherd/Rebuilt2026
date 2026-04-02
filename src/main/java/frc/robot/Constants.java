@@ -7,15 +7,23 @@ package frc.robot;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
+import com.ctre.phoenix6.configs.CANdleConfiguration;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.FeedbackConfigs;
+import com.ctre.phoenix6.configs.LEDConfigs;
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.FireAnimation;
+import com.ctre.phoenix6.controls.LarsonAnimation;
+import com.ctre.phoenix6.controls.SolidColor;
 import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.LossOfSignalBehaviorValue;
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.ctre.phoenix6.signals.RGBWColor;
+import com.ctre.phoenix6.signals.StripTypeValue;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveModule.SteerRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest.ForwardPerspectiveValue;
@@ -29,6 +37,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
+import frc.robot.subsystems.LED;
 import frc.robot.subsystems.template.TemplateSubsystem;
 import frc.robot.subsystems.template.TemplateSubsystem.SubsystemMode;
 import frc.robot.util.MultiProfiledPIDController;
@@ -113,7 +122,7 @@ public final class Constants {
     //////////////////////////
     
     public static final double kDriveMaxVelocity = 5.0; // m/s
-    public static final double kDrivePrecisionMultiplier = 0.25; // fractional
+    public static final double kDrivePrecisionMultiplier = 0.5; // fractional
     
     public static final double kTurnMaxVelocity = 4; // rad/s
     public static final double kTurnPrecisionMultiplier = 0.5; // fractional
@@ -126,7 +135,7 @@ public final class Constants {
     
     public static final double kTurnToAngleMaxVelocity = 4.5; // rad/s
     public static final PIDConstants kTurnToAnglePIDConstants = new PIDConstants(5.0, 0.0, 0.01);
-    public static final Constraints kTurnToAngleTolerances = new Constraints(0.05, 0.5);
+    public static final Constraints kTurnToAngleTolerances = new Constraints(0.017, 0.5); 
 
     ////////////////////////////////////////////
     /// -- NerdDrivetrain Swerve Requests -- ///
@@ -354,8 +363,8 @@ public final class Constants {
         .withKP(0.15)
         .withKI(0.0)
         .withKD(0.0)
-        .withKV(0.12194)
-        .withKS(0.299158);
+        .withKV(0.113)
+        .withKS(0.2);
     
     private static final CurrentLimitsConfigs kCurrentLimitsConfigs = 
       new CurrentLimitsConfigs()
@@ -382,47 +391,105 @@ public final class Constants {
     public static final double kShootWithDistanceA = 0.917415; // a
     public static final double kShootWithDistanceB = 31.60409; // b
 
-    public static final double kLookAheadFactor = 0.3;
+    public static final double kLookAheadRingDriveFactor = 0.3; // use to tune the ring drive
+    public static final double kLookAheadFactor = 1.35; // use to tune shoot on the move left and right
   }
 
-  public static final class ClimbConstants {
-    public static final int kMotor1ID = 45;
+  public static class LEDConstants {
+    public static final int kCANdleID = 2;
 
-    private static final Slot0Configs kSlot0Configs = 
-      new Slot0Configs()
-        .withKP(0.1)
-        .withKI(0.0)
-        .withKD(0.0)
-      ;
-    private static final MotorOutputConfigs kMotorOutputConfigs =
-      new MotorOutputConfigs()
-        .withNeutralMode(NeutralModeValue.Brake)
-      ;
-    private static final FeedbackConfigs kFeedbackConfigs = 
-      new FeedbackConfigs()
-        .withRotorToSensorRatio(1.0)
-      ;
-    private static final CurrentLimitsConfigs kCurrentLimitConfigs =
-      new CurrentLimitsConfigs()
-        .withStatorCurrentLimit(10)
-        .withStatorCurrentLimitEnable(true)
+    public static final CANdleConfiguration configuration = 
+      new CANdleConfiguration()
+        .withLED(
+          new LEDConfigs()
+            .withStripType(StripTypeValue.GRB)
+            .withBrightnessScalar(0.5)
+            .withLossOfSignalBehavior(LossOfSignalBehaviorValue.DisableLEDs)
+        )
       ;
 
-    private static final MotionMagicConfigs kMotionMagicConfigs = 
-      new MotionMagicConfigs()
-        .withMotionMagicAcceleration(1)
-        .withMotionMagicCruiseVelocity(1)
+    public static class Colors {
+      public static final double brightness = 0.2;
+      public static final RGBWColor kRED           = new RGBWColor(255, 0, 0).scaleBrightness(brightness); 
+      public static final RGBWColor kORANGE        = new RGBWColor(255, 80, 0).scaleBrightness(brightness); 
+      public static final RGBWColor kYELLOW        = new RGBWColor(255, 255, 0).scaleBrightness(brightness); 
+      public static final RGBWColor kGREEN         = new RGBWColor(0, 255, 0).scaleBrightness(brightness); 
+      public static final RGBWColor kCYAN          = new RGBWColor(0, 255, 255).scaleBrightness(brightness); 
+      public static final RGBWColor kBLUE          = new RGBWColor(0, 0, 255).scaleBrightness(brightness); 
+      public static final RGBWColor kPURPLE        = new RGBWColor(255, 0, 255).scaleBrightness(brightness); 
+      public static final RGBWColor kNERDHERD_BLUE = new RGBWColor(34, 105, 255).scaleBrightness(brightness); // #071635 as base, brightened fully
+      public static final RGBWColor kBLACK         = new RGBWColor(0, 0, 0).scaleBrightness(brightness); // shows up as nothing
+      public static final RGBWColor kWHITE         = new RGBWColor(255, 255,255).scaleBrightness(0.5).scaleBrightness(brightness); 
+    }
+    
+    public enum LEDSegments {
+      ALL(0, 69),
+      CANDLE(0, 7),
+      VERTICAL(8, 29),
+      HORIZONTAL(30,69)
       ;
-        
-    public static final TalonFXConfiguration kSubsystemConfiguration = 
-      new TalonFXConfiguration()
-        .withSlot0(kSlot0Configs)
-        .withMotorOutput(kMotorOutputConfigs)
-        .withFeedback(kFeedbackConfigs)
-        .withCurrentLimits(kCurrentLimitConfigs)
-        .withMotionMagic(kMotionMagicConfigs)
-      ;
+      
+      // from bottom up/left to right
+      public int start, end;
+      LEDSegments(int startIndex, int endIndex) {
+        this.start = startIndex;
+        this.end = endIndex;
+      }
+    }
 
+    public static class Animations {
+      public static final LarsonAnimation kDisconnectedVertical = 
+        new LarsonAnimation(LEDSegments.VERTICAL.start, LEDSegments.VERTICAL.end)
+          .withSlot(0)
+          .withColor(Colors.kNERDHERD_BLUE)
+          .withSize(10)
+          .withFrameRate(20)
+        ;
+      public static final LarsonAnimation kDisconnectedHorizontal =
+        new LarsonAnimation(LEDSegments.HORIZONTAL.start, LEDSegments.HORIZONTAL.end)
+          .withSlot(1)
+          .withColor(Colors.kNERDHERD_BLUE)
+          .withSize(25)
+          .withFrameRate(15)
+        ;
+      // public static final RainbowAnimation kDisabled = 
+      //   new RainbowAnimation(LEDSegments.HORIZONTAL.start, LEDSegments.HORIZONTAL.end)
+      //     .withSlot(1)
+      //     // .withColor(Colors.kGREEN)
+      //     // .withSize(25)
+      //     .withFrameRate(15)
+      //     .withBrightness(Colors.brightness)
+      //   ;
+      public static final LarsonAnimation kDisabled = 
+        new LarsonAnimation(LEDSegments.HORIZONTAL.start, LEDSegments.HORIZONTAL.end)
+          .withSlot(1)
+          .withColor(Colors.kGREEN)
+          .withSize(25)
+          .withFrameRate(15)
+        ;
+      public static final FireAnimation kAutonomousVertical = 
+        new FireAnimation(LEDSegments.VERTICAL.start, LEDSegments.VERTICAL.end)
+          .withSlot(0)
+          .withCooling(0.2)
+          .withFrameRate(20)
+        ;
+      public static final SolidColor kDefaultHorizontal = 
+        new SolidColor(LEDSegments.HORIZONTAL.start, LEDSegments.HORIZONTAL.end)
+          .withColor(Colors.kNERDHERD_BLUE)
+        ;
+      public static final SolidColor kTeleopVertical =
+        new SolidColor(LEDSegments.VERTICAL.start, LEDSegments.VERTICAL.end)
+          .withColor(Colors.kNERDHERD_BLUE)  
+        ;
+      public static final SolidColor kCountdown = 
+        new SolidColor(LEDSegments.HORIZONTAL.start, LEDSegments.HORIZONTAL.end)
+          .withColor(Colors.kRED)
+        ;
+      public static final SolidColor kShooterRamp = 
+        new SolidColor(LEDSegments.VERTICAL.start, LEDSegments.VERTICAL.end)
+          .withColor(Colors.kORANGE)
+        ;
+    }
   }
 
   /** 
@@ -482,48 +549,17 @@ public final class Constants {
       .addMotor(ShooterConstants.kMotor3ID, MotorAlignmentValue.Opposed)
       .addMotor(ShooterConstants.kMotor4ID, MotorAlignmentValue.Aligned)
       .configureMotors(ShooterConstants.kSubsystemConfiguration);
-
-    public static final boolean useClimb = false;
-    public static final TemplateSubsystem climb = (!USE_SUBSYSTEMS) ? null :
-    new TemplateSubsystem(
-        "Climb", 
-        ClimbConstants.kMotor1ID, 
-        SubsystemMode.VOLTAGE, 
-        0.0,
-        useClimb)
-      .configureMotors(ClimbConstants.kSubsystemConfiguration);
     
+    public static final boolean useLEDs = false;
+    public static final LED leds = (!useLEDs) ? null : 
+      new LED(
+        LEDConstants.kCANdleID, 
+        LEDConstants.configuration
+      );
     /**
      * literally just so the class actually loads,
      * thanks java lazy loading
      */
     public static void init() {} 
   }
-
-  // public static class LEDConstants {
-  //   public static final int CANdleID = 0;
-  //   public static final int CANdleLength = 8;
-
-  //   public static class Colors {
-  //     public static final Color BLACK         = new Color(0.0, 0.0, 0.0); // shows up as nothing
-  //     public static final Color WHITE         = new Color(1.0,1.0,1.0); 
-  //     public static final Color RED           = new Color(1.0, 0.0, 0.0); 
-  //     public static final Color GREEN         = new Color(0.0, 1.0, 0.0); 
-  //     public static final Color BLUE          = new Color(0.0, 0.0, 1.0); 
-  //     public static final Color NERDHERD_BLUE = new Color(0.132, 0.415, 1.0); // #071635 as base, brightened fully
-  //   }
-    
-  //   public enum LEDStrips {
-  //     ALL(0, CANdleLength),
-  //     CANDLE(0,8),
-  //     ;
-
-  //     public int index, count;
-  //     LEDStrips(int _index, int _count) {
-  //       this.index = _index;
-  //       this.count = _count;
-  //     }
-  //   }
-
-  // }
 }
