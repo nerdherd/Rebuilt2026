@@ -17,7 +17,6 @@ import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.FireAnimation;
 import com.ctre.phoenix6.controls.LarsonAnimation;
-import com.ctre.phoenix6.controls.RainbowAnimation;
 import com.ctre.phoenix6.controls.SolidColor;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.LossOfSignalBehaviorValue;
@@ -123,7 +122,7 @@ public final class Constants {
     //////////////////////////
     
     public static final double kDriveMaxVelocity = 5.0; // m/s
-    public static final double kDrivePrecisionMultiplier = 0.25; // fractional
+    public static final double kDrivePrecisionMultiplier = 0.5; // fractional
     
     public static final double kTurnMaxVelocity = 4; // rad/s
     public static final double kTurnPrecisionMultiplier = 0.5; // fractional
@@ -364,8 +363,8 @@ public final class Constants {
         .withKP(0.15)
         .withKI(0.0)
         .withKD(0.0)
-        .withKV(0.119368)
-        .withKS(0.39903);
+        .withKV(0.113)
+        .withKS(0.2);
     
     private static final CurrentLimitsConfigs kCurrentLimitsConfigs = 
       new CurrentLimitsConfigs()

@@ -274,7 +274,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
             field.getObject(limelight.name).setPose(nullPose);
             if (mt == null || Math.abs(getPigeon2().getAngularVelocityZWorld().getValueAsDouble()) > 720 || mt.tagCount == 0) return;
             field.getObject(limelight.name).setPose(mt.pose);
-            double stddev = (mt.avgTagDist > 3) ? 1.0 : 0.7;
+            double stddev = (mt.avgTagDist > 3) ? 2.0 : 0.7;
             setVisionMeasurementStdDevs(VecBuilder.fill(stddev, stddev, 9999999)); // TODO consider other stddevs
             addVisionMeasurement(mt.pose, Utils.getCurrentTimeSeconds());
         }

@@ -78,12 +78,6 @@
                       "data": {
                         "name": "Intake Stop"
                       }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Reset Pose"
-                      }
                     }
                   ]
                 }
@@ -163,12 +157,6 @@
                       "type": "named",
                       "data": {
                         "name": "Intake Stop"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Reset Pose"
                       }
                     }
                   ]
