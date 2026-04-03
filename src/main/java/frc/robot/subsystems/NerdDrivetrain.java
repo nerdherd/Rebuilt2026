@@ -96,8 +96,8 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
 
         if (USE_VISION) {
             // visionUpdate(Camera.Example);
-            visionUpdate(Camera.Front);
-            visionUpdate(Camera.Back);
+            visionUpdate(Camera.Front, true);
+            visionUpdate(Camera.Back, DriverStation.isTeleop());
         }
     }
 
@@ -256,10 +256,11 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
       );
     }
 
-    public void visionUpdate(Camera limelight) {
+    public void visionUpdate(Camera limelight, boolean useReset) {
         if (LimelightHelpers.getCurrentPipelineIndex(limelight.name) != 0) return;
         if (!useMegaTag2) {
             // --------- MT1 --------- //
+            if (!useReset) return;
             PoseEstimate mt = LimelightHelpers.getBotPoseEstimate_wpiBlue(limelight.name);
             if (mt == null || Math.abs(getPigeon2().getAngularVelocityZWorld().getValueAsDouble()) > 720 || mt.tagCount == 0) return;
             resetRotation(mt.pose.getRotation());
