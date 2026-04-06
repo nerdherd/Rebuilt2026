@@ -134,7 +134,7 @@ public final class Constants {
     ///////////////////////////
     
     public static final double kTurnToAngleMaxVelocity = 4.5; // rad/s
-    public static final PIDConstants kTurnToAnglePIDConstants = new PIDConstants(5.0, 0.0, 0.01);
+    public static final PIDConstants kTurnToAnglePIDConstants = new PIDConstants(12.0, 0.0, 0.05);
     public static final Constraints kTurnToAngleTolerances = new Constraints(0.017, 0.5); 
 
     ////////////////////////////////////////////
@@ -549,7 +549,8 @@ public final class Constants {
       .addMotor(ShooterConstants.kMotor2ID, MotorAlignmentValue.Opposed)
       .addMotor(ShooterConstants.kMotor3ID, MotorAlignmentValue.Opposed)
       .addMotor(ShooterConstants.kMotor4ID, MotorAlignmentValue.Aligned)
-      .configureMotors(ShooterConstants.kSubsystemConfiguration);
+      .configureMotors(ShooterConstants.kSubsystemConfiguration)
+      .logTorqueCurrent();
     
     public static final boolean useLEDs = false;
     public static final LED leds = (!useLEDs) ? null : 

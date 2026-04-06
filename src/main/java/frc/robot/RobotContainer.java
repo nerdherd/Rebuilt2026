@@ -78,6 +78,7 @@ public class RobotContainer {
    * used in teleop mode.
    */
   public void initDefaultCommands_teleop() {
+    double kOffset = 0.05;
     SwerveJoystickCommand swerveJoystickCommand =
     new SwerveJoystickCommand(
       swerveDrive,
@@ -88,19 +89,19 @@ public class RobotContainer {
       // Turn
       () -> -driverController.getRightX(), 
       // use turn to angle
-      () -> driverController.getBumperRight() || driverController.getBumperLeft(),
+      () -> driverController.getBumperRight(),
       // turn to angle target direction, 0.0 to use manual
-      () -> (driverController.getBumperRight()) ? swerveDrive.angleToLookAheadPose(FieldPositions.HUB_CENTER, ShooterConstants.kLookAheadFactor) : Math.PI,
+      () -> swerveDrive.angleToLookAheadPose(FieldPositions.HUB_CENTER, ShooterConstants.kLookAheadFactor) + kOffset,
       // robot oriented adjustment (dpad)
       () -> new Translation2d(
         (driverController.getDpadUp() ? 1 : 0) - (driverController.getDpadDown() ? 1 : 0), 
         (driverController.getDpadLeft() ? 1 : 0) - (driverController.getDpadRight() ? 1 : 0))
         .rotateBy((!driverController.getBumperRight()) ? Rotation2d.kZero : 
-            Rotation2d.fromRadians(swerveDrive.angleToLookAheadPose(FieldPositions.HUB_CENTER, ShooterConstants.kLookAheadRingDriveFactor) - swerveDrive.angleToLookAheadPose(FieldPositions.HUB_CENTER, ShooterConstants.kLookAheadFactor))),
+            Rotation2d.fromRadians(swerveDrive.angleToLookAheadPose(FieldPositions.HUB_CENTER, ShooterConstants.kLookAheadRingDriveFactor) - swerveDrive.angleToLookAheadPose(FieldPositions.HUB_CENTER, ShooterConstants.kLookAheadFactor) - kOffset)),
       // joystick drive field oriented
       () -> true, 
       // tow supplier
-      () -> driverController.getButtonDown(), 
+      () -> driverController.getBumperLeft(), 
       // precision/programmer mode :)
       () -> driverController.getTriggerLeft()
     );

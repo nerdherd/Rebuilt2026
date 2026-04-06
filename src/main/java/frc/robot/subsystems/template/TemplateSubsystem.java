@@ -381,8 +381,7 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 
 		NerdLog.logSignal(kSubsystemTab + name + "/Torque Current/Primary Motor", primaryMotor.getTorqueCurrent(false), primaryMotor.getNetwork().getName(), (_logTorqueCurrent) ? LOG_LEVEL.MINIMAL : LOG_LEVEL.ALL);
 		applySecondaryMotors((motor, i) -> 
-			NerdLog.logSignal(kSubsystemTab + name + "/Torque Current/Secondary Motor " + i, primaryMotor.getTorqueCurrent(false), primaryMotor.getNetwork().getName(), LOG_LEVEL.ALL)
-		);
+			NerdLog.logSignal(kSubsystemTab + name + "/Torque Current/Secondary Motor " + i, primaryMotor.getTorqueCurrent(false), primaryMotor.getNetwork().getName(), (_logTorqueCurrent) ? LOG_LEVEL.MINIMAL : LOG_LEVEL.ALL));
 
 		NerdLog.logSignal(kSubsystemTab + name + "/Supply Current", primaryMotor.getSupplyCurrent(false), primaryMotor.getNetwork().getName(), LOG_LEVEL.ALL);
 

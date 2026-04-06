@@ -1,6 +1,6 @@
 {
   "version": 1.0,
-  "grid_size": 128,
+  "grid_size": 64,
   "tabs": [
     {
       "name": "Main",
@@ -30,8 +30,8 @@
           },
           {
             "title": "Selected Auto",
-            "x": 256.0,
-            "y": 384.0,
+            "x": 0.0,
+            "y": 512.0,
             "width": 256.0,
             "height": 128.0,
             "type": "ComboBox Chooser",
@@ -46,22 +46,24 @@
             "x": 0.0,
             "y": 384.0,
             "width": 256.0,
-            "height": 256.0,
-            "type": "Graph",
+            "height": 128.0,
+            "type": "Voltage View",
             "properties": {
               "topic": "/Robot/SystemStats/BatteryVoltage",
               "period": 0.033,
               "data_type": "double",
-              "time_displayed": 5.0,
-              "color": 4278238420,
-              "line_width": 2.0
+              "min_value": 4.0,
+              "max_value": 13.0,
+              "divisions": 5,
+              "inverted": false,
+              "orientation": "horizontal"
             }
           },
           {
             "title": "Connected",
-            "x": 1152.0,
-            "y": 0.0,
-            "width": 256.0,
+            "x": 768.0,
+            "y": 384.0,
+            "width": 128.0,
             "height": 128.0,
             "type": "Boolean Box",
             "properties": {
@@ -76,8 +78,8 @@
           },
           {
             "title": "Alerts",
-            "x": 1152.0,
-            "y": 128.0,
+            "x": 256.0,
+            "y": 384.0,
             "width": 256.0,
             "height": 256.0,
             "type": "Alerts",
@@ -108,36 +110,10 @@
             }
           },
           {
-            "title": "FR Pipeline",
-            "x": 256.0,
-            "y": 512.0,
-            "width": 128.0,
-            "height": 128.0,
-            "type": "Large Text Display",
-            "properties": {
-              "topic": "/limelight-fr/pipeline",
-              "period": 0.06,
-              "data_type": "double"
-            }
-          },
-          {
-            "title": "BR Pipeline",
-            "x": 384.0,
-            "y": 512.0,
-            "width": 128.0,
-            "height": 128.0,
-            "type": "Large Text Display",
-            "properties": {
-              "topic": "/limelight-br/pipeline",
-              "period": 0.06,
-              "data_type": "double"
-            }
-          },
-          {
             "title": "Print",
-            "x": 768.0,
+            "x": 1152.0,
             "y": 512.0,
-            "width": 640.0,
+            "width": 256.0,
             "height": 128.0,
             "type": "Text Display",
             "properties": {
@@ -167,7 +143,7 @@
             "title": "Shift Name",
             "x": 768.0,
             "y": 0.0,
-            "width": 384.0,
+            "width": 256.0,
             "height": 128.0,
             "type": "Large Text Display",
             "properties": {
@@ -179,7 +155,7 @@
           {
             "title": "FMSInfo",
             "x": 768.0,
-            "y": 384.0,
+            "y": 512.0,
             "width": 384.0,
             "height": 128.0,
             "type": "FMSInfo",
@@ -190,9 +166,9 @@
           },
           {
             "title": "Won Auto?",
-            "x": 1152.0,
+            "x": 896.0,
             "y": 384.0,
-            "width": 256.0,
+            "width": 128.0,
             "height": 128.0,
             "type": "Boolean Box",
             "properties": {
@@ -203,6 +179,352 @@
               "false_color": 4294198070,
               "true_icon": "None",
               "false_icon": "None"
+            }
+          },
+          {
+            "title": "Using MT2",
+            "x": 1024.0,
+            "y": 384.0,
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Boolean Box",
+            "properties": {
+              "topic": "Robot/SwerveDrive/Using MT2",
+              "period": 0.06,
+              "data_type": "boolean",
+              "true_color": 4283215696,
+              "false_color": 4294198070,
+              "true_icon": "None",
+              "false_icon": "None"
+            }
+          },
+          {
+            "title": "limelight-br",
+            "x": 1152.0,
+            "y": 256.0,
+            "width": 256.0,
+            "height": 256.0,
+            "type": "Camera Stream",
+            "properties": {
+              "topic": "/CameraPublisher/limelight-br",
+              "period": 0.06,
+              "rotation_turns": 0
+            }
+          },
+          {
+            "title": "limelight-fr",
+            "x": 1152.0,
+            "y": 0.0,
+            "width": 256.0,
+            "height": 256.0,
+            "type": "Camera Stream",
+            "properties": {
+              "topic": "/CameraPublisher/limelight-fr",
+              "period": 0.06,
+              "rotation_turns": 0
+            }
+          },
+          {
+            "title": "Drive 0",
+            "x": 1408.0,
+            "y": 0.0,
+            "width": 64.0,
+            "height": 64.0,
+            "type": "Boolean Box",
+            "properties": {
+              "topic": "/Robot/SwerveDrive/Connected/Drive 0",
+              "period": 0.06,
+              "data_type": "boolean",
+              "true_color": 4283215696,
+              "false_color": 4294198070,
+              "true_icon": "None",
+              "false_icon": "None"
+            }
+          },
+          {
+            "title": "Drive 1",
+            "x": 1472.0,
+            "y": 0.0,
+            "width": 64.0,
+            "height": 64.0,
+            "type": "Boolean Box",
+            "properties": {
+              "topic": "/Robot/SwerveDrive/Connected/Drive 1",
+              "period": 0.06,
+              "data_type": "boolean",
+              "true_color": 4283215696,
+              "false_color": 4294198070,
+              "true_icon": "None",
+              "false_icon": "None"
+            }
+          },
+          {
+            "title": "Drive 2",
+            "x": 1408.0,
+            "y": 64.0,
+            "width": 64.0,
+            "height": 64.0,
+            "type": "Boolean Box",
+            "properties": {
+              "topic": "/Robot/SwerveDrive/Connected/Drive 2",
+              "period": 0.06,
+              "data_type": "boolean",
+              "true_color": 4283215696,
+              "false_color": 4294198070,
+              "true_icon": "None",
+              "false_icon": "None"
+            }
+          },
+          {
+            "title": "Drive 3",
+            "x": 1472.0,
+            "y": 64.0,
+            "width": 64.0,
+            "height": 64.0,
+            "type": "Boolean Box",
+            "properties": {
+              "topic": "/Robot/SwerveDrive/Connected/Drive 3",
+              "period": 0.06,
+              "data_type": "boolean",
+              "true_color": 4283215696,
+              "false_color": 4294198070,
+              "true_icon": "None",
+              "false_icon": "None"
+            }
+          },
+          {
+            "title": "Turn 0",
+            "x": 1408.0,
+            "y": 128.0,
+            "width": 64.0,
+            "height": 64.0,
+            "type": "Boolean Box",
+            "properties": {
+              "topic": "/Robot/SwerveDrive/Connected/Turn 0",
+              "period": 0.06,
+              "data_type": "boolean",
+              "true_color": 4283215696,
+              "false_color": 4294198070,
+              "true_icon": "None",
+              "false_icon": "None"
+            }
+          },
+          {
+            "title": "Turn 1",
+            "x": 1472.0,
+            "y": 128.0,
+            "width": 64.0,
+            "height": 64.0,
+            "type": "Boolean Box",
+            "properties": {
+              "topic": "/Robot/SwerveDrive/Connected/Turn 1",
+              "period": 0.06,
+              "data_type": "boolean",
+              "true_color": 4283215696,
+              "false_color": 4294198070,
+              "true_icon": "None",
+              "false_icon": "None"
+            }
+          },
+          {
+            "title": "Turn 2",
+            "x": 1408.0,
+            "y": 192.0,
+            "width": 64.0,
+            "height": 64.0,
+            "type": "Boolean Box",
+            "properties": {
+              "topic": "/Robot/SwerveDrive/Connected/Turn 2",
+              "period": 0.06,
+              "data_type": "boolean",
+              "true_color": 4283215696,
+              "false_color": 4294198070,
+              "true_icon": "None",
+              "false_icon": "None"
+            }
+          },
+          {
+            "title": "Turn 3",
+            "x": 1472.0,
+            "y": 192.0,
+            "width": 64.0,
+            "height": 64.0,
+            "type": "Boolean Box",
+            "properties": {
+              "topic": "/Robot/SwerveDrive/Connected/Turn 3",
+              "period": 0.06,
+              "data_type": "boolean",
+              "true_color": 4283215696,
+              "false_color": 4294198070,
+              "true_icon": "None",
+              "false_icon": "None"
+            }
+          },
+          {
+            "title": "Shooter",
+            "x": 1408.0,
+            "y": 256.0,
+            "width": 64.0,
+            "height": 64.0,
+            "type": "Boolean Box",
+            "properties": {
+              "topic": "/Robot/SuperSystem/Shooter/Connected/Primary Motor",
+              "period": 0.06,
+              "data_type": "boolean",
+              "true_color": 4283215696,
+              "false_color": 4294198070,
+              "true_icon": "None",
+              "false_icon": "None"
+            }
+          },
+          {
+            "title": "Shooter",
+            "x": 1472.0,
+            "y": 256.0,
+            "width": 64.0,
+            "height": 64.0,
+            "type": "Boolean Box",
+            "properties": {
+              "topic": "/Robot/SuperSystem/Shooter/Connected/Secondary Motor 0",
+              "period": 0.06,
+              "data_type": "boolean",
+              "true_color": 4283215696,
+              "false_color": 4294198070,
+              "true_icon": "None",
+              "false_icon": "None"
+            }
+          },
+          {
+            "title": "Shooter",
+            "x": 1408.0,
+            "y": 320.0,
+            "width": 64.0,
+            "height": 64.0,
+            "type": "Boolean Box",
+            "properties": {
+              "topic": "/Robot/SuperSystem/Shooter/Connected/Secondary Motor 1",
+              "period": 0.06,
+              "data_type": "boolean",
+              "true_color": 4283215696,
+              "false_color": 4294198070,
+              "true_icon": "None",
+              "false_icon": "None"
+            }
+          },
+          {
+            "title": "Shooter",
+            "x": 1472.0,
+            "y": 320.0,
+            "width": 64.0,
+            "height": 64.0,
+            "type": "Boolean Box",
+            "properties": {
+              "topic": "/Robot/SuperSystem/Shooter/Connected/Secondary Motor 2",
+              "period": 0.06,
+              "data_type": "boolean",
+              "true_color": 4283215696,
+              "false_color": 4294198070,
+              "true_icon": "None",
+              "false_icon": "None"
+            }
+          },
+          {
+            "title": "Intake Slapdown",
+            "x": 1408.0,
+            "y": 384.0,
+            "width": 64.0,
+            "height": 64.0,
+            "type": "Boolean Box",
+            "properties": {
+              "topic": "/Robot/SuperSystem/Intake Slapdown/Connected/Primary Motor",
+              "period": 0.06,
+              "data_type": "boolean",
+              "true_color": 4283215696,
+              "false_color": 4294198070,
+              "true_icon": "None",
+              "false_icon": "None"
+            }
+          },
+          {
+            "title": "Intake Roller",
+            "x": 1472.0,
+            "y": 384.0,
+            "width": 64.0,
+            "height": 64.0,
+            "type": "Boolean Box",
+            "properties": {
+              "topic": "/Robot/SuperSystem/Intake Roller/Connected/Primary Motor",
+              "period": 0.06,
+              "data_type": "boolean",
+              "true_color": 4283215696,
+              "false_color": 4294198070,
+              "true_icon": "None",
+              "false_icon": "None"
+            }
+          },
+          {
+            "title": "Indexer 1",
+            "x": 1408.0,
+            "y": 448.0,
+            "width": 64.0,
+            "height": 64.0,
+            "type": "Boolean Box",
+            "properties": {
+              "topic": "/Robot/SuperSystem/Indexer/Connected/Primary Motor",
+              "period": 0.06,
+              "data_type": "boolean",
+              "true_color": 4283215696,
+              "false_color": 4294198070,
+              "true_icon": "None",
+              "false_icon": "None"
+            }
+          },
+          {
+            "title": "Indexer 2",
+            "x": 1472.0,
+            "y": 448.0,
+            "width": 64.0,
+            "height": 64.0,
+            "type": "Boolean Box",
+            "properties": {
+              "topic": "/Robot/SuperSystem/Indexer/Connected/Secondary Motor 0",
+              "period": 0.06,
+              "data_type": "boolean",
+              "true_color": 4283215696,
+              "false_color": 4294198070,
+              "true_icon": "None",
+              "false_icon": "None"
+            }
+          },
+          {
+            "title": "Conveyor",
+            "x": 1408.0,
+            "y": 512.0,
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Boolean Box",
+            "properties": {
+              "topic": "/Robot/SuperSystem/Conveyor/Connected/Primary Motor",
+              "period": 0.06,
+              "data_type": "boolean",
+              "true_color": 4283215696,
+              "false_color": 4294198070,
+              "true_icon": "None",
+              "false_icon": "None"
+            }
+          },
+          {
+            "title": "Error",
+            "x": 1024.0,
+            "y": 0.0,
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/Robot/Robot/Error",
+              "period": 0.06,
+              "data_type": "double",
+              "show_submit_button": true
             }
           }
         ]
