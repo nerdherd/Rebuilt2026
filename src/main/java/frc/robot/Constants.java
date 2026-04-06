@@ -261,7 +261,8 @@ public final class Constants {
 
     private static final MotorOutputConfigs kMotorOutputConfigs =
       new MotorOutputConfigs()
-        .withNeutralMode(NeutralModeValue.Brake);
+        .withNeutralMode(NeutralModeValue.Brake)
+        .withInverted(InvertedValue.Clockwise_Positive);
 
     private static final MotionMagicConfigs kMotionMagicConfigs = 
       new MotionMagicConfigs()
