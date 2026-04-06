@@ -194,7 +194,7 @@ public class SuperSystem implements Reportable {
                 // convert to rps
                 double rps = ShooterConstants.kShootWithDistanceA * distance * distance + ShooterConstants.kShootWithDistanceB;
                 // spin up flywheel
-                shooter.setDesiredValue(rps);
+                shooter.setDesiredValue(Math.min(55.0, rps));
             }
         );
     }
