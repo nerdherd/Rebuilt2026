@@ -36,7 +36,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "S1MidDouble1"
+                  "pathName": "S1MidTriple1"
                 }
               },
               {
@@ -46,7 +46,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 1.0
+                        "waitTime": 0.5
                       }
                     },
                     {
@@ -58,7 +58,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 2.0
+                        "waitTime": 2.5
                       }
                     },
                     {
@@ -82,7 +82,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 0.6
+                        "waitTime": 0.55
                       }
                     },
                     {
@@ -100,7 +100,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 2.25
+            "waitTime": 1.6
           }
         },
         {
@@ -168,7 +168,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 0.6
+                        "waitTime": 0.58
                       }
                     },
                     {
@@ -186,7 +186,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 2.5
+            "waitTime": 1.6
           }
         },
         {
@@ -208,13 +208,31 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "TopH45Intake"
+                  "pathName": "H45MidTriple3"
                 }
               },
               {
                 "type": "sequential",
                 "data": {
                   "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Intake Start"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 2.8
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Flywheel Start 45"
+                      }
+                    },
                     {
                       "type": "wait",
                       "data": {
@@ -224,13 +242,43 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "Intake Start"
+                        "name": "Intake Stop"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.2
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Auto Shoot Start"
                       }
                     }
                   ]
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.6
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Auto Shoot Stop"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Flywheel Stop"
           }
         }
       ]
