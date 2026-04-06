@@ -100,7 +100,7 @@ public class RobotContainer {
       // joystick drive field oriented
       () -> true, 
       // tow supplier
-      () -> false, 
+      () -> driverController.getButtonDown(), 
       // precision/programmer mode :)
       () -> driverController.getTriggerLeft()
     );
