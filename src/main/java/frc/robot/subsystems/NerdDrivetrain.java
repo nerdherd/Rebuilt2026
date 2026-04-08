@@ -182,7 +182,9 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
     /** the position we will be one step in time */
     public Pose2d getLookAheadPose(double factor) {
         ChassisSpeeds speeds = getFieldOrientedSpeeds();
-        return getPose().plus(new Transform2d(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond, Rotation2d.kZero).times(factor));
+        Transform2d oldPose = getPose().minus(FieldPositions.HUB_CENTER.get());
+        Transform2d newPose = oldPose.plus(new Transform2d(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond, Rotation2d.kZero).times(factor));
+        return FieldPositions.HUB_CENTER.get().plus(new Transform2d(NerdyMath.clampDotProduct(oldPose.getTranslation(), newPose.getTranslation(), 0.2), Rotation2d.kZero));
     }
 
     /** gets the ChassisSpeeds from odometry */
