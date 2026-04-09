@@ -19,7 +19,7 @@ public final class Autos {
 
     public static void initAutoChooser() {
         autoChooser.setDefaultOption("Do Nothing", Commands.none());
-        // autoChooser.addOption("Test", AutoBuilder.buildAuto("Test"));
+        autoChooser.addOption("Test", AutoBuilder.buildAuto("Test"));
 
         // EXAMPLE
         // autoChooser.addOption("Auto Name", AutoBuilder.buildAuto("PathPlanner Auto Name"));

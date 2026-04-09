@@ -36,7 +36,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "S1MidDouble1"
+                  "pathName": "S1MidTriple1"
                 }
               },
               {
@@ -70,7 +70,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 1.0
+                        "waitTime": 0.7
                       }
                     },
                     {
@@ -168,7 +168,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 0.6
+                        "waitTime": 0.5
                       }
                     },
                     {
