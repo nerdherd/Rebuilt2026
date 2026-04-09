@@ -26,9 +26,8 @@ import com.ctre.phoenix6.signals.RGBWColor;
 import com.ctre.phoenix6.signals.StripTypeValue;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveModule.SteerRequestType;
-import com.ctre.phoenix6.swerve.SwerveRequest.ForwardPerspectiveValue;
-
 import com.ctre.phoenix6.swerve.SwerveRequest;
+import com.ctre.phoenix6.swerve.SwerveRequest.ForwardPerspectiveValue;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.util.FlippingUtil;
 
@@ -124,7 +123,7 @@ public final class Constants {
     public static final double kDriveMaxVelocity = 5.0; // m/s
     public static final double kDrivePrecisionMultiplier = 0.5; // fractional
     
-    public static final double kTurnMaxVelocity = 4; // rad/s
+    public static final double kTurnMaxVelocity = 6.0; // rad/s
     public static final double kTurnPrecisionMultiplier = 0.5; // fractional
     
     public static final double kRobotOrientedVelocity = 1.5; // m/s
@@ -268,12 +267,18 @@ public final class Constants {
       new MotionMagicConfigs()
         .withMotionMagicAcceleration(36)
         .withMotionMagicCruiseVelocity(18);
-        
+    
+    private static final CurrentLimitsConfigs kCurrentLimitsConfigs =
+      new CurrentLimitsConfigs()
+        .withStatorCurrentLimit(80)
+        .withStatorCurrentLimitEnable(true);
+
     public static final TalonFXConfiguration kSubsystemConfiguration = 
       new TalonFXConfiguration()
         .withSlot0(kSlot0Configs)
         .withMotorOutput(kMotorOutputConfigs)
-        .withMotionMagic(kMotionMagicConfigs);
+        .withMotionMagic(kMotionMagicConfigs)
+        .withCurrentLimits(kCurrentLimitsConfigs);
   }
 
   public static final class IntakeRollerConstants {
