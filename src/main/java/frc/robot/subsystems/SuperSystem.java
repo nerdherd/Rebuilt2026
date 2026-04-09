@@ -159,7 +159,7 @@ public class SuperSystem implements Reportable {
     }
 
     public Command intakeHold() {
-        return intakeSlapdown.setDesiredValueCommand(-2);
+        return intakeSlapdown.setDesiredValueCommand(-1.5);
     }
 
     public Command intakeHoldTeleop() {
@@ -168,6 +168,10 @@ public class SuperSystem implements Reportable {
 
     public Command stopIntakeHold() {
         return intakeSlapdown.setDesiredValueCommand(0.0);
+    }
+
+    public Command intakeUp() {
+        return intakeSlapdown.setDesiredValueCommand(1.5);
     }
 
     public Command intake() {

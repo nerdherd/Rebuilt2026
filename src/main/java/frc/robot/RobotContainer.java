@@ -166,12 +166,15 @@ public class RobotContainer {
   public void configureOperatorBindings_teleop() {
 
     if (Constants.USE_SUBSYSTEMS) {
-      operatorController.bumperLeft()
-        .onTrue(superSystem.intake())
-        .onFalse(superSystem.stopIntaking());
       operatorController.controllerLeft()
         .onTrue(superSystem.intakeHoldTeleop())
         .onFalse(superSystem.stopIntakeHold());
+      operatorController.controllerRight()
+        .onTrue(superSystem.intakeUp())
+        .onFalse(superSystem.stopIntakeHold());
+      operatorController.bumperLeft()
+        .onTrue(superSystem.intake())
+        .onFalse(superSystem.stopIntaking());
 
       operatorController.triggerRight()
         .whileTrue(superSystem.shootWithDistance())

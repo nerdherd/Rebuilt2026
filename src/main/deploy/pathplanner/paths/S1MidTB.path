@@ -48,12 +48,12 @@
     },
     {
       "anchor": {
-        "x": 3.220088541666667,
-        "y": 5.232720269097221
+        "x": 2.98562678062678,
+        "y": 5.133219373219374
       },
       "prevControl": {
-        "x": 5.777027416087964,
-        "y": 5.223707682291666
+        "x": 5.542565655048078,
+        "y": 5.1242067864138185
       },
       "nextControl": null,
       "isLocked": false,
@@ -153,7 +153,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -45.0
+    "rotation": -35.0
   },
   "reversed": false,
   "folder": "Combo Top",
