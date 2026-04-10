@@ -86,11 +86,11 @@
       "rotationDegrees": -100.001
     },
     {
-      "waypointRelativePos": 1.905879934210524,
+      "waypointRelativePos": 1.614678899082581,
       "rotationDegrees": -100.0
     },
     {
-      "waypointRelativePos": 2.75,
+      "waypointRelativePos": 2.6605504587156044,
       "rotationDegrees": 180.0
     },
     {
@@ -164,7 +164,7 @@
   },
   "goalEndState": {
     "velocity": 0.0,
-    "rotation": -35.0
+    "rotation": -31.0
   },
   "reversed": false,
   "folder": "Combo Top",

@@ -394,7 +394,7 @@ public final class Constants {
 
     // Regression of a*x^2 + b
     // Update at -- on -/--/2026
-    public static final double kShootWithDistanceA = 0.917415; // a
+    public static final double kShootWithDistanceA = 0.87; // a
     public static final double kShootWithDistanceB = 31.60409; // b
 
     public static final double kLookAheadRingDriveFactor = 0.3; // use to tune the ring drive
@@ -510,7 +510,8 @@ public final class Constants {
         SubsystemMode.VOLTAGE, 
         0.0,
         useIntakeSlapdown)
-      .configureMotors(IntakeSlapdownConstants.kSubsystemConfiguration);
+      .configureMotors(IntakeSlapdownConstants.kSubsystemConfiguration)
+      .logTorqueCurrent();
     
     public static final boolean useIntakeRoller = true;
     public static final TemplateSubsystem intakeRoller = (!USE_SUBSYSTEMS) ? null :
