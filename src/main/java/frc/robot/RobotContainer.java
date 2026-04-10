@@ -167,8 +167,8 @@ public class RobotContainer {
 
     if (Constants.USE_SUBSYSTEMS) {
       operatorController.controllerLeft()
-        .onTrue(superSystem.intakeHoldTeleop())
-        .onFalse(superSystem.stopIntakeHold());
+        .onTrue(superSystem.intakeHoldTeleop());
+        // .onFalse(superSystem.stopIntakeHold());
       operatorController.controllerRight()
         .onTrue(superSystem.intakeUp())
         .onFalse(superSystem.stopIntakeHold());

@@ -176,7 +176,8 @@ public class SuperSystem implements Reportable {
 
     public Command intake() {
         return Commands.parallel(
-            intakeRoller.setDesiredValueCommand(11)
+            intakeRoller.setDesiredValueCommand(11),
+            intakeHoldTeleop()
             );
     }
     
@@ -186,7 +187,8 @@ public class SuperSystem implements Reportable {
         
     public Command stopIntaking() {
         return Commands.parallel(
-            intakeRoller.setDesiredValueCommand(0)
+            intakeRoller.setDesiredValueCommand(0),
+            stopIntakeHold()
         );
     }
 
