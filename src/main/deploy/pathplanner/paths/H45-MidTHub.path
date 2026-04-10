@@ -12,7 +12,7 @@
         "y": 0.7322221206172728
       },
       "isLocked": false,
-      "linkedName": "H45-"
+      "linkedName": null
     },
     {
       "anchor": {
@@ -171,7 +171,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 31.0
+    "rotation": 180.0
   },
   "reversed": false,
   "folder": "To Neutral",

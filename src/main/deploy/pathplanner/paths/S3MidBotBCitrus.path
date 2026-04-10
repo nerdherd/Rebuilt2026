@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.55,
-        "y": 4.04
+        "x": 3.2815000000000003,
+        "y": 4.078190476190477
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.2974735832237423,
-        "y": 2.607851523563607
+        "x": 3.0289735832237428,
+        "y": 2.6460419997540834
       },
       "isLocked": false,
       "linkedName": "S3"
@@ -175,7 +175,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 31.0
+    "rotation": 180.0
   },
   "reversed": false,
   "folder": "Combo Middle",

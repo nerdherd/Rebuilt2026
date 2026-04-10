@@ -17,6 +17,7 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import dev.doglog.DogLog;
 import edu.wpi.first.math.MathSharedStore;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.networktables.DoubleSubscriber;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.MatchType;
@@ -27,6 +28,7 @@ import frc.robot.RobotContainer;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.SwerveDriveConstants.FieldPositions;
 import frc.robot.commands.RebuiltLEDCommand;
+import frc.robot.commands.SwerveJoystickCommand;
 import frc.robot.subsystems.template.TemplateSubsystem;
 import frc.robot.util.NerdyMath;
 import frc.robot.util.logging.NerdLog;
@@ -71,11 +73,13 @@ public class SuperSystem implements Reportable {
         );
     }
 
+    private double startShootTime = 0.0;
     public Command shootWithCondition() {
         return Commands.run(() -> {
             if (shooter.getCurrentVelocity() > 20.0) {
+                if (startShootTime < 0.0) startShootTime = MathSharedStore.getTimestamp();
                 startShoot();
-                double val = NerdyMath.posMod(MathSharedStore.getTimestamp(), 0.7);
+                double val = NerdyMath.posMod(MathSharedStore.getTimestamp() - startShootTime, 0.7);
                 if (val <= 0.5) intakeRoller.setDesiredValue(-2.0);
                 else if (val <= 0.7) intakeRoller.setDesiredValue(9);
                 else intakeRoller.setDesiredValue(0.0);
@@ -89,8 +93,19 @@ public class SuperSystem implements Reportable {
                 intakeRoller.setDesiredValue(0.0);
                 indexer.setDesiredValue(0);
                 conveyor.setDesiredValue(0);
+                startShootTime = -1.0;
             }
             );
+    }
+
+    public Command autoTurnToHub = null;
+    public Command turnToHub(double timeout) {
+        if (autoTurnToHub == null) 
+            autoTurnToHub = new SwerveJoystickCommand(swerveDrivetrain, () -> 0.0, () -> 0.0, () -> 0.0, () -> true, 
+                () -> swerveDrivetrain.angleToPose(FieldPositions.HUB_CENTER) + RobotContainer.kOffset, 
+                () -> Translation2d.kZero, () -> false, () -> false, () -> false).finallyDo(() -> swerveDrivetrain.driveRobotOriented(0.0, 0.0, 0.0));
+
+        return autoTurnToHub.raceWith(Commands.waitSeconds(timeout));
     }
 
     public Command autoShoot = shootWithCondition();

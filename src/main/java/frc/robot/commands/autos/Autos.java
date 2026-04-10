@@ -40,6 +40,10 @@ public final class Autos {
 
         autoChooser.addOption("Bot-S5NeutralSafe", AutoBuilder.buildAuto("Bot-S5NeutralSafe"));
         // autoChooser.addOption("Bot-S5MidTBOutpost", AutoBuilder.buildAuto("Bot-S5MidTBOutpost"));
+
+        autoChooser.addOption("testhub", AutoBuilder.buildAuto("testhub"));
+        autoChooser.addOption("pivot", AutoBuilder.buildAuto("pivot"));
+
         
         NerdLog.logData(kAutosTab + "/Selected Auto", autoChooser, LOG_LEVEL.MINIMAL);
     }
@@ -74,6 +78,7 @@ public final class Autos {
         NamedCommands.registerCommand("Flywheel Start 45", superSystem.spinUpFlywheel(35.3));
         NamedCommands.registerCommand("Flywheel Start 60", superSystem.spinUpFlywheel(39));
         NamedCommands.registerCommand("Flywheel Stop", superSystem.stopFlywheel());
+        NamedCommands.registerCommand("Turn to Hub", superSystem.turnToHub(0.5));
 
         NamedCommands.registerCommand("Shoot", superSystem.shoot());
         NamedCommands.registerCommand("Shoot Stop", superSystem.stopShooting());

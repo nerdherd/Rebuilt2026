@@ -78,23 +78,29 @@
                       "data": {
                         "name": "Intake Stop"
                       }
-                    },
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 0.6
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Auto Shoot Start"
-                      }
                     }
                   ]
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Turn to Hub"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Auto Shoot Start"
           }
         },
         {
@@ -164,23 +170,29 @@
                       "data": {
                         "name": "Intake Stop"
                       }
-                    },
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 0.65
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Auto Shoot Start"
-                      }
                     }
                   ]
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Turn to Hub"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Auto Shoot Start"
           }
         },
         {

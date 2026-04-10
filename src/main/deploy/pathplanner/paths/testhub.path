@@ -8,24 +8,24 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.194201092395507,
-        "y": 2.7581238928855276
+        "x": 2.8822649572649572,
+        "y": 4.280484330484331
       },
       "isLocked": false,
       "linkedName": "S3"
     },
     {
       "anchor": {
-        "x": 0.5,
-        "y": 0.67
+        "x": 1.910202380952382,
+        "y": 4.71525
       },
       "prevControl": {
-        "x": 1.129847057599362,
-        "y": 1.4349356463394207
+        "x": 2.287934472934473,
+        "y": 4.525968660968662
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "O1Up"
+      "linkedName": "testhub"
     }
   ],
   "rotationTargets": [],
@@ -41,11 +41,11 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 0,
+    "velocity": 0.0,
     "rotation": 90.0
   },
   "reversed": false,
-  "folder": "To Outpost",
+  "folder": null,
   "idealStartingState": {
     "velocity": 0,
     "rotation": 0.0

@@ -12,7 +12,7 @@
         "y": 7.720987385372153
       },
       "isLocked": false,
-      "linkedName": "H45"
+      "linkedName": null
     },
     {
       "anchor": {
@@ -115,7 +115,7 @@
   "reversed": false,
   "folder": "To Neutral",
   "idealStartingState": {
-    "velocity": 0,
+    "velocity": 0.0,
     "rotation": -31.0
   },
   "useDefaultConstraints": true

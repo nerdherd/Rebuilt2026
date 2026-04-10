@@ -78,18 +78,6 @@
                       "data": {
                         "name": "Intake Stop"
                       }
-                    },
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 0.5
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Auto Shoot Start"
-                      }
                     }
                   ]
                 }
@@ -98,9 +86,27 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Turn to Hub"
+          }
+        },
+        {
           "type": "wait",
           "data": {
-            "waitTime": 2.3
+            "waitTime": 0.5
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Auto Shoot Start"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 2.0
           }
         },
         {
@@ -164,23 +170,29 @@
                       "data": {
                         "name": "Intake Stop"
                       }
-                    },
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 0.8
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Auto Shoot Start"
-                      }
                     }
                   ]
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Turn to Hub"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Auto Shoot Start"
           }
         },
         {

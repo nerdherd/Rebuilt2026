@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.98587951807229,
-        "y": 3.4011927710843373
+        "x": 3.054750000000001,
+        "y": 5.125559523809525
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.713283227059451,
-        "y": 2.6417776498289887
+        "x": 1.7821537089871624,
+        "y": 4.366144402554176
       },
       "isLocked": false,
       "linkedName": "N4Up"
@@ -61,13 +61,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 31.0
+    "rotation": 180.0
   },
   "reversed": false,
   "folder": "To Hub",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 90.0
+    "rotation": 180.0
   },
   "useDefaultConstraints": true
 }

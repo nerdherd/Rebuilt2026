@@ -73,12 +73,12 @@ public class RobotContainer {
     return isRedSide;
   }
 
+  public static double kOffset = 0.05;
   /**
    * Teleop commands configuration 
    * used in teleop mode.
    */
   public void initDefaultCommands_teleop() {
-    double kOffset = 0.05;
     SwerveJoystickCommand swerveJoystickCommand =
     new SwerveJoystickCommand(
       swerveDrive,

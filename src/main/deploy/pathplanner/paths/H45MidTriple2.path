@@ -12,7 +12,7 @@
         "y": 7.8153123274985195
       },
       "isLocked": false,
-      "linkedName": "H45"
+      "linkedName": null
     },
     {
       "anchor": {
@@ -126,7 +126,7 @@
       "rotationDegrees": 90.0
     },
     {
-      "waypointRelativePos": 5.268196556350629,
+      "waypointRelativePos": 5.173443983402495,
       "rotationDegrees": 180.0
     },
     {
@@ -187,7 +187,7 @@
   },
   "goalEndState": {
     "velocity": 0.0,
-    "rotation": -31.0
+    "rotation": 180.0
   },
   "reversed": false,
   "folder": "To Neutral",
