@@ -170,7 +170,7 @@ public class SuperSystem implements Reportable {
     }
 
     public Command intakeDownOnly() {
-        return intakeSlapdown.setDesiredValueCommand(-8);
+        return intakeSlapdown.setDesiredValueCommand(-9);
     }
 
     public Command intakeHold() {

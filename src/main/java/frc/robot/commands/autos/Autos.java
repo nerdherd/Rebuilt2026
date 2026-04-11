@@ -78,7 +78,7 @@ public final class Autos {
         NamedCommands.registerCommand("Flywheel Start 45", superSystem.spinUpFlywheel(35.3));
         NamedCommands.registerCommand("Flywheel Start 60", superSystem.spinUpFlywheel(39));
         NamedCommands.registerCommand("Flywheel Stop", superSystem.stopFlywheel());
-        NamedCommands.registerCommand("Turn to Hub", superSystem.turnToHub(2.8));
+        NamedCommands.registerCommand("Turn to Hub", superSystem.turnToHub(3.0));
 
         NamedCommands.registerCommand("Shoot", superSystem.shoot());
         NamedCommands.registerCommand("Shoot Stop", superSystem.stopShooting());
