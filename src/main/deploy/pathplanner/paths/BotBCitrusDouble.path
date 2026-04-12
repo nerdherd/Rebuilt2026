@@ -64,12 +64,12 @@
     },
     {
       "anchor": {
-        "x": 3.068659058487874,
-        "y": 2.889928673323824
+        "x": 3.076068376068376,
+        "y": 2.7042165242165255
       },
       "prevControl": {
-        "x": 4.637694811062174,
-        "y": 3.067289180927284
+        "x": 4.645104128642675,
+        "y": 2.8815770318199854
       },
       "nextControl": null,
       "isLocked": false,
@@ -170,7 +170,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 31.0
   },
   "reversed": false,
   "folder": "Combo Middle",

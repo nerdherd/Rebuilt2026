@@ -70,6 +70,7 @@ public class Robot extends TimedRobot {
     if (Constants.USE_SUBSYSTEMS){
       m_robotContainer.superSystem.stop();
       m_robotContainer.superSystem.resetSubsystemValues();
+      m_robotContainer.superSystem.reConfigureMotors();
     }
 
     m_robotContainer.swerveDrive.setVision(false);
@@ -84,21 +85,20 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     RobotContainer.refreshAlliance();
     
-    if (Constants.USE_SUBSYSTEMS) {
-      m_robotContainer.superSystem.initialize();
-      m_robotContainer.superSystem.reConfigureMotors();
-      m_robotContainer.superSystem.resetSubsystemValues();
+    // schedule the autonomous command (example)
+    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    if (m_autonomousCommand != null) {
+      CommandScheduler.getInstance().schedule(m_autonomousCommand);
     }
     
     m_robotContainer.swerveDrive.setVision(USE_VISION);
     if (USE_VISION) {
       CommandScheduler.getInstance().schedule(Commands.runOnce(m_robotContainer.swerveDrive::recalibrateGyroMT1));
     }
-
-    // schedule the autonomous command (example)
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-    if (m_autonomousCommand != null) {
-      CommandScheduler.getInstance().schedule(m_autonomousCommand);
+    
+    if (Constants.USE_SUBSYSTEMS) {
+      m_robotContainer.superSystem.initialize();
+      m_robotContainer.superSystem.resetSubsystemValues();
     }
 
     // fix for elastic field pose not updating

@@ -224,8 +224,8 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
     private double pollStatorCurrentSum() {
         double sum = 0;
         for (int i = 0; i < 4; i++) {
-            sum += getModule(i).getDriveMotor().getTorqueCurrent().getValueAsDouble();
-            sum += getModule(i).getSteerMotor().getTorqueCurrent().getValueAsDouble();
+            sum += Math.abs(getModule(i).getDriveMotor().getTorqueCurrent().getValueAsDouble());
+            sum += Math.abs(getModule(i).getSteerMotor().getTorqueCurrent().getValueAsDouble());
         }
         return sum;
     }

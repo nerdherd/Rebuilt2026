@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.98562678062678,
-        "y": 5.133219373219374
+        "x": 2.9081054131054134,
+        "y": 5.456225071225072
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.2737823795800023,
-        "y": 7.8153123274985195
+        "x": 1.2284757834757836,
+        "y": 7.756025641025641
       },
       "isLocked": false,
       "linkedName": null
@@ -20,12 +20,12 @@
         "y": 7.469345703125
       },
       "prevControl": {
-        "x": 4.120651328893812,
-        "y": 7.423687359292252
+        "x": 4.117376112579448,
+        "y": 7.462888550836985
       },
       "nextControl": {
-        "x": 5.126830838732293,
-        "y": 7.5717637442097
+        "x": 5.1475802574411444,
+        "y": 7.484106030537133
       },
       "isLocked": false,
       "linkedName": "Top"
@@ -48,16 +48,16 @@
     },
     {
       "anchor": {
-        "x": 6.086694192325369,
-        "y": 3.88025208716299
+        "x": 6.152571476535042,
+        "y": 3.8731492084439454
       },
       "prevControl": {
-        "x": 5.5852567648125415,
-        "y": 4.6848404500625955
+        "x": 5.651134049022215,
+        "y": 4.677737571343551
       },
       "nextControl": {
-        "x": 6.380658107678018,
-        "y": 3.408568219091344
+        "x": 6.446535391887691,
+        "y": 3.401465340372299
       },
       "isLocked": false,
       "linkedName": null
@@ -96,12 +96,12 @@
     },
     {
       "anchor": {
-        "x": 2.986,
-        "y": 5.133
+        "x": 2.9081054131054134,
+        "y": 5.456225071225072
       },
       "prevControl": {
-        "x": 2.7480680283755516,
-        "y": 5.209735760105069
+        "x": 2.670173441480965,
+        "y": 5.532960831330141
       },
       "nextControl": null,
       "isLocked": false,
@@ -150,8 +150,8 @@
     },
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 4.35,
-      "maxWaypointRelativePos": 5.2,
+      "minWaypointRelativePos": 0.0,
+      "maxWaypointRelativePos": 4.0309278350515285,
       "constraints": {
         "maxVelocity": 3.5,
         "maxAcceleration": 3.5,
@@ -166,8 +166,8 @@
       "minWaypointRelativePos": 0,
       "maxWaypointRelativePos": 6.0,
       "constraints": {
-        "maxVelocity": 5.0,
-        "maxAcceleration": 5.0,
+        "maxVelocity": 3.75,
+        "maxAcceleration": 3.75,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
         "nominalVoltage": 12.0,

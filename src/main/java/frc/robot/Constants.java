@@ -123,7 +123,7 @@ public final class Constants {
     public static final double kDriveMaxVelocity = 5.0; // m/s
     public static final double kDrivePrecisionMultiplier = 0.5; // fractional
     
-    public static final double kTurnMaxVelocity = 6.0; // rad/s
+    public static final double kTurnMaxVelocity = 5.0; // rad/s
     public static final double kTurnPrecisionMultiplier = 0.5; // fractional
     
     public static final double kRobotOrientedVelocity = 1.5; // m/s

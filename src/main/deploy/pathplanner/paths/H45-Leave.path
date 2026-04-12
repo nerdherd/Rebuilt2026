@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.068659058487874,
-        "y": 2.889928673323824
+        "x": 3.076068376068376,
+        "y": 2.7042165242165255
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.310055069883886,
-        "y": 0.7322221206172728
+        "x": 1.3174643874643879,
+        "y": 0.5465099715099742
       },
       "isLocked": false,
       "linkedName": "H45-"
@@ -109,7 +109,7 @@
   "folder": "To Neutral",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 31.0
   },
   "useDefaultConstraints": true
 }

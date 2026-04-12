@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-
 import dev.doglog.DogLog;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -271,6 +270,7 @@ public class RobotContainer {
     NerdLog.logData("Robot/Command Scheduler", CommandScheduler.getInstance(), LOG_LEVEL.MEDIUM);
     NerdLog.logNumber("Robot/RAM Usage", () -> (double)Runtime.getRuntime().freeMemory(), LOG_LEVEL.MEDIUM);
     NerdLog.logNumber("Match Info/Shift Time", () -> {shiftTime = allianceShiftTime(); return shiftTime;}, LOG_LEVEL.MINIMAL);
+    // NerdLog.logBoolean("Robot/operator rumble", () -> {boolean b = shooter.getCurrentVelocity() > 2.0; operatorController.setRumble(b ? 0.3 : 0.0); return b;}, LOG_LEVEL.MEDIUM);
     NerdLog.reportLogCount();
   }
   
