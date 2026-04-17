@@ -399,6 +399,7 @@ public final class Constants {
 
     public static final double kLookAheadRingDriveFactor = 0.3; // use to tune the ring drive
     public static final double kLookAheadFactor = 1.35; // use to tune shoot on the move left and right
+    public static final double kBackwardsLookAheadFactor = 1.5; // use to tune shoot on the move left and right
   }
 
   public static class LEDConstants {
