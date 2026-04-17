@@ -107,7 +107,7 @@
       "command": null
     },
     {
-      "name": "Climb Up",
+      "name": "Flywheel Start 0",
       "waypointRelativePos": 1.5,
       "endWaypointRelativePos": null,
       "command": {
@@ -118,19 +118,19 @@
       }
     },
     {
-      "name": "Flywheel Start 0",
+      "name": "Shoot",
       "waypointRelativePos": 2.01,
       "endWaypointRelativePos": 2.02,
       "command": null
     },
     {
-      "name": "Flywheel Stop",
+      "name": "Shoot Stop",
       "waypointRelativePos": 2.98,
       "endWaypointRelativePos": 2.99,
       "command": null
     },
     {
-      "name": "Climb Down",
+      "name": "Flywheel Stop",
       "waypointRelativePos": 3.5,
       "endWaypointRelativePos": null,
       "command": {
