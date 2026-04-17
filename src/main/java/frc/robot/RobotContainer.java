@@ -93,7 +93,7 @@ public class RobotContainer {
       () -> swerveDrive.angleToLookAheadPose(FieldPositions.HUB_CENTER, ShooterConstants.kLookAheadFactor) + kOffset,
       // robot oriented adjustment (dpad)
       () -> new Translation2d(
-        (driverController.getDpadUp() ? 1 : 0) - (driverController.getDpadDown() ? 1 : 0), 
+        ((driverController.getDpadUp() && !driverController.getBumperRight()) ? 1 : 0) - (driverController.getDpadDown() ? 1 : 0), 
         (driverController.getDpadLeft() ? 1 : 0) - (driverController.getDpadRight() ? 1 : 0))
         .rotateBy((!driverController.getBumperRight()) ? Rotation2d.kZero : 
             Rotation2d.fromRadians(swerveDrive.angleToLookAheadPose(FieldPositions.HUB_CENTER, ShooterConstants.kLookAheadRingDriveFactor) - swerveDrive.angleToLookAheadPose(FieldPositions.HUB_CENTER, ShooterConstants.kLookAheadFactor) - kOffset)),
@@ -176,7 +176,7 @@ public class RobotContainer {
         .onFalse(superSystem.stopIntaking());
 
       operatorController.triggerRight()
-        .whileTrue(superSystem.shootWithDistance())
+        .whileTrue(superSystem.shootWithDistance(driverController::getDpadDown))
         // .whileTrue(superSystem.shootWithTuning()) // USE ELASTIC
         // .onTrue(superSystem.spinUpFlywheel())
         .onFalse(superSystem.stopFlywheel());
@@ -270,7 +270,6 @@ public class RobotContainer {
     NerdLog.logData("Robot/Command Scheduler", CommandScheduler.getInstance(), LOG_LEVEL.MEDIUM);
     NerdLog.logNumber("Robot/RAM Usage", () -> (double)Runtime.getRuntime().freeMemory(), LOG_LEVEL.MEDIUM);
     NerdLog.logNumber("Match Info/Shift Time", () -> {shiftTime = allianceShiftTime(); return shiftTime;}, LOG_LEVEL.MINIMAL);
-    // NerdLog.logBoolean("Robot/operator rumble", () -> {boolean b = shooter.getCurrentVelocity() > 2.0; operatorController.setRumble(b ? 0.3 : 0.0); return b;}, LOG_LEVEL.MEDIUM);
     NerdLog.reportLogCount();
   }
   

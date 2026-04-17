@@ -81,7 +81,7 @@ public final class Constants {
     public static final double kRotationDeadband = 0.1; // out of 1
     public static final double kTurnToAngleDeadband = 0.5; // out of 1
 
-    public static final double kInputAcceleration = 0.75; // unit/s, on the scale of a unit circle/fractions
+    public static final double kInputAcceleration = 1.25; // unit/s, on the scale of a unit circle/fractions
     public static final double kEasePower = 3.0; // increase to further separate lower and higher values
 
     public static final Translation2dSlewRateLimiter kTranslationInputRateLimiter = new Translation2dSlewRateLimiter(kInputAcceleration);
@@ -399,6 +399,7 @@ public final class Constants {
 
     public static final double kLookAheadRingDriveFactor = 0.3; // use to tune the ring drive
     public static final double kLookAheadFactor = 1.35; // use to tune shoot on the move left and right
+    public static final double kBackwardsLookAheadFactor = 1.5; // use to tune shoot on the move left and right
   }
 
   public static class LEDConstants {
