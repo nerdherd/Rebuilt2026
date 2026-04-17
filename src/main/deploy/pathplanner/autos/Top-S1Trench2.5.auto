@@ -7,25 +7,25 @@
         {
           "type": "named",
           "data": {
-            "name": "Intake Down Only"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.2
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Intake Hold"
+            "name": "Intake Down"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Test"
+            "pathName": "S1Trench"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "H60Trench"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "H60TrenchLeave"
           }
         }
       ]
