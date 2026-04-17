@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.0,
-        "y": 5.66
+        "x": 2.9081054131054134,
+        "y": 5.456225071225072
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.106743237445474,
-        "y": 7.97997593870079
+        "x": 2.0148486505508876,
+        "y": 7.776201009925862
       },
       "isLocked": false,
       "linkedName": "H45"
     },
     {
       "anchor": {
-        "x": 4.181383737517831,
-        "y": 7.41845934379458
+        "x": 4.430899921492035,
+        "y": 7.469345703125
       },
       "prevControl": {
-        "x": 3.9038288281545492,
-        "y": 7.41845934379458
+        "x": 4.153345012128753,
+        "y": 7.469345703125
       },
       "nextControl": {
-        "x": 4.589036229343841,
-        "y": 7.41845934379458
+        "x": 4.838552413318045,
+        "y": 7.469345703125
       },
       "isLocked": false,
       "linkedName": "Top"
@@ -96,12 +96,12 @@
     },
     {
       "anchor": {
-        "x": 3.0,
-        "y": 5.66
+        "x": 2.9081054131054134,
+        "y": 5.456225071225072
       },
       "prevControl": {
-        "x": 2.764259936688242,
-        "y": 5.743226333271197
+        "x": 2.6723653497936555,
+        "y": 5.539451404496269
       },
       "nextControl": null,
       "isLocked": false,
@@ -188,13 +188,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -45.0
+    "rotation": 180.0
   },
   "reversed": false,
   "folder": "To Neutral",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -45.0
+    "rotation": 180.0
   },
   "useDefaultConstraints": true
 }

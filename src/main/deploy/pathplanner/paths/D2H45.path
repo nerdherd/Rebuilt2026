@@ -32,12 +32,12 @@
     },
     {
       "anchor": {
-        "x": 3.0,
-        "y": 5.66
+        "x": 2.9081054131054134,
+        "y": 5.456225071225072
       },
       "prevControl": {
-        "x": 2.704318181818181,
-        "y": 5.158443181818182
+        "x": 2.6124235949235945,
+        "y": 4.954668253043254
       },
       "nextControl": null,
       "isLocked": false,
@@ -63,7 +63,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -45.0
+    "rotation": 180.0
   },
   "reversed": false,
   "folder": "To Hub",

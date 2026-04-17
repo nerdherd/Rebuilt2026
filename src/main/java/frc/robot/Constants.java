@@ -26,9 +26,8 @@ import com.ctre.phoenix6.signals.RGBWColor;
 import com.ctre.phoenix6.signals.StripTypeValue;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveModule.SteerRequestType;
-import com.ctre.phoenix6.swerve.SwerveRequest.ForwardPerspectiveValue;
-
 import com.ctre.phoenix6.swerve.SwerveRequest;
+import com.ctre.phoenix6.swerve.SwerveRequest.ForwardPerspectiveValue;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.util.FlippingUtil;
 
@@ -124,7 +123,7 @@ public final class Constants {
     public static final double kDriveMaxVelocity = 5.0; // m/s
     public static final double kDrivePrecisionMultiplier = 0.5; // fractional
     
-    public static final double kTurnMaxVelocity = 4; // rad/s
+    public static final double kTurnMaxVelocity = 5.0; // rad/s
     public static final double kTurnPrecisionMultiplier = 0.5; // fractional
     
     public static final double kRobotOrientedVelocity = 1.5; // m/s
@@ -133,8 +132,8 @@ public final class Constants {
     /// -- Turn to Angle -- ///
     ///////////////////////////
     
-    public static final double kTurnToAngleMaxVelocity = 4.5; // rad/s
-    public static final PIDConstants kTurnToAnglePIDConstants = new PIDConstants(5.0, 0.0, 0.01);
+    public static final double kTurnToAngleMaxVelocity = 6.25; // rad/s
+    public static final PIDConstants kTurnToAnglePIDConstants = new PIDConstants(12.0, 0.0, 0.05);
     public static final Constraints kTurnToAngleTolerances = new Constraints(0.017, 0.5); 
 
     ////////////////////////////////////////////
@@ -268,12 +267,18 @@ public final class Constants {
       new MotionMagicConfigs()
         .withMotionMagicAcceleration(36)
         .withMotionMagicCruiseVelocity(18);
-        
+    
+    private static final CurrentLimitsConfigs kCurrentLimitsConfigs =
+      new CurrentLimitsConfigs()
+        .withStatorCurrentLimit(80)
+        .withStatorCurrentLimitEnable(true);
+
     public static final TalonFXConfiguration kSubsystemConfiguration = 
       new TalonFXConfiguration()
         .withSlot0(kSlot0Configs)
         .withMotorOutput(kMotorOutputConfigs)
-        .withMotionMagic(kMotionMagicConfigs);
+        .withMotionMagic(kMotionMagicConfigs)
+        .withCurrentLimits(kCurrentLimitsConfigs);
   }
 
   public static final class IntakeRollerConstants {
@@ -389,7 +394,7 @@ public final class Constants {
 
     // Regression of a*x^2 + b
     // Update at -- on -/--/2026
-    public static final double kShootWithDistanceA = 0.917415; // a
+    public static final double kShootWithDistanceA = 0.87; // a
     public static final double kShootWithDistanceB = 31.60409; // b
 
     public static final double kLookAheadRingDriveFactor = 0.3; // use to tune the ring drive
@@ -505,7 +510,8 @@ public final class Constants {
         SubsystemMode.VOLTAGE, 
         0.0,
         useIntakeSlapdown)
-      .configureMotors(IntakeSlapdownConstants.kSubsystemConfiguration);
+      .configureMotors(IntakeSlapdownConstants.kSubsystemConfiguration)
+      .logTorqueCurrent();
     
     public static final boolean useIntakeRoller = true;
     public static final TemplateSubsystem intakeRoller = (!USE_SUBSYSTEMS) ? null :
@@ -549,7 +555,8 @@ public final class Constants {
       .addMotor(ShooterConstants.kMotor2ID, MotorAlignmentValue.Opposed)
       .addMotor(ShooterConstants.kMotor3ID, MotorAlignmentValue.Opposed)
       .addMotor(ShooterConstants.kMotor4ID, MotorAlignmentValue.Aligned)
-      .configureMotors(ShooterConstants.kSubsystemConfiguration);
+      .configureMotors(ShooterConstants.kSubsystemConfiguration)
+      .logTorqueCurrent();
     
     public static final boolean useLEDs = false;
     public static final LED leds = (!useLEDs) ? null : 

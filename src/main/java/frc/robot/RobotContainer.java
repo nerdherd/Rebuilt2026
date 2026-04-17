@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-
 import dev.doglog.DogLog;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -73,6 +72,7 @@ public class RobotContainer {
     return isRedSide;
   }
 
+  public static double kOffset = 0.05;
   /**
    * Teleop commands configuration 
    * used in teleop mode.
@@ -88,19 +88,19 @@ public class RobotContainer {
       // Turn
       () -> -driverController.getRightX(), 
       // use turn to angle
-      () -> driverController.getBumperRight() || driverController.getBumperLeft(),
+      () -> driverController.getBumperRight(),
       // turn to angle target direction, 0.0 to use manual
-      () -> (driverController.getBumperRight()) ? swerveDrive.angleToLookAheadPose(FieldPositions.HUB_CENTER, ShooterConstants.kLookAheadFactor) : Math.PI,
+      () -> swerveDrive.angleToLookAheadPose(FieldPositions.HUB_CENTER, ShooterConstants.kLookAheadFactor) + kOffset,
       // robot oriented adjustment (dpad)
       () -> new Translation2d(
         (driverController.getDpadUp() ? 1 : 0) - (driverController.getDpadDown() ? 1 : 0), 
         (driverController.getDpadLeft() ? 1 : 0) - (driverController.getDpadRight() ? 1 : 0))
         .rotateBy((!driverController.getBumperRight()) ? Rotation2d.kZero : 
-            Rotation2d.fromRadians(swerveDrive.angleToLookAheadPose(FieldPositions.HUB_CENTER, ShooterConstants.kLookAheadRingDriveFactor) - swerveDrive.angleToLookAheadPose(FieldPositions.HUB_CENTER, ShooterConstants.kLookAheadFactor))),
+            Rotation2d.fromRadians(swerveDrive.angleToLookAheadPose(FieldPositions.HUB_CENTER, ShooterConstants.kLookAheadRingDriveFactor) - swerveDrive.angleToLookAheadPose(FieldPositions.HUB_CENTER, ShooterConstants.kLookAheadFactor) - kOffset)),
       // joystick drive field oriented
       () -> true, 
       // tow supplier
-      () -> false, 
+      () -> driverController.getBumperLeft(), 
       // precision/programmer mode :)
       () -> driverController.getTriggerLeft()
     );
@@ -165,12 +165,15 @@ public class RobotContainer {
   public void configureOperatorBindings_teleop() {
 
     if (Constants.USE_SUBSYSTEMS) {
+      operatorController.controllerLeft()
+        .onTrue(superSystem.intakeHoldTeleop());
+        // .onFalse(superSystem.stopIntakeHold());
+      operatorController.controllerRight()
+        .onTrue(superSystem.intakeUp())
+        .onFalse(superSystem.stopIntakeHold());
       operatorController.bumperLeft()
         .onTrue(superSystem.intake())
         .onFalse(superSystem.stopIntaking());
-      operatorController.controllerLeft()
-        .onTrue(superSystem.intakeHoldTeleop())
-        .onFalse(superSystem.stopIntakeHold());
 
       operatorController.triggerRight()
         .whileTrue(superSystem.shootWithDistance())
@@ -267,6 +270,7 @@ public class RobotContainer {
     NerdLog.logData("Robot/Command Scheduler", CommandScheduler.getInstance(), LOG_LEVEL.MEDIUM);
     NerdLog.logNumber("Robot/RAM Usage", () -> (double)Runtime.getRuntime().freeMemory(), LOG_LEVEL.MEDIUM);
     NerdLog.logNumber("Match Info/Shift Time", () -> {shiftTime = allianceShiftTime(); return shiftTime;}, LOG_LEVEL.MINIMAL);
+    // NerdLog.logBoolean("Robot/operator rumble", () -> {boolean b = shooter.getCurrentVelocity() > 2.0; operatorController.setRumble(b ? 0.3 : 0.0); return b;}, LOG_LEVEL.MEDIUM);
     NerdLog.reportLogCount();
   }
   
@@ -314,7 +318,7 @@ public class RobotContainer {
       if (time < 0.0) { DogLog.log("Match Info/Shift Name", (gameEnded) ? "Good Job Team!" : "Good Luck! -nerdherd"); return 0.0; }
       else if (time >= 130.0) { DogLog.log("Match Info/Shift Name", "Transition"); return time - 130; } // transition
       else if (time >= 30.0) { 
-        int shift = (int)((130 - time) / 25); 
+        int shift = (int)((130 - time) / 25) + 1; 
         DogLog.log("Match Info/Shift Name", "Shift " + shift + " " + (((shift % 2 == 1) == wonAuto) ? "Feeding" : "Scoring")); return (time - 30) % 25; 
       } // shifts 1-4
       else { DogLog.log("Match Info/Shift Name", "Endgame"); if (time <= 1.0) gameEnded = true; return time; } // endgame

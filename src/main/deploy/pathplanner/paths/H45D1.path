@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.0,
-        "y": 5.66
+        "x": 2.9081054131054134,
+        "y": 5.456225071225072
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.150231236090641,
-        "y": 6.200832895298223
+        "x": 2.0583366491960544,
+        "y": 5.997057966523295
       },
       "isLocked": false,
       "linkedName": "H45"
@@ -53,7 +53,7 @@
   "folder": "To Depot",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -45.0
+    "rotation": 180.0
   },
   "useDefaultConstraints": true
 }

@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.080067354090074,
-        "y": 2.5144317267922793
+        "x": 3.076068376068376,
+        "y": 2.7042165242165255
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.2164772630403395,
-        "y": 1.87981201177341
+        "x": 2.2124782850186415,
+        "y": 2.069596809197656
       },
       "isLocked": false,
       "linkedName": "H45-"
@@ -48,7 +48,7 @@
   "folder": "To Outpost",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 45.0
+    "rotation": 31.0
   },
   "useDefaultConstraints": true
 }

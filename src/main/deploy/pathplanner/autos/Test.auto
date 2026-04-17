@@ -7,13 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Test"
+            "pathName": "EventMarkerTest"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "Archive",
+  "folder": null,
   "choreoAuto": false
 }

@@ -72,6 +72,8 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 	/** used to indicate when the subsystem has an error, configured during debugging.  by default always false (reported at {@link LOG_LEVEL#ALL}) */
 	public boolean _hasError = false;
 
+	private boolean _logTorqueCurrent = false;
+
 	/** name of the subsystem */
 	protected final String name;
 
@@ -173,6 +175,11 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 			default:
 				break;
 		}
+	}
+
+	public TemplateSubsystem logTorqueCurrent() {
+		_logTorqueCurrent = true;
+		return this;
 	}
 
 	// ------------------------------------ Helper Functions ------------------------------------ //
@@ -372,10 +379,9 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
         NerdLog.logNumber(kSubsystemTab + name + "/Desired " + getFlavorText(), () -> getDesiredValue(), getUnit(), LOG_LEVEL.ALL);
 		NerdLog.logBoolean(kSubsystemTab + name + "/Has Error", () -> _hasError, LOG_LEVEL.ALL);
 
-		NerdLog.logSignal(kSubsystemTab + name + "/Torque Current/Primary Motor", primaryMotor.getTorqueCurrent(false), primaryMotor.getNetwork().getName(), LOG_LEVEL.ALL);
+		NerdLog.logSignal(kSubsystemTab + name + "/Torque Current/Primary Motor", primaryMotor.getTorqueCurrent(false), primaryMotor.getNetwork().getName(), (_logTorqueCurrent) ? LOG_LEVEL.MINIMAL : LOG_LEVEL.ALL);
 		applySecondaryMotors((motor, i) -> 
-			NerdLog.logSignal(kSubsystemTab + name + "/Torque Current/Secondary Motor " + i, primaryMotor.getTorqueCurrent(false), primaryMotor.getNetwork().getName(), LOG_LEVEL.ALL)
-		);
+			NerdLog.logSignal(kSubsystemTab + name + "/Torque Current/Secondary Motor " + i, primaryMotor.getTorqueCurrent(false), primaryMotor.getNetwork().getName(), (_logTorqueCurrent) ? LOG_LEVEL.MINIMAL : LOG_LEVEL.ALL));
 
 		NerdLog.logSignal(kSubsystemTab + name + "/Supply Current", primaryMotor.getSupplyCurrent(false), primaryMotor.getNetwork().getName(), LOG_LEVEL.ALL);
 

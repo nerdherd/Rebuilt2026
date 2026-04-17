@@ -224,8 +224,8 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
     private double pollStatorCurrentSum() {
         double sum = 0;
         for (int i = 0; i < 4; i++) {
-            sum += getModule(i).getDriveMotor().getTorqueCurrent().getValueAsDouble();
-            sum += getModule(i).getSteerMotor().getTorqueCurrent().getValueAsDouble();
+            sum += Math.abs(getModule(i).getDriveMotor().getTorqueCurrent().getValueAsDouble());
+            sum += Math.abs(getModule(i).getSteerMotor().getTorqueCurrent().getValueAsDouble());
         }
         return sum;
     }
@@ -262,7 +262,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
             // --------- MT1 --------- //
             if (!useReset) return;
             PoseEstimate mt = LimelightHelpers.getBotPoseEstimate_wpiBlue(limelight.name);
-            if (mt == null || Math.abs(getPigeon2().getAngularVelocityZWorld().getValueAsDouble()) > 720 || mt.tagCount == 0) return;
+            if (mt == null || Math.abs(getPigeon2().getAngularVelocityZWorld().getValueAsDouble()) > 720 || mt.tagCount == 0 || mt.avgTagDist >= 3.0) return;
             resetRotation(mt.pose.getRotation());
             useMegaTag2 = true;
             setDriverHeadingForward();
@@ -374,6 +374,8 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
         for (int i = 0; i < 4; i++) {
             NerdLog.logSignal(kSwerveTab + "/Temperatures/Drive " + i, getModule(i).getDriveMotor().getDeviceTemp(false), getModule(i).getDriveMotor().getNetwork().getName(), LOG_LEVEL.MINIMAL);
             NerdLog.logSignal(kSwerveTab + "/Temperatures/Turn " + i, getModule(i).getSteerMotor().getDeviceTemp(false), getModule(i).getSteerMotor().getNetwork().getName(), LOG_LEVEL.MINIMAL);
+            NerdLog.logBoolean(kSwerveTab + "/Connected/Drive " + i, getModule(i).getDriveMotor()::isConnected, LOG_LEVEL.MINIMAL);
+            NerdLog.logBoolean(kSwerveTab + "/Connected/Turn " + i, getModule(i).getSteerMotor()::isConnected, LOG_LEVEL.MINIMAL);
         }
         NerdLog.logNumber(kSwerveTab +"/Stator Current Sum", this::pollStatorCurrentSum, "A", LOG_LEVEL.MINIMAL);
     }

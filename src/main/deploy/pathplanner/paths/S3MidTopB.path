@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.55,
-        "y": 4.04
+        "x": 3.2815000000000003,
+        "y": 4.078190476190477
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.307829941913659,
-        "y": 5.41341464768083
+        "x": 3.0393299419136595,
+        "y": 5.451605123871307
       },
       "isLocked": false,
       "linkedName": "S3"
@@ -64,12 +64,12 @@
     },
     {
       "anchor": {
-        "x": 3.0,
-        "y": 5.66
+        "x": 2.9081054131054134,
+        "y": 5.456225071225072
       },
       "prevControl": {
-        "x": 3.331530249110321,
-        "y": 5.363760379596679
+        "x": 3.2396356622157345,
+        "y": 5.15998545082175
       },
       "nextControl": null,
       "isLocked": false,
@@ -162,7 +162,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -45.0
+    "rotation": 180.0
   },
   "reversed": false,
   "folder": "Combo Middle",

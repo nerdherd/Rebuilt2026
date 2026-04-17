@@ -19,7 +19,7 @@ public final class Autos {
 
     public static void initAutoChooser() {
         autoChooser.setDefaultOption("Do Nothing", Commands.none());
-        // autoChooser.addOption("Test", AutoBuilder.buildAuto("Test"));
+        autoChooser.addOption("Test", AutoBuilder.buildAuto("Test"));
 
         // EXAMPLE
         // autoChooser.addOption("Auto Name", AutoBuilder.buildAuto("PathPlanner Auto Name"));
@@ -31,8 +31,7 @@ public final class Autos {
         // autoChooser.addOption("Top-S1MidTBDepot", AutoBuilder.buildAuto("Top-S1MidTBDepot"));
         autoChooser.addOption("Top-S1Neutral", AutoBuilder.buildAuto("Top-S1Neutral"));
         autoChooser.addOption("Top-S1Neutral2.5", AutoBuilder.buildAuto("Top-S1Neutral2.5"));
-
-
+        autoChooser.addOption("Top-S1Neutral3", AutoBuilder.buildAuto("Top-S1Neutral3"));
         // MID
         
         // BOT
@@ -41,6 +40,10 @@ public final class Autos {
 
         autoChooser.addOption("Bot-S5NeutralSafe", AutoBuilder.buildAuto("Bot-S5NeutralSafe"));
         // autoChooser.addOption("Bot-S5MidTBOutpost", AutoBuilder.buildAuto("Bot-S5MidTBOutpost"));
+
+        autoChooser.addOption("testhub", AutoBuilder.buildAuto("testhub"));
+        autoChooser.addOption("pivot", AutoBuilder.buildAuto("pivot"));
+
         
         NerdLog.logData(kAutosTab + "/Selected Auto", autoChooser, LOG_LEVEL.MINIMAL);
     }
@@ -72,9 +75,10 @@ public final class Autos {
         // SHOOTER
         NamedCommands.registerCommand("Flywheel Start", superSystem.spinUpFlywheel());
         NamedCommands.registerCommand("Flywheel Start 0", superSystem.spinUpFlywheel(34));
-        NamedCommands.registerCommand("Flywheel Start 45", superSystem.spinUpFlywheel(37));
+        NamedCommands.registerCommand("Flywheel Start 45", superSystem.spinUpFlywheel(35.65));
         NamedCommands.registerCommand("Flywheel Start 60", superSystem.spinUpFlywheel(39));
         NamedCommands.registerCommand("Flywheel Stop", superSystem.stopFlywheel());
+        NamedCommands.registerCommand("Turn to Hub", superSystem.turnToHub(3.0));
 
         NamedCommands.registerCommand("Shoot", superSystem.shoot());
         NamedCommands.registerCommand("Shoot Stop", superSystem.stopShooting());

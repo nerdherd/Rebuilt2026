@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.0,
-        "y": 5.66
+        "x": 2.9081054131054134,
+        "y": 5.456225071225072
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.0877251038805291,
-        "y": 5.66
+        "x": 0.9958305169859427,
+        "y": 5.456225071225072
       },
       "isLocked": false,
       "linkedName": "H45"
@@ -67,7 +67,7 @@
   "folder": "To Tower",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -45.0
+    "rotation": 180.0
   },
   "useDefaultConstraints": true
 }
