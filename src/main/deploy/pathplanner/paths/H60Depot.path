@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.55,
-        "y": 7.4
+        "x": 3.0,
+        "y": 6.86
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.7361142697055207,
-        "y": 7.4
+        "x": 2.186114269705521,
+        "y": 6.86
       },
       "isLocked": false,
-      "linkedName": "S1"
+      "linkedName": "H60"
     },
     {
       "anchor": {
@@ -33,15 +33,15 @@
     {
       "anchor": {
         "x": 0.45,
-        "y": 5.390000000000001
+        "y": 5.4
       },
       "prevControl": {
         "x": 0.45,
-        "y": 5.640000000000001
+        "y": 5.65
       },
       "nextControl": {
         "x": 0.45,
-        "y": 5.140000000000001
+        "y": 5.15
       },
       "isLocked": false,
       "linkedName": "D2Down"
@@ -88,26 +88,14 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "Intake Down Sequence",
-      "waypointRelativePos": 0.0,
-      "endWaypointRelativePos": null,
+      "name": "Intake Start",
+      "waypointRelativePos": 0.8504983388704177,
+      "endWaypointRelativePos": 2.5049833887043365,
       "command": null
     },
     {
-      "name": "Flywheel Start 45",
-      "waypointRelativePos": 0.9447414867109631,
-      "endWaypointRelativePos": null,
-      "command": null
-    },
-    {
-      "name": "Intake Stop",
-      "waypointRelativePos": 2.324478301495017,
-      "endWaypointRelativePos": null,
-      "command": null
-    },
-    {
-      "name": "Shoot",
-      "waypointRelativePos": 3.0,
+      "name": "Flywheel Start 60",
+      "waypointRelativePos": 2.1461794019933467,
       "endWaypointRelativePos": null,
       "command": null
     }
@@ -128,7 +116,7 @@
   "folder": "Combo Top",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -59.99999999999999
   },
   "useDefaultConstraints": true
 }

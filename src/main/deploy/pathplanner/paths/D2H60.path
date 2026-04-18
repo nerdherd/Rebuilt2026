@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.45999999999999996,
-        "y": 5.4
+        "x": 0.45,
+        "y": 5.390000000000001
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.46,
-        "y": 5.4
+        "x": 1.45,
+        "y": 5.390000000000001
       },
       "isLocked": false,
       "linkedName": "D2Down"
