@@ -16,15 +16,15 @@
     },
     {
       "anchor": {
-        "x": 4.430899921492035,
+        "x": 4.61,
         "y": 7.469345703125
       },
       "prevControl": {
-        "x": 4.033854485440556,
+        "x": 4.2129545639485215,
         "y": 7.393401909028107
       },
       "nextControl": {
-        "x": 5.133209508494088,
+        "x": 5.312309587002053,
         "y": 7.603678073742256
       },
       "isLocked": false,
@@ -32,15 +32,15 @@
     },
     {
       "anchor": {
-        "x": 5.898686746987952,
+        "x": 6.05,
         "y": 6.8543493975903615
       },
       "prevControl": {
-        "x": 5.775753774954212,
+        "x": 5.92706702796626,
         "y": 7.233329701418298
       },
       "nextControl": {
-        "x": 6.350482291876667,
+        "x": 6.501795544888715,
         "y": 5.461544765623598
       },
       "isLocked": false,
@@ -48,32 +48,32 @@
     },
     {
       "anchor": {
-        "x": 5.81,
-        "y": 4.026887298747764
+        "x": 5.8,
+        "y": 4.005960264900661
       },
       "prevControl": {
-        "x": 5.525743589743591,
-        "y": 4.709435897435898
+        "x": 5.515743589743591,
+        "y": 4.688508863588796
       },
       "nextControl": {
-        "x": 5.906113844380507,
-        "y": 3.7961014046415613
+        "x": 5.8961138443805075,
+        "y": 3.775174370794458
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 6.825939177101969,
-        "y": 3.6050268336314844
+        "x": 7.02424096385542,
+        "y": 3.642963576158939
       },
       "prevControl": {
-        "x": 6.380417490216174,
-        "y": 3.3691863695826383
+        "x": 6.578719276969625,
+        "y": 3.407123112110093
       },
       "nextControl": {
-        "x": 7.3935030794618815,
-        "y": 3.905471319388354
+        "x": 7.591804866215333,
+        "y": 3.9434080619158087
       },
       "isLocked": false,
       "linkedName": null
@@ -104,8 +104,8 @@
         "y": 7.539110320284698
       },
       "nextControl": {
-        "x": 4.642488902714468,
-        "y": 7.389094457356876
+        "x": 4.642488902714462,
+        "y": 7.389094457356875
       },
       "isLocked": false,
       "linkedName": null
@@ -135,11 +135,15 @@
     },
     {
       "waypointRelativePos": 2.1941908713692815,
-      "rotationDegrees": -90.0
+      "rotationDegrees": -93.0
     },
     {
-      "waypointRelativePos": 3.0802139037433145,
-      "rotationDegrees": -90.0
+      "waypointRelativePos": 2.888066604995383,
+      "rotationDegrees": -93.0
+    },
+    {
+      "waypointRelativePos": 3.75578168362631,
+      "rotationDegrees": 41.0
     },
     {
       "waypointRelativePos": 4.45989304812834,
@@ -160,20 +164,7 @@
   ],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [
-    {
-      "name": "Intake Start",
-      "waypointRelativePos": 0.05,
-      "endWaypointRelativePos": 5.322834645669254,
-      "command": null
-    },
-    {
-      "name": "Flywheel Start 60",
-      "waypointRelativePos": 5.370078740157487,
-      "endWaypointRelativePos": null,
-      "command": null
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
@@ -192,5 +183,5 @@
     "velocity": 0,
     "rotation": -59.99999999999999
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }
