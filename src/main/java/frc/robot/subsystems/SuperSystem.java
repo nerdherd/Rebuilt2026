@@ -104,7 +104,7 @@ public class SuperSystem implements Reportable {
         if (autoTurnToHub == null) 
             autoTurnToHub = new SwerveJoystickCommand(swerveDrivetrain, () -> 0.0, () -> 0.0, () -> 0.0, () -> true, 
                 () -> swerveDrivetrain.angleToPose(FieldPositions.HUB_CENTER) + RobotContainer.kOffset, 
-                () -> Translation2d.kZero, () -> false, () -> false, () -> false).finallyDo(() -> swerveDrivetrain.driveRobotOriented(0.0, 0.0, 0.0));
+                () -> Translation2d.kZero, () -> false, () -> false, () -> 0.0).finallyDo(() -> swerveDrivetrain.driveRobotOriented(0.0, 0.0, 0.0));
 
         return autoTurnToHub.raceWith(Commands.waitSeconds(timeout));
     }

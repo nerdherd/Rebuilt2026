@@ -2,7 +2,6 @@ package frc.robot.util;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
-import edu.wpi.first.math.geometry.Translation2d;
 
 public class NerdyMath {
     /**
@@ -130,13 +129,15 @@ public class NerdyMath {
     public static double deadband(double x, double db) {
         return (Math.abs(x) <= db) ? 0.0 : x;
     }
-    
-    public static Translation2d clampDotProduct(Translation2d oldPos, Translation2d newPose, double min) {
-        double d = Math.max(dot(oldPos, newPose), min);
-        return oldPos.div(oldPos.getNorm()).times(d);
-    }
 
-    public static double dot(Translation2d a, Translation2d b) {
-        return a.getX() * b.getX() + a.getY() * b.getY();
+    /**
+     * 
+     * @param a 0
+     * @param b 1
+     * @param t [0, 1]
+     * @return
+     */
+    public static double lerp(double a, double b, double t) {
+        return a*(1 - t) + b*t;
     }
 }

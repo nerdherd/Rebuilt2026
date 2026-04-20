@@ -102,7 +102,7 @@ public class RobotContainer {
       // tow supplier
       () -> driverController.getBumperLeft(), 
       // precision/programmer mode :)
-      () -> driverController.getTriggerLeft()
+      () -> driverController.getTriggerLeftAxis()
     );
     
     swerveDrive.setDefaultCommand(swerveJoystickCommand);

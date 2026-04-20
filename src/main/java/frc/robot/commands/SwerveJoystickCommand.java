@@ -16,11 +16,12 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.SwerveDriveConstants;
 import frc.robot.subsystems.NerdDrivetrain;
+import frc.robot.util.NerdyMath;
 public class SwerveJoystickCommand extends Command {
     private final NerdDrivetrain swerveDrive;
-    private final Supplier<Double> xTranslationInput, yTranslationInput, turnInput, desiredAngle;
+    private final Supplier<Double> xTranslationInput, yTranslationInput, turnInput, desiredAngle, usePrecisionMode;
     private final Supplier<Translation2d> robotOrientedAdjustment;
-    private final Supplier<Boolean> useTurnToAngle, useFieldOriented, useTowMode, usePrecisionMode;
+    private final Supplier<Boolean> useTurnToAngle, useFieldOriented, useTowMode;
     private final PIDController angleController;
 
     /**
@@ -45,7 +46,7 @@ public class SwerveJoystickCommand extends Command {
             Supplier<Translation2d> robotOrientedAdjustment,
             Supplier<Boolean> useFieldOriented, 
             Supplier<Boolean> useTowMode, 
-            Supplier<Boolean> usePrecisionMode
+            Supplier<Double> usePrecisionMode
         ) {
         this.swerveDrive = swerveDrive;
 
@@ -85,10 +86,9 @@ public class SwerveJoystickCommand extends Command {
             return;
         }
         
-        boolean precision = usePrecisionMode.get();
         /** m/s */
         Translation2d filteredInput = kTranslationInputFilter.apply(xTranslationInput.get(), yTranslationInput.get());
-        double driveMult = (precision ? kDrivePrecisionMultiplier : 1.0);
+        double driveMult = NerdyMath.lerp(1.0, kDrivePrecisionMultiplier, usePrecisionMode.get());
         double xSpeed = filteredInput.getX() * kDriveMaxVelocity * driveMult;
         double ySpeed = filteredInput.getY() * kDriveMaxVelocity * driveMult;
 
@@ -102,9 +102,8 @@ public class SwerveJoystickCommand extends Command {
                 turnSpeed = Math.min(kTurnToAngleMaxVelocity, Math.max(-kTurnToAngleMaxVelocity, turnSpeed));
             } else turnSpeed = 0.0;
         }
-        else turnSpeed = kRotationInputFilter.apply(turnInput.get()) * kTurnMaxVelocity * (precision ? kTurnPrecisionMultiplier : 1.0);
+        else turnSpeed = kRotationInputFilter.apply(turnInput.get()) * kTurnMaxVelocity * NerdyMath.lerp(1.0, kTurnPrecisionMultiplier, usePrecisionMode.get());
 
-        // 
         Translation2d adjustment = robotOrientedAdjustment.get();
         if (!adjustment.equals(Translation2d.kZero)) swerveDrive.driveRobotOriented(adjustment.getX() * kRobotOrientedVelocity * driveMult, adjustment.getY() * kRobotOrientedVelocity * driveMult, turnSpeed);
         else if (useFieldOriented.get()) swerveDrive.driveFieldOriented(xSpeed, ySpeed, turnSpeed);
