@@ -133,7 +133,7 @@ public final class Constants {
     ///////////////////////////
     
     public static final double kTurnToAngleMaxVelocity = 6.25; // rad/s
-    public static final PIDConstants kTurnToAnglePIDConstants = new PIDConstants(12.0, 0.0, 0.1);
+    public static final PIDConstants kTurnToAnglePIDConstants = new PIDConstants(12.0, 0.0, 0.05);
     public static final Constraints kTurnToAngleTolerances = new Constraints(0.017, 0.5); 
 
     ////////////////////////////////////////////
