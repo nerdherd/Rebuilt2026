@@ -64,13 +64,13 @@ public class SuperSystem implements Reportable {
     
     public void startShoot() {
         indexer.setDesiredValue(10);
-        conveyor.setDesiredValue(8.5);
+        conveyor.setDesiredValue(6);
     }
 
     public Command shoot() {
         return Commands.parallel(
             indexer.setDesiredValueCommand(10),
-            conveyor.setDesiredValueCommand(8)
+            conveyor.setDesiredValueCommand(5)
         );
     }
 
@@ -119,7 +119,7 @@ public class SuperSystem implements Reportable {
 
     public Command reverseConveyor() {
         return Commands.parallel(
-            conveyor.setDesiredValueCommand(-4),
+            conveyor.setDesiredValueCommand(-5),
             indexer.setDesiredValueCommand(-5)
             );
     }
@@ -175,11 +175,11 @@ public class SuperSystem implements Reportable {
     }
 
     public Command intakeHold() {
-        return intakeSlapdown.setDesiredValueCommand(-1.5);
+        return intakeSlapdown.setDesiredValueCommand(-1.5); //change when we have bumpers
     }
 
     public Command intakeHoldTeleop() {
-        return intakeSlapdown.setDesiredValueCommand(-1.5);
+        return intakeSlapdown.setDesiredValueCommand(-1.5); //change when we have bumpers
     }
 
     public Command stopIntakeHold() {

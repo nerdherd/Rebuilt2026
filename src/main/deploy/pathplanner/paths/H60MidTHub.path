@@ -162,9 +162,57 @@
       "rotationDegrees": 0.0
     }
   ],
-  "constraintZones": [],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 1.7885462555065903,
+      "maxWaypointRelativePos": 2.3312775330396405,
+      "constraints": {
+        "maxVelocity": 4.0,
+        "maxAcceleration": 4.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Intake Start",
+      "waypointRelativePos": 1.3568281938326,
+      "endWaypointRelativePos": 1.37,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Intake Start"
+        }
+      }
+    },
+    {
+      "name": "Flywheel Start 60",
+      "waypointRelativePos": 5.0,
+      "endWaypointRelativePos": 5.0,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Flywheel Start 60"
+        }
+      }
+    },
+    {
+      "name": "Intake Stop",
+      "waypointRelativePos": 5.2,
+      "endWaypointRelativePos": 5.2,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Intake Stop"
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,

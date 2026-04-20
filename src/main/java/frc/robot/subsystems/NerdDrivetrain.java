@@ -260,7 +260,10 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
         if (LimelightHelpers.getCurrentPipelineIndex(limelight.name) != 0) return;
         if (!useMegaTag2) {
             // --------- MT1 --------- //
-            if (!useReset) return;
+            if (!useReset) {
+                useMegaTag2 = true;
+                return;
+            }
             PoseEstimate mt = LimelightHelpers.getBotPoseEstimate_wpiBlue(limelight.name);
             if (mt == null || Math.abs(getPigeon2().getAngularVelocityZWorld().getValueAsDouble()) > 720 || mt.tagCount == 0 || mt.avgTagDist >= 3.0) return;
             resetRotation(mt.pose.getRotation());

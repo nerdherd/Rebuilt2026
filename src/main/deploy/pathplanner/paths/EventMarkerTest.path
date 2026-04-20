@@ -118,13 +118,13 @@
       }
     },
     {
-      "name": "Shoot",
+      "name": "Shoot Stop",
       "waypointRelativePos": 2.01,
       "endWaypointRelativePos": 2.02,
       "command": null
     },
     {
-      "name": "Shoot Stop",
+      "name": "Shoot",
       "waypointRelativePos": 2.98,
       "endWaypointRelativePos": 2.99,
       "command": null

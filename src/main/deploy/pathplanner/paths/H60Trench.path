@@ -140,25 +140,7 @@
   ],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [
-    {
-      "name": "Intake Start",
-      "waypointRelativePos": 1.2483756188118815,
-      "endWaypointRelativePos": null,
-      "command": null
-    },
-    {
-      "name": "Intake Stop",
-      "waypointRelativePos": 5.0,
-      "endWaypointRelativePos": null,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "Flywheel Start 45"
-        }
-      }
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,

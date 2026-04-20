@@ -43,9 +43,21 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
+          }
+        },
+        {
           "type": "wait",
           "data": {
             "waitTime": 2.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot Ramp Down"
           }
         },
         {
@@ -62,9 +74,21 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
+          }
+        },
+        {
           "type": "wait",
           "data": {
             "waitTime": 2.5
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot Ramp Down"
           }
         },
         {
@@ -77,6 +101,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Top Autos",
+  "folder": "Test",
   "choreoAuto": false
 }
