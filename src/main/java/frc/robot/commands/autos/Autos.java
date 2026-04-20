@@ -32,11 +32,16 @@ public final class Autos {
         autoChooser.addOption("Top-S1Neutral", AutoBuilder.buildAuto("Top-S1Neutral"));
         autoChooser.addOption("Top-S1Neutral2.5", AutoBuilder.buildAuto("Top-S1Neutral2.5"));
         autoChooser.addOption("Top-S1Neutral3", AutoBuilder.buildAuto("Top-S1Neutral3"));
+        autoChooser.addOption("Top-S1MidDepot", AutoBuilder.buildAuto("Top-S1MidDepot"));
+        autoChooser.addOption("Top-S1NeutralTrench2.5", AutoBuilder.buildAuto("Top-S1NeutralTrench2.5"));
         // MID
+        autoChooser.addOption("Mid-S3DepotH0", AutoBuilder.buildAuto("Mid-S3DepotH0"));
+        autoChooser.addOption("Mid-S3DepotTower", AutoBuilder.buildAuto("Mid-S3DepotTower"));
         
         // BOT
         autoChooser.addOption("Bot-S5Neutral", AutoBuilder.buildAuto("Bot-S5Neutral"));
         autoChooser.addOption("Bot-S5Neutral2.5", AutoBuilder.buildAuto("Bot-S5Neutral2.5"));
+        autoChooser.addOption("Bot-S5Trench2.5", AutoBuilder.buildAuto("Bot-S5Trench2.5"));
 
         autoChooser.addOption("Bot-S5NeutralSafe", AutoBuilder.buildAuto("Bot-S5NeutralSafe"));
         // autoChooser.addOption("Bot-S5MidTBOutpost", AutoBuilder.buildAuto("Bot-S5MidTBOutpost"));
@@ -59,6 +64,8 @@ public final class Autos {
         // NamedCommands.registerCommand("Intake Up", superSystem.intakeUp());
         NamedCommands.registerCommand("Intake Start", superSystem.intake());
         NamedCommands.registerCommand("Intake Stop", superSystem.stopIntaking());
+        NamedCommands.registerCommand("Intake Hold Stop", superSystem.stopIntakeHold());
+
         NamedCommands.registerCommand("Intake Down Sequence", 
             Commands.sequence(
                 superSystem.intakeDown(),
@@ -82,7 +89,7 @@ public final class Autos {
 
         NamedCommands.registerCommand("Shoot", superSystem.shoot());
         NamedCommands.registerCommand("Shoot Stop", superSystem.stopShooting());
-        NamedCommands.registerCommand("Shoot Distance", superSystem.shootWithDistance());
+        NamedCommands.registerCommand("Shoot Distance", superSystem.shootWithDistance(() -> false));
         NamedCommands.registerCommand("Shoot Ramp Up", 
             Commands.sequence(
                 superSystem.spinUpFlywheel(), 

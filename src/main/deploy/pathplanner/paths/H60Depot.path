@@ -1,0 +1,122 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 3.0,
+        "y": 6.86
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.186114269705521,
+        "y": 6.86
+      },
+      "isLocked": false,
+      "linkedName": "H60"
+    },
+    {
+      "anchor": {
+        "x": 0.45,
+        "y": 7.21
+      },
+      "prevControl": {
+        "x": 0.45,
+        "y": 7.46
+      },
+      "nextControl": {
+        "x": 0.45000000000000007,
+        "y": 6.410436570695782
+      },
+      "isLocked": false,
+      "linkedName": "D1Down"
+    },
+    {
+      "anchor": {
+        "x": 0.45,
+        "y": 5.4
+      },
+      "prevControl": {
+        "x": 0.45,
+        "y": 5.65
+      },
+      "nextControl": {
+        "x": 0.45,
+        "y": 5.15
+      },
+      "isLocked": false,
+      "linkedName": "D2Down"
+    },
+    {
+      "anchor": {
+        "x": 3.0,
+        "y": 6.86
+      },
+      "prevControl": {
+        "x": 2.0254519675925926,
+        "y": 5.664175130208333
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "H60"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.9378330373001708,
+      "rotationDegrees": -90.0
+    },
+    {
+      "waypointRelativePos": 1.8809946714031935,
+      "rotationDegrees": -90.0
+    }
+  ],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0.9982350498338863,
+      "maxWaypointRelativePos": 2.0,
+      "constraints": {
+        "maxVelocity": 1.5,
+        "maxAcceleration": 1.5,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
+  "pointTowardsZones": [],
+  "eventMarkers": [
+    {
+      "name": "Intake Start",
+      "waypointRelativePos": 0.8504983388704177,
+      "endWaypointRelativePos": 2.5049833887043365,
+      "command": null
+    },
+    {
+      "name": "Flywheel Start 60",
+      "waypointRelativePos": 2.1461794019933467,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -59.99999999999999
+  },
+  "reversed": false,
+  "folder": "Combo Top",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": -59.99999999999999
+  },
+  "useDefaultConstraints": true
+}

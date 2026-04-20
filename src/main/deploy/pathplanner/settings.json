@@ -4,8 +4,9 @@
   "holonomicMode": true,
   "pathFolders": [
     "Combo Bottom",
-    "Combo Top",
     "Combo Middle",
+    "Combo Top",
+    "Test",
     "To Depot",
     "To Hub",
     "To Neutral",
@@ -13,12 +14,13 @@
     "To Tower"
   ],
   "autoFolders": [
-    "Archive",
-    "Bottom Autos",
-    "Middle Autos",
     "Use These",
+    "Top Autos",
     "Old Autos",
-    "Top Autos"
+    "Test",
+    "Middle Autos",
+    "Bottom Autos",
+    "Archive"
   ],
   "defaultMaxVel": 3.0,
   "defaultMaxAccel": 3.0,

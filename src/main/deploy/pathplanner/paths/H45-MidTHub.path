@@ -162,10 +162,10 @@
   },
   "goalEndState": {
     "velocity": 0.0,
-    "rotation": 180.0
+    "rotation": 45.0
   },
   "reversed": false,
-  "folder": "To Neutral",
+  "folder": "Combo Bottom",
   "idealStartingState": {
     "velocity": 0.0,
     "rotation": 36.0

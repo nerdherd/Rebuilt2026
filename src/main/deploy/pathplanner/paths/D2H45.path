@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.45999999999999996,
-        "y": 5.4
+        "x": 0.45,
+        "y": 5.390000000000001
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.917578923752711,
-        "y": 5.4
+        "x": 1.907578923752711,
+        "y": 5.390000000000001
       },
       "isLocked": false,
       "linkedName": "D2Down"
@@ -63,7 +63,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": -45.0
   },
   "reversed": false,
   "folder": "To Hub",

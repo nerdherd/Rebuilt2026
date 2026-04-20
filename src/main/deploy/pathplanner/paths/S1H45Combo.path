@@ -3,12 +3,12 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 4.430899921492035,
+        "x": 4.61,
         "y": 7.469345703125
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.674855293016109,
+        "x": 4.853955371524075,
         "y": 7.414703441966158
       },
       "isLocked": false,
@@ -195,7 +195,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": -45.0
   },
   "reversed": false,
   "folder": "Combo Top",

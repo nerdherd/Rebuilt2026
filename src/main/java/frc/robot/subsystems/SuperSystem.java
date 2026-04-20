@@ -11,6 +11,7 @@ import static frc.robot.Constants.Subsystems.useLEDs;
 
 import java.util.ArrayList;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
@@ -63,13 +64,13 @@ public class SuperSystem implements Reportable {
     
     public void startShoot() {
         indexer.setDesiredValue(10);
-        conveyor.setDesiredValue(8.5);
+        conveyor.setDesiredValue(6);
     }
 
     public Command shoot() {
         return Commands.parallel(
             indexer.setDesiredValueCommand(10),
-            conveyor.setDesiredValueCommand(8)
+            conveyor.setDesiredValueCommand(5)
         );
     }
 
@@ -118,7 +119,7 @@ public class SuperSystem implements Reportable {
 
     public Command reverseConveyor() {
         return Commands.parallel(
-            conveyor.setDesiredValueCommand(-4),
+            conveyor.setDesiredValueCommand(-5),
             indexer.setDesiredValueCommand(-5)
             );
     }
@@ -174,11 +175,11 @@ public class SuperSystem implements Reportable {
     }
 
     public Command intakeHold() {
-        return intakeSlapdown.setDesiredValueCommand(-1.5);
+        return intakeSlapdown.setDesiredValueCommand(-1.5); //change when we have bumpers
     }
 
     public Command intakeHoldTeleop() {
-        return intakeSlapdown.setDesiredValueCommand(-1.5);
+        return intakeSlapdown.setDesiredValueCommand(-1.5); //change when we have bumpers
     }
 
     public Command stopIntakeHold() {
@@ -207,11 +208,11 @@ public class SuperSystem implements Reportable {
         );
     }
 
-    public Command shootWithDistance() {
+    public Command shootWithDistance(Supplier<Boolean> useBackwards) {
         return Commands.run(
             () -> {
                 // calculate distance
-                double distance = getHubDistance();
+                double distance = getHubDistance(useBackwards.get());
                 // convert to rps
                 double rps = ShooterConstants.kShootWithDistanceA * distance * distance + ShooterConstants.kShootWithDistanceB;
                 // spin up flywheel
@@ -257,9 +258,9 @@ public class SuperSystem implements Reportable {
         applySubsystems((s) -> s.setDesiredValue(s.getDefaultValue()));
     }
 
-    public double getHubDistance() {
+    public double getHubDistance(boolean useBackwards) {
         Pose2d hub = FieldPositions.HUB_CENTER.get();
-        return swerveDrivetrain.getLookAheadPose(ShooterConstants.kLookAheadFactor).getTranslation().getDistance(hub.getTranslation());
+        return swerveDrivetrain.getLookAheadPose(useBackwards ? ShooterConstants.kBackwardsLookAheadFactor : ShooterConstants.kLookAheadFactor).getTranslation().getDistance(hub.getTranslation());
     }
 
     public void initializeLEDs() {
@@ -276,7 +277,7 @@ public class SuperSystem implements Reportable {
     public void initializeLogging() {
         applySubsystems((s) -> s.initializeLogging());
 
-        NerdLog.logNumber(kSupersystemTab + "/Hub Distance", this::getHubDistance, "m", LOG_LEVEL.ALL);
+        NerdLog.logNumber(kSupersystemTab + "/Hub Distance", () -> getHubDistance(false), "m", LOG_LEVEL.ALL);
         NerdLog.logData(kSupersystemTab + "/Command Scheduler", CommandScheduler.getInstance(), LOG_LEVEL.ALL);
     }
 }
