@@ -11,8 +11,6 @@ import static frc.robot.Constants.Subsystems.useLEDs;
 
 import java.util.ArrayList;
 import java.util.function.Consumer;
-import java.util.function.Supplier;
-
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import dev.doglog.DogLog;
