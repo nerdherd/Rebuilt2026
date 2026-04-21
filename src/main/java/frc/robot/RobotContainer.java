@@ -176,7 +176,7 @@ public class RobotContainer {
         .onFalse(superSystem.stopIntaking());
 
       operatorController.triggerRight()
-        .whileTrue(superSystem.shootWithDistance(driverController::getDpadDown))
+        .whileTrue(superSystem.shootWithDistance())
         // .whileTrue(superSystem.shootWithTuning()) // USE ELASTIC
         // .onTrue(superSystem.spinUpFlywheel())
         .onFalse(superSystem.stopFlywheel());

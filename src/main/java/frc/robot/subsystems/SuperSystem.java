@@ -208,11 +208,11 @@ public class SuperSystem implements Reportable {
         );
     }
 
-    public Command shootWithDistance(Supplier<Boolean> useBackwards) {
+    public Command shootWithDistance() {
         return Commands.run(
             () -> {
                 // calculate distance
-                double distance = getHubDistance(useBackwards.get());
+                double distance = getHubDistance();
                 // convert to rps
                 double rps = ShooterConstants.kShootWithDistanceA * distance * distance + ShooterConstants.kShootWithDistanceB;
                 // spin up flywheel
@@ -258,9 +258,9 @@ public class SuperSystem implements Reportable {
         applySubsystems((s) -> s.setDesiredValue(s.getDefaultValue()));
     }
 
-    public double getHubDistance(boolean useBackwards) {
+    public double getHubDistance() {
         Pose2d hub = FieldPositions.HUB_CENTER.get();
-        return swerveDrivetrain.getLookAheadPose(useBackwards ? ShooterConstants.kBackwardsLookAheadFactor : ShooterConstants.kLookAheadFactor).getTranslation().getDistance(hub.getTranslation());
+        return swerveDrivetrain.getLookAheadPose(ShooterConstants.kLookAheadFactor).getTranslation().getDistance(hub.getTranslation());
     }
 
     public void initializeLEDs() {
@@ -277,7 +277,7 @@ public class SuperSystem implements Reportable {
     public void initializeLogging() {
         applySubsystems((s) -> s.initializeLogging());
 
-        NerdLog.logNumber(kSupersystemTab + "/Hub Distance", () -> getHubDistance(false), "m", LOG_LEVEL.ALL);
+        NerdLog.logNumber(kSupersystemTab + "/Hub Distance", () -> getHubDistance(), "m", LOG_LEVEL.ALL);
         NerdLog.logData(kSupersystemTab + "/Command Scheduler", CommandScheduler.getInstance(), LOG_LEVEL.ALL);
     }
 }
