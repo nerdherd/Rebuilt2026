@@ -5,27 +5,96 @@
     "data": {
       "commands": [
         {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake Down Only"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.175
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake Hold"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "S1MidT"
+                }
+              }
+            ]
+          }
+        },
+        {
           "type": "named",
           "data": {
-            "name": "Intake Down"
+            "name": "Shoot"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 2.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot Ramp Down"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "H60MidTHub"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 2.5
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot Ramp Down"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "S1Trench"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "H60Trench"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "H60TrenchLeave"
+            "pathName": "TopH60Leave"
           }
         }
       ]

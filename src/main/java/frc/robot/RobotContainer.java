@@ -52,7 +52,6 @@ public class RobotContainer {
       superSystem = new SuperSystem(swerveDrive);
       superSystem.initializeLEDs();
       Autos.initNamedCommands(superSystem, swerveDrive);
-      Autos.initEventMarkers(superSystem, swerveDrive);
     }
     
     Subsystems.init();

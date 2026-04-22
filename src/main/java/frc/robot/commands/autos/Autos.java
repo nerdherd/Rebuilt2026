@@ -34,6 +34,7 @@ public final class Autos {
         autoChooser.addOption("Top-S1Neutral3", AutoBuilder.buildAuto("Top-S1Neutral3"));
         autoChooser.addOption("Top-S1MidDepot", AutoBuilder.buildAuto("Top-S1MidDepot"));
         autoChooser.addOption("Top-S1NeutralTrench2.5", AutoBuilder.buildAuto("Top-S1NeutralTrench2.5"));
+
         // MID
         autoChooser.addOption("Mid-S3DepotH0", AutoBuilder.buildAuto("Mid-S3DepotH0"));
         autoChooser.addOption("Mid-S3DepotTower", AutoBuilder.buildAuto("Mid-S3DepotTower"));
@@ -104,41 +105,5 @@ public final class Autos {
                 superSystem.stopFlywheel()
             ));
     }
-
-    public static void initEventMarkers(SuperSystem superSystem, NerdDrivetrain swerveDrive) {
-        // INTAKE
-        new EventTrigger("Intake Down")
-            .onTrue(superSystem.intakeDown());
-        new EventTrigger("Intake Down Sequence")
-            .onTrue(Commands.sequence(
-                superSystem.intakeDown(),
-                superSystem.intake()
-            ));
-
-        new EventTrigger("Intake Start")
-            .onTrue(superSystem.intake());   
-        new EventTrigger("Intake Stop")
-            .onTrue(superSystem.stopIntaking());
-
-        // FLYWHEEL
-        new EventTrigger("Flywheel Start 0")
-            .onTrue(superSystem.spinUpFlywheel(34));
-        new EventTrigger("Flywheel Start 45")
-            .onTrue(superSystem.spinUpFlywheel(33));
-        new EventTrigger("Flywheel Start 60")
-            .onTrue(superSystem.spinUpFlywheel(39));
-        new EventTrigger("Flywheel Stop")
-            .onTrue(superSystem.stopFlywheel());
-
-        // SHOOTER
-        new EventTrigger("Shoot")
-            .onTrue(superSystem.shoot());
-        new EventTrigger("Shoot Ramp Down")
-            .onTrue(Commands.sequence(
-                superSystem.stopShooting(),
-                Commands.waitSeconds(1),
-                superSystem.stopFlywheel()
-            ));
-    }
-
+    
 }
