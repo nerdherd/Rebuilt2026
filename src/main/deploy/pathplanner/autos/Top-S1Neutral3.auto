@@ -130,6 +130,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Auto Shoot Start"
+          }
+        },
+        {
           "type": "wait",
           "data": {
             "waitTime": 1.3
