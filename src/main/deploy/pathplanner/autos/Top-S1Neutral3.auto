@@ -13,6 +13,25 @@
                 "data": {
                   "commands": [
                     {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.05
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "S1Mid3One"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
                       "type": "named",
                       "data": {
                         "name": "Intake Down Only"
@@ -28,25 +47,6 @@
                       "type": "named",
                       "data": {
                         "name": "Intake Hold"
-                      }
-                    }
-                  ]
-                }
-              },
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 0.05
-                      }
-                    },
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "S1MidTripleOne"
                       }
                     }
                   ]
@@ -86,7 +86,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "H45MidTripleTwo"
+                  "pathName": "H45Mid3Two"
                 }
               }
             ]
@@ -123,7 +123,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "H45MidTriple3"
+                  "pathName": "H45Mid3Three"
                 }
               }
             ]
