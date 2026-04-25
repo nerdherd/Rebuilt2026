@@ -193,4 +193,26 @@ public class Controller {
             return guliKit.isDigRight();
         return true;
     }
+
+    /**
+     * returns analog value from left trigger
+     * @return value on [0, 1]
+     */
+    public double getTriggerLeftAxis() {
+        if (this.type == Type.PS4) {
+            return ps4.getL2Axis();
+        }
+        return 0.0;
+    }
+
+    /**
+     * returns analog value from right trigger
+     * @return value on [0, 1]
+     */
+    public double getTriggerRightAxis() {
+        if (this.type == Type.PS4) {
+            return ps4.getR2Axis();
+        }
+        return 0.0;
+    }
 }
