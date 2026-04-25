@@ -9,9 +9,22 @@
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "sequential",
                 "data": {
-                  "pathName": "S1MidTriple1"
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.05
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "S1Mid2.5One"
+                      }
+                    }
+                  ]
                 }
               },
               {
@@ -38,43 +51,6 @@
                     }
                   ]
                 }
-              },
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 1.0
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Intake Start"
-                      }
-                    },
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 2.75
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Flywheel Start 45"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Intake Stop"
-                      }
-                    }
-                  ]
-                }
               }
             ]
           }
@@ -96,7 +72,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 0.7
+                        "waitTime": 0.75
                       }
                     },
                     {
@@ -136,50 +112,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "H45MidTriple2"
-                }
-              },
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 1.5
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Intake Start"
-                      }
-                    },
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 3.25
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Flywheel Start 45"
-                      }
-                    },
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 1.0
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Intake Stop"
-                      }
-                    }
-                  ]
+                  "pathName": "H45Mid2.5Two"
                 }
               }
             ]
@@ -202,7 +135,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 0.7
+                        "waitTime": 0.3
                       }
                     },
                     {
@@ -242,26 +175,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "TopH45Intake"
-                }
-              },
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 1.0
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Intake Start"
-                      }
-                    }
-                  ]
+                  "pathName": "H45Mid2.5Leave"
                 }
               }
             ]

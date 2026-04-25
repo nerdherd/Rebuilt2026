@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.2815000000000003,
-        "y": 4.078190476190477
+        "x": 2.0,
+        "y": 4.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.3045357142857155,
-        "y": 4.4187142857142865
+        "x": 2.25,
+        "y": 4.0
       },
       "isLocked": false,
-      "linkedName": "S3"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.076,
-        "y": 2.7042165242165255
+        "x": 2.5,
+        "y": 4.0
       },
       "prevControl": {
-        "x": 3.0456122052375743,
-        "y": 2.9523628156042405
+        "x": 2.25,
+        "y": 4.0
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "H45-"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -33,21 +33,15 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "Flywheel Start 45",
+      "name": "Shoot Distance",
       "waypointRelativePos": 0,
-      "endWaypointRelativePos": null,
-      "command": null
-    },
-    {
-      "name": "Shoot",
-      "waypointRelativePos": 1.0,
-      "endWaypointRelativePos": null,
+      "endWaypointRelativePos": 0,
       "command": null
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 1.0,
+    "maxAcceleration": 1.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -55,13 +49,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 45.0
+    "rotation": 0.0
   },
   "reversed": false,
-  "folder": "To Hub",
+  "folder": "Test",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 0.0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

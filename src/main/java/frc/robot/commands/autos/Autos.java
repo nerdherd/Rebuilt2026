@@ -19,37 +19,25 @@ public final class Autos {
 
     public static void initAutoChooser() {
         autoChooser.setDefaultOption("Do Nothing", Commands.none());
-        autoChooser.addOption("Test", AutoBuilder.buildAuto("Test"));
+        autoChooser.addOption("Test", AutoBuilder.buildAuto("ShootDistance"));
 
         // EXAMPLE
         // autoChooser.addOption("Auto Name", AutoBuilder.buildAuto("PathPlanner Auto Name"));
 
         // TOP
-        // autoChooser.addOption("Top-S1NeutralSafe", AutoBuilder.buildAuto("Top-S1NeutralSafe"));
-        // autoChooser.addOption("Top-S1NeutralDouble", AutoBuilder.buildAuto("Top-S1NeutralDouble"));
-        // autoChooser.addOption("Top-S1NeutralCitrus", AutoBuilder.buildAuto("Top-S1NeutralCitrus"));
-        // autoChooser.addOption("Top-S1MidTBDepot", AutoBuilder.buildAuto("Top-S1MidTBDepot"));
-        autoChooser.addOption("Top-S1Neutral", AutoBuilder.buildAuto("Top-S1Neutral"));
         autoChooser.addOption("Top-S1Neutral2.5", AutoBuilder.buildAuto("Top-S1Neutral2.5"));
         autoChooser.addOption("Top-S1Neutral3", AutoBuilder.buildAuto("Top-S1Neutral3"));
         autoChooser.addOption("Top-S1MidDepot", AutoBuilder.buildAuto("Top-S1MidDepot"));
-        autoChooser.addOption("Top-S1NeutralTrench2.5", AutoBuilder.buildAuto("Top-S1NeutralTrench2.5"));
+
         // MID
-        autoChooser.addOption("Mid-S3DepotH0", AutoBuilder.buildAuto("Mid-S3DepotH0"));
-        autoChooser.addOption("Mid-S3DepotTower", AutoBuilder.buildAuto("Mid-S3DepotTower"));
         
         // BOT
-        autoChooser.addOption("Bot-S5Neutral", AutoBuilder.buildAuto("Bot-S5Neutral"));
         autoChooser.addOption("Bot-S5Neutral2.5", AutoBuilder.buildAuto("Bot-S5Neutral2.5"));
+
+        // TEST
+        autoChooser.addOption("Top-S1Trench2.5", AutoBuilder.buildAuto("Top-S1Trench2.5"));
         autoChooser.addOption("Bot-S5Trench2.5", AutoBuilder.buildAuto("Bot-S5Trench2.5"));
 
-        autoChooser.addOption("Bot-S5NeutralSafe", AutoBuilder.buildAuto("Bot-S5NeutralSafe"));
-        // autoChooser.addOption("Bot-S5MidTBOutpost", AutoBuilder.buildAuto("Bot-S5MidTBOutpost"));
-
-        autoChooser.addOption("testhub", AutoBuilder.buildAuto("testhub"));
-        autoChooser.addOption("pivot", AutoBuilder.buildAuto("pivot"));
-
-        
         NerdLog.logData(kAutosTab + "/Selected Auto", autoChooser, LOG_LEVEL.MINIMAL);
     }
 
@@ -83,7 +71,7 @@ public final class Autos {
         NamedCommands.registerCommand("Flywheel Start", superSystem.spinUpFlywheel());
         NamedCommands.registerCommand("Flywheel Start 0", superSystem.spinUpFlywheel(34));
         NamedCommands.registerCommand("Flywheel Start 45", superSystem.spinUpFlywheel(35.65));
-        NamedCommands.registerCommand("Flywheel Start 60", superSystem.spinUpFlywheel(39));
+        NamedCommands.registerCommand("Flywheel Start 60", superSystem.spinUpFlywheel(41));
         NamedCommands.registerCommand("Flywheel Stop", superSystem.stopFlywheel());
         NamedCommands.registerCommand("Turn to Hub", superSystem.turnToHub(3.0));
 
@@ -104,41 +92,5 @@ public final class Autos {
                 superSystem.stopFlywheel()
             ));
     }
-
-    public static void initEventMarkers(SuperSystem superSystem, NerdDrivetrain swerveDrive) {
-        // INTAKE
-        new EventTrigger("Intake Down")
-            .onTrue(superSystem.intakeDown());
-        new EventTrigger("Intake Down Sequence")
-            .onTrue(Commands.sequence(
-                superSystem.intakeDown(),
-                superSystem.intake()
-            ));
-
-        new EventTrigger("Intake Start")
-            .onTrue(superSystem.intake());   
-        new EventTrigger("Intake Stop")
-            .onTrue(superSystem.stopIntaking());
-
-        // FLYWHEEL
-        new EventTrigger("Flywheel Start 0")
-            .onTrue(superSystem.spinUpFlywheel(34));
-        new EventTrigger("Flywheel Start 45")
-            .onTrue(superSystem.spinUpFlywheel(33));
-        new EventTrigger("Flywheel Start 60")
-            .onTrue(superSystem.spinUpFlywheel(39));
-        new EventTrigger("Flywheel Stop")
-            .onTrue(superSystem.stopFlywheel());
-
-        // SHOOTER
-        new EventTrigger("Shoot")
-            .onTrue(superSystem.shoot());
-        new EventTrigger("Shoot Ramp Down")
-            .onTrue(Commands.sequence(
-                superSystem.stopShooting(),
-                Commands.waitSeconds(1),
-                superSystem.stopFlywheel()
-            ));
-    }
-
+    
 }

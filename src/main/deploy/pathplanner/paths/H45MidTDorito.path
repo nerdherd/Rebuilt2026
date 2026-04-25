@@ -180,7 +180,41 @@
     }
   ],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "",
+      "waypointRelativePos": 1.000337416943521,
+      "endWaypointRelativePos": 1.000337416943521,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Intake Stop"
+        }
+      }
+    },
+    {
+      "name": "",
+      "waypointRelativePos": 5.028083471760799,
+      "endWaypointRelativePos": 5.028083471760799,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Flywheel Start 45"
+        }
+      }
+    },
+    {
+      "name": "",
+      "waypointRelativePos": 5.142078488372095,
+      "endWaypointRelativePos": 5.142078488372095,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Intake Stop"
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
@@ -191,13 +225,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -45.0
+    "rotation": 180.0
   },
   "reversed": false,
   "folder": "Combo Top",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -45.0
+    "rotation": 180.0
   },
   "useDefaultConstraints": true
 }

@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.3174643874643879,
-        "y": 0.5465099715099742
+        "x": 3.076068376068376,
+        "y": 0.8705131868480105
       },
       "isLocked": false,
       "linkedName": null
@@ -20,12 +20,12 @@
         "y": 0.6240598290598303
       },
       "prevControl": {
-        "x": 3.9252991690267987,
-        "y": 0.6102394356246574
+        "x": 3.179846488301969,
+        "y": 0.6240598290598305
       },
       "nextControl": {
-        "x": 7.484995214565525,
-        "y": 0.6767248987268535
+        "x": 7.485486991980117,
+        "y": 0.6240598290598303
       },
       "isLocked": false,
       "linkedName": null
@@ -94,7 +94,15 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.9180710078534038,
+      "waypointRelativePos": 0.0,
+      "rotationDegrees": -90.0
+    },
+    {
+      "waypointRelativePos": 0.22363281249999994,
+      "rotationDegrees": -90.0
+    },
+    {
+      "waypointRelativePos": 1.007555509868421,
       "rotationDegrees": 0.0
     },
     {
@@ -151,7 +159,41 @@
     }
   ],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "",
+      "waypointRelativePos": 0.9825970722591364,
+      "endWaypointRelativePos": 0.9825970722591364,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Intake Start"
+        }
+      }
+    },
+    {
+      "name": "",
+      "waypointRelativePos": 4.209081706810632,
+      "endWaypointRelativePos": 4.209081706810632,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Flywheel Start 45"
+        }
+      }
+    },
+    {
+      "name": "",
+      "waypointRelativePos": 4.314200062292356,
+      "endWaypointRelativePos": 4.314200062292356,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Intake Stop"
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
@@ -162,13 +204,13 @@
   },
   "goalEndState": {
     "velocity": 0.0,
-    "rotation": 45.0
+    "rotation": 180.0
   },
   "reversed": false,
   "folder": "Combo Bottom",
   "idealStartingState": {
     "velocity": 0.0,
-    "rotation": 36.0
+    "rotation": 45.0
   },
   "useDefaultConstraints": true
 }

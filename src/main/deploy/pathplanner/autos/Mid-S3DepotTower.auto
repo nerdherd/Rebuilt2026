@@ -9,6 +9,12 @@
           "data": {
             "commands": [
               {
+                "type": "path",
+                "data": {
+                  "pathName": "S3DepotTower"
+                }
+              },
+              {
                 "type": "sequential",
                 "data": {
                   "commands": [
@@ -32,55 +38,6 @@
                     }
                   ]
                 }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "S3DepotTower"
-                }
-              },
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 1.0
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Intake Stop"
-                      }
-                    },
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 2.0
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Shoot Distance"
-                      }
-                    },
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 2.0
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Intake Stop"
-                      }
-                    }
-                  ]
-                }
               }
             ]
           }
@@ -88,7 +45,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Auto Shoot Stop"
+            "name": "Auto Shoot Start"
           }
         },
         {
