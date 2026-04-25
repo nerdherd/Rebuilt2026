@@ -15,9 +15,22 @@
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "sequential",
                 "data": {
-                  "pathName": "S1MidDepot"
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.05
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "S1MidDepot"
+                      }
+                    }
+                  ]
                 }
               },
               {

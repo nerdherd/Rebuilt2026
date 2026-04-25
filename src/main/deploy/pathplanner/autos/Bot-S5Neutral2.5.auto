@@ -13,6 +13,25 @@
                 "data": {
                   "commands": [
                     {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.05
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "S5Mid2.5One"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
                       "type": "named",
                       "data": {
                         "name": "Intake Down Only"
@@ -31,12 +50,6 @@
                       }
                     }
                   ]
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "S5Mid2.5One"
                 }
               }
             ]
