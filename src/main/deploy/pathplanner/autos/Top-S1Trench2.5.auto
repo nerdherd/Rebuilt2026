@@ -45,7 +45,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Shoot"
+            "name": "Auto Shoot Start"
           }
         },
         {
@@ -76,13 +76,13 @@
         {
           "type": "named",
           "data": {
-            "name": "Shoot"
+            "name": "Auto Shoot Start"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 2.5
+            "waitTime": 2.0
           }
         },
         {
