@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import static frc.robot.Constants.SwerveDriveConstants.kRobotOrientedVelocity;
+
 import dev.doglog.DogLog;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -93,8 +95,8 @@ public class RobotContainer {
       () -> swerveDrive.angleToLookAheadPose(FieldPositions.HUB_CENTER, ShooterConstants.kLookAheadFactor) + kOffset,
       // robot oriented adjustment (dpad)
       () -> new Translation2d(
-        ((driverController.getDpadUp() && !driverController.getBumperRight()) ? 1 : 0) - (driverController.getDpadDown() ? 1 : 0), 
-        (driverController.getDpadLeft() ? 1 : 0) - (driverController.getDpadRight() ? 1 : 0))
+        (((driverController.getDpadUp() && !driverController.getBumperRight()) ? 1 : 0) - (driverController.getDpadDown() ? 1 : 0)) * kRobotOrientedVelocity, 
+        ((driverController.getDpadLeft() ? 1 : 0) - (driverController.getDpadRight() ? 1 : 0)) * 1.5)
         .rotateBy((!driverController.getBumperRight()) ? Rotation2d.kZero : 
             Rotation2d.fromRadians(swerveDrive.angleToLookAheadPose(FieldPositions.HUB_CENTER, ShooterConstants.kLookAheadRingDriveFactor) - swerveDrive.angleToLookAheadPose(FieldPositions.HUB_CENTER, ShooterConstants.kLookAheadFactor) - kOffset)),
       // joystick drive field oriented
