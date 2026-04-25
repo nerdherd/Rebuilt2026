@@ -52,6 +52,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Top Autos",
+  "folder": "Test",
   "choreoAuto": false
 }
