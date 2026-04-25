@@ -2,7 +2,6 @@ package frc.robot.commands;
 
 import static frc.robot.Constants.SwerveDriveConstants.kDriveMaxVelocity;
 import static frc.robot.Constants.SwerveDriveConstants.kDrivePrecisionMultiplier;
-import static frc.robot.Constants.SwerveDriveConstants.kRobotOrientedVelocity;
 import static frc.robot.Constants.SwerveDriveConstants.kTurnMaxVelocity;
 import static frc.robot.Constants.SwerveDriveConstants.kTurnPrecisionMultiplier;
 import static frc.robot.Constants.SwerveDriveConstants.kTurnToAngleMaxVelocity;
@@ -105,7 +104,7 @@ public class SwerveJoystickCommand extends Command {
         else turnSpeed = kRotationInputFilter.apply(turnInput.get()) * kTurnMaxVelocity * NerdyMath.lerp(1.0, kTurnPrecisionMultiplier, usePrecisionMode.get());
 
         Translation2d adjustment = robotOrientedAdjustment.get();
-        if (!adjustment.equals(Translation2d.kZero)) swerveDrive.driveRobotOriented(adjustment.getX() * kRobotOrientedVelocity * driveMult, adjustment.getY() * kRobotOrientedVelocity * driveMult, turnSpeed);
+        if (!adjustment.equals(Translation2d.kZero)) swerveDrive.driveRobotOriented(adjustment.getX() * driveMult, adjustment.getY() * driveMult, turnSpeed);
         else if (useFieldOriented.get()) swerveDrive.driveFieldOriented(xSpeed, ySpeed, turnSpeed);
         else swerveDrive.driveRobotOriented(xSpeed, ySpeed, turnSpeed);
     }
