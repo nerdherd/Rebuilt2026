@@ -12,7 +12,6 @@ import static frc.robot.Constants.LoggingConstants.kAutosTab;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
-import com.pathplanner.lib.events.EventTrigger;
 
 public final class Autos {
     public static SendableChooser<Command> autoChooser = new SendableChooser<>();
@@ -38,7 +37,7 @@ public final class Autos {
         autoChooser.addOption("Top-S1Trench2.5", AutoBuilder.buildAuto("Top-S1Trench2.5"));
         autoChooser.addOption("Bot-S5Trench2.5", AutoBuilder.buildAuto("Bot-S5Trench2.5"));
 
-        NerdLog.logData(kAutosTab + "/Selected Auto", autoChooser, LOG_LEVEL.MINIMAL);
+        NerdLog.get().logData(kAutosTab + "/Selected Auto", autoChooser, LOG_LEVEL.MINIMAL);
     }
 
     public static void initNamedCommands(SuperSystem superSystem, NerdDrivetrain swerveDrive) {

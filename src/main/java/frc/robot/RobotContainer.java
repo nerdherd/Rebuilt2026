@@ -60,7 +60,7 @@ public class RobotContainer {
     Autos.initAutoChooser();
     initializeLogging();
 
-    NerdLog.reportInfo("Initialization Complete");
+    NerdLog.get().reportInfo("Initialization Complete");
   }
 
   public static void refreshAlliance() {
@@ -260,18 +260,19 @@ public class RobotContainer {
   
   public StringSubscriber printLog = null;
   public void initializeLogging() {
-    if (printLog == null) printLog = DogLog.tunable("Print", "", (value) -> NerdLog.reportInfo("" + value));
-    NerdLog.logData("Robot/PDP", pdp, LOG_LEVEL.ALL);
+    if (printLog == null) printLog = DogLog.tunable("Print", "", (value) -> NerdLog.get().reportInfo("" + value));
+    NerdLog.get().logData("Robot/PDP", pdp, LOG_LEVEL.ALL);
     
     swerveDrive.initializeLogging();
     if (Constants.USE_SUBSYSTEMS) { 
       superSystem.initializeLogging();
     }
 
-    NerdLog.logData("Robot/Command Scheduler", CommandScheduler.getInstance(), LOG_LEVEL.MEDIUM);
-    NerdLog.logNumber("Robot/RAM Usage", () -> (double)Runtime.getRuntime().freeMemory(), LOG_LEVEL.MEDIUM);
-    NerdLog.logNumber("Match Info/Shift Time", () -> {shiftTime = allianceShiftTime(); return shiftTime;}, LOG_LEVEL.MINIMAL);
-    NerdLog.reportLogCount();
+    NerdLog.get().logData("Robot/Command Scheduler", CommandScheduler.getInstance(), LOG_LEVEL.MEDIUM);
+    NerdLog.get().logNumber("Robot/RAM Usage", () -> (double)Runtime.getRuntime().freeMemory(), LOG_LEVEL.MEDIUM);
+    NerdLog.getNT().logNumber("Match Info/Shift Time", () -> {shiftTime = allianceShiftTime(); return shiftTime;}, LOG_LEVEL.MINIMAL);
+    NerdLog.get().reportLogCount();
+    NerdLog.getNT().reportLogCount();
   }
   
   /**
@@ -294,7 +295,7 @@ public class RobotContainer {
    * @return the number of seconds in the current phase, and the phase name
    */
   public static double allianceShiftTime() {
-    // if (!DriverStation.isFMSAttached()) { DogLog.log("Match Info/Shift Name", "DriverStation not attached"); return 0.0; };
+    // if (!DriverStation.isFMSAttached()) { DogLog.forceNT.log("Match Info/Shift Name", "DriverStation not attached"); return 0.0; };
     boolean wonAuto = true;
     if (Constants.ROBOT_LOG_LEVEL == LOG_LEVEL.MEDIUM) {
       String data = DriverStation.getGameSpecificMessage();
@@ -303,25 +304,25 @@ public class RobotContainer {
         case 'R': wonAuto = isRedSide; break;
         default: break;
       } 
-      DogLog.log("Match Info/Won Auto?", wonAuto);
+      DogLog.forceNt.log("Match Info/Won Auto?", wonAuto);
     }
 
     double time = DriverStation.getMatchTime();
-    DogLog.log("Match Info/time", time);
+    DogLog.forceNt.log("Match Info/time", time);
 
     if (DriverStation.isAutonomous()) {
-      if (time < 0.0) { DogLog.log("Match Info/Shift Name", (gameEnded) ? "Good Job Team!" : "Get Ready..."); return 0.0; }
-      DogLog.log("Match Info/Shift Name", "Auto");
+      if (time < 0.0) { DogLog.forceNt.log("Match Info/Shift Name", (gameEnded) ? "Good Job Team!" : "Get Ready..."); return 0.0; }
+      DogLog.forceNt.log("Match Info/Shift Name", "Auto");
       gameEnded = false;
       return time;
     } else if (DriverStation.isTeleop()) {
-      if (time < 0.0) { DogLog.log("Match Info/Shift Name", (gameEnded) ? "Good Job Team!" : "Good Luck! -nerdherd"); return 0.0; }
-      else if (time >= 130.0) { DogLog.log("Match Info/Shift Name", "Transition"); return time - 130; } // transition
+      if (time < 0.0) { DogLog.forceNt.log("Match Info/Shift Name", (gameEnded) ? "Good Job Team!" : "Good Luck! -nerdherd"); return 0.0; }
+      else if (time >= 130.0) { DogLog.forceNt.log("Match Info/Shift Name", "Transition"); return time - 130; } // transition
       else if (time >= 30.0) { 
         int shift = (int)((130 - time) / 25) + 1; 
-        DogLog.log("Match Info/Shift Name", "Shift " + shift + " " + (((shift % 2 == 1) == wonAuto) ? "Feeding" : "Scoring")); return (time - 30) % 25; 
+        DogLog.forceNt.log("Match Info/Shift Name", "Shift " + shift + " " + (((shift % 2 == 1) == wonAuto) ? "Feeding" : "Scoring")); return (time - 30) % 25; 
       } // shifts 1-4
-      else { DogLog.log("Match Info/Shift Name", "Endgame"); if (time <= 1.0) gameEnded = true; return time; } // endgame
-    } else { DogLog.log("Match Info/Shift Name", "Inactive"); return 0.0; }
+      else { DogLog.forceNt.log("Match Info/Shift Name", "Endgame"); if (time <= 1.0) gameEnded = true; return time; } // endgame
+    } else { DogLog.forceNt.log("Match Info/Shift Name", "Inactive"); return 0.0; }
   }
 }
