@@ -388,7 +388,7 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
 		//////////////
 		/// MEDIUM ///
         //////////////
-        NerdLog.getNT().logBoolean(kSubsystemTab + name + "/Enabled", () -> this.enabled, Reportable.LOG_LEVEL.MEDIUM);
+        NerdLog.get().logBoolean(kSubsystemTab + name + "/Enabled", () -> this.enabled, Reportable.LOG_LEVEL.MEDIUM);
 		NerdLog.get().logSignal(kSubsystemTab + name + "/Motor Voltage", primaryMotor.getMotorVoltage(false), primaryMotor.getNetwork().getName(), LOG_LEVEL.MEDIUM);
         
         //////////////
