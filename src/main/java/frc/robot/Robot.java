@@ -37,7 +37,7 @@ public class Robot extends TimedRobot {
     DogLog.setOptions(new DogLogOptions()
       .withCaptureDs(true)
       .withCaptureNt(true)
-      .withNtPublish(true)
+      .withNtPublish(false) // TODO delete
       .withLogEntryQueueCapacity(1000)
     );
     DogLog.setEnabled(true);
@@ -57,7 +57,8 @@ public class Robot extends TimedRobot {
     DogLog.timeEnd("Periodic/CommandScheduler Runtime");
     
     DogLog.time("Periodic/NerdLog Runtime");
-    NerdLog.periodic();
+    NerdLog.get().periodic();
+    NerdLog.getNT().periodic();
     DogLog.timeEnd("Periodic/NerdLog Runtime");
   }
 
