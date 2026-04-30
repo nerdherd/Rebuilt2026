@@ -30,6 +30,8 @@ public final class Autos {
 
         // MID
         autoChooser.addOption("Mid-S3DepotTower", AutoBuilder.buildAuto("Mid-S3DepotTower"));
+        autoChooser.addOption("Mid-S3DepotTower2", AutoBuilder.buildAuto("Mid-S3DepotTower2"));
+
 
         // BOT
         autoChooser.addOption("Bot-S5Neutral2.5", AutoBuilder.buildAuto("Bot-S5Neutral2.5"));

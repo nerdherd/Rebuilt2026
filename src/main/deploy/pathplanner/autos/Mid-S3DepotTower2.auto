@@ -11,19 +11,13 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "S3DepotTower"
+                  "pathName": " S3Depot"
                 }
               },
               {
                 "type": "sequential",
                 "data": {
                   "commands": [
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 1.25
-                      }
-                    },
                     {
                       "type": "named",
                       "data": {
@@ -33,7 +27,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 0.175
+                        "waitTime": 0.2
                       }
                     },
                     {
@@ -52,7 +46,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 3.0
+                        "waitTime": 2.0
                       }
                     },
                     {
@@ -60,11 +54,31 @@
                       "data": {
                         "name": "Intake Start"
                       }
-                    },
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "depottower"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 4.0
+                        "waitTime": 1.5
                       }
                     },
                     {
@@ -76,13 +90,13 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 1.0
+                        "waitTime": 3.0
                       }
                     },
                     {
                       "type": "named",
                       "data": {
-                        "name": "Flywheel Start 60"
+                        "name": "Flywheel Start 0"
                       }
                     }
                   ]

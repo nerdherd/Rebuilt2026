@@ -177,7 +177,7 @@ public class SuperSystem implements Reportable {
     }
 
     public Command intakeHoldTeleop() {
-        return intakeSlapdown.setDesiredValueCommand(-1.5); //change when we have bumpers
+        return intakeSlapdown.setDesiredValueCommand(-1); //change when we have bumpers
     }
 
     public Command stopIntakeHold() {
