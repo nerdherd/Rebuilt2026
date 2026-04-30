@@ -5,15 +5,53 @@
     "data": {
       "commands": [
         {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Test"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Flywheel with Distance"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 1.0
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Flywheel Stop"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
           "type": "path",
           "data": {
-            "pathName": "EventMarkerTest"
+            "pathName": "depottower"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "Test",
+  "folder": "Use These",
   "choreoAuto": false
 }

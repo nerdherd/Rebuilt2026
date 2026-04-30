@@ -50,9 +50,11 @@ public class SuperSystem implements Reportable {
     }
     
     public Command setShooterCommand(double speed) {
-        return Commands.parallel(
+        Command c = Commands.parallel(
             shooter.setDesiredValueCommand(speed)
-        );
+            );
+        c.addRequirements(shooter);
+        return c;
     }
 
     // ------------------------------------ subsystems ------------------------------------ //
@@ -155,9 +157,7 @@ public class SuperSystem implements Reportable {
     }
         
     public Command stopFlywheel() {
-        return Commands.parallel(
-            setShooterCommand(0.0)
-        );
+        return setShooterCommand(0.0);
     }
 
     public Command intakeDown() {
@@ -216,7 +216,7 @@ public class SuperSystem implements Reportable {
                 // spin up flywheel
                 shooter.setDesiredValue(Math.min(55.0, rps));
             }
-        );
+        , shooter);
     }
 
     public double shootSpeed = 0;
