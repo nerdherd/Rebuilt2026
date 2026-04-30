@@ -270,7 +270,7 @@ public final class Constants {
     
     private static final CurrentLimitsConfigs kCurrentLimitsConfigs =
       new CurrentLimitsConfigs()
-        .withStatorCurrentLimit(45)
+        .withStatorCurrentLimit(80)
         .withStatorCurrentLimitEnable(true);
 
     public static final TalonFXConfiguration kSubsystemConfiguration = 
@@ -394,7 +394,7 @@ public final class Constants {
 
     // Regression of a*x^2 + b
     // Update at -- on -/--/2026
-    public static final double kShootWithDistanceA = 0.9;//0.87; // a
+    public static final double kShootWithDistanceA = 0.89;//0.87; // a
     public static final double kShootWithDistanceB = 31.60409; // b
 
     public static final double kLookAheadRingDriveFactor = 0.3; // use to tune the ring drive
@@ -521,7 +521,8 @@ public final class Constants {
         SubsystemMode.VOLTAGE, 
         0.0,
         useIntakeRoller)
-      .configureMotors(IntakeRollerConstants.kSubsystemConfiguration);
+      .configureMotors(IntakeRollerConstants.kSubsystemConfiguration)
+      .logTorqueCurrent();
     
     public static final boolean useConveyor = true;
     public static final TemplateSubsystem conveyor = (!USE_SUBSYSTEMS) ? null :
@@ -543,7 +544,8 @@ public final class Constants {
         0.0,
         useIndexer)
       .addMotor(IndexerConstants.kMotor2ID, MotorAlignmentValue.Opposed)
-      .configureMotors(IndexerConstants.kSubsystemConfiguration);
+      .configureMotors(IndexerConstants.kSubsystemConfiguration)
+      .logTorqueCurrent();
     
     public static final boolean useShooter = true;
     public static final TemplateSubsystem shooter = (!USE_SUBSYSTEMS) ? null :

@@ -15,6 +15,8 @@ import static frc.robot.Constants.SwerveDriveConstants.kTargetDriveController;
 import static frc.robot.Constants.SwerveDriveConstants.kTargetDriveMaxLateralVelocity;
 import static frc.robot.Constants.SwerveDriveConstants.kTowSwerveRequest;
 
+import java.util.HashMap;
+
 import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
@@ -256,6 +258,7 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
       );
     }
 
+    private HashMap<Camera, Double> lastTimestamps = new HashMap<>();    
     public void visionUpdate(Camera limelight, boolean useReset) {
         if (LimelightHelpers.getCurrentPipelineIndex(limelight.name) != 0) return;
         if (!useMegaTag2) {
@@ -274,6 +277,9 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
             PoseEstimate mt = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(limelight.name);
             field.getObject(limelight.name).setPose(nullPose);
             if (mt == null || Math.abs(getPigeon2().getAngularVelocityZWorld().getValueAsDouble()) > 720 || mt.tagCount == 0) return;
+            // if (!lastTimestamps.containsKey(limelight)) lastTimestamps.put(limelight, 0.0);
+            // if (lastTimestamps.get(limelight).equals(mt.timestampSeconds)) return;
+            // lastTimestamps.put(limelight, mt.timestampSeconds);
             field.getObject(limelight.name).setPose(mt.pose);
             double stddev = (mt.avgTagDist > 3) ? 2.0 : 0.7;
             setVisionMeasurementStdDevs(VecBuilder.fill(stddev, stddev, 9999999)); // TODO consider other stddevs
