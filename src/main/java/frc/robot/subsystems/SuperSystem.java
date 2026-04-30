@@ -50,11 +50,9 @@ public class SuperSystem implements Reportable {
     }
     
     public Command setShooterCommand(double speed) {
-        Command c = Commands.parallel(
+        return Commands.parallel(
             shooter.setDesiredValueCommand(speed)
             );
-        c.addRequirements(shooter);
-        return c;
     }
 
     // ------------------------------------ subsystems ------------------------------------ //
@@ -169,7 +167,7 @@ public class SuperSystem implements Reportable {
     }
 
     public Command intakeDownOnly() {
-        return intakeSlapdown.setDesiredValueCommand(-9);
+        return intakeSlapdown.setDesiredValueCommand(-10);
     }
 
     public Command intakeHold() {
@@ -215,8 +213,7 @@ public class SuperSystem implements Reportable {
                 double rps = ShooterConstants.kShootWithDistanceA * distance * distance + ShooterConstants.kShootWithDistanceB;
                 // spin up flywheel
                 shooter.setDesiredValue(Math.min(55.0, rps));
-            }
-        , shooter);
+            });
     }
 
     public double shootSpeed = 0;
