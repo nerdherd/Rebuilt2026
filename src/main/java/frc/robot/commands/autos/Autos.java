@@ -72,7 +72,7 @@ public final class Autos {
 
         // SHOOTER
         NamedCommands.registerCommand("Flywheel Start", superSystem.spinUpFlywheel());
-        NamedCommands.registerCommand("Flywheel with Distance", superSystem.shootWithDistance());
+        NamedCommands.registerCommand("Flywheel with Distance (4.3s)", superSystem.shootWithDistance().raceWith(Commands.waitSeconds(4.3)).andThen(superSystem.stopFlywheel()));
         NamedCommands.registerCommand("Flywheel Start 0", superSystem.spinUpFlywheel(34));
         NamedCommands.registerCommand("Flywheel Start 45", superSystem.spinUpFlywheel(35.65));
         NamedCommands.registerCommand("Flywheel Start 60", superSystem.spinUpFlywheel(42.9));

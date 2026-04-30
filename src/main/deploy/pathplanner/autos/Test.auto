@@ -21,19 +21,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "Flywheel with Distance"
-                      }
-                    },
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 1.0
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Flywheel Stop"
+                        "name": "Flywheel with Distance (5s)"
                       }
                     }
                   ]

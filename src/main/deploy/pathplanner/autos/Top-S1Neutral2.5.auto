@@ -64,7 +64,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "Flywheel Start 45"
+                        "name": "Flywheel with Distance (4.3s)"
                       }
                     },
                     {
@@ -121,12 +121,6 @@
                       "type": "named",
                       "data": {
                         "name": "Auto Shoot Stop"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Flywheel Stop"
                       }
                     }
                   ]
@@ -170,7 +164,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "Flywheel Start 45"
+                        "name": "Flywheel with Distance (4.3s)"
                       }
                     },
                     {
@@ -227,12 +221,6 @@
                       "type": "named",
                       "data": {
                         "name": "Auto Shoot Stop"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Flywheel Stop"
                       }
                     }
                   ]
