@@ -25,7 +25,7 @@ public final class Autos {
 
         // TOP
         autoChooser.addOption("Top-S1Neutral2.5", AutoBuilder.buildAuto("Top-S1Neutral2.5"));
-        // autoChooser.addOption("Top-S1Neutral2.5/2", AutoBuilder.buildAuto("Top-S1Neutral2.52"));
+        autoChooser.addOption("Top-S1Neutral2.5 w Distance", AutoBuilder.buildAuto("Top-S1Neutral2.5 w Distance"));
         autoChooser.addOption("Top-S1Neutral3", AutoBuilder.buildAuto("Top-S1Neutral3"));
         // autoChooser.addOption("Top-S1MidDepot", AutoBuilder.buildAuto("Top-S1MidDepot"));
 
@@ -36,6 +36,8 @@ public final class Autos {
 
         // BOT
         autoChooser.addOption("Bot-S5Neutral2.5", AutoBuilder.buildAuto("Bot-S5Neutral2.5"));
+        autoChooser.addOption("Bot-S5Neutral2.5 w Distance", AutoBuilder.buildAuto("Bot-S5Neutral2.5 w Distance"));
+
 
         // TEST
         autoChooser.addOption("Top-S1Trench2.5", AutoBuilder.buildAuto("Top-S1Trench2.5"));
@@ -72,7 +74,8 @@ public final class Autos {
 
         // SHOOTER
         NamedCommands.registerCommand("Flywheel Start", superSystem.spinUpFlywheel());
-        NamedCommands.registerCommand("Flywheel with Distance", superSystem.shootWithDistance());
+        NamedCommands.registerCommand("Flywheel Start Distance", superSystem.startShootWithDistance());
+        NamedCommands.registerCommand("Flywheel Stop Distance", superSystem.stopShootWithDistance());
         NamedCommands.registerCommand("Flywheel Start 0", superSystem.spinUpFlywheel(34));
         NamedCommands.registerCommand("Flywheel Start 45", superSystem.spinUpFlywheel(35.65));
         NamedCommands.registerCommand("Flywheel Start 60", superSystem.spinUpFlywheel(42.9));

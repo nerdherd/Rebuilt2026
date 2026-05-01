@@ -133,7 +133,7 @@ public final class Constants {
     ///////////////////////////
     
     public static final double kTurnToAngleMaxVelocity = 6.25; // rad/s
-    public static final PIDConstants kTurnToAnglePIDConstants = new PIDConstants(12.0, 0.0, 0.075);
+    public static final PIDConstants kTurnToAnglePIDConstants = new PIDConstants(12.0, 0.0, 0.25);
     public static final Constraints kTurnToAngleTolerances = new Constraints(0.017, 0.05); 
 
     ////////////////////////////////////////////
@@ -395,7 +395,7 @@ public final class Constants {
 
     // Regression of a*x^2 + b
     // Update at -- on -/--/2026
-    public static final double kShootWithDistanceA = 0.89;//0.87; // a
+    public static final double kShootWithDistanceA = 0.88;//0.87; // a
     public static final double kShootWithDistanceB = 31.60409; // b
 
     public static final double kLookAheadRingDriveFactor = 0.3; // use to tune the ring drive
