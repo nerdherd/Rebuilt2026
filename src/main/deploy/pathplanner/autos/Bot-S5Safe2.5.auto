@@ -5,19 +5,13 @@
     "data": {
       "commands": [
         {
-          "type": "named",
-          "data": {
-            "name": "Intake Hold"
-          }
-        },
-        {
           "type": "parallel",
           "data": {
             "commands": [
               {
                 "type": "path",
                 "data": {
-                  "pathName": "S1MidTSafe"
+                  "pathName": "S5MidTSafeE"
                 }
               },
               {
@@ -25,33 +19,21 @@
                 "data": {
                   "commands": [
                     {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 1.0
-                      }
-                    },
-                    {
                       "type": "named",
                       "data": {
-                        "name": "Intake Start"
+                        "name": "Intake Down Only"
                       }
                     },
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 3.0
+                        "waitTime": 0.225
                       }
                     },
                     {
                       "type": "named",
                       "data": {
-                        "name": "Intake Stop"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Flywheel Start 45"
+                        "name": "Intake Hold"
                       }
                     }
                   ]
@@ -61,37 +43,13 @@
           }
         },
         {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.0
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 2.0
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot Stop"
-          }
-        },
-        {
           "type": "parallel",
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "named",
                 "data": {
-                  "pathName": "H45MidTHub"
+                  "name": "Turn to Hub"
                 }
               },
               {
@@ -101,31 +59,31 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 1.75
+                        "waitTime": 0.7
                       }
                     },
                     {
                       "type": "named",
                       "data": {
-                        "name": "Intake Start"
+                        "name": "Auto Shoot Start"
                       }
                     },
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 5.5
+                        "waitTime": 2.3
                       }
                     },
                     {
                       "type": "named",
                       "data": {
-                        "name": "Intake Stop"
+                        "name": "Auto Shoot Stop"
                       }
                     },
                     {
                       "type": "named",
                       "data": {
-                        "name": "Flywheel Start 45"
+                        "name": "Flywheel Stop"
                       }
                     }
                   ]
@@ -135,39 +93,85 @@
           }
         },
         {
-          "type": "wait",
+          "type": "parallel",
           "data": {
-            "waitTime": 0.75
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "H45-MidTHubE"
+                }
+              }
+            ]
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "Shoot"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Turn to Hub"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.7
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Auto Shoot Start"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 2.3
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Auto Shoot Stop"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Flywheel Stop"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
           }
         },
         {
-          "type": "wait",
+          "type": "parallel",
           "data": {
-            "waitTime": 2.0
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot Stop"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Flywheel Stop"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "H45-LeaveE"
+                }
+              }
+            ]
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "Top Autos",
+  "folder": "Test",
   "choreoAuto": false
 }

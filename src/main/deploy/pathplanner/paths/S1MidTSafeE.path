@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 4.61,
-        "y": 7.469345703125
+        "x": 3.55,
+        "y": 7.4
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.853955371524075,
-        "y": 7.414703441966158
+        "x": 3.793955371524074,
+        "y": 7.345357738841159
       },
       "isLocked": false,
-      "linkedName": "Top"
+      "linkedName": "S1"
     },
     {
       "anchor": {
@@ -86,16 +86,12 @@
       "rotationDegrees": -90.0
     },
     {
-      "waypointRelativePos": 2.0,
-      "rotationDegrees": -90.0
+      "waypointRelativePos": 1.8699013157894735,
+      "rotationDegrees": -100.0
     },
     {
-      "waypointRelativePos": 3.433155080213905,
-      "rotationDegrees": 0.0
-    },
-    {
-      "waypointRelativePos": 3.86096256684492,
-      "rotationDegrees": 0.0
+      "waypointRelativePos": 3.2293996710526325,
+      "rotationDegrees": 180.0
     }
   ],
   "constraintZones": [
@@ -114,7 +110,7 @@
     },
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 1.3799504950495058,
+      "minWaypointRelativePos": 1.21921719269103,
       "maxWaypointRelativePos": 2.0,
       "constraints": {
         "maxVelocity": 2.5,
@@ -127,7 +123,7 @@
     },
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 3.1403671617161724,
+      "minWaypointRelativePos": 0.0,
       "maxWaypointRelativePos": 3.8202351485148536,
       "constraints": {
         "maxVelocity": 3.5,
@@ -140,7 +136,41 @@
     }
   ],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "",
+      "waypointRelativePos": 0.37126245847176076,
+      "endWaypointRelativePos": 0.37126245847176076,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Intake Start"
+        }
+      }
+    },
+    {
+      "name": "",
+      "waypointRelativePos": 3.4857765780730894,
+      "endWaypointRelativePos": 3.4857765780730894,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Intake Stop"
+        }
+      }
+    },
+    {
+      "name": "",
+      "waypointRelativePos": 3.4988060631229225,
+      "endWaypointRelativePos": 3.4988060631229225,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Flywheel Start 45"
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
@@ -157,7 +187,7 @@
   "folder": "Combo Top",
   "idealStartingState": {
     "velocity": 0.0,
-    "rotation": -90.0
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }

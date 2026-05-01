@@ -38,6 +38,8 @@ public final class Autos {
         autoChooser.addOption("Bot-S5Neutral2.5", AutoBuilder.buildAuto("Bot-S5Neutral2.5"));
 
         // TEST
+        autoChooser.addOption("Top-S1Safe2.5", AutoBuilder.buildAuto("Top-S1Safe2.5"));
+        autoChooser.addOption("Bot-S5Safe2.5", AutoBuilder.buildAuto("Bot-S5Safe2.5"));
         autoChooser.addOption("Top-S1Trench2.5", AutoBuilder.buildAuto("Top-S1Trench2.5"));
         autoChooser.addOption("Bot-S5Trench2.5", AutoBuilder.buildAuto("Bot-S5Trench2.5"));
 

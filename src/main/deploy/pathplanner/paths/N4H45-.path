@@ -8,7 +8,7 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.7821537089871626,
+        "x": 1.7821537089871624,
         "y": 4.366144402554176
       },
       "isLocked": false,
@@ -61,7 +61,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 45.0
+    "rotation": 180.0
   },
   "reversed": false,
   "folder": "To Hub",
