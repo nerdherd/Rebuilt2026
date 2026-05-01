@@ -133,7 +133,7 @@ public final class Constants {
     ///////////////////////////
     
     public static final double kTurnToAngleMaxVelocity = 6.25; // rad/s
-    public static final PIDConstants kTurnToAnglePIDConstants = new PIDConstants(12.0, 0.0, 0.05);
+    public static final PIDConstants kTurnToAnglePIDConstants = new PIDConstants(12.0, 0.0, 0.075);
     public static final Constraints kTurnToAngleTolerances = new Constraints(0.017, 0.05); 
 
     ////////////////////////////////////////////
@@ -270,7 +270,7 @@ public final class Constants {
     
     private static final CurrentLimitsConfigs kCurrentLimitsConfigs =
       new CurrentLimitsConfigs()
-        .withStatorCurrentLimit(80)
+        .withStatorCurrentLimit(90)
         .withStatorCurrentLimitEnable(true);
 
     public static final TalonFXConfiguration kSubsystemConfiguration = 
@@ -320,7 +320,8 @@ public final class Constants {
 
     public static final MotorOutputConfigs kMotorOutputConfigs =
       new MotorOutputConfigs()
-        .withInverted(InvertedValue.CounterClockwise_Positive);
+        .withInverted(InvertedValue.CounterClockwise_Positive)
+        .withNeutralMode(NeutralModeValue.Brake);
 
     public static final CurrentLimitsConfigs kCurrentLimitsConfigs = 
       new CurrentLimitsConfigs()
