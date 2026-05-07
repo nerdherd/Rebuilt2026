@@ -89,7 +89,7 @@ public class MultiProfiledPIDController {
 
     private boolean checkName(String name) {
         if (!controllers.containsKey(name)) {
-            NerdLog.reportError("MultiProfiledPIDController: " + name + " is not a valid entry!");
+            NerdLog.get().reportError("MultiProfiledPIDController: " + name + " is not a valid entry!");
             return false;
         }
         return true;

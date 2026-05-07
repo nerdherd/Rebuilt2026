@@ -9,6 +9,12 @@
           "data": {
             "commands": [
               {
+                "type": "path",
+                "data": {
+                  "pathName": "S1MidTriple1"
+                }
+              },
+              {
                 "type": "sequential",
                 "data": {
                   "commands": [
@@ -31,12 +37,6 @@
                       }
                     }
                   ]
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "5MidTriple"
                 }
               },
               {
@@ -64,7 +64,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "Flywheel Start 45"
+                        "name": "Flywheel Start Distance"
                       }
                     },
                     {
@@ -126,7 +126,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "Flywheel Stop"
+                        "name": "Flywheel Stop Distance"
                       }
                     }
                   ]
@@ -142,7 +142,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "H45-MidTHub"
+                  "pathName": "H45MidTriple2"
                 }
               },
               {
@@ -164,13 +164,13 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 3.5
+                        "waitTime": 3.25
                       }
                     },
                     {
                       "type": "named",
                       "data": {
-                        "name": "Flywheel Start 45"
+                        "name": "Flywheel Start Distance"
                       }
                     },
                     {
@@ -232,7 +232,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "Flywheel Stop"
+                        "name": "Flywheel Stop Distance"
                       }
                     }
                   ]
@@ -248,7 +248,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "H45-Intake"
+                  "pathName": "TopH45Intake"
                 }
               },
               {

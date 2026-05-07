@@ -72,7 +72,7 @@ public class LED extends SubsystemBase implements Reportable {
 
     @Override
     public void initializeLogging() {
-        NerdLog.logSignal(kSubsystemTab + "CANdle/Temperature", candle.getDeviceTemp(false), candle.getNetwork().getName(), LOG_LEVEL.MINIMAL);
-        NerdLog.logBoolean(kSubsystemTab + "CANdle/Connected", candle::isConnected, LOG_LEVEL.MINIMAL);
+        NerdLog.get().logSignal(kSubsystemTab + "CANdle/Temperature", candle.getDeviceTemp(false), candle.getNetwork().getName(), LOG_LEVEL.MINIMAL);
+        NerdLog.get().logBoolean(kSubsystemTab + "CANdle/Connected", candle::isConnected, LOG_LEVEL.MINIMAL);
     }
 }

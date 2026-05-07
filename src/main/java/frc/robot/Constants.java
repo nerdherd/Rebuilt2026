@@ -123,7 +123,7 @@ public final class Constants {
     public static final double kDriveMaxVelocity = 5.0; // m/s
     public static final double kDrivePrecisionMultiplier = 0.5; // fractional
     
-    public static final double kTurnMaxVelocity = 5.0; // rad/s
+    public static final double kTurnMaxVelocity = 4.5; // rad/s
     public static final double kTurnPrecisionMultiplier = 0.5; // fractional
     
     public static final double kRobotOrientedVelocity = 2.0; // m/s
@@ -133,7 +133,7 @@ public final class Constants {
     ///////////////////////////
     
     public static final double kTurnToAngleMaxVelocity = 6.25; // rad/s
-    public static final PIDConstants kTurnToAnglePIDConstants = new PIDConstants(12.0, 0.0, 0.05);
+    public static final PIDConstants kTurnToAnglePIDConstants = new PIDConstants(12.0, 0.0, 0.25);
     public static final Constraints kTurnToAngleTolerances = new Constraints(0.017, 0.05); 
 
     ////////////////////////////////////////////
@@ -270,7 +270,7 @@ public final class Constants {
     
     private static final CurrentLimitsConfigs kCurrentLimitsConfigs =
       new CurrentLimitsConfigs()
-        .withStatorCurrentLimit(45)
+        .withStatorCurrentLimit(90)
         .withStatorCurrentLimitEnable(true);
 
     public static final TalonFXConfiguration kSubsystemConfiguration = 
@@ -320,7 +320,8 @@ public final class Constants {
 
     public static final MotorOutputConfigs kMotorOutputConfigs =
       new MotorOutputConfigs()
-        .withInverted(InvertedValue.CounterClockwise_Positive);
+        .withInverted(InvertedValue.CounterClockwise_Positive)
+        .withNeutralMode(NeutralModeValue.Brake);
 
     public static final CurrentLimitsConfigs kCurrentLimitsConfigs = 
       new CurrentLimitsConfigs()
@@ -394,7 +395,7 @@ public final class Constants {
 
     // Regression of a*x^2 + b
     // Update at -- on -/--/2026
-    public static final double kShootWithDistanceA = 0.9;//0.87; // a
+    public static final double kShootWithDistanceA = 0.88;//0.87; // a
     public static final double kShootWithDistanceB = 31.60409; // b
 
     public static final double kLookAheadRingDriveFactor = 0.3; // use to tune the ring drive
@@ -521,7 +522,8 @@ public final class Constants {
         SubsystemMode.VOLTAGE, 
         0.0,
         useIntakeRoller)
-      .configureMotors(IntakeRollerConstants.kSubsystemConfiguration);
+      .configureMotors(IntakeRollerConstants.kSubsystemConfiguration)
+      .logTorqueCurrent();
     
     public static final boolean useConveyor = true;
     public static final TemplateSubsystem conveyor = (!USE_SUBSYSTEMS) ? null :
@@ -543,7 +545,8 @@ public final class Constants {
         0.0,
         useIndexer)
       .addMotor(IndexerConstants.kMotor2ID, MotorAlignmentValue.Opposed)
-      .configureMotors(IndexerConstants.kSubsystemConfiguration);
+      .configureMotors(IndexerConstants.kSubsystemConfiguration)
+      .logTorqueCurrent();
     
     public static final boolean useShooter = true;
     public static final TemplateSubsystem shooter = (!USE_SUBSYSTEMS) ? null :

@@ -52,7 +52,7 @@ public class SuperSystem implements Reportable {
     public Command setShooterCommand(double speed) {
         return Commands.parallel(
             shooter.setDesiredValueCommand(speed)
-        );
+            );
     }
 
     // ------------------------------------ subsystems ------------------------------------ //
@@ -115,6 +115,14 @@ public class SuperSystem implements Reportable {
         return Commands.runOnce(() -> CommandScheduler.getInstance().cancel(autoShoot));
     }
 
+    public Command autoShootWithDistance = shootWithDistance().finallyDo(() -> {shooter.setDesiredValue(0.0);});
+    public Command startShootWithDistance() {
+        return Commands.runOnce(() -> CommandScheduler.getInstance().schedule(autoShootWithDistance));
+    }
+    public Command stopShootWithDistance() {
+        return Commands.runOnce(() -> CommandScheduler.getInstance().cancel(autoShootWithDistance));
+    }
+
     public Command reverseConveyor() {
         return Commands.parallel(
             conveyor.setDesiredValueCommand(-5),
@@ -155,9 +163,7 @@ public class SuperSystem implements Reportable {
     }
         
     public Command stopFlywheel() {
-        return Commands.parallel(
-            setShooterCommand(0.0)
-        );
+        return setShooterCommand(0.0);
     }
 
     public Command intakeDown() {
@@ -169,7 +175,7 @@ public class SuperSystem implements Reportable {
     }
 
     public Command intakeDownOnly() {
-        return intakeSlapdown.setDesiredValueCommand(-9);
+        return intakeSlapdown.setDesiredValueCommand(-10);
     }
 
     public Command intakeHold() {
@@ -177,7 +183,7 @@ public class SuperSystem implements Reportable {
     }
 
     public Command intakeHoldTeleop() {
-        return intakeSlapdown.setDesiredValueCommand(-1.5); //change when we have bumpers
+        return intakeSlapdown.setDesiredValueCommand(-1); //change when we have bumpers
     }
 
     public Command stopIntakeHold() {
@@ -215,8 +221,7 @@ public class SuperSystem implements Reportable {
                 double rps = ShooterConstants.kShootWithDistanceA * distance * distance + ShooterConstants.kShootWithDistanceB;
                 // spin up flywheel
                 shooter.setDesiredValue(Math.min(55.0, rps));
-            }
-        );
+            }, shooter);
     }
 
     public double shootSpeed = 0;
@@ -275,7 +280,7 @@ public class SuperSystem implements Reportable {
     public void initializeLogging() {
         applySubsystems((s) -> s.initializeLogging());
 
-        NerdLog.logNumber(kSupersystemTab + "/Hub Distance", () -> getHubDistance(), "m", LOG_LEVEL.ALL);
-        NerdLog.logData(kSupersystemTab + "/Command Scheduler", CommandScheduler.getInstance(), LOG_LEVEL.ALL);
+        NerdLog.get().logNumber(kSupersystemTab + "/Hub Distance", () -> getHubDistance(), "m", LOG_LEVEL.ALL);
+        NerdLog.get().logData(kSupersystemTab + "/Command Scheduler", CommandScheduler.getInstance(), LOG_LEVEL.ALL);
     }
 }

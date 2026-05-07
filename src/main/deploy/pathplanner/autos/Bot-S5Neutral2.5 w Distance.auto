@@ -64,7 +64,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "Flywheel Start 45"
+                        "name": "Flywheel Start Distance"
                       }
                     },
                     {
@@ -126,7 +126,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "Flywheel Stop"
+                        "name": "Flywheel Stop Distance"
                       }
                     }
                   ]
@@ -170,7 +170,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "Flywheel Start 45"
+                        "name": "Flywheel Start Distance"
                       }
                     },
                     {
@@ -232,7 +232,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "Flywheel Stop"
+                        "name": "Flywheel Stop Distance"
                       }
                     }
                   ]
