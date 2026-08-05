@@ -257,6 +257,15 @@ public class RobotContainer {
       .onTrue(Commands.runOnce(() -> SmartDashboard.putString("Button Right Joy Test", "hi")))
       .onFalse(Commands.runOnce(() -> SmartDashboard.putString("Button Right Joy Test", "bye")));
       
+    // hood testing
+    operatorController.buttonUp()
+      .onTrue(superSystem.hoodUp());
+    
+    operatorController.buttonRight()
+      .onTrue(superSystem.setHood(0.5));
+
+    operatorController.buttonDown()
+      .onTrue(superSystem.hoodDown());
   }
   
   public StringSubscriber printLog = null;
