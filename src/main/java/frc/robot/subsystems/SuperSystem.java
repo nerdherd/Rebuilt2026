@@ -8,6 +8,7 @@ import static frc.robot.Constants.Subsystems.intakeSlapdown;
 import static frc.robot.Constants.Subsystems.leds;
 import static frc.robot.Constants.Subsystems.shooter;
 import static frc.robot.Constants.Subsystems.useLEDs;
+import static frc.robot.Constants.Subsystems.hood;
 
 import java.util.ArrayList;
 import java.util.function.Consumer;
@@ -236,6 +237,25 @@ public class SuperSystem implements Reportable {
         return Commands.run(() -> {
             shooter.setDesiredValue(shootSpeed);
         }, shooter);
+    }
+
+    // hood is 18:1
+    /** set the shooter's hood's position
+     * @param value between 1 and 0, where 1 is up and 0 is down
+    */
+    public Command setHood(double value) {
+        double downPos = 0.0;
+        double upPos = 1.0; // placeholder
+        value = (upPos-downPos) * value + downPos;
+        return hood.setDesiredValueCommand(value);
+    }
+    
+    public Command hoodDown() {
+        return setHood(0.0);
+    }
+
+    public Command hoodUp() {
+        return setHood(1.0);
     }
 
     public void setNeutralMode(NeutralModeValue neutralMode) {
