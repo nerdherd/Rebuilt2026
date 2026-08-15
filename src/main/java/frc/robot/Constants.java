@@ -430,6 +430,9 @@ public final class Constants {
         .withCurrentLimits(kMotorCurrentLimitsConfigs)
         .withMotionMagic(kMotionMagicConfigs)
         .withMotorOutput(kMotorOutputConfigs);
+
+    public static final double downPos = 0.0; //placeholder
+    public static final double upPos = 1.0; // placeholder
   }
 
   public static class LEDConstants {

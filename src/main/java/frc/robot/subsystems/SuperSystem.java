@@ -24,7 +24,9 @@ import edu.wpi.first.wpilibj.DriverStation.MatchType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.Constants;
 import frc.robot.RobotContainer;
+import frc.robot.Constants.HoodConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.SwerveDriveConstants.FieldPositions;
 import frc.robot.commands.RebuiltLEDCommand;
@@ -244,9 +246,7 @@ public class SuperSystem implements Reportable {
      * @param value between 1 and 0, where 1 is up and 0 is down
     */
     public Command setHood(double value) {
-        double downPos = 0.0;
-        double upPos = 1.0; // placeholder
-        value = (upPos-downPos) * value + downPos;
+        value = (HoodConstants.upPos-HoodConstants.downPos) * value + HoodConstants.downPos;
         return hood.setDesiredValueCommand(value);
     }
     
