@@ -422,6 +422,7 @@ public final class Constants {
 
     private static final MotionMagicConfigs kMotionMagicConfigs = 
       new MotionMagicConfigs()
+        .withMotionMagicCruiseVelocity(10)
         .withMotionMagicAcceleration(25);
     
     public static final TalonFXConfiguration kSubsystemConfiguration = 
@@ -431,8 +432,8 @@ public final class Constants {
         .withMotionMagic(kMotionMagicConfigs)
         .withMotorOutput(kMotorOutputConfigs);
 
-    public static final double downPos = 0.0; //placeholder
-    public static final double upPos = 1.0; // placeholder
+    public static final double kDownPos = 0.0; //placeholder
+    public static final double kUpPos = 1.0; // placeholder
   }
 
   public static class LEDConstants {

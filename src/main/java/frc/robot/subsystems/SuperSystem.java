@@ -246,7 +246,7 @@ public class SuperSystem implements Reportable {
      * @param value between 1 and 0, where 1 is up and 0 is down
     */
     public Command setHood(double value) {
-        value = (HoodConstants.upPos-HoodConstants.downPos) * value + HoodConstants.downPos;
+        value = (HoodConstants.kUpPos-HoodConstants.kDownPos) * value + HoodConstants.kDownPos;
         return hood.setDesiredValueCommand(value);
     }
     
