@@ -403,7 +403,7 @@ public final class Constants {
   }
 
   public static final class HoodConstants {
-    public static final int kMotor1ID = 99; // placeholder
+    public static final int kMotor1ID = 39; // placeholder
 
     private static final Slot0Configs kSlot0Configs = 
       new Slot0Configs()
@@ -432,8 +432,8 @@ public final class Constants {
         .withMotionMagic(kMotionMagicConfigs)
         .withMotorOutput(kMotorOutputConfigs);
 
-    public static final double kDownPos = 0.0; //placeholder
-    public static final double kUpPos = 1.0; // placeholder
+    public static final double kDownPos = 0.412109; //Should do multiple trials
+    public static final double kUpPos = -0.407715; // Should do multiple trials
   }
 
   public static class LEDConstants {

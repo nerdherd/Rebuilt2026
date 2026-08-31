@@ -255,7 +255,7 @@ public class NerdLog {
 		if(Constants.ROBOT_LOG_LEVEL.ordinal() > loggingLevel.ordinal()) return;
 		SmartDashboard.putData(path, supplier);
 	}
-
+  
 	/**
 	 * Logs a supplier for a StructSerializable implementation.
 	 * @param key
