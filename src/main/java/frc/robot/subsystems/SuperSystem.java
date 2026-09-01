@@ -7,6 +7,7 @@ import static frc.robot.Constants.Subsystems.intakeRoller;
 import static frc.robot.Constants.Subsystems.intakeSlapdown;
 import static frc.robot.Constants.Subsystems.leds;
 import static frc.robot.Constants.Subsystems.shooter;
+import static frc.robot.Constants.Subsystems.useHood;
 import static frc.robot.Constants.Subsystems.useLEDs;
 import static frc.robot.Constants.Subsystems.hood;
 
@@ -166,7 +167,10 @@ public class SuperSystem implements Reportable {
     }
         
     public Command stopFlywheel() {
-        return setShooterCommand(0.0);
+        return Commands.parallel(
+            setShooterCommand(0.0),
+            hoodDown()
+        );
     }
 
     public Command intakeDown() {
@@ -220,8 +224,16 @@ public class SuperSystem implements Reportable {
             () -> {
                 // calculate distance
                 double distance = getHubDistance();
-                // convert to rps
-                double rps = ShooterConstants.kShootWithDistanceA * distance * distance + ShooterConstants.kShootWithDistanceB;
+                double rps = 0.0;
+                if (useHood()) {
+                    hood.setDesiredValue(HoodConstants.kUpPos);
+                    // convert to rps
+                    rps = ShooterConstants.kShootWithDistanceHoodA * distance * distance + ShooterConstants.kShootWithDistanceHoodB;
+                } else {
+                    hood.setDesiredValue(HoodConstants.kDownPos);
+                    // convert to rps
+                    rps = ShooterConstants.kShootWithDistanceA * distance * distance + ShooterConstants.kShootWithDistanceB;
+                }
                 // spin up flywheel
                 shooter.setDesiredValue(Math.min(55.0, rps));
             }, shooter);
@@ -238,6 +250,8 @@ public class SuperSystem implements Reportable {
         if (shootSpeedSub == null) shootSpeedSub = DogLog.tunable("Shooter Speed", shootSpeed, (value) -> shootSpeed = value);
         return Commands.run(() -> {
             shooter.setDesiredValue(shootSpeed);
+            if (useHood()) hood.setDesiredValue(HoodConstants.kUpPos);
+            else hood.setDesiredValue(HoodConstants.kDownPos);
         }, shooter);
     }
 
@@ -256,6 +270,10 @@ public class SuperSystem implements Reportable {
 
     public Command hoodUp() {
         return setHood(1.0);
+    }
+
+    public boolean useHood() {
+        return true;
     }
 
     public void setNeutralMode(NeutralModeValue neutralMode) {
