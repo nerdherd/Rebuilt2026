@@ -18,6 +18,7 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.FireAnimation;
 import com.ctre.phoenix6.controls.LarsonAnimation;
 import com.ctre.phoenix6.controls.SolidColor;
+import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.LossOfSignalBehaviorValue;
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
@@ -370,8 +371,8 @@ public final class Constants {
         .withKP(0.15)
         .withKI(0.0)
         .withKD(0.0)
-        .withKV(0.113)
-        .withKS(0.2);
+        .withKV(0.117051)
+        .withKS(0.235819);
     
     private static final CurrentLimitsConfigs kCurrentLimitsConfigs = 
       new CurrentLimitsConfigs()
@@ -400,6 +401,47 @@ public final class Constants {
 
     public static final double kLookAheadRingDriveFactor = 0.3; // use to tune the ring drive
     public static final double kLookAheadFactor = 1.35; // use to tune shoot on the move left and right
+  }
+
+  public static final class HoodConstants {
+    public static final int kMotor1ID = 39; // placeholder
+
+
+    private static final Slot0Configs kSlot0Configs = 
+      new Slot0Configs()
+        .withKP(3)
+        .withKI(0)
+        .withKD(0.15)
+        .withKV(0.3)
+        .withKS(0)
+        .withKG(0.45)
+        .withKA(0)
+        .withGravityType(GravityTypeValue.Elevator_Static);
+
+    public static final MotorOutputConfigs kMotorOutputConfigs = 
+      new MotorOutputConfigs()
+        .withInverted(InvertedValue.Clockwise_Positive)
+        .withNeutralMode(NeutralModeValue.Brake);
+      
+    public static final CurrentLimitsConfigs kMotorCurrentLimitsConfigs = 
+      new CurrentLimitsConfigs()
+        .withStatorCurrentLimit(30)
+        .withStatorCurrentLimitEnable(true);
+
+    private static final MotionMagicConfigs kMotionMagicConfigs = 
+      new MotionMagicConfigs()
+        .withMotionMagicCruiseVelocity(10)
+        .withMotionMagicAcceleration(25);
+    
+    public static final TalonFXConfiguration kSubsystemConfiguration = 
+      new TalonFXConfiguration()
+        .withSlot0(kSlot0Configs)
+        .withCurrentLimits(kMotorCurrentLimitsConfigs)
+        .withMotionMagic(kMotionMagicConfigs)
+        .withMotorOutput(kMotorOutputConfigs);
+
+    public static final double kDownPos = 0.02; //Should do multiple trials
+    public static final double kUpPos = 0.83; // Should do multiple trials
   }
 
   public static class LEDConstants {
@@ -560,6 +602,17 @@ public final class Constants {
       .addMotor(ShooterConstants.kMotor3ID, MotorAlignmentValue.Opposed)
       .addMotor(ShooterConstants.kMotor4ID, MotorAlignmentValue.Aligned)
       .configureMotors(ShooterConstants.kSubsystemConfiguration)
+      .logTorqueCurrent();
+
+    public static final boolean useHood = true;
+    public static final TemplateSubsystem hood = (!USE_SUBSYSTEMS) ? null :
+    new TemplateSubsystem(
+        "Hood", 
+        HoodConstants.kMotor1ID, 
+        SubsystemMode.POSITION, 
+        0.0, 
+        useHood)
+      .configureMotors(HoodConstants.kSubsystemConfiguration)
       .logTorqueCurrent();
     
     public static final boolean useLEDs = false;

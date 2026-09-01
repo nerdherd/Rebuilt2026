@@ -198,6 +198,10 @@ public class RobotContainer {
       operatorController.buttonDown()
         .onTrue(superSystem.reverseConveyor())
         .onFalse(superSystem.stopConveyor());
+      // hood testing
+      operatorController.buttonLeft()
+        .onTrue(superSystem.setHood(1.0))
+        .onFalse(superSystem.hoodDown());
     }
   }
 

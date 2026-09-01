@@ -8,6 +8,7 @@ import static frc.robot.Constants.Subsystems.intakeSlapdown;
 import static frc.robot.Constants.Subsystems.leds;
 import static frc.robot.Constants.Subsystems.shooter;
 import static frc.robot.Constants.Subsystems.useLEDs;
+import static frc.robot.Constants.Subsystems.hood;
 
 import java.util.ArrayList;
 import java.util.function.Consumer;
@@ -23,7 +24,9 @@ import edu.wpi.first.wpilibj.DriverStation.MatchType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.Constants;
 import frc.robot.RobotContainer;
+import frc.robot.Constants.HoodConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.SwerveDriveConstants.FieldPositions;
 import frc.robot.commands.RebuiltLEDCommand;
@@ -236,6 +239,23 @@ public class SuperSystem implements Reportable {
         return Commands.run(() -> {
             shooter.setDesiredValue(shootSpeed);
         }, shooter);
+    }
+
+    // hood is 18:1
+    /** set the shooter's hood's position
+     * @param value between 1 and 0, where 1 is up and 0 is down
+    */
+    public Command setHood(double value) {
+        value = (HoodConstants.kUpPos-HoodConstants.kDownPos) * value + HoodConstants.kDownPos;
+        return hood.setDesiredValueCommand(value);
+    }
+    
+    public Command hoodDown() {
+        return setHood(0.0);
+    }
+
+    public Command hoodUp() {
+        return setHood(1.0);
     }
 
     public void setNeutralMode(NeutralModeValue neutralMode) {
