@@ -18,6 +18,7 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.FireAnimation;
 import com.ctre.phoenix6.controls.LarsonAnimation;
 import com.ctre.phoenix6.controls.SolidColor;
+import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.LossOfSignalBehaviorValue;
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
@@ -370,8 +371,8 @@ public final class Constants {
         .withKP(0.15)
         .withKI(0.0)
         .withKD(0.0)
-        .withKV(0.113)
-        .withKS(0.2);
+        .withKV(0.117051)
+        .withKS(0.235819);
     
     private static final CurrentLimitsConfigs kCurrentLimitsConfigs = 
       new CurrentLimitsConfigs()
@@ -405,15 +406,22 @@ public final class Constants {
   public static final class HoodConstants {
     public static final int kMotor1ID = 39; // placeholder
 
+
     private static final Slot0Configs kSlot0Configs = 
       new Slot0Configs()
-        .withKP(0.5)
+        .withKP(3)
         .withKI(0)
-        .withKD(0);
+        .withKD(0.15)
+        .withKV(0.3)
+        .withKS(0)
+        .withKG(0.45)
+        .withKA(0)
+        .withGravityType(GravityTypeValue.Elevator_Static);
 
     public static final MotorOutputConfigs kMotorOutputConfigs = 
       new MotorOutputConfigs()
-        .withInverted(InvertedValue.CounterClockwise_Positive); // placeholder, but based on CAD, CW should move the hood up
+        .withInverted(InvertedValue.Clockwise_Positive)
+        .withNeutralMode(NeutralModeValue.Brake);
       
     public static final CurrentLimitsConfigs kMotorCurrentLimitsConfigs = 
       new CurrentLimitsConfigs()
@@ -432,8 +440,8 @@ public final class Constants {
         .withMotionMagic(kMotionMagicConfigs)
         .withMotorOutput(kMotorOutputConfigs);
 
-    public static final double kDownPos = 0.412109; //Should do multiple trials
-    public static final double kUpPos = -0.407715; // Should do multiple trials
+    public static final double kDownPos = 0.02; //Should do multiple trials
+    public static final double kUpPos = 0.83; // Should do multiple trials
   }
 
   public static class LEDConstants {
