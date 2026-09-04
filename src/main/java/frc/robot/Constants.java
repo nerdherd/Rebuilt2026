@@ -399,8 +399,8 @@ public final class Constants {
     public static final double kShootWithDistanceA = 0.88;//0.87; // a
     public static final double kShootWithDistanceB = 31.60409; // b
 
-    public static final double kShootWithDistanceHoodA = 0.88;//0.87; // a
-    public static final double kShootWithDistanceHoodB = 31.60409; // b
+    public static final double kShootWithDistanceHoodA = 0.593151;//0.87; // a
+    public static final double kShootWithDistanceHoodB = 30.64891; // b
 
     public static final double kLookAheadRingDriveFactor = 0.3; // use to tune the ring drive
     public static final double kLookAheadFactor = 1.35; // use to tune shoot on the move left and right
@@ -443,8 +443,8 @@ public final class Constants {
         .withMotionMagic(kMotionMagicConfigs)
         .withMotorOutput(kMotorOutputConfigs);
 
-    public static final double kDownPos = 0.02; //Should do multiple trials
-    public static final double kUpPos = 0.83; // Should do multiple trials
+    public static final double kDownPos = 0.01; //Should do multiple trials
+    public static final double kUpPos = 0.415; // Should do multiple trials
   }
 
   public static class LEDConstants {

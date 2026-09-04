@@ -248,6 +248,7 @@ public class SuperSystem implements Reportable {
      */
     public Command shootWithTuning() {
         if (shootSpeedSub == null) shootSpeedSub = DogLog.tunable("Shooter Speed", shootSpeed, (value) -> shootSpeed = value);
+
         return Commands.run(() -> {
             shooter.setDesiredValue(shootSpeed);
             if (useHood()) hood.setDesiredValue(HoodConstants.kUpPos);
