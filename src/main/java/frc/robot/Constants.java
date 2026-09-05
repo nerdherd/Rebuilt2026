@@ -43,6 +43,9 @@ import frc.robot.subsystems.template.TemplateSubsystem.SubsystemMode;
 import frc.robot.util.MultiProfiledPIDController;
 import frc.robot.util.NerdyMath;
 import frc.robot.util.Translation2dSlewRateLimiter;
+import frc.robot.util.Zones.NerdZone;
+import frc.robot.util.Zones.RectangleZone;
+import frc.robot.util.Zones.ZoneGroup;
 import frc.robot.util.logging.Reportable.LOG_LEVEL;
 
 /**
@@ -397,7 +400,7 @@ public final class Constants {
     // Regression of a*x^2 + b
     // Update at -- on -/--/2026
     public static final double kShootWithDistanceA = 0.88;//0.87; // a
-    public static final double kShootWithDistanceB = 31.60409; // b
+    public static final double kShootWithDistanceB = 31.60409; // b[]\
 
     public static final double kShootWithDistanceHoodA = 0.593151;//0.87; // a
     public static final double kShootWithDistanceHoodB = 31.64891; // b
@@ -542,6 +545,18 @@ public final class Constants {
           .withColor(Colors.kORANGE)
         ;
     }
+  }
+
+  public static final class Zones {
+
+    public static final NerdZone LeftBlueTrench = new RectangleZone(null, null);
+    public static final NerdZone RightBlueTrench = new RectangleZone(null, null);
+    public static final NerdZone LeftRedTrench = new RectangleZone(null, null);
+    public static final NerdZone RightRedTrench = new RectangleZone(null, null);
+
+    public static final ZoneGroup zonegroup = new ZoneGroup(LeftBlueTrench, RightBlueTrench, LeftRedTrench, RightRedTrench);
+
+
   }
 
   /** 
