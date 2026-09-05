@@ -1,4 +1,4 @@
-package frc.robot.util.Zones;
+package frc.robot.util.zones;
 
 import edu.wpi.first.math.geometry.Pose2d;
 
@@ -18,6 +18,6 @@ public class CircleZone implements NerdZone {
         double dx = center.getX() - robotPose.getX();
         double dy = center.getY() - robotPose.getY();
 
-        return Math.hypot(dx, dy) >= radius;
+        return dx*dx+dy*dy <= radius*radius;
     }
 }

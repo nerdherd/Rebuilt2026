@@ -226,7 +226,7 @@ public class SuperSystem implements Reportable {
                 double distance = getHubDistance();
                 double rps = 0.0;
                 if (useHood()) {
-                    hood.setDesiredValue(HoodConstants.kUpPos);
+                    hood.setDesiredValue(HoodConstants.kUpPos * 0.5 + HoodConstants.kDownPos * 0.5);
                     // convert to rps
                     rps = ShooterConstants.kShootWithDistanceHoodA * distance * distance + ShooterConstants.kShootWithDistanceHoodB;
                 } else {
@@ -251,7 +251,7 @@ public class SuperSystem implements Reportable {
 
         return Commands.run(() -> {
             shooter.setDesiredValue(shootSpeed);
-            if (useHood()) hood.setDesiredValue(HoodConstants.kUpPos);
+            if (useHood()) hood.setDesiredValue((HoodConstants.kUpPos-HoodConstants.kDownPos) * 0.5 + HoodConstants.kDownPos);
             else hood.setDesiredValue(HoodConstants.kDownPos);
         }, shooter);
     }
@@ -274,7 +274,7 @@ public class SuperSystem implements Reportable {
     }
 
     public boolean useHood() {
-        return true;
+        return false;
     }
 
     public void setNeutralMode(NeutralModeValue neutralMode) {
@@ -319,7 +319,7 @@ public class SuperSystem implements Reportable {
     public void initializeLogging() {
         applySubsystems((s) -> s.initializeLogging());
 
-        NerdLog.get().logNumber(kSupersystemTab + "/Hub Distance", () -> getHubDistance(), "m", LOG_LEVEL.ALL);
+        NerdLog.getNT().logNumber(kSupersystemTab + "/Hub Distance", () -> getHubDistance(), "m", LOG_LEVEL.MEDIUM);
         NerdLog.get().logData(kSupersystemTab + "/Command Scheduler", CommandScheduler.getInstance(), LOG_LEVEL.ALL);
     }
 }

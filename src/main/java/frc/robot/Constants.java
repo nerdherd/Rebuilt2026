@@ -43,10 +43,11 @@ import frc.robot.subsystems.template.TemplateSubsystem.SubsystemMode;
 import frc.robot.util.MultiProfiledPIDController;
 import frc.robot.util.NerdyMath;
 import frc.robot.util.Translation2dSlewRateLimiter;
-import frc.robot.util.Zones.NerdZone;
-import frc.robot.util.Zones.RectangleZone;
-import frc.robot.util.Zones.ZoneGroup;
 import frc.robot.util.logging.Reportable.LOG_LEVEL;
+// import frc.robot.util.zones.NerdZone;
+// import frc.robot.util.zones.RectangleZone;
+// import frc.robot.util.zones.ZoneGroup;
+
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -447,7 +448,7 @@ public final class Constants {
         .withMotorOutput(kMotorOutputConfigs);
 
     public static final double kDownPos = 0.01; //Should do multiple trials
-    public static final double kUpPos = 0.415; // Should do multiple trials
+    public static final double kUpPos = 0.8; // Should do multiple trials
   }
 
   public static class LEDConstants {
@@ -547,17 +548,17 @@ public final class Constants {
     }
   }
 
-  public static final class Zones {
+  // public static final class Zones {
 
-    public static final NerdZone LeftBlueTrench = new RectangleZone(null, null);
-    public static final NerdZone RightBlueTrench = new RectangleZone(null, null);
-    public static final NerdZone LeftRedTrench = new RectangleZone(null, null);
-    public static final NerdZone RightRedTrench = new RectangleZone(null, null);
+  //   public static final NerdZone LeftBlueTrench = new RectangleZone(null, null);
+  //   public static final NerdZone RightBlueTrench = new RectangleZone(null, null);
+  //   public static final NerdZone LeftRedTrench = new RectangleZone(null, null);
+  //   public static final NerdZone RightRedTrench = new RectangleZone(null, null);
 
-    public static final ZoneGroup zonegroup = new ZoneGroup(LeftBlueTrench, RightBlueTrench, LeftRedTrench, RightRedTrench);
+  //   public static final ZoneGroup zonegroup = new ZoneGroup(LeftBlueTrench, RightBlueTrench, LeftRedTrench, RightRedTrench);
 
 
-  }
+  // }
 
   /** 
    * Container class to hold all subsystem objects.
