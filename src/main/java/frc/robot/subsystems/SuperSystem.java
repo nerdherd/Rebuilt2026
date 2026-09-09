@@ -156,7 +156,8 @@ public class SuperSystem implements Reportable {
 
     public Command spinUpFlywheelFeeding() {
         return Commands.parallel(
-            setShooterCommand(45)
+            setShooterCommand(65),
+            hood.setDesiredValueCommand(HoodConstants.kUpPos)
         );
     }
 
@@ -225,7 +226,7 @@ public class SuperSystem implements Reportable {
                 // calculate distance
                 double distance = getHubDistance();
                 double rps = 0.0;
-                if (useHood()) {
+                if (useHoodShoot()) {
                     hood.setDesiredValue(HoodConstants.kUpPos * 0.5 + HoodConstants.kDownPos * 0.5);
                     // convert to rps
                     rps = ShooterConstants.kShootWithDistanceHoodA * distance * distance + ShooterConstants.kShootWithDistanceHoodB;
@@ -251,7 +252,7 @@ public class SuperSystem implements Reportable {
 
         return Commands.run(() -> {
             shooter.setDesiredValue(shootSpeed);
-            if (useHood()) hood.setDesiredValue((HoodConstants.kUpPos-HoodConstants.kDownPos) * 0.5 + HoodConstants.kDownPos);
+            if (useHoodShoot()) hood.setDesiredValue((HoodConstants.kUpPos-HoodConstants.kDownPos) * 0.5 + HoodConstants.kDownPos);
             else hood.setDesiredValue(HoodConstants.kDownPos);
         }, shooter);
     }
@@ -273,8 +274,8 @@ public class SuperSystem implements Reportable {
         return setHood(1.0);
     }
 
-    public boolean useHood() {
-        return false;
+    public boolean useHoodShoot() {
+        return !Constants.ZoneConstants.kShootingGroup.check(swerveDrivetrain.getPose()); //TODO: Test zoning
     }
 
     public void setNeutralMode(NeutralModeValue neutralMode) {
@@ -321,5 +322,6 @@ public class SuperSystem implements Reportable {
 
         NerdLog.getNT().logNumber(kSupersystemTab + "/Hub Distance", () -> getHubDistance(), "m", LOG_LEVEL.MEDIUM);
         NerdLog.get().logData(kSupersystemTab + "/Command Scheduler", CommandScheduler.getInstance(), LOG_LEVEL.ALL);
+        NerdLog.getNT().logBoolean(kSupersystemTab + "/useShootHood", () -> useHoodShoot() , LOG_LEVEL.MEDIUM);
     }
 }

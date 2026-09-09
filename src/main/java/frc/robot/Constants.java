@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import java.text.FieldPosition;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
@@ -37,16 +38,18 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
+import frc.robot.Constants.SwerveDriveConstants.FieldPositions;
 import frc.robot.subsystems.LED;
 import frc.robot.subsystems.template.TemplateSubsystem;
 import frc.robot.subsystems.template.TemplateSubsystem.SubsystemMode;
 import frc.robot.util.MultiProfiledPIDController;
 import frc.robot.util.NerdyMath;
 import frc.robot.util.Translation2dSlewRateLimiter;
+import frc.robot.util.Zones.NerdZone;
 import frc.robot.util.logging.Reportable.LOG_LEVEL;
-// import frc.robot.util.zones.NerdZone;
-// import frc.robot.util.zones.RectangleZone;
-// import frc.robot.util.zones.ZoneGroup;
+import frc.robot.util.Zones.RectangleZone;
+import frc.robot.util.Zones.SemicircleZone;
+import frc.robot.util.Zones.ZoneGroup;
 
 
 /**
@@ -403,8 +406,8 @@ public final class Constants {
     public static final double kShootWithDistanceA = 0.88;//0.87; // a
     public static final double kShootWithDistanceB = 31.60409; // b[]\
 
-    public static final double kShootWithDistanceHoodA = 0.593151;//0.87; // a
-    public static final double kShootWithDistanceHoodB = 30.64891; // b
+    public static final double kShootWithDistanceHoodA = 0.536846;//0.87; // a
+    public static final double kShootWithDistanceHoodB = 35.29764; // b
 
     public static final double kLookAheadRingDriveFactor = 0.3; // use to tune the ring drive
     public static final double kLookAheadFactor = 1.35; // use to tune shoot on the move left and right
@@ -417,7 +420,7 @@ public final class Constants {
     private static final Slot0Configs kSlot0Configs = 
       new Slot0Configs()
         .withKP(3)
-        .withKI(0)
+        .withKI(3)
         .withKD(0.15)
         .withKV(0.3)
         .withKS(0)
@@ -548,17 +551,23 @@ public final class Constants {
     }
   }
 
-  // public static final class Zones {
+  public static final class ZoneConstants {
 
-  //   public static final NerdZone LeftBlueTrench = new RectangleZone(null, null);
-  //   public static final NerdZone RightBlueTrench = new RectangleZone(null, null);
-  //   public static final NerdZone LeftRedTrench = new RectangleZone(null, null);
-  //   public static final NerdZone RightRedTrench = new RectangleZone(null, null);
+    public static final double kHubRadius = 3.0;
 
-  //   public static final ZoneGroup zonegroup = new ZoneGroup(LeftBlueTrench, RightBlueTrench, LeftRedTrench, RightRedTrench);
+    // public static final NerdZone LeftBlueTrench = new RectangleZone(null, null);
+    // public static final NerdZone RightBlueTrench = new RectangleZone(null, null);
+    // public static final NerdZone LeftRedTrench = new RectangleZone(null, null);
+    // public static final NerdZone RightRedTrench = new RectangleZone(null, null);
+
+    public static final NerdZone BlueHub = new SemicircleZone(FieldPositions.HUB_CENTER.blue, ZoneConstants.kHubRadius);
+    public static final NerdZone RedHub = new SemicircleZone(FieldPositions.HUB_CENTER.red, ZoneConstants.kHubRadius);
+
+    
+    public static final ZoneGroup kShootingGroup = new ZoneGroup(BlueHub, RedHub);
 
 
-  // }
+  }
 
   /** 
    * Container class to hold all subsystem objects.
