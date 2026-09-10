@@ -1,4 +1,4 @@
-package frc.robot.util.Zones;
+package frc.robot.util.zones;
 
 import edu.wpi.first.math.geometry.Pose2d;
 
@@ -8,7 +8,7 @@ public class CircleZone implements NerdZone {
 
     public final double radius;
 
-    public CircleZone (Pose2d center, int radius) {
+    public CircleZone (Pose2d center, double radius) {
         this.center = center; 
         this.radius = radius;
     }

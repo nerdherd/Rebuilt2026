@@ -1,4 +1,4 @@
-package frc.robot.util.Zones;
+package frc.robot.util.zones;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,8 +15,9 @@ public class ZoneGroup implements NerdZone {
         this.zones.addAll(Arrays.asList(zones));
     }
 
-    public void addZone(NerdZone zone) {
+    public ZoneGroup addZone(NerdZone zone) {
         this.zones.add(zone);
+        return this;
     }
 
     @Override
@@ -31,8 +32,4 @@ public class ZoneGroup implements NerdZone {
         return false;
         
     }
-
-    
-
-
 }

@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-import java.text.FieldPosition;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
@@ -45,11 +44,11 @@ import frc.robot.subsystems.template.TemplateSubsystem.SubsystemMode;
 import frc.robot.util.MultiProfiledPIDController;
 import frc.robot.util.NerdyMath;
 import frc.robot.util.Translation2dSlewRateLimiter;
-import frc.robot.util.Zones.NerdZone;
+import frc.robot.util.zones.NerdZone;
+import frc.robot.util.zones.RectangleZone;
 import frc.robot.util.logging.Reportable.LOG_LEVEL;
-import frc.robot.util.Zones.RectangleZone;
-import frc.robot.util.Zones.SemicircleZone;
-import frc.robot.util.Zones.ZoneGroup;
+import frc.robot.util.zones.SemicircleZone;
+import frc.robot.util.zones.ZoneGroup;
 
 
 /**
@@ -552,21 +551,26 @@ public final class Constants {
   }
 
   public static final class ZoneConstants {
-
     public static final double kHubRadius = 3.0;
+    public static final double kTrenchWidth = 1.2;
 
-    // public static final NerdZone LeftBlueTrench = new RectangleZone(null, null);
-    // public static final NerdZone RightBlueTrench = new RectangleZone(null, null);
-    // public static final NerdZone LeftRedTrench = new RectangleZone(null, null);
-    // public static final NerdZone RightRedTrench = new RectangleZone(null, null);
+    public static final NerdZone kBlueTrench = 
+      new RectangleZone(
+        new Pose2d(FieldPositions.HUB_CENTER.blue.getX() - (kTrenchWidth/2.0), -10, Rotation2d.kZero), 
+        new Pose2d(FieldPositions.HUB_CENTER.blue.getX() + (kTrenchWidth/2.0), 20, Rotation2d.kZero));
+    public static final NerdZone kRedTrench = 
+      new RectangleZone(
+        new Pose2d(FieldPositions.HUB_CENTER.red.getX() - (kTrenchWidth/2.0), -10, Rotation2d.kZero), 
+        new Pose2d(FieldPositions.HUB_CENTER.red.getX() + (kTrenchWidth/2.0), 20, Rotation2d.kZero));
 
-    public static final NerdZone BlueHub = new SemicircleZone(FieldPositions.HUB_CENTER.blue, ZoneConstants.kHubRadius);
-    public static final NerdZone RedHub = new SemicircleZone(FieldPositions.HUB_CENTER.red, ZoneConstants.kHubRadius);
-
-    
-    public static final ZoneGroup kShootingGroup = new ZoneGroup(BlueHub, RedHub);
+    private static final NerdZone kBlueHub = new SemicircleZone(FieldPositions.HUB_CENTER.blue, ZoneConstants.kHubRadius);
+    private static final NerdZone kRedHub = new SemicircleZone(FieldPositions.HUB_CENTER.red, ZoneConstants.kHubRadius);
 
 
+    public static final ZoneGroup kShootingGroup = new ZoneGroup(kBlueHub, kRedHub)
+      .addZone(kBlueTrench)
+      .addZone(kRedTrench)
+      ;
   }
 
   /** 
