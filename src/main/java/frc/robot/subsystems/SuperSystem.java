@@ -7,7 +7,6 @@ import static frc.robot.Constants.Subsystems.intakeRoller;
 import static frc.robot.Constants.Subsystems.intakeSlapdown;
 import static frc.robot.Constants.Subsystems.leds;
 import static frc.robot.Constants.Subsystems.shooter;
-import static frc.robot.Constants.Subsystems.useHood;
 import static frc.robot.Constants.Subsystems.useLEDs;
 import static frc.robot.Constants.Subsystems.hood;
 
@@ -29,6 +28,7 @@ import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.HoodConstants;
 import frc.robot.Constants.ShooterConstants;
+import frc.robot.Constants.ZoneConstants;
 import frc.robot.Constants.SwerveDriveConstants.FieldPositions;
 import frc.robot.commands.RebuiltLEDCommand;
 import frc.robot.commands.SwerveJoystickCommand;
@@ -155,9 +155,19 @@ public class SuperSystem implements Reportable {
     }
 
     public Command spinUpFlywheelFeeding() {
-        return Commands.parallel(
-            setShooterCommand(45)
-        );
+        return Commands.either(
+            Commands.parallel(
+                setShooterCommand(65),
+                hoodUp()
+            ), 
+            Commands.parallel(
+                setShooterCommand(45),
+                hoodDown()
+            ), 
+            () -> {
+                if (RobotContainer.IsRedSide()) return ZoneConstants.kLongPassRed.check(swerveDrivetrain.getPose());
+                return ZoneConstants.kLongPassBlue.check(swerveDrivetrain.getPose());
+            });
     }
 
     public Command spinUpFlywheel(double speed) {
@@ -225,8 +235,8 @@ public class SuperSystem implements Reportable {
                 // calculate distance
                 double distance = getHubDistance();
                 double rps = 0.0;
-                if (useHood()) {
-                    hood.setDesiredValue(HoodConstants.kUpPos);
+                if (useHoodShoot()) {
+                    hood.setDesiredValue(HoodConstants.kUpPos * 0.5 + HoodConstants.kDownPos * 0.5);
                     // convert to rps
                     rps = ShooterConstants.kShootWithDistanceHoodA * distance * distance + ShooterConstants.kShootWithDistanceHoodB;
                 } else {
@@ -251,7 +261,7 @@ public class SuperSystem implements Reportable {
 
         return Commands.run(() -> {
             shooter.setDesiredValue(shootSpeed);
-            if (useHood()) hood.setDesiredValue(HoodConstants.kUpPos);
+            if (useHoodShoot()) hood.setDesiredValue((HoodConstants.kUpPos-HoodConstants.kDownPos) * 0.5 + HoodConstants.kDownPos);
             else hood.setDesiredValue(HoodConstants.kDownPos);
         }, shooter);
     }
@@ -273,8 +283,8 @@ public class SuperSystem implements Reportable {
         return setHood(1.0);
     }
 
-    public boolean useHood() {
-        return true;
+    public boolean useHoodShoot() {
+        return !Constants.ZoneConstants.kShootingGroup.check(swerveDrivetrain.getPose()); //TODO: Test zoning
     }
 
     public void setNeutralMode(NeutralModeValue neutralMode) {
@@ -319,7 +329,8 @@ public class SuperSystem implements Reportable {
     public void initializeLogging() {
         applySubsystems((s) -> s.initializeLogging());
 
-        NerdLog.get().logNumber(kSupersystemTab + "/Hub Distance", () -> getHubDistance(), "m", LOG_LEVEL.ALL);
+        NerdLog.getNT().logNumber(kSupersystemTab + "/Hub Distance", () -> getHubDistance(), "m", LOG_LEVEL.MEDIUM);
         NerdLog.get().logData(kSupersystemTab + "/Command Scheduler", CommandScheduler.getInstance(), LOG_LEVEL.ALL);
+        NerdLog.getNT().logBoolean(kSupersystemTab + "/useShootHood", () -> useHoodShoot() , LOG_LEVEL.MEDIUM);
     }
 }

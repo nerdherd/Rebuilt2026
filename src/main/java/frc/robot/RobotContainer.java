@@ -200,9 +200,9 @@ public class RobotContainer {
         .onFalse(superSystem.stopConveyor());
       // hood testing
       operatorController.buttonLeft()
-        .onTrue(superSystem.hoodUp())
+        .onTrue(superSystem.setHood(0.5))
         .onFalse(superSystem.hoodDown());
-    }
+     }
   }
 
   public void configureBindings_test() {
