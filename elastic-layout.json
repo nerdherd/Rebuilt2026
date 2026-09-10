@@ -17,7 +17,7 @@
             "properties": {
               "topic": "/SmartDashboard/SwerveDrive/Robot Field",
               "period": 0.06,
-              "field_game": "Rebuilt (No Fuel)",
+              "field_game": "Rebuilt",
               "robot_width": 0.85,
               "robot_length": 0.85,
               "show_other_objects": true,
@@ -31,7 +31,7 @@
           {
             "title": "Selected Auto",
             "x": 0.0,
-            "y": 384.0,
+            "y": 512.0,
             "width": 256.0,
             "height": 128.0,
             "type": "ComboBox Chooser",
@@ -44,7 +44,7 @@
           {
             "title": "BatteryVoltage",
             "x": 0.0,
-            "y": 512.0,
+            "y": 384.0,
             "width": 256.0,
             "height": 128.0,
             "type": "Voltage View",
@@ -97,7 +97,7 @@
             "type": "Radial Gauge",
             "properties": {
               "topic": "/Robot/SuperSystem/Shooter/Velocity",
-              "period": 0.033,
+              "period": 0.06,
               "data_type": "double",
               "start_angle": -140.0,
               "end_angle": 140.0,
@@ -187,9 +187,9 @@
           {
             "title": "limelight-br",
             "x": 1152.0,
-            "y": 320.0,
-            "width": 320.0,
-            "height": 320.0,
+            "y": 256.0,
+            "width": 256.0,
+            "height": 256.0,
             "type": "Camera Stream",
             "properties": {
               "topic": "/CameraPublisher/limelight-br",
@@ -201,8 +201,8 @@
             "title": "limelight-fr",
             "x": 1152.0,
             "y": 0.0,
-            "width": 320.0,
-            "height": 320.0,
+            "width": 256.0,
+            "height": 256.0,
             "type": "Camera Stream",
             "properties": {
               "topic": "/CameraPublisher/limelight-fr",
@@ -212,7 +212,7 @@
           },
           {
             "title": "Drive 0",
-            "x": 1472.0,
+            "x": 1408.0,
             "y": 0.0,
             "width": 64.0,
             "height": 64.0,
@@ -229,7 +229,7 @@
           },
           {
             "title": "Drive 1",
-            "x": 1536.0,
+            "x": 1472.0,
             "y": 0.0,
             "width": 64.0,
             "height": 64.0,
@@ -246,7 +246,7 @@
           },
           {
             "title": "Drive 2",
-            "x": 1472.0,
+            "x": 1408.0,
             "y": 64.0,
             "width": 64.0,
             "height": 64.0,
@@ -263,7 +263,7 @@
           },
           {
             "title": "Drive 3",
-            "x": 1536.0,
+            "x": 1472.0,
             "y": 64.0,
             "width": 64.0,
             "height": 64.0,
@@ -280,7 +280,7 @@
           },
           {
             "title": "Turn 0",
-            "x": 1472.0,
+            "x": 1408.0,
             "y": 128.0,
             "width": 64.0,
             "height": 64.0,
@@ -297,7 +297,7 @@
           },
           {
             "title": "Turn 1",
-            "x": 1536.0,
+            "x": 1472.0,
             "y": 128.0,
             "width": 64.0,
             "height": 64.0,
@@ -314,7 +314,7 @@
           },
           {
             "title": "Turn 2",
-            "x": 1472.0,
+            "x": 1408.0,
             "y": 192.0,
             "width": 64.0,
             "height": 64.0,
@@ -331,7 +331,7 @@
           },
           {
             "title": "Turn 3",
-            "x": 1536.0,
+            "x": 1472.0,
             "y": 192.0,
             "width": 64.0,
             "height": 64.0,
@@ -348,7 +348,7 @@
           },
           {
             "title": "Shooter",
-            "x": 1472.0,
+            "x": 1408.0,
             "y": 256.0,
             "width": 64.0,
             "height": 64.0,
@@ -365,7 +365,7 @@
           },
           {
             "title": "Shooter",
-            "x": 1536.0,
+            "x": 1472.0,
             "y": 256.0,
             "width": 64.0,
             "height": 64.0,
@@ -382,7 +382,7 @@
           },
           {
             "title": "Shooter",
-            "x": 1472.0,
+            "x": 1408.0,
             "y": 320.0,
             "width": 64.0,
             "height": 64.0,
@@ -399,7 +399,7 @@
           },
           {
             "title": "Shooter",
-            "x": 1536.0,
+            "x": 1472.0,
             "y": 320.0,
             "width": 64.0,
             "height": 64.0,
@@ -416,7 +416,7 @@
           },
           {
             "title": "Intake Slapdown",
-            "x": 1472.0,
+            "x": 1408.0,
             "y": 384.0,
             "width": 64.0,
             "height": 64.0,
@@ -433,7 +433,7 @@
           },
           {
             "title": "Intake Roller",
-            "x": 1536.0,
+            "x": 1472.0,
             "y": 384.0,
             "width": 64.0,
             "height": 64.0,
@@ -450,7 +450,7 @@
           },
           {
             "title": "Indexer 1",
-            "x": 1472.0,
+            "x": 1408.0,
             "y": 448.0,
             "width": 64.0,
             "height": 64.0,
@@ -467,7 +467,7 @@
           },
           {
             "title": "Indexer 2",
-            "x": 1536.0,
+            "x": 1472.0,
             "y": 448.0,
             "width": 64.0,
             "height": 64.0,
@@ -484,13 +484,47 @@
           },
           {
             "title": "Conveyor",
-            "x": 1472.0,
+            "x": 1408.0,
             "y": 512.0,
             "width": 128.0,
             "height": 128.0,
             "type": "Boolean Box",
             "properties": {
               "topic": "/Robot/SuperSystem/Conveyor/Connected/Primary Motor",
+              "period": 0.06,
+              "data_type": "boolean",
+              "true_color": 4283215696,
+              "false_color": 4294198070,
+              "true_icon": "None",
+              "false_icon": "None"
+            }
+          },
+          {
+            "title": "Shooting Zone",
+            "x": 1152.0,
+            "y": 512.0,
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Boolean Box",
+            "properties": {
+              "topic": "/Robot/Robot/Shooting Zone",
+              "period": 0.06,
+              "data_type": "boolean",
+              "true_color": 4283215696,
+              "false_color": 4294198070,
+              "true_icon": "None",
+              "false_icon": "None"
+            }
+          },
+          {
+            "title": "Passing Zone",
+            "x": 1280.0,
+            "y": 512.0,
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Boolean Box",
+            "properties": {
+              "topic": "/Robot/Robot/Passing Zone",
               "period": 0.06,
               "data_type": "boolean",
               "true_color": 4283215696,
@@ -696,20 +730,6 @@
               "wrap_value": false,
               "show_pointer": true,
               "show_ticks": true
-            }
-          },
-          {
-            "title": "Print",
-            "x": 768.0,
-            "y": 384.0,
-            "width": 704.0,
-            "height": 128.0,
-            "type": "Text Display",
-            "properties": {
-              "topic": "/Tunable/Print",
-              "period": 0.06,
-              "data_type": "string",
-              "show_submit_button": true
             }
           }
         ]
