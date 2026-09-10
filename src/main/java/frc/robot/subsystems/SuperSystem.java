@@ -7,7 +7,6 @@ import static frc.robot.Constants.Subsystems.intakeRoller;
 import static frc.robot.Constants.Subsystems.intakeSlapdown;
 import static frc.robot.Constants.Subsystems.leds;
 import static frc.robot.Constants.Subsystems.shooter;
-import static frc.robot.Constants.Subsystems.useHood;
 import static frc.robot.Constants.Subsystems.useLEDs;
 import static frc.robot.Constants.Subsystems.hood;
 
@@ -29,6 +28,7 @@ import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.HoodConstants;
 import frc.robot.Constants.ShooterConstants;
+import frc.robot.Constants.ZoneConstants;
 import frc.robot.Constants.SwerveDriveConstants.FieldPositions;
 import frc.robot.commands.RebuiltLEDCommand;
 import frc.robot.commands.SwerveJoystickCommand;
@@ -155,10 +155,19 @@ public class SuperSystem implements Reportable {
     }
 
     public Command spinUpFlywheelFeeding() {
-        return Commands.parallel(
-            setShooterCommand(65),
-            hood.setDesiredValueCommand(HoodConstants.kUpPos)
-        );
+        return Commands.either(
+            Commands.parallel(
+                setShooterCommand(65),
+                hoodUp()
+            ), 
+            Commands.parallel(
+                setShooterCommand(45),
+                hoodDown()
+            ), 
+            () -> {
+                if (RobotContainer.IsRedSide()) return ZoneConstants.kLongPassRed.check(swerveDrivetrain.getPose());
+                return ZoneConstants.kLongPassBlue.check(swerveDrivetrain.getPose());
+            });
     }
 
     public Command spinUpFlywheel(double speed) {

@@ -553,12 +553,13 @@ public final class Constants {
   public static final class ZoneConstants {
     public static final double kHubRadius = 3.0;
     public static final double kTrenchWidth = 1.2;
+    public static final double kDistFromCenterLongPass = 0.0;
 
-    public static final NerdZone kBlueTrench = 
+    private static final NerdZone kBlueTrench = 
       new RectangleZone(
         new Pose2d(FieldPositions.HUB_CENTER.blue.getX() - (kTrenchWidth/2.0), -10, Rotation2d.kZero), 
         new Pose2d(FieldPositions.HUB_CENTER.blue.getX() + (kTrenchWidth/2.0), 20, Rotation2d.kZero));
-    public static final NerdZone kRedTrench = 
+    private static final NerdZone kRedTrench = 
       new RectangleZone(
         new Pose2d(FieldPositions.HUB_CENTER.red.getX() - (kTrenchWidth/2.0), -10, Rotation2d.kZero), 
         new Pose2d(FieldPositions.HUB_CENTER.red.getX() + (kTrenchWidth/2.0), 20, Rotation2d.kZero));
@@ -566,6 +567,19 @@ public final class Constants {
     private static final NerdZone kBlueHub = new SemicircleZone(FieldPositions.HUB_CENTER.blue, ZoneConstants.kHubRadius);
     private static final NerdZone kRedHub = new SemicircleZone(FieldPositions.HUB_CENTER.red, ZoneConstants.kHubRadius);
 
+    // private static final NerdZone kNeutralZone = 
+    //   new RectangleZone(
+    //     new Pose2d(FieldPositions.HUB_CENTER.blue.getX() + (kTrenchWidth/2.0), -10, Rotation2d.kZero), 
+    //     new Pose2d(FieldPositions.HUB_CENTER.red.getX() - (kTrenchWidth/2.0), 20, Rotation2d.kZero));
+
+    public static final NerdZone kLongPassBlue = 
+      new RectangleZone(
+        new Pose2d(8.27 + kDistFromCenterLongPass, -10, Rotation2d.kZero), 
+        new Pose2d(20, 20, Rotation2d.kZero));
+    public static final NerdZone kLongPassRed = 
+      new RectangleZone(
+        new Pose2d(8.27 - kDistFromCenterLongPass, -10, Rotation2d.kZero), 
+        new Pose2d(-10, 20, Rotation2d.kZero));
 
     public static final ZoneGroup kShootingGroup = new ZoneGroup(kBlueHub, kRedHub)
       .addZone(kBlueTrench)
