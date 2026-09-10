@@ -164,10 +164,7 @@ public class SuperSystem implements Reportable {
                 setShooterCommand(45),
                 hoodDown()
             ), 
-            () -> {
-                if (RobotContainer.IsRedSide()) return ZoneConstants.kLongPassRed.check(swerveDrivetrain.getPose());
-                return ZoneConstants.kLongPassBlue.check(swerveDrivetrain.getPose());
-            });
+            () -> { return ZoneConstants.kLongPass.get().check(swerveDrivetrain.getPose()); });
     }
 
     public Command spinUpFlywheel(double speed) {

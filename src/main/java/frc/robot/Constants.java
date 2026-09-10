@@ -6,6 +6,7 @@ package frc.robot;
 
 import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 import com.ctre.phoenix6.configs.CANdleConfiguration;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
@@ -580,6 +581,10 @@ public final class Constants {
       new RectangleZone(
         new Pose2d(8.27 - kDistFromCenterLongPass, -10, Rotation2d.kZero), 
         new Pose2d(-10, 20, Rotation2d.kZero));
+    public static final Supplier<NerdZone> kLongPass = () -> { 
+        if (RobotContainer.IsRedSide()) return kLongPassRed;
+        return kLongPassBlue;
+      };
 
     public static final ZoneGroup kShootingGroup = new ZoneGroup(kBlueHub, kRedHub)
       .addZone(kBlueTrench)
