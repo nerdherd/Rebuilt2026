@@ -5,32 +5,13 @@
     "data": {
       "commands": [
         {
-          "type": "wait",
-          "data": {
-            "waitTime": 3.0
-          }
-        },
-        {
           "type": "parallel",
           "data": {
             "commands": [
               {
-                "type": "sequential",
+                "type": "path",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 0.05
-                      }
-                    },
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "S1MidDepot"
-                      }
-                    }
-                  ]
+                  "pathName": "TopTurret1"
                 }
               },
               {
@@ -40,13 +21,13 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "Intake Down"
+                        "name": "Intake Down Only"
                       }
                     },
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 0.175
+                        "waitTime": 0.225
                       }
                     },
                     {
@@ -57,12 +38,55 @@
                     }
                   ]
                 }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 1.0
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Intake Start"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 3.0
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Flywheel Start Distance"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 1.0
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Intake Stop"
+                      }
+                    }
+                  ]
+                }
               }
             ]
           }
         },
         {
-          "type": "sequential",
+          "type": "parallel",
           "data": {
             "commands": [
               {
@@ -72,13 +96,13 @@
                 }
               },
               {
-                "type": "parallel",
+                "type": "sequential",
                 "data": {
                   "commands": [
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 0.2
+                        "waitTime": 0.7
                       }
                     },
                     {
@@ -90,7 +114,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 2.0
+                        "waitTime": 2.3
                       }
                     },
                     {
@@ -102,7 +126,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "Flywheel Stop"
+                        "name": "Flywheel Stop Distance"
                       }
                     }
                   ]
@@ -118,7 +142,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "HTowerDepot"
+                  "pathName": null
                 }
               },
               {
@@ -126,21 +150,39 @@
                 "data": {
                   "commands": [
                     {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 1.5
+                      }
+                    },
+                    {
                       "type": "named",
                       "data": {
-                        "name": "Intake Down"
+                        "name": "Intake Start"
                       }
                     },
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 0.175
+                        "waitTime": 3.25
                       }
                     },
                     {
                       "type": "named",
                       "data": {
-                        "name": "Intake Hold Stop"
+                        "name": "Flywheel Start Distance"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 1.0
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Intake Stop"
                       }
                     }
                   ]
@@ -150,7 +192,7 @@
           }
         },
         {
-          "type": "sequential",
+          "type": "parallel",
           "data": {
             "commands": [
               {
@@ -160,13 +202,13 @@
                 }
               },
               {
-                "type": "parallel",
+                "type": "sequential",
                 "data": {
                   "commands": [
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 0.2
+                        "waitTime": 0.7
                       }
                     },
                     {
@@ -178,7 +220,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 2.0
+                        "waitTime": 2.3
                       }
                     },
                     {
@@ -190,7 +232,39 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "Flywheel Stop"
+                        "name": "Flywheel Stop Distance"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": null
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 1.0
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Intake Start"
                       }
                     }
                   ]
