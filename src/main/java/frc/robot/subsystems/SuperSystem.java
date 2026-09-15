@@ -119,12 +119,23 @@ public class SuperSystem implements Reportable {
         return Commands.runOnce(() -> CommandScheduler.getInstance().cancel(autoShoot));
     }
 
-    public Command autoShootWithDistance = shootWithDistance().finallyDo(() -> {shooter.setDesiredValue(0.0);});
+    public Command autoShootWithDistance = autoShootWithDistance().finallyDo(() -> {shooter.setDesiredValue(0.0);});
     public Command startShootWithDistance() {
         return Commands.runOnce(() -> CommandScheduler.getInstance().schedule(autoShootWithDistance));
     }
+
+    public Command HoodShootWithDistance = shootWithDistance().finallyDo(() -> {shooter.setDesiredValue(0.0);});
+
+    public Command startHoodShootWithDistance() {
+        return Commands.runOnce(() -> CommandScheduler.getInstance().schedule(HoodShootWithDistance));
+    }
+    
     public Command stopShootWithDistance() {
         return Commands.runOnce(() -> CommandScheduler.getInstance().cancel(autoShootWithDistance));
+    }
+
+     public Command stopHoodShootWithDistance() {
+        return Commands.runOnce(() -> CommandScheduler.getInstance().cancel(HoodShootWithDistance));
     }
 
     public Command reverseConveyor() {
@@ -224,6 +235,20 @@ public class SuperSystem implements Reportable {
             intakeRoller.setDesiredValueCommand(0),
             stopIntakeHold()
         );
+    }
+
+    public Command autoShootWithDistance() {
+        return Commands.run(
+            () -> {
+                // calculate distance
+                double distance = getHubDistance();
+                double rps = 0.0;
+                    hood.setDesiredValue(HoodConstants.kDownPos);
+                    // convert to rps
+                    rps = ShooterConstants.kShootWithDistanceA * distance * distance + ShooterConstants.kShootWithDistanceB;
+                // spin up flywheel
+                shooter.setDesiredValue(Math.min(55.0, rps));
+            }, shooter);
     }
 
     public Command shootWithDistance() {
