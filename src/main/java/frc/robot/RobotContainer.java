@@ -203,6 +203,13 @@ public class RobotContainer {
       operatorController.buttonLeft()
         .onTrue(superSystem.setShooterCommand(45))
         .onFalse(superSystem.stopFlywheel());
+
+      operatorController.dpadDown()
+        .onTrue(superSystem.setHood(0.5))
+        .onFalse(superSystem.hoodDown());
+      operatorController.dpadUp()
+        .onTrue(superSystem.hoodUp())
+        .onFalse(superSystem.hoodDown());
      }
   }
 
