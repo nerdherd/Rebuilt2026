@@ -119,12 +119,23 @@ public class SuperSystem implements Reportable {
         return Commands.runOnce(() -> CommandScheduler.getInstance().cancel(autoShoot));
     }
 
-    public Command autoShootWithDistance = shootWithDistance().finallyDo(() -> {shooter.setDesiredValue(0.0);});
+    public Command autoShootWithDistance = autoShootWithDistance().finallyDo(() -> {shooter.setDesiredValue(0.0);});
     public Command startShootWithDistance() {
         return Commands.runOnce(() -> CommandScheduler.getInstance().schedule(autoShootWithDistance));
     }
+
+    public Command HoodShootWithDistance = shootWithDistance().finallyDo(() -> {shooter.setDesiredValue(0.0);});
+
+    public Command startHoodShootWithDistance() {
+        return Commands.runOnce(() -> CommandScheduler.getInstance().schedule(HoodShootWithDistance));
+    }
+    
     public Command stopShootWithDistance() {
         return Commands.runOnce(() -> CommandScheduler.getInstance().cancel(autoShootWithDistance));
+    }
+
+     public Command stopHoodShootWithDistance() {
+        return Commands.runOnce(() -> CommandScheduler.getInstance().cancel(HoodShootWithDistance));
     }
 
     public Command reverseConveyor() {
@@ -155,16 +166,16 @@ public class SuperSystem implements Reportable {
     }
 
     public Command spinUpFlywheelFeeding() {
-        return Commands.either(
-            Commands.parallel(
-                setShooterCommand(65),
-                hoodUp()
-            ), 
-            Commands.parallel(
-                setShooterCommand(45),
-                hoodDown()
-            ), 
-            () -> { return ZoneConstants.kLongPass.get().check(swerveDrivetrain.getPose()); });
+        return Commands.run(() -> {
+            if (ZoneConstants.kLongPass.get().check(swerveDrivetrain.getPose())) {
+                shooter.setDesiredValue(65);
+                hood.setDesiredValue(Constants.HoodConstants.kUpPos);
+
+            } else {
+                shooter.setDesiredValue(45);
+                hood.setDesiredValue(Constants.HoodConstants.kDownPos);
+            }
+        });
     }
 
     public Command spinUpFlywheel(double speed) {
@@ -226,6 +237,20 @@ public class SuperSystem implements Reportable {
         );
     }
 
+    public Command autoShootWithDistance() {
+        return Commands.run(
+            () -> {
+                // calculate distance
+                double distance = getHubDistance();
+                double rps = 0.0;
+                    hood.setDesiredValue(HoodConstants.kDownPos);
+                    // convert to rps
+                    rps = ShooterConstants.kShootWithDistanceA * distance * distance + ShooterConstants.kShootWithDistanceB;
+                // spin up flywheel
+                shooter.setDesiredValue(Math.min(55.0, rps));
+            }, shooter);
+    }
+
     public Command shootWithDistance() {
         return Commands.run(
             () -> {
@@ -281,7 +306,7 @@ public class SuperSystem implements Reportable {
     }
 
     public boolean useHoodShoot() {
-        return !Constants.ZoneConstants.kShootingGroup.check(swerveDrivetrain.getPose()); //TODO: Test zoning
+        return !Constants.ZoneConstants.kShootingGroup.check(swerveDrivetrain.getPose()); 
     }
 
     public void setNeutralMode(NeutralModeValue neutralMode) {

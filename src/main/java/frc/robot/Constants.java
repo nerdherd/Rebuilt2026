@@ -45,11 +45,11 @@ import frc.robot.subsystems.template.TemplateSubsystem.SubsystemMode;
 import frc.robot.util.MultiProfiledPIDController;
 import frc.robot.util.NerdyMath;
 import frc.robot.util.Translation2dSlewRateLimiter;
-import frc.robot.util.zones.NerdZone;
-import frc.robot.util.zones.RectangleZone;
+import frc.robot.util.Zones.NerdZone;
+import frc.robot.util.Zones.RectangleZone;
+import frc.robot.util.Zones.SemicircleZone;
+import frc.robot.util.Zones.ZoneGroup;
 import frc.robot.util.logging.Reportable.LOG_LEVEL;
-import frc.robot.util.zones.SemicircleZone;
-import frc.robot.util.zones.ZoneGroup;
 
 
 /**
@@ -131,7 +131,7 @@ public final class Constants {
     public static final double kDriveMaxVelocity = 5.0; // m/s
     public static final double kDrivePrecisionMultiplier = 0.5; // fractional
     
-    public static final double kTurnMaxVelocity = 4.5; // rad/s
+    public static final double kTurnMaxVelocity = 4.25; // rad/s
     public static final double kTurnPrecisionMultiplier = 0.5; // fractional
     
     public static final double kRobotOrientedVelocity = 2.0; // m/s
@@ -140,8 +140,8 @@ public final class Constants {
     /// -- Turn to Angle -- ///
     ///////////////////////////
     
-    public static final double kTurnToAngleMaxVelocity = 6.25; // rad/s
-    public static final PIDConstants kTurnToAnglePIDConstants = new PIDConstants(12.0, 0.0, 0.25);
+    public static final double kTurnToAngleMaxVelocity = 7.00; // rad/s
+    public static final PIDConstants kTurnToAnglePIDConstants = new PIDConstants(12.0, 0.0, 0.5);
     public static final Constraints kTurnToAngleTolerances = new Constraints(0.017, 0.05); 
 
     ////////////////////////////////////////////
@@ -194,7 +194,7 @@ public final class Constants {
 
     public static enum FieldPositions {
       // Add field positions
-      HUB_CENTER(4.626, 4.035, 0.0);
+      HUB_CENTER(4.626, 4.035, 180.0);
       
       public Pose2d blue, red; // meters and degrees
       FieldPositions(double _blueX, double _blueY, double _blueHeadingDegrees) {
@@ -406,8 +406,8 @@ public final class Constants {
     public static final double kShootWithDistanceA = 0.88;//0.87; // a
     public static final double kShootWithDistanceB = 31.60409; // b
 
-    public static final double kShootWithDistanceHoodA = 0.536846;//0.87; // a
-    public static final double kShootWithDistanceHoodB = 35.29764; // b
+    public static final double kShootWithDistanceHoodA = 0.50846;//0.87; // a
+    public static final double kShootWithDistanceHoodB = 34.29764; // b
 
     public static final double kLookAheadRingDriveFactor = 0.3; // use to tune the ring drive
     public static final double kLookAheadFactor = 1.35; // use to tune shoot on the move left and right
@@ -556,14 +556,14 @@ public final class Constants {
     public static final double kTrenchWidth = 1.2;
     public static final double kDistFromCenterLongPass = 0.0;
 
-    private static final NerdZone kBlueTrench = 
-      new RectangleZone(
-        new Pose2d(FieldPositions.HUB_CENTER.blue.getX() - (kTrenchWidth/2.0), -10, Rotation2d.kZero), 
-        new Pose2d(FieldPositions.HUB_CENTER.blue.getX() + (kTrenchWidth/2.0), 20, Rotation2d.kZero));
-    private static final NerdZone kRedTrench = 
-      new RectangleZone(
-        new Pose2d(FieldPositions.HUB_CENTER.red.getX() - (kTrenchWidth/2.0), -10, Rotation2d.kZero), 
-        new Pose2d(FieldPositions.HUB_CENTER.red.getX() + (kTrenchWidth/2.0), 20, Rotation2d.kZero));
+    // private static final NerdZone kBlueTrench = 
+    //   new RectangleZone(
+    //     new Pose2d(FieldPositions.HUB_CENTER.blue.getX() - (kTrenchWidth/2.0), -10, Rotation2d.kZero), 
+    //     new Pose2d(FieldPositions.HUB_CENTER.blue.getX() + (kTrenchWidth/2.0), 20, Rotation2d.kZero));
+    // private static final NerdZone kRedTrench = 
+    //   new RectangleZone(
+    //     new Pose2d(FieldPositions.HUB_CENTER.red.getX() - (kTrenchWidth/2.0), -10, Rotation2d.kZero), 
+    //     new Pose2d(FieldPositions.HUB_CENTER.red.getX() + (kTrenchWidth/2.0), 20, Rotation2d.kZero));
 
     private static final NerdZone kBlueHub = new SemicircleZone(FieldPositions.HUB_CENTER.blue, ZoneConstants.kHubRadius);
     private static final NerdZone kRedHub = new SemicircleZone(FieldPositions.HUB_CENTER.red, ZoneConstants.kHubRadius);
@@ -587,8 +587,8 @@ public final class Constants {
       };
 
     public static final ZoneGroup kShootingGroup = new ZoneGroup(kBlueHub, kRedHub)
-      .addZone(kBlueTrench)
-      .addZone(kRedTrench)
+      // .addZone(kBlueTrench)
+      // .addZone(kRedTrench);
       ;
   }
 

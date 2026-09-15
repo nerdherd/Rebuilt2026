@@ -201,8 +201,8 @@ public class RobotContainer {
         .onFalse(superSystem.stopConveyor());
       // hood testing
       operatorController.buttonLeft()
-        .onTrue(superSystem.setHood(0.5))
-        .onFalse(superSystem.hoodDown());
+        .onTrue(superSystem.setShooterCommand(45))
+        .onFalse(superSystem.stopFlywheel());
      }
   }
 

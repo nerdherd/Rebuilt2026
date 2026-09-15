@@ -11,7 +11,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "S1MidTriple1"
+                  "pathName": "TopTurret1"
                 }
               },
               {
@@ -64,7 +64,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "Flywheel Start 45"
+                        "name": "Hood Flywheel Start Distance"
                       }
                     },
                     {
@@ -102,7 +102,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 1.0
+                        "waitTime": 0.3
                       }
                     },
                     {
@@ -114,7 +114,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 2.3
+                        "waitTime": 2.7
                       }
                     },
                     {
@@ -126,7 +126,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "Flywheel Stop"
+                        "name": "Hood Flywheel Stop Distance"
                       }
                     }
                   ]
@@ -142,7 +142,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "H45MidTriple2"
+                  "pathName": "TopTurret1"
                 }
               },
               {
@@ -170,7 +170,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "Flywheel Start 45"
+                        "name": "Hood Flywheel Start Distance"
                       }
                     },
                     {
@@ -208,7 +208,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 1.0
+                        "waitTime": 0.3
                       }
                     },
                     {
@@ -220,7 +220,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 2.3
+                        "waitTime": 2.7
                       }
                     },
                     {
@@ -232,7 +232,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "Flywheel Stop"
+                        "name": "Hood Flywheel Stop Distance"
                       }
                     }
                   ]
@@ -248,7 +248,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "TopH45Intake"
+                  "pathName": "TopTurret1"
                 }
               },
               {
@@ -258,13 +258,87 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 1.0
+                        "waitTime": 1.5
                       }
                     },
                     {
                       "type": "named",
                       "data": {
                         "name": "Intake Start"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 3.25
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Hood Flywheel Start Distance"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 1.0
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Intake Stop"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Turn to Hub"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.3
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Auto Shoot Start"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 2.7
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Auto Shoot Stop"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Hood Flywheel Stop Distance"
                       }
                     }
                   ]

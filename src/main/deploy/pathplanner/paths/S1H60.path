@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.55,
-        "y": 7.4
+        "x": 3.961,
+        "y": 7.541
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.473844470982473,
-        "y": 7.643332904227528
+        "x": 3.884844470982473,
+        "y": 7.784332904227528
       },
       "isLocked": false,
       "linkedName": "S1"
@@ -48,7 +48,7 @@
   "folder": "To Hub",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -80.0
   },
   "useDefaultConstraints": true
 }
