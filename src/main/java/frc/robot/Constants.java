@@ -6,6 +6,7 @@ package frc.robot;
 
 import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 import com.ctre.phoenix6.configs.CANdleConfiguration;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
@@ -37,13 +38,19 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
+import frc.robot.Constants.SwerveDriveConstants.FieldPositions;
 import frc.robot.subsystems.LED;
 import frc.robot.subsystems.template.TemplateSubsystem;
 import frc.robot.subsystems.template.TemplateSubsystem.SubsystemMode;
 import frc.robot.util.MultiProfiledPIDController;
 import frc.robot.util.NerdyMath;
 import frc.robot.util.Translation2dSlewRateLimiter;
+import frc.robot.util.zones.NerdZone;
+import frc.robot.util.zones.RectangleZone;
 import frc.robot.util.logging.Reportable.LOG_LEVEL;
+import frc.robot.util.zones.SemicircleZone;
+import frc.robot.util.zones.ZoneGroup;
+
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -399,6 +406,9 @@ public final class Constants {
     public static final double kShootWithDistanceA = 0.88;//0.87; // a
     public static final double kShootWithDistanceB = 31.60409; // b
 
+    public static final double kShootWithDistanceHoodA = 0.536846;//0.87; // a
+    public static final double kShootWithDistanceHoodB = 35.29764; // b
+
     public static final double kLookAheadRingDriveFactor = 0.3; // use to tune the ring drive
     public static final double kLookAheadFactor = 1.35; // use to tune shoot on the move left and right
   }
@@ -410,7 +420,7 @@ public final class Constants {
     private static final Slot0Configs kSlot0Configs = 
       new Slot0Configs()
         .withKP(3)
-        .withKI(0)
+        .withKI(3)
         .withKD(0.15)
         .withKV(0.3)
         .withKS(0)
@@ -440,8 +450,8 @@ public final class Constants {
         .withMotionMagic(kMotionMagicConfigs)
         .withMotorOutput(kMotorOutputConfigs);
 
-    public static final double kDownPos = 0.02; //Should do multiple trials
-    public static final double kUpPos = 0.83; // Should do multiple trials
+    public static final double kDownPos = 0.01; //Should do multiple trials
+    public static final double kUpPos = 0.8; // Should do multiple trials
   }
 
   public static class LEDConstants {
@@ -539,6 +549,47 @@ public final class Constants {
           .withColor(Colors.kORANGE)
         ;
     }
+  }
+
+  public static final class ZoneConstants {
+    public static final double kHubRadius = 3.0;
+    public static final double kTrenchWidth = 1.2;
+    public static final double kDistFromCenterLongPass = 0.0;
+
+    private static final NerdZone kBlueTrench = 
+      new RectangleZone(
+        new Pose2d(FieldPositions.HUB_CENTER.blue.getX() - (kTrenchWidth/2.0), -10, Rotation2d.kZero), 
+        new Pose2d(FieldPositions.HUB_CENTER.blue.getX() + (kTrenchWidth/2.0), 20, Rotation2d.kZero));
+    private static final NerdZone kRedTrench = 
+      new RectangleZone(
+        new Pose2d(FieldPositions.HUB_CENTER.red.getX() - (kTrenchWidth/2.0), -10, Rotation2d.kZero), 
+        new Pose2d(FieldPositions.HUB_CENTER.red.getX() + (kTrenchWidth/2.0), 20, Rotation2d.kZero));
+
+    private static final NerdZone kBlueHub = new SemicircleZone(FieldPositions.HUB_CENTER.blue, ZoneConstants.kHubRadius);
+    private static final NerdZone kRedHub = new SemicircleZone(FieldPositions.HUB_CENTER.red, ZoneConstants.kHubRadius);
+
+    // private static final NerdZone kNeutralZone = 
+    //   new RectangleZone(
+    //     new Pose2d(FieldPositions.HUB_CENTER.blue.getX() + (kTrenchWidth/2.0), -10, Rotation2d.kZero), 
+    //     new Pose2d(FieldPositions.HUB_CENTER.red.getX() - (kTrenchWidth/2.0), 20, Rotation2d.kZero));
+
+    public static final NerdZone kLongPassBlue = 
+      new RectangleZone(
+        new Pose2d(8.27 + kDistFromCenterLongPass, -10, Rotation2d.kZero), 
+        new Pose2d(20, 20, Rotation2d.kZero));
+    public static final NerdZone kLongPassRed = 
+      new RectangleZone(
+        new Pose2d(8.27 - kDistFromCenterLongPass, -10, Rotation2d.kZero), 
+        new Pose2d(-10, 20, Rotation2d.kZero));
+    public static final Supplier<NerdZone> kLongPass = () -> { 
+        if (RobotContainer.IsRedSide()) return kLongPassRed;
+        return kLongPassBlue;
+      };
+
+    public static final ZoneGroup kShootingGroup = new ZoneGroup(kBlueHub, kRedHub)
+      .addZone(kBlueTrench)
+      .addZone(kRedTrench)
+      ;
   }
 
   /** 
