@@ -166,16 +166,16 @@ public class SuperSystem implements Reportable {
     }
 
     public Command spinUpFlywheelFeeding() {
-        return Commands.either(
-            Commands.parallel(
-                setShooterCommand(65),
-                hoodUp()
-            ), 
-            Commands.parallel(
-                setShooterCommand(45),
-                hoodDown()
-            ), 
-            () -> { return ZoneConstants.kLongPass.get().check(swerveDrivetrain.getPose()); });
+        return Commands.run(() -> {
+            if (ZoneConstants.kLongPass.get().check(swerveDrivetrain.getPose())) {
+                shooter.setDesiredValue(65);
+                hood.setDesiredValue(Constants.HoodConstants.kUpPos);
+
+            } else {
+                shooter.setDesiredValue(45);
+                hood.setDesiredValue(Constants.HoodConstants.kDownPos);
+            }
+        });
     }
 
     public Command spinUpFlywheel(double speed) {
@@ -306,7 +306,7 @@ public class SuperSystem implements Reportable {
     }
 
     public boolean useHoodShoot() {
-        return !Constants.ZoneConstants.kShootingGroup.check(swerveDrivetrain.getPose()); //TODO: Test zoning
+        return !Constants.ZoneConstants.kShootingGroup.check(swerveDrivetrain.getPose()); 
     }
 
     public void setNeutralMode(NeutralModeValue neutralMode) {

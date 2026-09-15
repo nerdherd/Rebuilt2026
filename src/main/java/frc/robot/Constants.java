@@ -556,14 +556,14 @@ public final class Constants {
     public static final double kTrenchWidth = 1.2;
     public static final double kDistFromCenterLongPass = 0.0;
 
-    private static final NerdZone kBlueTrench = 
-      new RectangleZone(
-        new Pose2d(FieldPositions.HUB_CENTER.blue.getX() - (kTrenchWidth/2.0), -10, Rotation2d.kZero), 
-        new Pose2d(FieldPositions.HUB_CENTER.blue.getX() + (kTrenchWidth/2.0), 20, Rotation2d.kZero));
-    private static final NerdZone kRedTrench = 
-      new RectangleZone(
-        new Pose2d(FieldPositions.HUB_CENTER.red.getX() - (kTrenchWidth/2.0), -10, Rotation2d.kZero), 
-        new Pose2d(FieldPositions.HUB_CENTER.red.getX() + (kTrenchWidth/2.0), 20, Rotation2d.kZero));
+    // private static final NerdZone kBlueTrench = 
+    //   new RectangleZone(
+    //     new Pose2d(FieldPositions.HUB_CENTER.blue.getX() - (kTrenchWidth/2.0), -10, Rotation2d.kZero), 
+    //     new Pose2d(FieldPositions.HUB_CENTER.blue.getX() + (kTrenchWidth/2.0), 20, Rotation2d.kZero));
+    // private static final NerdZone kRedTrench = 
+    //   new RectangleZone(
+    //     new Pose2d(FieldPositions.HUB_CENTER.red.getX() - (kTrenchWidth/2.0), -10, Rotation2d.kZero), 
+    //     new Pose2d(FieldPositions.HUB_CENTER.red.getX() + (kTrenchWidth/2.0), 20, Rotation2d.kZero));
 
     private static final NerdZone kBlueHub = new SemicircleZone(FieldPositions.HUB_CENTER.blue, ZoneConstants.kHubRadius);
     private static final NerdZone kRedHub = new SemicircleZone(FieldPositions.HUB_CENTER.red, ZoneConstants.kHubRadius);
