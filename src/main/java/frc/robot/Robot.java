@@ -6,6 +6,7 @@ package frc.robot;
 
 import static frc.robot.Constants.USE_VISION;
 
+import com.ctre.phoenix6.SignalLogger;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import dev.doglog.DogLog;
 import dev.doglog.DogLogOptions;
@@ -41,7 +42,11 @@ public class Robot extends TimedRobot {
       .withNtPublish(false) // TODO delete
       .withLogEntryQueueCapacity(1000)
     );
+    DogLog.setPdh(m_robotContainer.pdp); // per channel + total current, logged with the DogLog extras
     DogLog.setEnabled(true);
+
+    // hoot log of every Phoenix signal at its native rate, goes to the USB stick if there is one
+    if (isReal()) SignalLogger.start();
     RobotController.setBrownoutVoltage(6.0);
   }
 

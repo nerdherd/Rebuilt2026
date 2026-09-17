@@ -18,6 +18,8 @@ import static frc.robot.Constants.SwerveDriveConstants.kTowSwerveRequest;
 import java.util.HashMap;
 
 import com.ctre.phoenix6.Utils;
+import com.ctre.phoenix6.hardware.Pigeon2;
+import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants;
@@ -223,15 +225,6 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
         return "it's chill";
     }
 
-    private double pollStatorCurrentSum() {
-        double sum = 0;
-        for (int i = 0; i < 4; i++) {
-            sum += Math.abs(getModule(i).getDriveMotor().getTorqueCurrent().getValueAsDouble());
-            sum += Math.abs(getModule(i).getSteerMotor().getTorqueCurrent().getValueAsDouble());
-        }
-        return sum;
-    }
-
     // ----------------------------------------- Vision Functions ----------------------------------------- //
 
     /**
@@ -373,7 +366,40 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
         NerdLog.get().logNumber(kSwerveTab + "/Swerve Heading", this::getSwerveHeadingDegrees, "deg", LOG_LEVEL.MEDIUM);
         NerdLog.get().logNumber(kSwerveTab + "/Driver Heading", this::getDriverHeadingDegrees, "deg", LOG_LEVEL.MEDIUM);
         NerdLog.get().logBoolean(kSwerveTab + "/Using MT2", () -> this.useMegaTag2, LOG_LEVEL.MEDIUM);
-        
+
+        // odometry state, straight to the log file as structs
+        NerdLog.get().logStruct(kSwerveTab + "/Pose", () -> getState().Pose, LOG_LEVEL.MEDIUM);
+        NerdLog.get().logStruct(kSwerveTab + "/Chassis Speeds", () -> getState().Speeds, LOG_LEVEL.MEDIUM);
+        NerdLog.get().logStructArray(kSwerveTab + "/Module States", () -> getState().ModuleStates, LOG_LEVEL.MEDIUM);
+        NerdLog.get().logStructArray(kSwerveTab + "/Module Targets", () -> getState().ModuleTargets, LOG_LEVEL.MEDIUM);
+        NerdLog.get().logStructArray(kSwerveTab + "/Module Positions", () -> getState().ModulePositions, LOG_LEVEL.MEDIUM);
+
+        // per module signed currents and applied voltage
+        for (int i = 0; i < 4; i++) {
+            TalonFX drive = getModule(i).getDriveMotor();
+            TalonFX steer = getModule(i).getSteerMotor();
+            String network = drive.getNetwork().getName();
+            NerdLog.get().logSignal(kSwerveTab + "/Torque Current/Drive " + i, drive.getTorqueCurrent(false), network, LOG_LEVEL.MEDIUM);
+            NerdLog.get().logSignal(kSwerveTab + "/Torque Current/Turn " + i, steer.getTorqueCurrent(false), network, LOG_LEVEL.MEDIUM);
+            NerdLog.get().logSignal(kSwerveTab + "/Supply Current/Drive " + i, drive.getSupplyCurrent(false), network, LOG_LEVEL.MEDIUM);
+            NerdLog.get().logSignal(kSwerveTab + "/Supply Current/Turn " + i, steer.getSupplyCurrent(false), network, LOG_LEVEL.MEDIUM);
+            NerdLog.get().logSignal(kSwerveTab + "/Motor Voltage/Drive " + i, drive.getMotorVoltage(false), network, LOG_LEVEL.MEDIUM);
+            NerdLog.get().logSignal(kSwerveTab + "/Motor Voltage/Turn " + i, steer.getMotorVoltage(false), network, LOG_LEVEL.MEDIUM);
+        }
+
+        // chassis motion, the forcing term on the mechanisms
+        Pigeon2 pigeon = getPigeon2();
+        String pigeonNetwork = pigeon.getNetwork().getName();
+        NerdLog.get().logSignal(kSwerveTab + "/Pigeon/Yaw", pigeon.getYaw(false), pigeonNetwork, LOG_LEVEL.MEDIUM);
+        NerdLog.get().logSignal(kSwerveTab + "/Pigeon/Pitch", pigeon.getPitch(false), pigeonNetwork, LOG_LEVEL.MEDIUM);
+        NerdLog.get().logSignal(kSwerveTab + "/Pigeon/Roll", pigeon.getRoll(false), pigeonNetwork, LOG_LEVEL.MEDIUM);
+        NerdLog.get().logSignal(kSwerveTab + "/Pigeon/Acceleration X", pigeon.getAccelerationX(false), pigeonNetwork, LOG_LEVEL.MEDIUM);
+        NerdLog.get().logSignal(kSwerveTab + "/Pigeon/Acceleration Y", pigeon.getAccelerationY(false), pigeonNetwork, LOG_LEVEL.MEDIUM);
+        NerdLog.get().logSignal(kSwerveTab + "/Pigeon/Acceleration Z", pigeon.getAccelerationZ(false), pigeonNetwork, LOG_LEVEL.MEDIUM);
+        NerdLog.get().logSignal(kSwerveTab + "/Pigeon/Angular Velocity X", pigeon.getAngularVelocityXWorld(false), pigeonNetwork, LOG_LEVEL.MEDIUM);
+        NerdLog.get().logSignal(kSwerveTab + "/Pigeon/Angular Velocity Y", pigeon.getAngularVelocityYWorld(false), pigeonNetwork, LOG_LEVEL.MEDIUM);
+        NerdLog.get().logSignal(kSwerveTab + "/Pigeon/Angular Velocity Z", pigeon.getAngularVelocityZWorld(false), pigeonNetwork, LOG_LEVEL.MEDIUM);
+
         //////////////
         /// MINIMAL //
         //////////////
@@ -383,7 +409,6 @@ public class NerdDrivetrain extends TunerSwerveDrivetrain implements Subsystem, 
             NerdLog.getNT().logBoolean(kSwerveTab + "/Connected/Drive " + i, getModule(i).getDriveMotor()::isConnected, LOG_LEVEL.MINIMAL);
             NerdLog.getNT().logBoolean(kSwerveTab + "/Connected/Turn " + i, getModule(i).getSteerMotor()::isConnected, LOG_LEVEL.MINIMAL);
         }
-        NerdLog.get().logNumber(kSwerveTab +"/Stator Current Sum", this::pollStatorCurrentSum, "A", LOG_LEVEL.MINIMAL);
     }
 
     @Override

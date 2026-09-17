@@ -6,6 +6,8 @@ package frc.robot;
 
 import static frc.robot.Constants.SwerveDriveConstants.kRobotOrientedVelocity;
 
+import com.ctre.phoenix6.CANBus.CANBusStatus;
+
 import dev.doglog.DogLog;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -13,6 +15,7 @@ import edu.wpi.first.networktables.StringSubscriber;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -271,11 +274,22 @@ public class RobotContainer {
       
   }
   
+  private CANBusStatus canivoreStatus = null;
+  private double canivoreStatusTime = 0.0;
+  /** polls the CANivore status at most every 100 ms, shared by all the CANivore log entries */
+  private CANBusStatus canivoreStatus() {
+    double now = Timer.getFPGATimestamp();
+    if (canivoreStatus == null || now - canivoreStatusTime >= 0.1) {
+      canivoreStatus = TunerConstants.kCANBus.getStatus();
+      canivoreStatusTime = now;
+    }
+    return canivoreStatus;
+  }
+
   public StringSubscriber printLog = null;
   public void initializeLogging() {
     if (printLog == null) printLog = DogLog.tunable("Print", "", (value) -> NerdLog.get().reportInfo("" + value));
     NerdLog.get().logData("Robot/PDP", pdp, LOG_LEVEL.ALL);
-    
     swerveDrive.initializeLogging();
     if (Constants.USE_SUBSYSTEMS) { 
       superSystem.initializeLogging();
@@ -285,6 +299,12 @@ public class RobotContainer {
     NerdLog.get().logNumber("Robot/RAM Usage", () -> (double)Runtime.getRuntime().freeMemory(), LOG_LEVEL.MEDIUM);
     NerdLog.getNT().logNumber("Match Info/Shift Time", () -> {shiftTime = allianceShiftTime(); return shiftTime;}, LOG_LEVEL.MINIMAL);
     NerdLog.getNT().logNumber("Robot/Battery Voltage", RobotController::getBatteryVoltage, LOG_LEVEL.MEDIUM);
+    // DogLog extras only cover the rio bus
+    NerdLog.get().logNumber("Robot/CANivore/Utilization", () -> (double)canivoreStatus().BusUtilization, LOG_LEVEL.MEDIUM);
+    NerdLog.get().logNumber("Robot/CANivore/Bus Off Count", () -> (double)canivoreStatus().BusOffCount, LOG_LEVEL.MEDIUM);
+    NerdLog.get().logNumber("Robot/CANivore/Tx Full Count", () -> (double)canivoreStatus().TxFullCount, LOG_LEVEL.MEDIUM);
+    NerdLog.get().logNumber("Robot/CANivore/REC", () -> (double)canivoreStatus().REC, LOG_LEVEL.MEDIUM);
+    NerdLog.get().logNumber("Robot/CANivore/TEC", () -> (double)canivoreStatus().TEC, LOG_LEVEL.MEDIUM);
     NerdLog.getNT().logBoolean("Robot/Shooting Zone", () -> ZoneConstants.kShootingGroup.check(swerveDrive.getPose()), LOG_LEVEL.MEDIUM);
     NerdLog.getNT().logBoolean("Robot/Passing Zone", () -> ZoneConstants.kLongPass.get().check(swerveDrive.getPose()), LOG_LEVEL.MEDIUM);
     NerdLog.get().reportLogCount();
