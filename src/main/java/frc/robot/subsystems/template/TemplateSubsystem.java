@@ -376,18 +376,19 @@ public class TemplateSubsystem extends SubsystemBase implements Reportable {
         ///////////
 		NerdLog.get().logData(kSubsystemTab + name + "/Commands", this, LOG_LEVEL.ALL); 
 		
-        NerdLog.get().logNumber(kSubsystemTab + name + "/Desired " + getFlavorText(), () -> getDesiredValue(), getUnit(), LOG_LEVEL.ALL);
 		NerdLog.get().logBoolean(kSubsystemTab + name + "/Has Error", () -> _hasError, LOG_LEVEL.ALL);
 
 		NerdLog.get().logSignal(kSubsystemTab + name + "/Torque Current/Primary Motor", primaryMotor.getTorqueCurrent(false), primaryMotor.getNetwork().getName(), (_logTorqueCurrent) ? LOG_LEVEL.MINIMAL : LOG_LEVEL.ALL);
-		applySecondaryMotors((motor, i) -> 
-			NerdLog.get().logSignal(kSubsystemTab + name + "/Torque Current/Secondary Motor " + i, primaryMotor.getTorqueCurrent(false), primaryMotor.getNetwork().getName(), (_logTorqueCurrent) ? LOG_LEVEL.MINIMAL : LOG_LEVEL.ALL));
-
-		NerdLog.get().logSignal(kSubsystemTab + name + "/Supply Current", primaryMotor.getSupplyCurrent(false), primaryMotor.getNetwork().getName(), LOG_LEVEL.ALL);
+		applySecondaryMotors((motor, i) ->
+			NerdLog.get().logSignal(kSubsystemTab + name + "/Torque Current/Secondary Motor " + i, motor.getTorqueCurrent(false), motor.getNetwork().getName(), (_logTorqueCurrent) ? LOG_LEVEL.MINIMAL : LOG_LEVEL.ALL));
 
 		//////////////
 		/// MEDIUM ///
         //////////////
+        NerdLog.get().logNumber(kSubsystemTab + name + "/Desired " + getFlavorText(), () -> getDesiredValue(), getUnit(), LOG_LEVEL.MEDIUM);
+		NerdLog.get().logSignal(kSubsystemTab + name + "/Supply Current/Primary Motor", primaryMotor.getSupplyCurrent(false), primaryMotor.getNetwork().getName(), LOG_LEVEL.MEDIUM);
+		applySecondaryMotors((motor, i) ->
+			NerdLog.get().logSignal(kSubsystemTab + name + "/Supply Current/Secondary Motor " + i, motor.getSupplyCurrent(false), motor.getNetwork().getName(), LOG_LEVEL.MEDIUM));
         NerdLog.get().logBoolean(kSubsystemTab + name + "/Enabled", () -> this.enabled, Reportable.LOG_LEVEL.MEDIUM);
 		NerdLog.get().logSignal(kSubsystemTab + name + "/Motor Voltage", primaryMotor.getMotorVoltage(false), primaryMotor.getNetwork().getName(), LOG_LEVEL.MEDIUM);
         

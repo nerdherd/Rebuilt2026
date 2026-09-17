@@ -272,6 +272,40 @@ public class NerdLog {
 	}
 
 	/**
+	 * Logs a supplier for a StructSerializable (Pose2d, ChassisSpeeds, ...) to the log file.
+	 * @param name
+	 * @param supplier
+	 * @param loggingLevel
+	 */
+	public <T extends StructSerializable> void logStruct(String name, Supplier<T> supplier, LOG_LEVEL loggingLevel) {
+		if(Constants.ROBOT_LOG_LEVEL.ordinal() > loggingLevel.ordinal()) return;
+		if (!logSuppliers.containsKey(loggingLevel)) logSuppliers.put(loggingLevel, new ArrayList<>());
+
+		Runnable logger =
+			(forceNT) ?
+			() -> {DogLog.forceNt.log(name, supplier.get());} :
+			() -> {DogLog.log(name, supplier.get());};
+		logSuppliers.get(loggingLevel).add(logger);
+	}
+
+	/**
+	 * Logs a supplier for a StructSerializable array (SwerveModuleState[], ...) to the log file.
+	 * @param name
+	 * @param supplier
+	 * @param loggingLevel
+	 */
+	public <T extends StructSerializable> void logStructArray(String name, Supplier<T[]> supplier, LOG_LEVEL loggingLevel) {
+		if(Constants.ROBOT_LOG_LEVEL.ordinal() > loggingLevel.ordinal()) return;
+		if (!logSuppliers.containsKey(loggingLevel)) logSuppliers.put(loggingLevel, new ArrayList<>());
+
+		Runnable logger =
+			(forceNT) ?
+			() -> {DogLog.forceNt.log(name, supplier.get());} :
+			() -> {DogLog.log(name, supplier.get());};
+		logSuppliers.get(loggingLevel).add(logger);
+	}
+
+	/**
 	 * Logs the state of the SwerveDrivetrain.
 	 * @param key
 	 * @param path
