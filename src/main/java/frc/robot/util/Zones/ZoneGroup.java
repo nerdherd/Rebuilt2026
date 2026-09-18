@@ -1,4 +1,4 @@
-package frc.robot.util.Zones;
+package frc.robot.util.zones;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -45,10 +45,10 @@ import frc.robot.subsystems.template.TemplateSubsystem.SubsystemMode;
 import frc.robot.util.MultiProfiledPIDController;
 import frc.robot.util.NerdyMath;
 import frc.robot.util.Translation2dSlewRateLimiter;
-import frc.robot.util.Zones.NerdZone;
-import frc.robot.util.Zones.RectangleZone;
-import frc.robot.util.Zones.SemicircleZone;
-import frc.robot.util.Zones.ZoneGroup;
+import frc.robot.util.zones.NerdZone;
+import frc.robot.util.zones.RectangleZone;
+import frc.robot.util.zones.SemicircleZone;
+import frc.robot.util.zones.ZoneGroup;
 import frc.robot.util.logging.Reportable.LOG_LEVEL;
 
 
@@ -194,7 +194,8 @@ public final class Constants {
 
     public static enum FieldPositions {
       // Add field positions
-      HUB_CENTER(4.626, 4.035, 180.0);
+      HUB_CENTER(4.626, 4.035, 180.0),
+      ;
       
       public Pose2d blue, red; // meters and degrees
       FieldPositions(double _blueX, double _blueY, double _blueHeadingDegrees) {
@@ -588,7 +589,7 @@ public final class Constants {
 
     public static final ZoneGroup kShootingGroup = new ZoneGroup(kBlueHub, kRedHub)
       // .addZone(kBlueTrench)
-      // .addZone(kRedTrench);
+      // .addZone(kRedTrench)
       ;
   }
 
@@ -604,8 +605,7 @@ public final class Constants {
         SubsystemMode.VOLTAGE, 
         0.0,
         useIntakeSlapdown)
-      .configureMotors(IntakeSlapdownConstants.kSubsystemConfiguration)
-      .logTorqueCurrent();
+      .configureMotors(IntakeSlapdownConstants.kSubsystemConfiguration);
     
     public static final boolean useIntakeRoller = true;
     public static final TemplateSubsystem intakeRoller = (!USE_SUBSYSTEMS) ? null :
@@ -615,8 +615,7 @@ public final class Constants {
         SubsystemMode.VOLTAGE, 
         0.0,
         useIntakeRoller)
-      .configureMotors(IntakeRollerConstants.kSubsystemConfiguration)
-      .logTorqueCurrent();
+      .configureMotors(IntakeRollerConstants.kSubsystemConfiguration);
     
     public static final boolean useConveyor = true;
     public static final TemplateSubsystem conveyor = (!USE_SUBSYSTEMS) ? null :
@@ -626,8 +625,7 @@ public final class Constants {
         SubsystemMode.VOLTAGE, 
         0.0,
         useConveyor)
-      .configureMotors(ConveyorConstants.kSubsystemConfiguration)
-      .logTorqueCurrent();    
+      .configureMotors(ConveyorConstants.kSubsystemConfiguration);
     
     public static final boolean useIndexer = true;
     public static final TemplateSubsystem indexer = (!USE_SUBSYSTEMS) ? null :
@@ -638,8 +636,7 @@ public final class Constants {
         0.0,
         useIndexer)
       .addMotor(IndexerConstants.kMotor2ID, MotorAlignmentValue.Opposed)
-      .configureMotors(IndexerConstants.kSubsystemConfiguration)
-      .logTorqueCurrent();
+      .configureMotors(IndexerConstants.kSubsystemConfiguration);
     
     public static final boolean useShooter = true;
     public static final TemplateSubsystem shooter = (!USE_SUBSYSTEMS) ? null :
@@ -652,8 +649,7 @@ public final class Constants {
       .addMotor(ShooterConstants.kMotor2ID, MotorAlignmentValue.Opposed)
       .addMotor(ShooterConstants.kMotor3ID, MotorAlignmentValue.Opposed)
       .addMotor(ShooterConstants.kMotor4ID, MotorAlignmentValue.Aligned)
-      .configureMotors(ShooterConstants.kSubsystemConfiguration)
-      .logTorqueCurrent();
+      .configureMotors(ShooterConstants.kSubsystemConfiguration);
 
     public static final boolean useHood = true;
     public static final TemplateSubsystem hood = (!USE_SUBSYSTEMS) ? null :
@@ -663,8 +659,7 @@ public final class Constants {
         SubsystemMode.POSITION, 
         0.0, 
         useHood)
-      .configureMotors(HoodConstants.kSubsystemConfiguration)
-      .logTorqueCurrent();
+      .configureMotors(HoodConstants.kSubsystemConfiguration);
     
     public static final boolean useLEDs = false;
     public static final LED leds = (!useLEDs) ? null : 
