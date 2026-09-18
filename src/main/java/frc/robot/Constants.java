@@ -45,10 +45,10 @@ import frc.robot.subsystems.template.TemplateSubsystem.SubsystemMode;
 import frc.robot.util.MultiProfiledPIDController;
 import frc.robot.util.NerdyMath;
 import frc.robot.util.Translation2dSlewRateLimiter;
-import frc.robot.util.zones.NerdZone;
-import frc.robot.util.zones.RectangleZone;
-import frc.robot.util.zones.SemicircleZone;
-import frc.robot.util.zones.ZoneGroup;
+import frc.robot.util.Zones.NerdZone;
+import frc.robot.util.Zones.RectangleZone;
+import frc.robot.util.Zones.SemicircleZone;
+import frc.robot.util.Zones.ZoneGroup;
 import frc.robot.util.logging.Reportable.LOG_LEVEL;
 
 
