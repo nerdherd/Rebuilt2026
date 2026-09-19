@@ -379,8 +379,8 @@ public final class Constants {
         .withKP(0.15)
         .withKI(0.0)
         .withKD(0.0)
-        .withKV(0.117051)
-        .withKS(0.235819);
+        .withKV(0.120683)
+        .withKS(0.271139);
     
     private static final CurrentLimitsConfigs kCurrentLimitsConfigs = 
       new CurrentLimitsConfigs()
