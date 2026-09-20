@@ -3,37 +3,53 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.5845193142361116,
-        "y": 1.3589432146990748
+        "x": 0.7785164051355205,
+        "y": 0.6386019971469341
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.8069997106481495,
-        "y": 0.987498046875001
+        "x": 1.0603830086393908,
+        "y": 0.5511837124800236
       },
       "isLocked": false,
-      "linkedName": "H60-"
+      "linkedName": "O1Intake"
     },
     {
       "anchor": {
-        "x": 1.7489158345221112,
-        "y": 0.6256633380884444
+        "x": 1.9559343794579167,
+        "y": 1.0655777460770333
       },
       "prevControl": {
-        "x": 3.0453106551239633,
-        "y": 0.6547347356578884
+        "x": 2.0709357612254804,
+        "y": 0.7132301073300894
+      },
+      "nextControl": {
+        "x": 1.8409329976903528,
+        "y": 1.417925384823977
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 1.516019971469329,
+        "y": 2.7864194008559195
+      },
+      "prevControl": {
+        "x": 1.6038008318664287,
+        "y": 2.5523371064636593
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "O1Up"
+      "linkedName": "hi"
     }
   ],
   "rotationTargets": [],
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.8,
-      "maxWaypointRelativePos": 1.0,
+      "minWaypointRelativePos": 0,
+      "maxWaypointRelativePos": 2.0,
       "constraints": {
         "maxVelocity": 1.0,
         "maxAcceleration": 1.0,
@@ -56,13 +72,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 20.55604521958358
   },
   "reversed": false,
-  "folder": "To Hub",
+  "folder": "To Outpost",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 59.99999999999999
+    "rotation": 180.0
   },
   "useDefaultConstraints": true
 }

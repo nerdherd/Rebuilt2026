@@ -191,7 +191,7 @@ public class RobotContainer {
         .onFalse(superSystem.stopShooting());
         
       operatorController.buttonUp()
-        .onTrue(superSystem.spinUpFlywheelFeeding())
+        .whileTrue(superSystem.spinUpFlywheelFeeding())
         .onFalse(superSystem.stopFlywheel());
       operatorController.buttonRight()
         .onTrue(superSystem.outtake())

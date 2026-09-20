@@ -9,9 +9,22 @@
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "sequential",
                 "data": {
-                  "pathName": "S1MidTriple1"
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.3
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "S1MidTriple1"
+                      }
+                    }
+                  ]
                 }
               },
               {
@@ -27,7 +40,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 0.225
+                        "waitTime": 0.4
                       }
                     },
                     {
@@ -102,7 +115,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 1.0
+                        "waitTime": 0.7
                       }
                     },
                     {
@@ -208,7 +221,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 1.0
+                        "waitTime": 0.7
                       }
                     },
                     {

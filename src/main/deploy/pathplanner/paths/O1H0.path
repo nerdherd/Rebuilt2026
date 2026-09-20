@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.5,
-        "y": 0.67
+        "x": 1.7489158345221112,
+        "y": 0.6256633380884444
       },
       "prevControl": null,
       "nextControl": {
-        "x": 0.8629045724710014,
-        "y": 1.2258653854244947
+        "x": 2.1118204069931124,
+        "y": 1.1815287235129392
       },
       "isLocked": false,
       "linkedName": "O1Up"
     },
     {
       "anchor": {
-        "x": 2.922680901542112,
-        "y": 4.04
+        "x": 3.508573466476462,
+        "y": 4.00265335235378
       },
       "prevControl": {
-        "x": 2.324445093074081,
-        "y": 3.2405055968932865
+        "x": 2.9103376580084315,
+        "y": 3.203158949247067
       },
       "nextControl": null,
       "isLocked": false,
@@ -48,7 +48,7 @@
   "folder": "To Hub",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 90.0
+    "rotation": 180.0
   },
   "useDefaultConstraints": true
 }
