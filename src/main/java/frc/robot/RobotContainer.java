@@ -184,7 +184,7 @@ public class RobotContainer {
         // .onTrue(superSystem.spinUpFlywheel())
         .onFalse(superSystem.stopFlywheel());
       operatorController.triggerLeft()
-        .whileTrue(superSystem.spinUpFlywheel())
+        .onTrue(superSystem.spinUpFlywheel())
         .onFalse(superSystem.stopFlywheel());
       operatorController.bumperRight()
         .whileTrue(superSystem.shootWithCondition())
