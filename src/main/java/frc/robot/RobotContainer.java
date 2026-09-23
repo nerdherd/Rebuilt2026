@@ -184,14 +184,14 @@ public class RobotContainer {
         // .onTrue(superSystem.spinUpFlywheel())
         .onFalse(superSystem.stopFlywheel());
       operatorController.triggerLeft()
-        .whileTrue(superSystem.spinUpFlywheel())
+        .onTrue(superSystem.spinUpFlywheel())
         .onFalse(superSystem.stopFlywheel());
       operatorController.bumperRight()
         .whileTrue(superSystem.shootWithCondition())
         .onFalse(superSystem.stopShooting());
         
       operatorController.buttonUp()
-        .onTrue(superSystem.spinUpFlywheelFeeding())
+        .whileTrue(superSystem.spinUpFlywheelFeeding())
         .onFalse(superSystem.stopFlywheel());
       operatorController.buttonRight()
         .onTrue(superSystem.outtake())

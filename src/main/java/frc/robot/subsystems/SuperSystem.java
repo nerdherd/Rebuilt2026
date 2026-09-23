@@ -67,6 +67,8 @@ public class SuperSystem implements Reportable {
     public void startShoot() {
         indexer.setDesiredValue(10);
         conveyor.setDesiredValue(6);
+        if (ZoneConstants.kLongPass.get().check(swerveDrivetrain.getPose())) hood.setDesiredValue(HoodConstants.kUpPos);
+        else hood.setDesiredValue(HoodConstants.kDownPos);
     }
 
     public Command shoot() {
@@ -89,6 +91,7 @@ public class SuperSystem implements Reportable {
             } else {
                 indexer.setDesiredValue(0);
                 conveyor.setDesiredValue(0);
+                hood.setDesiredValue(HoodConstants.kDownPos);
             }
         }, indexer, conveyor)
         .finallyDo(
@@ -155,7 +158,8 @@ public class SuperSystem implements Reportable {
     public Command stopShooting() {
         return Commands.parallel(
             indexer.setDesiredValueCommand(0),
-            conveyor.setDesiredValueCommand(0)
+            conveyor.setDesiredValueCommand(0),
+            hoodDown()
         );
     }
 
@@ -169,11 +173,11 @@ public class SuperSystem implements Reportable {
         return Commands.run(() -> {
             if (ZoneConstants.kLongPass.get().check(swerveDrivetrain.getPose())) {
                 shooter.setDesiredValue(65);
-                hood.setDesiredValue(Constants.HoodConstants.kUpPos);
+                // hood.setDesiredValue(Constants.HoodConstants.kUpPos);
 
             } else {
                 shooter.setDesiredValue(45);
-                hood.setDesiredValue(Constants.HoodConstants.kDownPos);
+                // hood.setDesiredValue(Constants.HoodConstants.kDownPos);
             }
         });
     }
@@ -208,7 +212,7 @@ public class SuperSystem implements Reportable {
     }
 
     public Command intakeHoldTeleop() {
-        return intakeSlapdown.setDesiredValueCommand(-1); //change when we have bumpers
+        return intakeSlapdown.setDesiredValueCommand(-.75); //change when we have bumpers
     }
 
     public Command stopIntakeHold() {

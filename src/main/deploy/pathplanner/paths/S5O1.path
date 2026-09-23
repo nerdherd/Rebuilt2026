@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 0.5,
-        "y": 0.67
+        "x": 1.7489158345221112,
+        "y": 0.6256633380884444
       },
       "prevControl": {
-        "x": 1.0511925731868335,
-        "y": 0.657573389700115
+        "x": 2.3001084077089446,
+        "y": 0.6132367277885594
       },
       "nextControl": null,
       "isLocked": false,
@@ -49,7 +49,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 90.0
+    "rotation": 180.0
   },
   "reversed": false,
   "folder": "To Outpost",

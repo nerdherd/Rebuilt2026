@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.5,
-        "y": 0.67
+        "x": 1.7489158345221112,
+        "y": 0.6256633380884444
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.3833535358289786,
-        "y": 1.2997413520144678
+        "x": 2.6322693703510898,
+        "y": 1.2554046901029123
       },
       "isLocked": false,
       "linkedName": "O1Up"
@@ -48,7 +48,7 @@
   "folder": "To Hub",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 90.0
+    "rotation": 180.0
   },
   "useDefaultConstraints": true
 }
