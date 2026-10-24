@@ -173,7 +173,7 @@ public class RobotContainer {
         // .onFalse(superSystem.stopIntakeHold());
       operatorController.controllerRight()
         .onTrue(superSystem.intakeUp())
-        .onFalse(superSystem.stopIntakeHold());
+        .onFalse(superSystem.stopIntakeSlapdown());
       operatorController.bumperLeft()
         .onTrue(superSystem.intake())
         .onFalse(superSystem.stopIntaking());
@@ -184,14 +184,14 @@ public class RobotContainer {
         // .onTrue(superSystem.spinUpFlywheel())
         .onFalse(superSystem.stopFlywheel());
       operatorController.triggerLeft()
-        .onTrue(superSystem.spinUpFlywheel())
+        .onTrue(superSystem.setFlywheelCommand(37))
         .onFalse(superSystem.stopFlywheel());
       operatorController.bumperRight()
         .whileTrue(superSystem.shootWithCondition())
-        .onFalse(superSystem.stopShooting());
+        .onFalse(superSystem.stopShoot());
         
       operatorController.buttonUp()
-        .whileTrue(superSystem.spinUpFlywheelFeeding())
+        .whileTrue(superSystem.startFeeding())
         .onFalse(superSystem.stopFlywheel());
       operatorController.buttonRight()
         .onTrue(superSystem.outtake())
@@ -201,15 +201,15 @@ public class RobotContainer {
         .onFalse(superSystem.stopConveyor());
       // hood testing
       operatorController.buttonLeft()
-        .onTrue(superSystem.setShooterCommand(45))
+        .onTrue(superSystem.setFlywheelCommand(45))
         .onFalse(superSystem.stopFlywheel());
 
       operatorController.dpadDown()
-        .onTrue(superSystem.setHood(0.5))
-        .onFalse(superSystem.hoodDown());
+        .onTrue(superSystem.setHoodCommand(0.5))
+        .onFalse(superSystem.hoodDownCommand());
       operatorController.dpadUp()
-        .onTrue(superSystem.hoodUp())
-        .onFalse(superSystem.hoodDown());
+        .onTrue(superSystem.hoodUpCommand())
+        .onFalse(superSystem.hoodDownCommand());
      }
   }
 

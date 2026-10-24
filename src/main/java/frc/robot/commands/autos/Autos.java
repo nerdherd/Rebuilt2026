@@ -57,17 +57,17 @@ public final class Autos {
         NamedCommands.registerCommand("Reset Pose", swerveDrive.resetPoseWithAprilTags(0.2));
 
         // INTAKE
-        NamedCommands.registerCommand("Intake Down", superSystem.intakeDown());
-        NamedCommands.registerCommand("Intake Down Only", superSystem.intakeDownOnly());
-        NamedCommands.registerCommand("Intake Hold", superSystem.intakeHold());
+        NamedCommands.registerCommand("Intake Down", superSystem.intakeDownAuto());
+        NamedCommands.registerCommand("Intake Down Only", superSystem.intakeDownOnlyAuto());
+        NamedCommands.registerCommand("Intake Hold", superSystem.intakeHoldAuto());
         // NamedCommands.registerCommand("Intake Up", superSystem.intakeUp());
         NamedCommands.registerCommand("Intake Start", superSystem.intake());
         NamedCommands.registerCommand("Intake Stop", superSystem.stopIntaking());
-        NamedCommands.registerCommand("Intake Hold Stop", superSystem.stopIntakeHold());
+        // NamedCommands.registerCommand("Intake Hold Stop", superSystem.stopIntakeHold());
 
         NamedCommands.registerCommand("Intake Down Sequence", 
             Commands.sequence(
-                superSystem.intakeDown(),
+                superSystem.intakeDownAuto(),
                 superSystem.intake()
             ));
         NamedCommands.registerCommand("Auto Shoot Start", superSystem.startShootWithCondition());
@@ -79,33 +79,30 @@ public final class Autos {
         //     ));
 
         // SHOOTER
-        NamedCommands.registerCommand("Flywheel Start", superSystem.spinUpFlywheel());
+        NamedCommands.registerCommand("Flywheel Start", superSystem.shootWithDistance());
         NamedCommands.registerCommand("Flywheel Start Distance", superSystem.startShootWithDistance());
         NamedCommands.registerCommand("Flywheel Stop Distance", superSystem.stopShootWithDistance());
-        NamedCommands.registerCommand("Hood Flywheel Start Distance", superSystem.startHoodShootWithDistance());
-        NamedCommands.registerCommand("Hood Flywheel Stop Distance", superSystem.stopHoodShootWithDistance());
-        NamedCommands.registerCommand("Flywheel Start 0", superSystem.spinUpFlywheel(34));
-        NamedCommands.registerCommand("Flywheel Start 45", superSystem.spinUpFlywheel(35.65));
-        NamedCommands.registerCommand("Flywheel Start 60", superSystem.spinUpFlywheel(42.9));
+        NamedCommands.registerCommand("Hood Flywheel Start Distance", superSystem.startShootWithDistance());
+        NamedCommands.registerCommand("Hood Flywheel Stop Distance", superSystem.stopShootWithDistance());
         NamedCommands.registerCommand("Flywheel Stop", superSystem.stopFlywheel());
         NamedCommands.registerCommand("Turn to Hub", superSystem.turnToHub(3.0));
 
-        NamedCommands.registerCommand("Shoot", superSystem.shoot());
-        NamedCommands.registerCommand("Shoot Stop", superSystem.stopShooting());
+        // NamedCommands.registerCommand("Shoot", superSystem.shoot());
+        // NamedCommands.registerCommand("Shoot Stop", superSystem.stopShooting());
         NamedCommands.registerCommand("Shoot Distance", superSystem.shootWithDistance());
-        NamedCommands.registerCommand("Shoot Ramp Up", 
-            Commands.sequence(
-                superSystem.spinUpFlywheel(), 
-                Commands.waitSeconds(2),
-                superSystem.shoot()
-            ));
+        // NamedCommands.registerCommand("Shoot Ramp Up", 
+        //     Commands.sequence(
+        //         superSystem.spinUpFlywheel(), 
+        //         Commands.waitSeconds(2),
+        //         superSystem.shoot()
+        //     ));
             
-        NamedCommands.registerCommand("Shoot Ramp Down", 
-            Commands.sequence(
-                superSystem.stopShooting(),
-                Commands.waitSeconds(1),
-                superSystem.stopFlywheel()
-            ));
+        // NamedCommands.registerCommand("Shoot Ramp Down", 
+        //     Commands.sequence(
+        //         superSystem.stopShooting(),
+        //         Commands.waitSeconds(1),
+        //         superSystem.stopFlywheel()
+        //     ));
     }
     
 }

@@ -100,7 +100,7 @@ public class Robot extends TimedRobot {
     }
     
     if (Constants.USE_SUBSYSTEMS) {
-      m_robotContainer.superSystem.initialize();
+      m_robotContainer.superSystem.enableSubsystems();
       m_robotContainer.superSystem.resetSubsystemValues();
     }
 
@@ -120,7 +120,7 @@ public class Robot extends TimedRobot {
     }
     
     if (Constants.USE_SUBSYSTEMS) {
-      m_robotContainer.superSystem.initialize();
+      m_robotContainer.superSystem.enableSubsystems();
       m_robotContainer.superSystem.reConfigureMotors();
       m_robotContainer.superSystem.resetSubsystemValues();
     }

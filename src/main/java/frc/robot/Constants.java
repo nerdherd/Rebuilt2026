@@ -225,9 +225,9 @@ public final class Constants {
 
     public static final PIDConstants kPPTranslationPIDConstants = new PIDConstants(kPP_P, kPP_I, kPP_D);
 
-    public static final double kPP_ThetaP = 4.0; //3
+    public static final double kPP_ThetaP = 5.0; //3
     public static final double kPP_ThetaI = 0;
-    public static final double kPP_ThetaD = 0.1;
+    public static final double kPP_ThetaD = 0.0;
 
     public static final PIDConstants kPPRotationPIDConstants = new PIDConstants(kPP_ThetaP, kPP_ThetaI, kPP_ThetaD);
   }
@@ -379,8 +379,8 @@ public final class Constants {
         .withKP(0.15)
         .withKI(0.0)
         .withKD(0.0)
-        .withKV(0.120683)
-        .withKS(0.271139);
+        .withKV(0.118857)
+        .withKS(0.222267);
     
     private static final CurrentLimitsConfigs kCurrentLimitsConfigs = 
       new CurrentLimitsConfigs()
@@ -405,10 +405,10 @@ public final class Constants {
     // Regression of a*x^2 + b
     // Update at -- on -/--/2026
     public static final double kShootWithDistanceA = 0.84;//0.87; // a
-    public static final double kShootWithDistanceB = 31.60409; // b
+    public static final double kShootWithDistanceB = 31.0; // b
 
-    public static final double kShootWithDistanceHoodA = 0.536846;//0.87; // a //0.536846
-    public static final double kShootWithDistanceHoodB = 35.29764; // b //35.29764
+    public static final double kShootWithDistanceHoodA = 0.678927;//0.87; // a //0.536846
+    public static final double kShootWithDistanceHoodB = 31.914122; // b //35.29764
 
     public static final double kLookAheadRingDriveFactor = 0.3; // use to tune the ring drive
     public static final double kLookAheadFactor = 1.35; // use to tune shoot on the move left and right
@@ -421,7 +421,7 @@ public final class Constants {
     private static final Slot0Configs kSlot0Configs = 
       new Slot0Configs()
         .withKP(3)
-        // .withKI(3)
+        .withKI(3)
         .withKI(0)
         .withKD(0.15)
         .withKV(0.3)
@@ -452,8 +452,8 @@ public final class Constants {
         .withMotionMagic(kMotionMagicConfigs)
         .withMotorOutput(kMotorOutputConfigs);
 
-    public static final double kDownPos = 0.01; //Should do multiple trials
-    public static final double kUpPos = 0.8; // Should do multiple trials
+    public static final double kDownPos = 0.005; //Should do multiple trials
+    public static final double kUpPos = 0.87; // Should do multiple trials
   }
 
   public static class LEDConstants {
@@ -554,9 +554,9 @@ public final class Constants {
   }
 
   public static final class ZoneConstants {
-    public static final double kHubRadius = 4.5;
+    public static final double kHubRadius = 3.0;
     public static final double kTrenchWidth = 1.2;
-    public static final double kDistFromCenterLongPass = 0.0;
+    public static final double kDistFromCenterLongPass = 1.0;
 
     private static final NerdZone kBlueTrench = 
       new RectangleZone(
