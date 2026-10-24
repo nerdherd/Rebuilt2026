@@ -1,4 +1,4 @@
-package frc.robot.util.Zones;
+package frc.robot.util.zones;
 
 import edu.wpi.first.math.geometry.Pose2d;
 
